@@ -1,6 +1,7 @@
 import { Outlet, useMatches } from 'react-router-dom'
 import { routeGroups } from './routeDefs'
 import Sidebar, { type MenuItem } from './components/Sidebar'
+import FirstVisitConfetti from './components/FirstVisitConfetti'
 
 function flattenRoutesForMenu(routesInput: any[], basePath = ''): MenuItem[] {
   return routesInput
@@ -27,7 +28,8 @@ export default function App() {
   const activePath = (matches[matches.length - 1] as any)?.pathname || '/'
 
   return (
-    <div className="h-screen grid grid-cols-[260px_1fr]">
+    <div className="h-screen grid grid-cols-[260px_1fr] relative">
+      <FirstVisitConfetti />
       <Sidebar menuTree={menuTree} activePath={activePath} />
       <main className="h-screen overflow-y-auto">
         <div className="p-6">
