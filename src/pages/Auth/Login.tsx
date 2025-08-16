@@ -1,13 +1,10 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react' 
 
 export default function Login() {
-  const [user, setUser] = useState('')
-  const nav = useNavigate()
+  const [user, setUser] = useState('') 
   const login = () => {
     if (!user.trim()) return
-    localStorage.setItem('token', 'demo')
-    nav('/')
+    localStorage.setItem('token', 'demo') 
   }
   return (
     <div>

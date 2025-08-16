@@ -40,13 +40,24 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
   const pathname = usePathname()
   const activePath = pathname || '/'
-  const [pinnedOpen, setPinnedOpen] = useState<boolean>(() => {
-    try { return localStorage.getItem('sidebarSeen') === '1' ? false : true } catch { return true }
-  })
+  // 关键修复：初始状态设为false，避免服务端/客户端差异
+  const [pinnedOpen, setPinnedOpen] = useState<boolean>(false)
   const [hoverOpen, setHoverOpen] = useState(false)
   const isOpen = pinnedOpen || hoverOpen
   const initialPathRef = useRef(activePath)
   const hasAutoClosedRef = useRef(false)
+
+  // 关键修复：在客户端hydration完成后再读取localStorage
+  useEffect(() => {
+    try {
+      // 客户端渲染时才读取localStorage
+      const sidebarSeen = localStorage.getItem('sidebarSeen')
+      setPinnedOpen(sidebarSeen !== '1')
+    } catch {
+      // 处理localStorage不可用的情况
+      setPinnedOpen(true)
+    }
+  }, [])
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {

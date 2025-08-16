@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 export default function FilePreview() {
   const [file, setFile] = useState<File | null>(null)
@@ -18,7 +19,7 @@ export default function FilePreview() {
       {url && (
         <div className="mt-4">
           {file && file.type.startsWith('image/') ? (
-            <img src={url} alt="preview" className="max-w-md rounded border" />
+            <Image src={url} alt="preview" className="max-w-md rounded border" />
           ) : (
             <iframe title="preview" src={url} className="w-full max-w-2xl h-96 rounded border" />
           )}
