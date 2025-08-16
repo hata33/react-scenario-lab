@@ -49,13 +49,24 @@ export default function Layout({ children }: LayoutProps) {
 
   // 关键修复：在客户端hydration完成后再读取localStorage
   useEffect(() => {
-    try {
-      // 客户端渲染时才读取localStorage
-      const sidebarSeen = localStorage.getItem('sidebarSeen')
-      setPinnedOpen(sidebarSeen !== '1')
-    } catch {
-      // 处理localStorage不可用的情况
-      setPinnedOpen(true)
+    const handleLoad = () => {
+      try {
+        // 客户端渲染时才读取localStorage
+        const sidebarSeen = localStorage.getItem('sidebarSeen')
+        setPinnedOpen(sidebarSeen !== '1')
+      } catch {
+        // 处理localStorage不可用的情况
+        setPinnedOpen(true)
+      }
+    }
+    
+    if (typeof window !== 'undefined') {
+      if (document.readyState === 'complete') {
+        handleLoad()
+      } else {
+        window.addEventListener('load', handleLoad)
+        return () => window.removeEventListener('load', handleLoad)
+      }
     }
   }, [])
 
@@ -73,11 +84,13 @@ export default function Layout({ children }: LayoutProps) {
 
   // 首次进入显示侧栏，首次发生路由跳转后自动收起并记忆
   useEffect(() => {
-    if (!hasAutoClosedRef.current && activePath !== initialPathRef.current) {
-      setPinnedOpen(false)
-      setHoverOpen(false)
-      try { localStorage.setItem('sidebarSeen', '1') } catch {}
-      hasAutoClosedRef.current = true
+    if (typeof window !== 'undefined') {
+      if (!hasAutoClosedRef.current && activePath !== initialPathRef.current) {
+        setPinnedOpen(false)
+        setHoverOpen(false)
+        try { localStorage.setItem('sidebarSeen', '1') } catch {}
+        hasAutoClosedRef.current = true
+      }
     }
   }, [activePath])
 

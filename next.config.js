@@ -1,16 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 暂时禁用 React Compiler，避免依赖问题
-  // experimental: {
-  //   reactCompiler: true,
-  // },
-  // 启用 TypeScript 严格模式
+  output: 'export', // 静态导出配置
   typescript: {
     ignoreBuildErrors: false,
   },
-  // 启用 ESLint
   eslint: {
     ignoreDuringBuilds: false,
+  },
+  // 关键修复：禁用图片优化，兼容静态导出
+  images: {
+    unoptimized: true,
   },
 }
 
