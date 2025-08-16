@@ -1,8 +1,10 @@
+'use client'
+
 import { useEffect, useRef, useState } from 'react'
-import { Outlet, useMatches } from 'react-router-dom'
-import { routeGroups } from './routeDefs'
-import Sidebar, { type MenuItem } from './components/Sidebar'
-import FirstVisitConfetti from './components/FirstVisitConfetti'
+import { usePathname } from 'next/navigation'
+import { routeGroups } from '@/routeDefs'
+import Sidebar, { type MenuItem } from './Sidebar'
+import FirstVisitConfetti from './FirstVisitConfetti'
 
 function flattenRoutesForMenu(routesInput: any[], basePath = ''): MenuItem[] {
   return routesInput
@@ -21,12 +23,23 @@ function flattenRoutesForMenu(routesInput: any[], basePath = ''): MenuItem[] {
     })
 }
 
-const categoryNodes = routeGroups.map((g) => ({ path: g.path, meta: { title: g.title }, children: g.children.map((c) => ({ path: c.path, meta: { title: c.title } })) }))
-const menuTree = flattenRoutesForMenu(categoryNodes as any)
+// 为 Next.js 路由生成正确的菜单结构
+const menuTree: MenuItem[] = routeGroups.map((group) => ({
+  path: `/${group.path}`,
+  title: group.title,
+  children: group.children.map((child) => ({
+    path: `/${group.path}/${child.path}`,
+    title: child.title,
+  })),
+}))
 
-export default function App() {
-  const matches = useMatches()
-  const activePath = (matches[matches.length - 1] as any)?.pathname || '/'
+type LayoutProps = {
+  children: React.ReactNode
+}
+
+export default function Layout({ children }: LayoutProps) {
+  const pathname = usePathname()
+  const activePath = pathname || '/'
   const [pinnedOpen, setPinnedOpen] = useState<boolean>(() => {
     try { return localStorage.getItem('sidebarSeen') === '1' ? false : true } catch { return true }
   })
@@ -76,11 +89,9 @@ export default function App() {
 
       <main className="h-screen overflow-y-auto bg-gray-50">
         <div className="p-6">
-          <Outlet />
+          {children}
         </div>
       </main>
     </div>
   )
 }
-
-
