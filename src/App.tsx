@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { Outlet, useMatches } from 'react-router-dom'
 import { routeGroups } from './routeDefs'
 import Sidebar, { type MenuItem } from './components/Sidebar'
@@ -26,12 +27,54 @@ const menuTree = flattenRoutesForMenu(categoryNodes as any)
 export default function App() {
   const matches = useMatches()
   const activePath = (matches[matches.length - 1] as any)?.pathname || '/'
+  const [pinnedOpen, setPinnedOpen] = useState<boolean>(() => {
+    try { return localStorage.getItem('sidebarSeen') === '1' ? false : true } catch { return true }
+  })
+  const [hoverOpen, setHoverOpen] = useState(false)
+  const isOpen = pinnedOpen || hoverOpen
+  const initialPathRef = useRef(activePath)
+  const hasAutoClosedRef = useRef(false)
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
+        e.preventDefault()
+        setPinnedOpen((v) => !v)
+        setHoverOpen(false)
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
+
+  // 首次进入显示侧栏，首次发生路由跳转后自动收起并记忆
+  useEffect(() => {
+    if (!hasAutoClosedRef.current && activePath !== initialPathRef.current) {
+      setPinnedOpen(false)
+      setHoverOpen(false)
+      try { localStorage.setItem('sidebarSeen', '1') } catch {}
+      hasAutoClosedRef.current = true
+    }
+  }, [activePath])
 
   return (
-    <div className="h-screen grid grid-cols-[260px_1fr] relative">
+    <div className={`h-screen grid grid-cols-[auto_1fr] relative bg-gray-50`}>
       <FirstVisitConfetti />
-      <Sidebar menuTree={menuTree} activePath={activePath} />
-      <main className="h-screen overflow-y-auto">
+      {/* 左侧边缘悬停热区：非按钮交互，移到左侧边缘自动显示 */}
+      <div className="absolute left-0 top-0 h-full w-2 z-30" onMouseEnter={() => !pinnedOpen && setHoverOpen(true)} />
+
+      {/* 侧栏列容器：通过宽度折叠，内部绝对定位侧栏避免占位与透出 */}
+      <div
+        className={`relative transition-[width] duration-200 ease-in-out ${isOpen ? 'w-[260px]' : 'w-0'} overflow-hidden`}
+        onMouseEnter={() => !pinnedOpen && setHoverOpen(true)}
+        onMouseLeave={() => !pinnedOpen && setHoverOpen(false)}
+      >
+        <div className={`absolute inset-0 ${isOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0 pointer-events-none'} transition-transform duration-200 ease-in-out`}>
+          <Sidebar menuTree={menuTree} activePath={activePath} />
+        </div>
+      </div>
+
+      <main className="h-screen overflow-y-auto bg-gray-50">
         <div className="p-6">
           <Outlet />
         </div>

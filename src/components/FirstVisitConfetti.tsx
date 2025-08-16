@@ -11,7 +11,7 @@ export default function FirstVisitWelcome() {
     if (hasVisited) return;
 
     // 标记为已访问
-    // localStorage.setItem(STORAGE_KEY, 'true');
+    localStorage.setItem(STORAGE_KEY, 'true');
     
     // 显示欢迎提示
     setShowWelcome(true);
