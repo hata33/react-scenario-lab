@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // 静态导出配置
+  output: 'standalone', //
   typescript: {
     ignoreBuildErrors: false,
   },
