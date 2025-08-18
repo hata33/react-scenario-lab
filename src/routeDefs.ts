@@ -11,6 +11,13 @@ export const routeGroups: RouteGroup[] = [
     ],
   },
   {
+    path: 'special-effects',
+    title: '特效',
+    children: [
+      { path: 'liquid-glass', title: '液体玻璃' }, 
+    ],
+  },
+  {
     path: 'forms',
     title: '表单',
     children: [
