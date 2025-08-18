@@ -1,1 +1,1 @@
-export { default } from './InteractiveLiquidGlass'
+export { default } from "./InteractiveLiquidGlass";

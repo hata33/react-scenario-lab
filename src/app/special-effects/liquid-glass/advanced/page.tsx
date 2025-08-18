@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import Layout from '@/components/Layout'
-import AdvancedLiquidGlass from '../../../../pages/SpecialEffects/LiquidGlass/Advanced'
+import Layout from "@/components/Layout";
+import AdvancedLiquidGlass from "../../../../pages/SpecialEffects/LiquidGlass/Advanced";
 
 export default function AdvancedLiquidGlassPage() {
-  return (
-    <Layout>
-      <AdvancedLiquidGlass />
-    </Layout>
-  )
+	return (
+		<Layout>
+			<AdvancedLiquidGlass />
+		</Layout>
+	);
 }

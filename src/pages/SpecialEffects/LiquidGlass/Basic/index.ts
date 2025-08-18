@@ -1,1 +1,1 @@
-export { default } from './BasicLiquidGlass'
+export { default } from "./BasicLiquidGlass";
