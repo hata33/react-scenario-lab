@@ -1,29 +1,32 @@
 {
-  "name": "react-scenario-lab",
-  "private": true,
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "canvas-confetti": "^1.9.3",
-    "next": "^15.4.6",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
-  },
-  "devDependencies": {
-    "@types/canvas-confetti": "^1.6.4",
-    "@types/node": "^22.0.0",
-    "@types/react": "^19.1.10",
-    "@types/react-dom": "^19.1.7",
-    "autoprefixer": "^10.4.20",
-    "eslint": "^9.33.0",
-    "eslint-config-next": "^15.0.0",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.14",
-    "typescript": "~5.8.3"
-  }
+	"name": "react-scenario-lab",
+	"private": true,
+	"version": "0.0.0",
+	"scripts": {
+		"dev": "next dev --port 3001",
+		"build": "next build",
+		"start": "next start",
+		"lint": "biome lint .",
+		"fix": "biome check --fix .",
+		"format": "biome format . --write",
+		"check": "biome check ."
+	},
+	"dependencies": {
+		"@tailwindcss/postcss": "^4.1.12",
+		"canvas-confetti": "^1.9.3",
+		"next": "^15.4.6",
+		"react": "^19.1.1",
+		"react-dom": "^19.1.1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.0",
+		"@types/canvas-confetti": "^1.6.4",
+		"@types/node": "^22.0.0",
+		"@types/react": "^19.1.10",
+		"@types/react-dom": "^19.1.7",
+		"autoprefixer": "^10.4.20",
+		"postcss": "^8.5.6",
+		"tailwindcss": "^4.1.12",
+		"typescript": "~5.8.3"
+	}
 }

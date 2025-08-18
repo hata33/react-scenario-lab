@@ -1,11 +1,79 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-html, body, #root {
-  height: 100%;
+/* 自定义更柔和的边框颜色 */
+:root {
+	--border-50: #f9fafb;
+	--border-100: #f3f4f6;
+	--border-200: #e5e7eb; /* 默认边框 - 更浅的灰色 */
+	--border-300: #d1d5db;
+	--border-400: #9ca3af;
+	--border-500: #6b7280;
+	--border-600: #4b5563;
+	--border-700: #374151;
+	--border-800: #1f2937;
+	--border-900: #111827;
+
+	/* Tailwind CSS 4 的边框变量 */
+	--tw-border-opacity: 1;
+	--tw-border-color: 229 231 235; /* rgb(229, 231, 235) = #e5e7eb */
+
+	/* 边框样式变量 */
+	--tw-border-style: solid;
+	--tw-border-width: 1px;
 }
 
-body {
-  @apply bg-gray-50 text-gray-900;
+/* 覆盖 Tailwind CSS 4 的默认边框颜色 */
+.border {
+	border-color: var(--border-200) !important;
+	border-style: var(--tw-border-style) !important;
+	border-width: var(--tw-border-width) !important;
+}
+
+.border-gray-200 {
+	border-color: var(--border-200) !important;
+}
+
+.border-gray-300 {
+	border-color: var(--border-300) !important;
+}
+
+.border-gray-400 {
+	border-color: var(--border-400) !important;
+}
+
+/* 全局边框样式调整 */
+* {
+	border-color: inherit;
+}
+
+/* 确保所有边框都使用更柔和的颜色 */
+.border-white\/70 {
+	border-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.border-white\/30 {
+	border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.border-white\/40 {
+	border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* 自定义边框样式类 */
+.border-soft {
+	border-color: var(--border-200) !important;
+	border-style: solid !important;
+	border-width: 1px !important;
+}
+
+.border-very-soft {
+	border-color: var(--border-100) !important;
+	border-style: solid !important;
+	border-width: 1px !important;
+}
+
+html,
+body,
+#root {
+	height: 100%;
 }

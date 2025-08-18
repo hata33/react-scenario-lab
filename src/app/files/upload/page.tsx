@@ -1,17 +1,17 @@
-'use client'
+"use client";
 
-import Layout from '@/components/Layout'
-import FileUpload from '@/pages/Files/FileUpload'
+import Layout from "@/components/Layout";
+import FileUpload from "@/pages/Files/FileUpload";
 
 export default function FileUploadPage() {
-  return (
-    <Layout>
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">文件上传</h1>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <FileUpload />
-        </div>
-      </div>
-    </Layout>
-  )
+	return (
+		<Layout>
+			<div className="mx-auto max-w-4xl">
+				<h1 className="mb-6 font-bold text-3xl text-gray-900">文件上传</h1>
+				<div className="rounded-lg bg-white p-6 shadow-md">
+					<FileUpload />
+				</div>
+			</div>
+		</Layout>
+	);
 }

@@ -1,14 +1,12 @@
-'use client'
+"use client";
 
-import Layout from '@/components/Layout'
-import LiquidGlass from '@/pages/SpecialEffects/LiquidGlass'
+import Layout from "@/components/Layout";
+import LiquidGlass from "@/pages/SpecialEffects/LiquidGlass";
 
 export default function LiquidGlassPage() {
-  return (
-    <Layout>
-      <LiquidGlass />
-    </Layout>
-  )
+	return (
+		<Layout>
+			<LiquidGlass />
+		</Layout>
+	);
 }
-
-
