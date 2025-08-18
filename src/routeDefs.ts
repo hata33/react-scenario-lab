@@ -17,7 +17,13 @@ export const routeGroups: RouteGroup[] = [
 	{
 		path: "special-effects",
 		title: "特效",
-		children: [{ path: "liquid-glass", title: "液体玻璃" }],
+		children: [
+			{ path: "liquid-glass", title: "液体玻璃" },
+			{ path: "liquid-glass/basic", title: "基础液体玻璃" },
+			{ path: "liquid-glass/advanced", title: "高级液体玻璃" },
+			{ path: "liquid-glass/interactive", title: "交互式液体玻璃" },
+			{ path: "liquid-glass/experimental", title: "实验性液体玻璃" },
+		],
 	},
 	{
 		path: "forms",
