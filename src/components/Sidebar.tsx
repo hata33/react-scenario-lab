@@ -25,7 +25,7 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
                 <li key={child.path}>
                   <Link
                     href={child.path}
-                    className={`block rounded px-3 py-2 text-sm ${
+                    className={`block rounded px-3 py-2 text-sm transition-colors duration-150 ${
                       activePath === child.path
                         ? 'bg-gray-900 text-white'
                         : 'text-gray-700 hover:bg-gray-100'
@@ -39,6 +39,12 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
           </div>
         ))}
       </nav>
+      
+      {/* 底部提示区域 */}
+      <div className="px-4 py-3 border-t text-xs text-gray-500">
+        <p>快捷键: Ctrl/Cmd + B 切换侧边栏</p>
+        <p className="text-blue-600 mt-1">点击菜单后侧边栏自动隐藏</p>
+      </div>
     </aside>
   )
 }

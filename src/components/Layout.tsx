@@ -42,7 +42,7 @@ export default function Layout({ children }: LayoutProps) {
   const activePath = pathname || '/'
   // 关键修复：初始状态设为false，避免服务端/客户端差异
   const [pinnedOpen, setPinnedOpen] = useState<boolean>(false)
-  const [hoverOpen, setHoverOpen] = useState(false)
+  const [hoverOpen, setHoverOpen] = useState(true)
   const isOpen = pinnedOpen || hoverOpen
   const initialPathRef = useRef(activePath)
   const hasAutoClosedRef = useRef(false)
@@ -83,14 +83,12 @@ export default function Layout({ children }: LayoutProps) {
   }, [])
 
   // 首次进入显示侧栏，首次发生路由跳转后自动收起并记忆
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (!hasAutoClosedRef.current && activePath !== initialPathRef.current) {
+  useEffect(() => { 
+    if (typeof window !== 'undefined') { 
         setPinnedOpen(false)
         setHoverOpen(false)
         try { localStorage.setItem('sidebarSeen', '1') } catch {}
-        hasAutoClosedRef.current = true
-      }
+        hasAutoClosedRef.current = true 
     }
   }, [activePath])
 
