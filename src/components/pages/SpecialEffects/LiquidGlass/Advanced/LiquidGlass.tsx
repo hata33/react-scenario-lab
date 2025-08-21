@@ -113,7 +113,7 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
 
 			return { x: constrainedX, y: constrainedY };
 		},
-		[width, height, offset],
+		[width, height],
 	);
 
 	// 更新着色器
@@ -175,7 +175,7 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
 			canvas.toDataURL(),
 		);
 		feDisplacementMap.setAttribute("scale", (maxScale / canvasDPI).toString());
-	}, [width, height, canvasDPI, fragmentShader]);
+	}, [width, height,  fragmentShader]);
 
 	// 鼠标事件处理
 	const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -297,6 +297,7 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
 		<>
 			{/* SVG 滤镜 */}
 			<svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" style={svgStyle}>
+				<title>液态玻璃背景</title>
 				<defs>
 					<filter
 						id={`${id}_filter`}
