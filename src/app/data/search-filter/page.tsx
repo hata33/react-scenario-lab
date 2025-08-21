@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import SearchFilter from "@/pages/Data/SearchFilter";
+import SearchFilter from "@/components/pages/Data/SearchFilter";
 
 export default function SearchFilterPage() {
 	return (

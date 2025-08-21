@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import LineChart from "@/pages/Charts/LineChart";
+import LineChart from "@/components/pages/Charts/LineChart";
 
 export default function LineChartPage() {
 	return (

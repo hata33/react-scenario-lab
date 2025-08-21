@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import DragDrop from "@/pages/Animation/DragDrop";
+import DragDrop from "@/components/pages/Animation/DragDrop";
 
 export default function DragDropPage() {
 	return (

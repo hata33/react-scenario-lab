@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import FilePreview from "@/pages/Files/FilePreview";
+import FilePreview from "@/components/pages/Files/FilePreview";
 
 export default function FilePreviewPage() {
 	return (

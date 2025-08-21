@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import Table from "@/pages/Data/Table";
+import Table from "@/components/pages/Data/Table";
 
 export default function TablePage() {
 	return (

@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import ThemeToggle from "@/pages/Other/ThemeToggle";
+import ThemeToggle from "@/components/pages/Other/ThemeToggle";
 
 export default function ThemeTogglePage() {
 	return (

@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import ChatRoom from "@/pages/Chat/ChatRoom";
+import ChatRoom from "@/components/pages/Chat/ChatRoom";
 
 export default function ChatRoomPage() {
 	return (

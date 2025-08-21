@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import Payment from "@/pages/Other/Payment";
+import Payment from "@/components/pages/Other/Payment";
 
 export default function PaymentPage() {
 	return (

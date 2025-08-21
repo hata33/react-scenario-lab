@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import ElementAnimation from "@/pages/Animation/ElementAnimation";
+import ElementAnimation from "@/components/pages/Animation/ElementAnimation";
 
 export default function ElementAnimationPage() {
 	return (

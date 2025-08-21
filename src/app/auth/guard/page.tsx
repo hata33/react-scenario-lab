@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import RouteGuard from "@/pages/Auth/RouteGuard";
+import RouteGuard from "@/components/pages/Auth/RouteGuard";
 
 export default function RouteGuardPage() {
 	return (

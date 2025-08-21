@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import Register from "@/pages/Auth/Register";
+import Register from "@/components/pages/Auth/Register";
 
 export default function RegisterPage() {
 	return (

@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import FileUpload from "@/pages/Files/FileUpload";
+import FileUpload from "@/components/pages/Files/FileUpload";
 
 export default function FileUploadPage() {
 	return (

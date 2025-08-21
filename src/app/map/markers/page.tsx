@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import MapMarkers from "@/pages/Map/MapMarkers";
+import MapMarkers from "@/components/pages/Map/MapMarkers";
 
 export default function MapMarkersPage() {
 	return (
