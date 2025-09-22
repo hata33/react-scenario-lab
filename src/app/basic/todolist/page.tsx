@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import TodoList from "@/pages/Basic/TodoList";
+import TodoList from "@/components/pages/Basic/TodoList";
 
 export default function TodoListPage() {
 	return (

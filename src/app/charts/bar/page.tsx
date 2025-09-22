@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import BarChart from "@/pages/Charts/BarChart";
+import BarChart from "@/components/pages/Charts/BarChart";
 
 export default function BarChartPage() {
 	return (

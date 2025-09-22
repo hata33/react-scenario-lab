@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import FormValidation from "@/pages/Forms/FormValidation";
+import FormValidation from "@/components/pages/Forms/FormValidation";
 
 export default function FormValidationPage() {
 	return (

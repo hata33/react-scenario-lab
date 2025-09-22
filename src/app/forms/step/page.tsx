@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import StepForm from "@/pages/Forms/StepForm";
+import StepForm from "@/components/pages/Forms/StepForm";
 
 export default function StepFormPage() {
 	return (

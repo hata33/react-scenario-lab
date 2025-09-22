@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import Notifications from "@/pages/Other/Notifications";
+import Notifications from "@/components/pages/Other/Notifications";
 
 export default function NotificationsPage() {
 	return (

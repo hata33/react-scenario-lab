@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import I18n from "@/pages/Other/I18n";
+import I18n from "@/components/pages/Other/I18n";
 
 export default function I18nPage() {
 	return (

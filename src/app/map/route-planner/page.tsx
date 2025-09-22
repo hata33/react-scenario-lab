@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import RoutePlanner from "@/pages/Map/RoutePlanner";
+import RoutePlanner from "@/components/pages/Map/RoutePlanner";
 
 export default function RoutePlannerPage() {
 	return (

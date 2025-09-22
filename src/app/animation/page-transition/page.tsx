@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import PageTransition from "@/pages/Animation/PageTransition";
+import PageTransition from "@/components/pages/Animation/PageTransition";
 
 export default function PageTransitionPage() {
 	return (

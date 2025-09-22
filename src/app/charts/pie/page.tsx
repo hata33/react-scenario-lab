@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import PieChart from "@/pages/Charts/PieChart";
+import PieChart from "@/components/pages/Charts/PieChart";
 
 export default function PieChartPage() {
 	return (

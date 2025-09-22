@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import RichText from "@/pages/Other/RichText";
+import RichText from "@/components/pages/Other/RichText";
 
 export default function RichTextPage() {
 	return (

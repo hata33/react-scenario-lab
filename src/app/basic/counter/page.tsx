@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import Counter from "@/pages/Basic/Counter";
+import Counter from "@/components/pages/Basic/Counter";
 
 export default function CounterPage() {
 	return (

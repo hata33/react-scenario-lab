@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import Login from "@/pages/Auth/Login";
+import Login from "@/components/pages/Auth/Login";
 
 export default function LoginPage() {
 	return (

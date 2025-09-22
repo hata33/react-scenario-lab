@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import BasicForm from "@/pages/Forms/BasicForm";
+import BasicForm from "@/components/pages/Forms/BasicForm";
 
 export default function BasicFormPage() {
 	return (

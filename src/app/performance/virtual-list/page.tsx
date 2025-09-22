@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import VirtualList from "@/pages/Performance/VirtualList";
+import VirtualList from "@/components/pages/Performance/VirtualList";
 
 export default function VirtualListPage() {
 	return (
