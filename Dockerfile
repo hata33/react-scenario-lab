@@ -4,6 +4,9 @@ FROM node:20-alpine AS base
 # 设置工作目录
 WORKDIR /app
 
+# 设置国内镜像源
+RUN npm config set registry https://registry.npmmirror.com/
+
 # 安装依赖阶段
 FROM base AS deps
 # 安装 pnpm
@@ -16,7 +19,9 @@ RUN apk add --no-cache libc6-compat
 COPY package.json pnpm-lock.yaml* ./
 
 # 安装依赖 (只安装生产环境需要的依赖)
-RUN pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/root/.pnpm-store \
+    pnpm install --frozen-lockfile --prod \
+    --registry https://registry.npmmirror.com
 
 # 构建阶段
 FROM base AS builder

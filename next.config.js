@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	output: "standalone", //
+	// 移除 output 配置，使用默认值
 	typescript: {
 		ignoreBuildErrors: false,
 	},
