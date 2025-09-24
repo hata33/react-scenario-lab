@@ -174,6 +174,7 @@ export function InfiniteScrollVirtualList() {
 						))}
 					</select>
 					<button
+						type="button"
 						onClick={resetData}
 						className="rounded bg-muted px-3 py-1 text-sm hover:bg-muted/80"
 					>

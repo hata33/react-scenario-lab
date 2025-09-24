@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 const generateRandomText = (minWords: number, maxWords: number) => {
 	const words = [
@@ -132,12 +132,12 @@ export function DynamicHeightVirtualList() {
 			<div className="flex items-center justify-between">
 				<div>
 					<h3 className="font-semibold">动态高度虚拟列表</h3>
-					<p className="text-sm text-muted-foreground">
+					<p className="text-muted-foreground text-sm">
 						共 {DATA.length.toLocaleString()} 条数据，已测量{" "}
 						{measuredItems.size} 项高度
 					</p>
 				</div>
-				<div className="text-sm text-muted-foreground">
+				<div className="text-muted-foreground text-sm">
 					总高度: {Math.round(totalHeight)}px
 				</div>
 			</div>
@@ -155,23 +155,23 @@ export function DynamicHeightVirtualList() {
 								itemRefs.current[item.id] = el;
 								measureItem(item.id, el);
 							}}
-							className="absolute left-0 right-0 border-b px-4 py-3 transition-all hover:bg-muted/50"
+							className="absolute right-0 left-0 border-b px-4 py-3 transition-all hover:bg-muted/50"
 							style={{ top: `${item.offsetY}px` }}
 						>
-							<div className="flex items-start justify-between mb-2">
+							<div className="mb-2 flex items-start justify-between">
 								<h4 className="font-medium">{item.title}</h4>
-								<span className="text-xs text-muted-foreground">
+								<span className="text-muted-foreground text-xs">
 									{new Date(item.timestamp).toLocaleDateString()}
 								</span>
 							</div>
-							<p className="text-sm text-muted-foreground mb-2 leading-relaxed">
+							<p className="mb-2 text-muted-foreground text-sm leading-relaxed">
 								{item.content}
 							</p>
 							<div className="flex items-center justify-between">
-								<span className="text-xs bg-muted px-2 py-1 rounded">
+								<span className="rounded bg-muted px-2 py-1 text-xs">
 									作者: {item.author}
 								</span>
-								<span className="text-xs text-muted-foreground">
+								<span className="text-muted-foreground text-xs">
 									高度: {Math.round(item.height)}px
 								</span>
 							</div>
@@ -183,7 +183,7 @@ export function DynamicHeightVirtualList() {
 			<div className="grid grid-cols-3 gap-4 text-sm">
 				<div className="space-y-1">
 					<span className="font-medium">技术挑战</span>
-					<ul className="text-muted-foreground space-y-1">
+					<ul className="space-y-1 text-muted-foreground">
 						<li>• 动态测量项目高度</li>
 						<li>• 缓存已测量高度</li>
 						<li>• 避免重复测量</li>
@@ -192,7 +192,7 @@ export function DynamicHeightVirtualList() {
 				</div>
 				<div className="space-y-1">
 					<span className="font-medium">优化策略</span>
-					<ul className="text-muted-foreground space-y-1">
+					<ul className="space-y-1 text-muted-foreground">
 						<li>• 首次渲染默认高度</li>
 						<li>• 渐进式测量</li>
 						<li>• 预渲染缓冲项目</li>
@@ -201,7 +201,7 @@ export function DynamicHeightVirtualList() {
 				</div>
 				<div className="space-y-1">
 					<span className="font-medium">适用场景</span>
-					<ul className="text-muted-foreground space-y-1">
+					<ul className="space-y-1 text-muted-foreground">
 						<li>• 动态内容列表</li>
 						<li>• 评论系统</li>
 						<li>• 社交媒体</li>

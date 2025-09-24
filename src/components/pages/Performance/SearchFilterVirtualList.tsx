@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 const generateRandomData = (count: number) => {
 	const names = [
@@ -128,38 +128,39 @@ export function SearchFilterVirtualList() {
 			<div className="flex items-center justify-between">
 				<div>
 					<h3 className="font-semibold">搜索过滤虚拟列表</h3>
-					<p className="text-sm text-muted-foreground">
+					<p className="text-muted-foreground text-sm">
 						共 {filteredData.length.toLocaleString()} 条结果 (原始数据:{" "}
 						{DATA.length.toLocaleString()})
 					</p>
 				</div>
 				<button
+					type="button"
 					onClick={clearFilters}
-					className="text-sm text-blue-600 hover:text-blue-800"
+					className="text-blue-600 text-sm hover:text-blue-800"
 				>
 					清除筛选
 				</button>
 			</div>
 
 			{/* 搜索和过滤区域 */}
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-muted/30 rounded-lg">
+			<div className="grid grid-cols-1 gap-4 rounded-lg bg-muted/30 p-4 md:grid-cols-2 lg:grid-cols-3">
 				<div className="space-y-2">
-					<label className="text-sm font-medium">搜索</label>
+					<label className="font-medium text-sm">搜索</label>
 					<input
 						type="text"
 						placeholder="搜索姓名或技能..."
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
-						className="w-full px-3 py-2 border rounded-md text-sm"
+						className="w-full rounded-md border px-3 py-2 text-sm"
 					/>
 				</div>
 
 				<div className="space-y-2">
-					<label className="text-sm font-medium">部门</label>
+					<label className="font-medium text-sm">部门</label>
 					<select
 						value={selectedDepartment}
 						onChange={(e) => setSelectedDepartment(e.target.value)}
-						className="w-full px-3 py-2 border rounded-md text-sm"
+						className="w-full rounded-md border px-3 py-2 text-sm"
 					>
 						<option value="">所有部门</option>
 						{departments.map((dept) => (
@@ -171,11 +172,11 @@ export function SearchFilterVirtualList() {
 				</div>
 
 				<div className="space-y-2">
-					<label className="text-sm font-medium">城市</label>
+					<label className="font-medium text-sm">城市</label>
 					<select
 						value={selectedCity}
 						onChange={(e) => setSelectedCity(e.target.value)}
-						className="w-full px-3 py-2 border rounded-md text-sm"
+						className="w-full rounded-md border px-3 py-2 text-sm"
 					>
 						<option value="">所有城市</option>
 						{cities.map((city) => (
@@ -187,7 +188,7 @@ export function SearchFilterVirtualList() {
 				</div>
 
 				<div className="space-y-2">
-					<label className="text-sm font-medium">
+					<label className="font-medium text-sm">
 						工作经验 (≥ {minExperience}年)
 					</label>
 					<input
@@ -201,7 +202,7 @@ export function SearchFilterVirtualList() {
 				</div>
 
 				<div className="space-y-2">
-					<label className="text-sm font-medium">
+					<label className="font-medium text-sm">
 						薪资范围 (≤ {maxSalary.toLocaleString()})
 					</label>
 					<input
@@ -223,7 +224,7 @@ export function SearchFilterVirtualList() {
 				className="relative h-[400px] overflow-auto rounded border bg-background"
 			>
 				{filteredData.length === 0 ? (
-					<div className="flex items-center justify-center h-full text-muted-foreground">
+					<div className="flex h-full items-center justify-center text-muted-foreground">
 						没有找到匹配的结果
 					</div>
 				) : (
@@ -236,23 +237,23 @@ export function SearchFilterVirtualList() {
 									style={{ height: rowHeight }}
 								>
 									<div className="flex-1">
-										<div className="flex items-center gap-2 mb-1">
+										<div className="mb-1 flex items-center gap-2">
 											<span className="font-medium">{item.name}</span>
-											<span className="text-xs px-2 py-1 rounded bg-muted">
+											<span className="rounded bg-muted px-2 py-1 text-xs">
 												{item.department}
 											</span>
-											<span className="text-xs text-muted-foreground">
+											<span className="text-muted-foreground text-xs">
 												{item.city}
 											</span>
 										</div>
-										<div className="flex items-center gap-2 text-xs text-muted-foreground">
+										<div className="flex items-center gap-2 text-muted-foreground text-xs">
 											<span>经验: {item.experience}年</span>
 											<span>薪资: ¥{item.salary.toLocaleString()}</span>
 											<div className="flex gap-1">
 												{item.skills.map((skill) => (
 													<span
 														key={skill}
-														className="px-1 py-0.5 bg-blue-100 text-blue-800 rounded"
+														className="rounded bg-blue-100 px-1 py-0.5 text-blue-800"
 													>
 														{skill}
 													</span>
@@ -262,7 +263,7 @@ export function SearchFilterVirtualList() {
 									</div>
 									<div>
 										<span
-											className={`text-xs px-2 py-1 rounded ${
+											className={`rounded px-2 py-1 text-xs ${
 												item.status === "在职"
 													? "bg-green-100 text-green-800"
 													: item.status === "离职"
@@ -285,7 +286,7 @@ export function SearchFilterVirtualList() {
 			<div className="grid grid-cols-3 gap-4 text-sm">
 				<div className="space-y-1">
 					<span className="font-medium">功能特性</span>
-					<ul className="text-muted-foreground space-y-1">
+					<ul className="space-y-1 text-muted-foreground">
 						<li>• 实时搜索过滤</li>
 						<li>• 多条件组合筛选</li>
 						<li>• 性能优化处理</li>
@@ -294,7 +295,7 @@ export function SearchFilterVirtualList() {
 				</div>
 				<div className="space-y-1">
 					<span className="font-medium">技术实现</span>
-					<ul className="text-muted-foreground space-y-1">
+					<ul className="space-y-1 text-muted-foreground">
 						<li>• useMemo 优化过滤</li>
 						<li>• 防抖搜索处理</li>
 						<li>• 虚拟滚动优化</li>
@@ -303,7 +304,7 @@ export function SearchFilterVirtualList() {
 				</div>
 				<div className="space-y-1">
 					<span className="font-medium">应用场景</span>
-					<ul className="text-muted-foreground space-y-1">
+					<ul className="space-y-1 text-muted-foreground">
 						<li>• 人才管理系统</li>
 						<li>• 产品目录筛选</li>
 						<li>• 数据分析平台</li>

@@ -45,7 +45,7 @@ export default function BasicLiquidGlass() {
 			</section>
 
 			{/* 顶部效果选择器 */}
-			<div className="fixed top-6 left-1/2 z-30 -translate-x-1/2">
+			<div className="-translate-x-1/2 fixed top-6 left-1/2 z-30">
 				<div className="rounded-2xl bg-white/80 p-2 shadow-lg backdrop-blur">
 					<button
 						type="button"

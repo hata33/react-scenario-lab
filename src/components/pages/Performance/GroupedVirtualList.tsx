@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useCallback } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 interface GroupItem {
 	id: number;
@@ -97,8 +97,8 @@ export function GroupedVirtualList() {
 	const { totalHeight, visibleItems } = useMemo(() => {
 		const containerHeight = 400;
 		let currentHeight = 0;
-		let startIndex = 0;
-		let endIndex = 0;
+		const startIndex = 0;
+		const endIndex = 0;
 		const visibleItems: Array<{
 			type: "group" | "item";
 			data: any;
@@ -162,21 +162,23 @@ export function GroupedVirtualList() {
 			<div className="flex items-center justify-between">
 				<div>
 					<h3 className="font-semibold">分组虚拟列表</h3>
-					<p className="text-sm text-muted-foreground">
+					<p className="text-muted-foreground text-sm">
 						{totalGroups} 个分组，{totalItems} 个成员，显示 {visibleItemsCount}{" "}
 						个
 					</p>
 				</div>
 				<div className="flex gap-2">
 					<button
+						type="button"
 						onClick={expandAll}
-						className="text-sm px-3 py-1 bg-muted rounded hover:bg-muted/80"
+						className="rounded bg-muted px-3 py-1 text-sm hover:bg-muted/80"
 					>
 						展开全部
 					</button>
 					<button
+						type="button"
 						onClick={collapseAll}
-						className="text-sm px-3 py-1 bg-muted rounded hover:bg-muted/80"
+						className="rounded bg-muted px-3 py-1 text-sm hover:bg-muted/80"
 					>
 						折叠全部
 					</button>
@@ -195,38 +197,38 @@ export function GroupedVirtualList() {
 							return (
 								<div
 									key={`group-${group.id}`}
-									className="absolute left-0 right-0 bg-primary/5 border-b border-primary/20 cursor-pointer transition-colors hover:bg-primary/10"
+									className="absolute right-0 left-0 cursor-pointer border-primary/20 border-b bg-primary/5 transition-colors hover:bg-primary/10"
 									style={{
 										top: `${item.offsetY}px`,
 										height: `${item.height}px`,
 									}}
 									onClick={() => toggleGroup(group.id)}
 								>
-									<div className="flex items-center justify-between h-full px-4">
+									<div className="flex h-full items-center justify-between px-4">
 										<div className="flex items-center gap-3">
 											<span className="text-lg">
 												{group.collapsed ? "▶" : "▼"}
 											</span>
 											<span className="font-medium">{group.name}</span>
-											<span className="text-sm text-muted-foreground">
+											<span className="text-muted-foreground text-sm">
 												{group.count} 成员
 											</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<span className="text-xs text-muted-foreground">
+											<span className="text-muted-foreground text-xs">
 												{group.collapsed ? "已折叠" : "已展开"}
 											</span>
-											<div className="flex -space-x-2">
+											<div className="-space-x-2 flex">
 												{group.items.slice(0, 3).map((member, idx) => (
 													<div
-														key={idx}
-														className="w-6 h-6 rounded-full bg-primary/20 border-2 border-background flex items-center justify-center text-xs"
+														key={member.id}
+														className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-background bg-primary/20 text-xs"
 													>
 														{member.name[0]}
 													</div>
 												))}
 												{group.items.length > 3 && (
-													<div className="w-6 h-6 rounded-full bg-muted border-2 border-background flex items-center justify-center text-xs">
+													<div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-background bg-muted text-xs">
 														+{group.items.length - 3}
 													</div>
 												)}
@@ -240,7 +242,7 @@ export function GroupedVirtualList() {
 							return (
 								<div
 									key={`item-${itemData.id}`}
-									className="absolute left-0 right-0 flex items-center gap-4 border-b px-6 py-2 transition-all hover:bg-muted/50"
+									className="absolute right-0 left-0 flex items-center gap-4 border-b px-6 py-2 transition-all hover:bg-muted/50"
 									style={{
 										top: `${item.offsetY}px`,
 										height: `${item.height}px`,
@@ -251,17 +253,17 @@ export function GroupedVirtualList() {
 											<span className="font-medium text-sm">
 												{itemData.name}
 											</span>
-											<span className="text-xs text-muted-foreground">
+											<span className="text-muted-foreground text-xs">
 												{itemData.email}
 											</span>
-											<span className="text-xs bg-muted px-2 py-1 rounded">
+											<span className="rounded bg-muted px-2 py-1 text-xs">
 												{itemData.role}
 											</span>
 										</div>
 									</div>
 									<div>
 										<span
-											className={`text-xs px-2 py-1 rounded ${
+											className={`rounded px-2 py-1 text-xs ${
 												itemData.status === "在线"
 													? "bg-green-100 text-green-800"
 													: itemData.status === "忙碌"
@@ -282,7 +284,7 @@ export function GroupedVirtualList() {
 			<div className="grid grid-cols-3 gap-4 text-sm">
 				<div className="space-y-1">
 					<span className="font-medium">核心功能</span>
-					<ul className="text-muted-foreground space-y-1">
+					<ul className="space-y-1 text-muted-foreground">
 						<li>• 分组展开/折叠</li>
 						<li>• 虚拟滚动优化</li>
 						<li>• 分组统计信息</li>
@@ -291,7 +293,7 @@ export function GroupedVirtualList() {
 				</div>
 				<div className="space-y-1">
 					<span className="font-medium">技术特点</span>
-					<ul className="text-muted-foreground space-y-1">
+					<ul className="space-y-1 text-muted-foreground">
 						<li>• 动态高度计算</li>
 						<li>• 可见区域优化</li>
 						<li>• 状态管理优化</li>
@@ -300,7 +302,7 @@ export function GroupedVirtualList() {
 				</div>
 				<div className="space-y-1">
 					<span className="font-medium">适用场景</span>
-					<ul className="text-muted-foreground space-y-1">
+					<ul className="space-y-1 text-muted-foreground">
 						<li>• 组织架构展示</li>
 						<li>• 文件目录结构</li>
 						<li>• 分类数据展示</li>

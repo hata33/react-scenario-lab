@@ -25,10 +25,10 @@ export default function VirtualList() {
 				className="h-96 overflow-auto rounded border bg-white"
 			>
 				<div style={{ height: DATA.length * rowHeight }}>
-					<div style={{ transform: `translateY(${offsetY}px)` }}>
+					<div style={{ transform: `translateY(${offsetyoY}px)` }}>
 						{visibleData.map((text, i) => (
 							<div
-								key={startIndex + i}
+								key={startIndex + text}
 								className="px-3"
 								style={{ height: rowHeight, lineHeight: `${rowHeight}px` }}
 							>

@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import VirtualList from "@/components/pages/Performance/VirtualList";
+import VirtualListDemo from "@/components/pages/Performance/VirtualListDemo";
 
 export default function VirtualListPage() {
 	return (
@@ -9,7 +9,7 @@ export default function VirtualListPage() {
 			<div className="mx-auto max-w-4xl">
 				<h1 className="mb-6 font-bold text-3xl text-gray-900">虚拟列表</h1>
 				<div className="rounded-lg bg-white p-6 shadow-md">
-					<VirtualList />
+					<VirtualListDemo />
 				</div>
 			</div>
 		</Layout>

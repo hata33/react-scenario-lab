@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 const DATA = Array.from({ length: 100000 }).map((_, i) => ({
 	id: i + 1,
@@ -55,12 +55,12 @@ export function FixedHeightVirtualList() {
 			<div className="flex items-center justify-between">
 				<div>
 					<h3 className="font-semibold">固定高度虚拟列表</h3>
-					<p className="text-sm text-muted-foreground">
+					<p className="text-muted-foreground text-sm">
 						共 {DATA.length.toLocaleString()} 条数据，当前显示{" "}
 						{visibleData.length} 条
 					</p>
 				</div>
-				<div className="text-sm text-muted-foreground">
+				<div className="text-muted-foreground text-sm">
 					{scrolling ? "滚动中..." : "已停止"}
 				</div>
 			</div>
@@ -86,16 +86,16 @@ export function FixedHeightVirtualList() {
 							>
 								<div className="flex-1">
 									<div className="font-medium">{item.name}</div>
-									<div className="text-sm text-muted-foreground">
+									<div className="text-muted-foreground text-sm">
 										{item.email}
 									</div>
 								</div>
 								<div className="flex items-center gap-2">
-									<span className="text-sm bg-muted px-2 py-1 rounded">
+									<span className="rounded bg-muted px-2 py-1 text-sm">
 										{item.role}
 									</span>
 									<span
-										className={`text-sm px-2 py-1 rounded ${
+										className={`rounded px-2 py-1 text-sm ${
 											item.status === "在线"
 												? "bg-green-100 text-green-800"
 												: item.status === "忙碌"
@@ -115,7 +115,7 @@ export function FixedHeightVirtualList() {
 			<div className="grid grid-cols-3 gap-4 text-sm">
 				<div className="space-y-1">
 					<span className="font-medium">性能优化</span>
-					<ul className="text-muted-foreground space-y-1">
+					<ul className="space-y-1 text-muted-foreground">
 						<li>• 只渲染可视区域元素</li>
 						<li>• 使用 transform 定位</li>
 						<li>• 滚动节流优化</li>
@@ -123,7 +123,7 @@ export function FixedHeightVirtualList() {
 				</div>
 				<div className="space-y-1">
 					<span className="font-medium">技术特点</span>
-					<ul className="text-muted-foreground space-y-1">
+					<ul className="space-y-1 text-muted-foreground">
 						<li>• 固定行高 48px</li>
 						<li>• 支持 10 万条数据</li>
 						<li>• 平滑滚动体验</li>
@@ -131,7 +131,7 @@ export function FixedHeightVirtualList() {
 				</div>
 				<div className="space-y-1">
 					<span className="font-medium">使用场景</span>
-					<ul className="text-muted-foreground space-y-1">
+					<ul className="space-y-1 text-muted-foreground">
 						<li>• 用户列表</li>
 						<li>• 数据表格</li>
 						<li>• 消息列表</li>
