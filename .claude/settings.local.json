@@ -1,9 +1,33 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(mkdir:*)"
-    ],
-    "deny": [],
-    "ask": []
-  }
+	"permissions": {
+		"allow": [
+			"Bash(npm install:*)",
+			"Bash(npm run build:*)",
+			"Bash(npm run dev:*)",
+			"Bash(pkill:*)",
+			"Bash(curl:*)",
+			"Bash(taskkill:*)",
+			"Bash(npm uninstall:*)",
+			"Bash(npm run)",
+			"Bash(npm run build:turbo:*)",
+			"Bash(pnpm run dev:*)",
+			"Bash(rd:*)",
+			"Bash(powershell:*)",
+			"Bash(pnpm run lint:*)",
+			"Bash(pnpm run type-check:*)",
+			"Bash(pnpm run build:*)",
+			"Bash(cat:*)",
+			"Bash(npx tsc:*)",
+			"Bash(grep:*)",
+			"Bash(move:*)",
+			"Bash(copy:*)",
+			"Bash(tree:*)",
+			"Bash(git add:*)",
+			"Bash(git commit:*)",
+			"Bash(pnpm run format:*)",
+			"Bash(pnpm run clean:*)"
+		],
+		"deny": [],
+		"ask": []
+	}
 }

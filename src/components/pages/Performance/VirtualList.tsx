@@ -10,7 +10,7 @@ export default function VirtualList() {
 
 	const startIndex = Math.floor(scrollTop / rowHeight);
 	const endIndex = startIndex + visibleCount;
-	const offsetY = startIndex * rowHeight;
+	const offsetyoY = startIndex * rowHeight;
 	const visibleData = useMemo(
 		() => DATA.slice(startIndex, endIndex),
 		[startIndex, endIndex],
