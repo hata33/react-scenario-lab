@@ -16,7 +16,10 @@ export default function FrostedGlass() {
 	} as React.CSSProperties;
 
 	return (
-		<div className="w-[28rem] rounded-3xl p-8 text-gray-800" style={frostedStyle}>
+		<div
+			className="w-[28rem] rounded-3xl p-8 text-gray-800"
+			style={frostedStyle}
+		>
 			<h2 className="font-semibold text-2xl">磨砂玻璃</h2>
 			<div className="mt-4 grid gap-4 md:grid-cols-3">
 				<label className="block">
@@ -56,7 +59,9 @@ export default function FrostedGlass() {
 					/>
 				</label>
 			</div>
-			<p className="mt-4 text-gray-700 text-sm">模拟真实磨砂玻璃的质感和深度。</p>
+			<p className="mt-4 text-gray-700 text-sm">
+				模拟真实磨砂玻璃的质感和深度。
+			</p>
 		</div>
 	);
 }

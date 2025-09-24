@@ -47,7 +47,8 @@ export default function BasicLiquidGlass() {
 			{/* 顶部效果选择器 */}
 			<div className="fixed top-6 left-1/2 z-30 -translate-x-1/2">
 				<div className="rounded-2xl bg-white/80 p-2 shadow-lg backdrop-blur">
-					<button type="button"
+					<button
+						type="button"
 						onClick={() => setActiveEffect("simple")}
 						className={`rounded-xl px-6 py-3 font-medium transition-all ${
 							activeEffect === "simple"
@@ -57,7 +58,8 @@ export default function BasicLiquidGlass() {
 					>
 						简单玻璃
 					</button>
-					<button type="button"
+					<button
+						type="button"
 						onClick={() => setActiveEffect("frosted")}
 						className={`rounded-xl px-6 py-3 font-medium transition-all ${
 							activeEffect === "frosted"

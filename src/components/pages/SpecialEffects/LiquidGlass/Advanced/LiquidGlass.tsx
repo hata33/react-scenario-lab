@@ -175,7 +175,7 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
 			canvas.toDataURL(),
 		);
 		feDisplacementMap.setAttribute("scale", (maxScale / canvasDPI).toString());
-	}, [width, height,  fragmentShader]);
+	}, [width, height, fragmentShader]);
 
 	// 鼠标事件处理
 	const handleMouseDown = useCallback((e: React.MouseEvent) => {

@@ -2,10 +2,9 @@ import Image from "next/image";
 import img1 from "@/assets/imgs/LiquidGlass-bg/1.webp";
 import img2 from "@/assets/imgs/LiquidGlass-bg/2.webp";
 import img3 from "@/assets/imgs/LiquidGlass-bg/3.webp";
-import LiquidGlass from "./LiquidGlass"; 
+import LiquidGlass from "./LiquidGlass";
 
 const images = [img1, img2, img3];
-
 
 export default function AdvancedLiquidGlass() {
 	return (

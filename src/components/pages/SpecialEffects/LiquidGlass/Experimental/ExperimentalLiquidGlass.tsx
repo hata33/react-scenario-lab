@@ -216,7 +216,8 @@ export default function Home() {
 					</p>
 
 					<p className="mt-2 font-semibold text-xs text-yellow-300 leading-snug">
-						⚠️ 在 Safari 与 Firefox 中支持不完整，非 Chromium 内核浏览器无法看到边缘折射效果。
+						⚠️ 在 Safari 与 Firefox 中支持不完整，非 Chromium
+						内核浏览器无法看到边缘折射效果。
 					</p>
 				</div>
 
@@ -256,10 +257,10 @@ export default function Home() {
 											onChange={(e) =>
 												setUserInfoMode(
 													e.target.value as
-													| "standard"
-													| "polar"
-													| "prominent"
-													| "shader",
+														| "standard"
+														| "polar"
+														| "prominent"
+														| "shader",
 												)
 											}
 											className="h-4 w-4 accent-blue-500"
@@ -281,10 +282,10 @@ export default function Home() {
 											onChange={(e) =>
 												setUserInfoMode(
 													e.target.value as
-													| "standard"
-													| "polar"
-													| "prominent"
-													| "shader",
+														| "standard"
+														| "polar"
+														| "prominent"
+														| "shader",
 												)
 											}
 											className="h-4 w-4 accent-blue-500"
@@ -306,10 +307,10 @@ export default function Home() {
 											onChange={(e) =>
 												setUserInfoMode(
 													e.target.value as
-													| "standard"
-													| "polar"
-													| "prominent"
-													| "shader",
+														| "standard"
+														| "polar"
+														| "prominent"
+														| "shader",
 												)
 											}
 											className="h-4 w-4 accent-blue-500"
@@ -331,10 +332,10 @@ export default function Home() {
 											onChange={(e) =>
 												setUserInfoMode(
 													e.target.value as
-													| "standard"
-													| "polar"
-													| "prominent"
-													| "shader",
+														| "standard"
+														| "polar"
+														| "prominent"
+														| "shader",
 												)
 											}
 											className="h-4 w-4 accent-blue-500"
@@ -347,9 +348,7 @@ export default function Home() {
 										</label>
 									</div>
 								</div>
-								<p className="mt-2 text-white/50 text-xs">
-									控制折射计算方式
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制折射计算方式</p>
 							</div>
 
 							<div>
@@ -370,9 +369,7 @@ export default function Home() {
 									onChange={(e) => setDisplacementScale(Number(e.target.value))}
 									className="w-full"
 								/>
-								<p className="mt-2 text-white/50 text-xs">
-									控制边缘扭曲的强度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制边缘扭曲的强度</p>
 							</div>
 
 							<div>
@@ -393,9 +390,7 @@ export default function Home() {
 									onChange={(e) => setBlurAmount(Number(e.target.value))}
 									className="w-full"
 								/>
-								<p className="mt-2 text-white/50 text-xs">
-									控制背景模糊强度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制背景模糊强度</p>
 							</div>
 
 							<div>
@@ -535,10 +530,10 @@ export default function Home() {
 											onChange={(e) =>
 												setLogoutMode(
 													e.target.value as
-													| "standard"
-													| "polar"
-													| "prominent"
-													| "shader",
+														| "standard"
+														| "polar"
+														| "prominent"
+														| "shader",
 												)
 											}
 											className="h-4 w-4 accent-blue-500"
@@ -560,10 +555,10 @@ export default function Home() {
 											onChange={(e) =>
 												setLogoutMode(
 													e.target.value as
-													| "standard"
-													| "polar"
-													| "prominent"
-													| "shader",
+														| "standard"
+														| "polar"
+														| "prominent"
+														| "shader",
 												)
 											}
 											className="h-4 w-4 accent-blue-500"
@@ -585,10 +580,10 @@ export default function Home() {
 											onChange={(e) =>
 												setLogoutMode(
 													e.target.value as
-													| "standard"
-													| "polar"
-													| "prominent"
-													| "shader",
+														| "standard"
+														| "polar"
+														| "prominent"
+														| "shader",
 												)
 											}
 											className="h-4 w-4 accent-blue-500"
@@ -610,10 +605,10 @@ export default function Home() {
 											onChange={(e) =>
 												setLogoutMode(
 													e.target.value as
-													| "standard"
-													| "polar"
-													| "prominent"
-													| "shader",
+														| "standard"
+														| "polar"
+														| "prominent"
+														| "shader",
 												)
 											}
 											className="h-4 w-4 accent-blue-500"
@@ -626,9 +621,7 @@ export default function Home() {
 										</label>
 									</div>
 								</div>
-								<p className="mt-2 text-white/50 text-xs">
-									控制折射计算方式
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制折射计算方式</p>
 							</div>
 
 							<div>
@@ -651,9 +644,7 @@ export default function Home() {
 									}
 									className="w-full"
 								/>
-								<p className="mt-2 text-white/50 text-xs">
-									控制边缘扭曲的强度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制边缘扭曲的强度</p>
 							</div>
 
 							<div>
@@ -674,9 +665,7 @@ export default function Home() {
 									onChange={(e) => setLogoutBlurAmount(Number(e.target.value))}
 									className="w-full"
 								/>
-								<p className="mt-2 text-white/50 text-xs">
-									控制背景模糊强度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制背景模糊强度</p>
 							</div>
 
 							<div>

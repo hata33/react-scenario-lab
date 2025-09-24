@@ -17,7 +17,9 @@ export default function SimpleGlass() {
 			<h2 className="font-semibold text-2xl">简单玻璃</h2>
 			<div className="mt-4 grid gap-4">
 				<label className="block">
-					<span className="text-gray-700 text-sm">透明度: {opacity.toFixed(2)}</span>
+					<span className="text-gray-700 text-sm">
+						透明度: {opacity.toFixed(2)}
+					</span>
 					<input
 						type="range"
 						min="0.1"
@@ -41,7 +43,9 @@ export default function SimpleGlass() {
 					/>
 				</label>
 			</div>
-			<p className="mt-4 text-gray-700 text-sm">这是一个简单的玻璃拟态效果示例。</p>
+			<p className="mt-4 text-gray-700 text-sm">
+				这是一个简单的玻璃拟态效果示例。
+			</p>
 		</div>
 	);
 }
