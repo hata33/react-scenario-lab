@@ -102,17 +102,26 @@ export default function Layout({ children }: LayoutProps) {
 	return (
 		<div className={`relative grid h-screen grid-cols-[auto_1fr] bg-gray-50`}>
 			<FirstVisitConfetti />
+
+			{/* 移动端遮罩层 */}
+			{isOpen && (
+				<div
+					className="fixed inset-0 z-20 bg-black bg-opacity-50 md:hidden"
+					onClick={() => setHoverOpen(false)}
+				/>
+			)}
+
 			{/* 左侧边缘悬停热区：非按钮交互，移到左侧边缘自动显示 */}
 			<div
-				className="absolute top-0 left-0 z-30 h-full w-2"
+				className="absolute top-0 left-0 z-30 hidden h-full w-2 lg:block"
 				onMouseEnter={() => !pinnedOpen && setHoverOpen(true)}
 			/>
 
-			{/* 侧栏列容器：通过宽度折叠，内部绝对定位侧栏避免占位与透出 */}
+			{/* 侧栏列容器：响应式设计 */}
 			<div
-				className={`relative transition-[width] duration-200 ease-in-out ${
-					isOpen ? "w-[260px]" : "w-0"
-				} overflow-hidden`}
+				className={`relative transition-[width] duration-300 ease-in-out ${
+					isOpen ? "w-[280px] md:w-[320px]" : "w-0"
+				} z-30 overflow-hidden`}
 				onMouseEnter={() => !pinnedOpen && setHoverOpen(true)}
 				onMouseLeave={() => !pinnedOpen && setHoverOpen(false)}
 			>
@@ -121,14 +130,14 @@ export default function Layout({ children }: LayoutProps) {
 						isOpen
 							? "translate-x-0 opacity-100"
 							: "-translate-x-full pointer-events-none opacity-0"
-					} transition-transform duration-200 ease-in-out`}
+					} transition-transform duration-300 ease-in-out`}
 				>
 					<Sidebar menuTree={menuTree} activePath={activePath} />
 				</div>
 			</div>
 
-			<main className="h-screen overflow-y-auto bg-gray-50">
-				<div className="relative p-6">{children}</div>
+			<main className="h-full overflow-y-auto bg-gray-50">
+				<div className="relative min-h-full p-4 md:p-6 lg:p-8">{children}</div>
 			</main>
 		</div>
 	);

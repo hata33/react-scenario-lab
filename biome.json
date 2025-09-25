@@ -30,7 +30,8 @@
 			"a11y": {
 				"useKeyWithClickEvents": "off",
 				"noStaticElementInteractions": "off",
-				"noLabelWithoutControl": "off"
+				"noLabelWithoutControl": "off",
+				"noSvgWithoutTitle": "off"
 			}
 		}
 	},

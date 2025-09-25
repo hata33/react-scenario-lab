@@ -28,7 +28,8 @@
 			"Bash(pnpm run clean:*)",
 			"Bash(pnpm fix:*)",
 			"Bash(pnpm check)",
-			"Bash(pnpm dev)"
+			"Bash(pnpm dev)",
+			"Bash(pnpm lint:*)"
 		],
 		"deny": [],
 		"ask": []

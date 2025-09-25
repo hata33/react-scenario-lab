@@ -46,10 +46,11 @@ export default function VirtualListDemo() {
 						key={type.id}
 						type="button"
 						onClick={() => setActiveType(type.id as VirtualListType)}
-						className={`relative transform overflow-hidden rounded-lg px-4 py-2 font-medium text-sm transition-all duration-200 hover:scale-105 ${activeType === type.id
+						className={`relative transform overflow-hidden rounded-lg px-4 py-2 font-medium text-sm transition-all duration-200 hover:scale-105 ${
+							activeType === type.id
 								? "bg-primary text-primary-foreground shadow-lg"
 								: "bg-muted text-muted-foreground hover:bg-muted/80"
-							}`}
+						}`}
 					>
 						<div>{type.name}</div>
 						<div className="text-xs opacity-80">{type.description}</div>
