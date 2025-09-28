@@ -31,7 +31,8 @@
 				"useKeyWithClickEvents": "off",
 				"noStaticElementInteractions": "off",
 				"noLabelWithoutControl": "off",
-				"noSvgWithoutTitle": "off"
+				"noSvgWithoutTitle": "off",
+				"useButtonType": "off"
 			}
 		}
 	},

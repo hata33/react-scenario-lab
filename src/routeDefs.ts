@@ -89,6 +89,7 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "login", title: "登录" },
 			{ path: "register", title: "注册" },
 			{ path: "guard", title: "路由守卫" },
+			{ path: "qr-login", title: "扫码登录" },
 		],
 	},
 	{

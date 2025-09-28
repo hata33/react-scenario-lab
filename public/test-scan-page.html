@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>移动端扫码测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .status.loading {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .status.valid {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status.invalid {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .status.confirmed {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .hidden {
+            display: none;
+        }
+        .center {
+            text-align: center;
+        }
+        .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="center">
+            <h1>扫码登录</h1>
+            <p>请在电脑上确认登录</p>
+        </div>
+
+        <div id="loadingStatus" class="status loading">
+            <div class="loading"></div>
+            <p>正在验证二维码...</p>
+        </div>
+
+        <div id="invalidStatus" class="status invalid hidden">
+            <div class="icon">⚠️</div>
+            <h2>二维码无效</h2>
+            <p>二维码已过期或无效，请重新扫描</p>
+            <button class="btn btn-secondary" onclick="goBack()">返回</button>
+        </div>
+
+        <div id="validStatus" class="status valid hidden">
+            <div class="icon">✓</div>
+            <h2>二维码有效</h2>
+            <p>是否允许在当前设备上登录？</p>
+            <button class="btn btn-primary" onclick="handleScan()">模拟扫码</button>
+            <button class="btn btn-success" onclick="handleConfirm()">确认登录</button>
+            <button class="btn btn-secondary" onclick="goBack()">取消</button>
+        </div>
+
+        <div id="confirmedStatus" class="status confirmed hidden">
+            <div class="icon">✓</div>
+            <h2>登录成功</h2>
+            <p id="userInfo">欢迎！</p>
+            <p style="font-size: 14px; color: #666;">请在电脑上查看登录结果</p>
+            <button class="btn btn-secondary" onclick="goBack()">完成</button>
+        </div>
+
+        <div id="debugInfo" style="margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 5px; font-size: 12px; font-family: monospace;">
+            <strong>调试信息:</strong>
+            <div id="debugContent">等待二维码验证...</div>
+        </div>
+    </div>
+
+    <script>
+        let sceneId = null;
+        let timestamp = null;
+        let nonce = null;
+        let signature = null;
+
+        function debug(message) {
+            const debugDiv = document.getElementById('debugContent');
+            const timestamp = new Date().toLocaleTimeString();
+            debugDiv.innerHTML = `[${timestamp}] ${message}<br>` + debugDiv.innerHTML;
+        }
+
+        function showStatus(status) {
+            document.querySelectorAll('.status').forEach(el => el.classList.add('hidden'));
+            document.getElementById(status + 'Status').classList.remove('hidden');
+        }
+
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                scene: params.get('scene'),
+                t: params.get('t'),
+                n: params.get('n'),
+                s: params.get('s')
+            };
+        }
+
+        function validateQR() {
+            const params = getQueryParams();
+
+            debug('开始验证二维码...');
+            debug(`Scene ID: ${params.scene}`);
+            debug(`Timestamp: ${params.t}`);
+            debug(`Nonce: ${params.n}`);
+            debug(`Signature: ${params.s}`);
+
+            if (!params.scene || !params.t || !params.n || !params.s) {
+                debug('缺少必要参数');
+                showStatus('invalid');
+                return;
+            }
+
+            // 验证时间戳
+            const now = Date.now();
+            const timestampNum = parseInt(params.t);
+            if (now - timestampNum > 1800000) {
+                debug(`二维码已过期: ${now - timestampNum}ms > 1800000ms`);
+                showStatus('invalid');
+                return;
+            }
+
+            sceneId = params.scene;
+            timestamp = params.t;
+            nonce = params.n;
+            signature = params.s;
+
+            // 验证签名
+            verifySignature();
+        }
+
+        async function verifySignature() {
+            try {
+                debug('正在验证签名...');
+                const response = await fetch('/api/login/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        sceneId,
+                        timestamp,
+                        nonce,
+                        signature,
+                    }),
+                });
+
+                const data = await response.json();
+                debug(`签名验证结果: ${JSON.stringify(data)}`);
+
+                if (data.success) {
+                    debug('签名验证成功');
+                    showStatus('valid');
+                } else {
+                    debug(`签名验证失败: ${data.message}`);
+                    showStatus('invalid');
+                }
+            } catch (error) {
+                debug(`签名验证出错: ${error.message}`);
+                showStatus('invalid');
+            }
+        }
+
+        async function handleScan() {
+            try {
+                debug('正在模拟扫码...');
+                const response = await fetch('/api/login/scan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        sceneId,
+                        timestamp: Date.now(),
+                        nonce: Math.random().toString(36).substr(2, 9),
+                        signature: 'test-signature',
+                    }),
+                });
+
+                const data = await response.json();
+                debug(`扫码结果: ${JSON.stringify(data)}`);
+
+                if (data.success) {
+                    debug('扫码成功');
+                    alert('扫码成功，请在电脑上查看');
+                } else {
+                    debug(`扫码失败: ${data.message}`);
+                    alert('扫码失败: ' + data.message);
+                }
+            } catch (error) {
+                debug(`扫码出错: ${error.message}`);
+                alert('扫码失败，请重试');
+            }
+        }
+
+        async function handleConfirm() {
+            try {
+                debug('正在确认登录...');
+                const response = await fetch('/api/login/confirm', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        sceneId,
+                        userId: 'user1',
+                    }),
+                });
+
+                const data = await response.json();
+                debug(`确认登录结果: ${JSON.stringify(data)}`);
+
+                if (data.success) {
+                    debug('登录成功');
+                    showStatus('confirmed');
+                    if (data.userInfo) {
+                        document.getElementById('userInfo').textContent = `欢迎 ${data.userInfo.name || data.userInfo.username}！`;
+                    }
+                } else {
+                    debug(`确认登录失败: ${data.message}`);
+                    alert('确认失败: ' + data.message);
+                }
+            } catch (error) {
+                debug(`确认登录出错: ${error.message}`);
+                alert('确认失败，请重试');
+            }
+        }
+
+        function goBack() {
+            debug('返回上一页');
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.close();
+            }
+        }
+
+        // 页面加载时自动验证二维码
+        window.onload = function() {
+            debug('页面加载完成');
+            validateQR();
+        };
+    </script>
+</body>
+</html>

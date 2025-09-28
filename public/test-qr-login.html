@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>扫码登录测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .qr-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .qr-code {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .status.waiting {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .status.scanned {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .status.confirmed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status.expired {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .log {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>扫码登录测试页面</h1>
+
+        <div class="qr-container">
+            <h2>二维码</h2>
+            <div id="qrCodeContainer">
+                <div class="status waiting">点击下方按钮生成二维码</div>
+            </div>
+            <button class="btn btn-primary" onclick="generateQR()">生成二维码</button>
+            <button class="btn btn-success" onclick="simulateScan()">模拟扫码</button>
+            <button class="btn btn-success" onclick="simulateConfirm()">模拟确认登录</button>
+            <button class="btn btn-danger" onclick="stopPolling()">停止轮询</button>
+        </div>
+
+        <div class="qr-container">
+            <h2>状态信息</h2>
+            <div id="statusInfo" class="status waiting">等待开始...</div>
+            <div id="sessionInfo"></div>
+        </div>
+
+        <div class="qr-container">
+            <h2>操作日志</h2>
+            <div id="log" class="log"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentSceneId = null;
+        let pollInterval = null;
+        let qrData = null;
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logDiv = document.getElementById('log');
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `[${timestamp}] ${message}`;
+            logEntry.style.color = type === 'error' ? 'red' : type === 'success' ? 'green' : 'black';
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function updateStatus(status, message) {
+            const statusDiv = document.getElementById('statusInfo');
+            statusDiv.className = `status ${status}`;
+            statusDiv.textContent = message;
+            log(`状态更新: ${status} - ${message}`, 'success');
+        }
+
+        async function generateQR() {
+            try {
+                log('正在生成二维码...');
+                const response = await fetch('/api/login/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentSceneId = data.sceneId;
+                    qrData = data;
+
+                    const qrContainer = document.getElementById('qrCodeContainer');
+                    qrContainer.innerHTML = `
+                        <img src="${data.qrCodeUrl}" alt="登录二维码" class="qr-code">
+                        <div class="status waiting">请扫描二维码</div>
+                        <div style="margin-top: 10px; font-size: 14px; color: #666;">
+                            Scene ID: ${data.sceneId}<br>
+                            过期时间: ${new Date(data.expiresAt).toLocaleString()}
+                        </div>
+                    `;
+
+                    updateStatus('waiting', '等待扫码...');
+                    startPolling();
+                    log('二维码生成成功', 'success');
+                } else {
+                    log('二维码生成失败: ' + data.message, 'error');
+                }
+            } catch (error) {
+                log('生成二维码出错: ' + error.message, 'error');
+            }
+        }
+
+        async function pollStatus() {
+            if (!currentSceneId) return;
+
+            try {
+                const response = await fetch('/api/login/status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ sceneId: currentSceneId }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    const qrContainer = document.getElementById('qrCodeContainer');
+
+                    switch (data.status) {
+                        case 'waiting':
+                            updateStatus('waiting', '等待扫码...');
+                            break;
+                        case 'scanned':
+                            updateStatus('scanned', '已扫码，等待确认...');
+                            qrContainer.innerHTML = `
+                                <div style="position: relative;">
+                                    <img src="${qrData.qrCodeUrl}" alt="登录二维码" class="qr-code">
+                                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; color: white; border-radius: 8px;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 24px;">✓</div>
+                                            <div>已扫码</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            break;
+                        case 'confirmed':
+                            updateStatus('confirmed', '登录成功！');
+                            stopPolling();
+                            if (data.userInfo) {
+                                document.getElementById('sessionInfo').innerHTML = `
+                                    <div style="margin-top: 10px; padding: 10px; background: #e8f5e8; border-radius: 5px;">
+                                        <strong>用户信息:</strong><br>
+                                        ID: ${data.userInfo.id || 'N/A'}<br>
+                                        用户名: ${data.userInfo.username || 'N/A'}<br>
+                                        邮箱: ${data.userInfo.email || 'N/A'}
+                                    </div>
+                                `;
+                            }
+                            log('登录成功！', 'success');
+                            break;
+                        case 'expired':
+                            updateStatus('expired', '二维码已过期');
+                            stopPolling();
+                            log('二维码已过期', 'error');
+                            break;
+                    }
+                } else {
+                    log('状态检查失败: ' + data.message, 'error');
+                }
+            } catch (error) {
+                log('状态检查出错: ' + error.message, 'error');
+            }
+        }
+
+        function startPolling() {
+            stopPolling();
+            log('开始状态轮询...');
+            pollInterval = setInterval(pollStatus, 2000);
+            // 立即执行一次
+            pollStatus();
+        }
+
+        function stopPolling() {
+            if (pollInterval) {
+                clearInterval(pollInterval);
+                pollInterval = null;
+                log('停止状态轮询');
+            }
+        }
+
+        async function simulateScan() {
+            if (!currentSceneId) {
+                log('请先生成二维码', 'error');
+                return;
+            }
+
+            try {
+                log('正在模拟扫码...');
+                const response = await fetch('/api/login/scan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        sceneId: currentSceneId,
+                        timestamp: Date.now(),
+                        nonce: Math.random().toString(36).substr(2, 9),
+                        signature: 'test-signature',
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    log('模拟扫码成功', 'success');
+                } else {
+                    log('模拟扫码失败: ' + data.message, 'error');
+                }
+            } catch (error) {
+                log('模拟扫码出错: ' + error.message, 'error');
+            }
+        }
+
+        async function simulateConfirm() {
+            if (!currentSceneId) {
+                log('请先生成二维码', 'error');
+                return;
+            }
+
+            try {
+                log('正在模拟确认登录...');
+                const response = await fetch('/api/login/confirm', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        sceneId: currentSceneId,
+                        userId: 'user1',
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    log('模拟确认登录成功', 'success');
+                } else {
+                    log('模拟确认登录失败: ' + data.message, 'error');
+                }
+            } catch (error) {
+                log('模拟确认登录出错: ' + error.message, 'error');
+            }
+        }
+
+        // 页面加载时自动生成二维码
+        window.onload = function() {
+            log('页面加载完成');
+        };
+    </script>
+</body>
+</html>
