@@ -1,7 +1,14 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Layout from "@/components/Layout";
-import ExperimentalLiquidGlass from "@/components/pages/SpecialEffects/LiquidGlass/Experimental";
+
+// Dynamically import the component with SSR disabled
+const ExperimentalLiquidGlass = dynamic(
+	() => import("@/components/pages/SpecialEffects/LiquidGlass/Experimental/ExperimentalLiquidGlass"),
+	{ ssr: false }
+);
 
 export default function ExperimentalLiquidGlassPage() {
 	return (

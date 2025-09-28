@@ -20,7 +20,7 @@ COPY package.json pnpm-lock.yaml* ./
 
 # 安装依赖 (只安装生产环境需要的依赖)
 RUN --mount=type=cache,id=pnpm,target=/root/.pnpm-store \
-    pnpm install --frozen-lockfile --prod \
+    pnpm install --frozen-lockfile \
     --registry https://registry.npmmirror.com
 
 # 构建阶段

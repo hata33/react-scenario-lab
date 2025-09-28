@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	// 移除 output 配置，使用默认值
+	// 启用 standalone 输出以支持 Docker 部署
+	output: 'standalone',
 	typescript: {
 		ignoreBuildErrors: false,
 	},

@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
+import { mkdir, writeFile } from "fs/promises";
+import { type NextRequest, NextResponse } from "next/server";
 import { join } from "path";
 
-export const maxFileSize = 10 * 1024 * 1024; // 10MB (单分片最大大小)
+// export const maxFileSize = 10 * 1024 * 1024; // 10MB (单分片最大大小)
 
 export async function POST(request: NextRequest) {
 	try {
