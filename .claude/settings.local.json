@@ -29,7 +29,18 @@
 			"Bash(pnpm fix:*)",
 			"Bash(pnpm check)",
 			"Bash(pnpm dev)",
-			"Bash(pnpm lint:*)"
+			"Bash(pnpm lint:*)",
+			"WebSearch",
+			"Bash(claude mcp add:*)",
+			"Bash(where:*)",
+			"Bash(set:*)",
+			"Bash(setx:*)",
+			"Bash(bash:*)",
+			"Bash(dir:*)",
+			"Read(//c/Users/15531/AppData/Roaming/Claude/**)",
+			"Bash(git --version)",
+			"Bash(mkdir:*)",
+			"Bash(pnpm add:*)"
 		],
 		"deny": [],
 		"ask": []

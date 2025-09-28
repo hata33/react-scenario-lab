@@ -49,12 +49,18 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 				{/* 首页按钮 - PC和移动端都显示 */}
 				<Link
 					href="/"
-					className={`flex w-full items-center justify-center gap-3 rounded-lg px-4 py-3 font-semibold text-sm transition-all duration-200 ${activePath === "/"
-						? "scale-105 transform bg-blue-600 text-white shadow-md"
-						: "border border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
-						}`}
+					className={`flex w-full items-center justify-center gap-3 rounded-lg px-4 py-3 font-semibold text-sm transition-all duration-200 ${
+						activePath === "/"
+							? "scale-105 transform bg-blue-600 text-white shadow-md"
+							: "border border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
+					}`}
 				>
-					<svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg
+						className="h-5 w-5"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -88,19 +94,21 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 							<button
 								type="button"
 								onClick={() => toggleGroup(group.title || "")}
-								className={`flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-medium transition-all duration-200 ${expandedGroups.has(group.title || "")
-									? "border-blue-600 border-l-4 bg-blue-50 text-blue-700"
-									: "text-gray-700 hover:bg-gray-50"
-									} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+								className={`flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-medium transition-all duration-200 ${
+									expandedGroups.has(group.title || "")
+										? "border-blue-600 border-l-4 bg-blue-50 text-blue-700"
+										: "text-gray-700 hover:bg-gray-50"
+								} focus:outline-none focus:ring-2 focus:ring-blue-500`}
 							>
 								<span className="font-semibold text-sm uppercase tracking-wider">
 									{group.title}
 								</span>
 								<svg
-									className={`h-4 w-4 transform transition-transform duration-200 ${expandedGroups.has(group.title || "")
-										? "rotate-180 text-blue-600"
-										: "text-gray-400"
-										}`}
+									className={`h-4 w-4 transform transition-transform duration-200 ${
+										expandedGroups.has(group.title || "")
+											? "rotate-180 text-blue-600"
+											: "text-gray-400"
+									}`}
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -116,10 +124,11 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 
 							{/* 菜单项 */}
 							<ul
-								className={`space-y-2 transition-all duration-300 ${expandedGroups.has(group.title || "")
-									? "max-h-[1000px] opacity-100"
-									: "max-h-0 overflow-hidden opacity-70"
-									} md:opacity-100`}
+								className={`space-y-2 transition-all duration-300 ${
+									expandedGroups.has(group.title || "")
+										? "max-h-[1000px] opacity-100"
+										: "max-h-0 overflow-hidden opacity-70"
+								} md:opacity-100`}
 							>
 								{group.children?.map((child) => {
 									const isActive = activePath === child.path;
@@ -127,10 +136,11 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 										<li key={child.path}>
 											<Link
 												href={child.path}
-												className={`group relative flex touch-manipulation items-center overflow-hidden rounded-lg px-4 py-3 font-medium text-sm transition-all duration-200 ${isActive
-													? "scale-105 transform bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg"
-													: "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-													}`}
+												className={`group relative flex touch-manipulation items-center overflow-hidden rounded-lg px-4 py-3 font-medium text-sm transition-all duration-200 ${
+													isActive
+														? "scale-105 transform bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg"
+														: "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+												}`}
 											>
 												{/* 选中状态的背景动画 */}
 												{isActive && (

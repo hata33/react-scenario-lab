@@ -56,6 +56,7 @@ export const routeGroups: RouteGroup[] = [
 		title: "文件",
 		children: [
 			{ path: "upload", title: "文件上传" },
+			{ path: "large-upload", title: "大文件上传" },
 			{ path: "preview", title: "文件预览" },
 		],
 	},
