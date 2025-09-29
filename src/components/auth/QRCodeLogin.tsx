@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface LoginStatus {
   success: boolean;
@@ -18,7 +18,9 @@ interface QRCodeData {
 
 export default function QRCodeLogin() {
   const [qrCodeData, setQrCodeData] = useState<QRCodeData | null>(null);
-  const [status, setStatus] = useState<"waiting" | "scanned" | "confirmed" | "expired">("waiting");
+  const [status, setStatus] = useState<
+    "waiting" | "scanned" | "confirmed" | "expired"
+  >("waiting");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState<number>(0);
@@ -51,46 +53,8 @@ export default function QRCodeLogin() {
       setIsLoading(false);
     }
   }, []);
-
-  // 轮询状态
-  const pollStatus = useCallback(async (sceneId: string) => {
-    try {
-      const response = await fetch("/api/login/status", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ sceneId }),
-      });
-
-      const data: LoginStatus = await response.json();
-
-      if (data.success) {
-        setStatus(data.status);
-
-        if (data.status === "confirmed") {
-          // 登录成功
-          handleLoginSuccess(data.userInfo);
-          return;
-        }
-
-        if (data.status === "expired") {
-          // 二维码过期，停止轮询
-          return;
-        }
-      }
-    } catch (error) {
-      console.error("轮询失败:", error);
-    }
-
-    // 继续轮询
-    if (status !== "expired" && status !== "confirmed") {
-      setTimeout(() => pollStatus(sceneId), 2000);
-    }
-  }, [status]);
-
   // 处理登录成功
-  const handleLoginSuccess = (userInfo: any) => {
+  const handleLoginSuccess = useCallback((userInfo: any) => {
     // 保存用户信息到localStorage
     localStorage.setItem("user_info", JSON.stringify(userInfo));
 
@@ -99,7 +63,47 @@ export default function QRCodeLogin() {
 
     // 跳转到首页
     window.location.href = "/";
-  };
+  }, []);
+
+  // 轮询状态
+  const pollStatus = useCallback(
+    async (sceneId: string) => {
+      try {
+        const response = await fetch("/api/login/status", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ sceneId }),
+        });
+
+        const data: LoginStatus = await response.json();
+
+        if (data.success) {
+          setStatus(data.status);
+
+          if (data.status === "confirmed") {
+            // 登录成功
+            handleLoginSuccess(data.userInfo);
+            return;
+          }
+
+          if (data.status === "expired") {
+            // 二维码过期，停止轮询
+            return;
+          }
+        }
+      } catch (error) {
+        console.error("轮询失败:", error);
+      }
+
+      // 继续轮询
+      if (status !== "expired" && status !== "confirmed") {
+        setTimeout(() => pollStatus(sceneId), 2000);
+      }
+    },
+    [status, handleLoginSuccess]
+  );
 
   // 刷新二维码
   const refreshQRCode = () => {
@@ -182,7 +186,7 @@ export default function QRCodeLogin() {
   // 初始化
   useEffect(() => {
     generateQRCode();
-  }, []);
+  }, [generateQRCode]);
 
   // 开始轮询
   useEffect(() => {
@@ -194,7 +198,7 @@ export default function QRCodeLogin() {
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -202,15 +206,15 @@ export default function QRCodeLogin() {
       {/* 二维码显示区域 */}
       <div className="flex flex-col items-center space-y-4">
         {isLoading ? (
-          <div className="w-48 h-48 bg-gray-100 rounded-lg flex items-center justify-center">
+          <div className="flex h-48 w-48 items-center justify-center rounded-lg bg-gray-100">
             <div className="text-gray-500">加载中...</div>
           </div>
         ) : status === "expired" ? (
-          <div className="w-48 h-48 bg-gray-100 rounded-lg flex flex-col items-center justify-center space-y-2">
+          <div className="flex h-48 w-48 flex-col items-center justify-center space-y-2 rounded-lg bg-gray-100">
             <div className="text-gray-500">二维码已过期</div>
             <button
               onClick={refreshQRCode}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+              className="rounded bg-blue-500 px-4 py-2 text-sm text-white hover:bg-blue-600"
             >
               刷新二维码
             </button>
@@ -220,20 +224,20 @@ export default function QRCodeLogin() {
             <img
               src={qrCodeData.qrCodeUrl}
               alt="登录二维码"
-              className="w-48 h-48 border border-gray-200 rounded"
+              className="h-48 w-48 rounded border border-gray-200"
             />
             {status === "scanned" && (
-              <div className="absolute inset-0 bg-black bg-opacity-50 rounded flex items-center justify-center">
-                <div className="text-white text-center">
-                  <div className="text-2xl mb-1">✓</div>
+              <div className="absolute inset-0 flex items-center justify-center rounded bg-black bg-opacity-50">
+                <div className="text-center text-white">
+                  <div className="mb-1 text-2xl">✓</div>
                   <div className="text-sm">已扫码</div>
                 </div>
               </div>
             )}
             {status === "confirmed" && (
-              <div className="absolute inset-0 bg-black bg-opacity-50 rounded flex items-center justify-center">
-                <div className="text-white text-center">
-                  <div className="text-2xl mb-1">✓</div>
+              <div className="absolute inset-0 flex items-center justify-center rounded bg-black bg-opacity-50">
+                <div className="text-center text-white">
+                  <div className="mb-1 text-2xl">✓</div>
                   <div className="text-sm">登录成功</div>
                 </div>
               </div>
@@ -243,7 +247,7 @@ export default function QRCodeLogin() {
 
         {/* 状态提示 */}
         <div className="text-center">
-          <div className="text-sm text-gray-600 mb-2">
+          <div className="mb-2 text-gray-600 text-sm">
             {status === "waiting" && "请使用手机扫描二维码登录"}
             {status === "scanned" && "扫描成功，请在手机上确认登录"}
             {status === "confirmed" && "登录成功，正在跳转..."}
@@ -251,7 +255,7 @@ export default function QRCodeLogin() {
           </div>
 
           {status === "waiting" && timeLeft > 0 && (
-            <div className="text-xs text-gray-500">
+            <div className="text-gray-500 text-xs">
               二维码有效期: {formatTime(timeLeft)}
             </div>
           )}
@@ -259,11 +263,11 @@ export default function QRCodeLogin() {
 
         {/* 错误提示 */}
         {error && (
-          <div className="text-red-500 text-sm text-center">
+          <div className="text-center text-red-500 text-sm">
             {error}
             <button
               onClick={refreshQRCode}
-              className="ml-2 text-blue-500 hover:text-blue-700 underline"
+              className="ml-2 text-blue-500 underline hover:text-blue-700"
             >
               重试
             </button>
@@ -271,11 +275,11 @@ export default function QRCodeLogin() {
         )}
 
         {/* 测试按钮（开发环境） */}
-        {process.env.NODE_ENV === 'development' && status === "waiting" && (
+        {process.env.NODE_ENV === "development" && status === "waiting" && (
           <div className="space-y-2">
             <button
               onClick={simulateScan}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm"
+              className="rounded bg-green-500 px-4 py-2 text-sm text-white hover:bg-green-600"
             >
               模拟扫码（测试）
             </button>
@@ -284,7 +288,7 @@ export default function QRCodeLogin() {
       </div>
 
       {/* 使用说明 */}
-      <div className="text-xs text-gray-500 text-center space-y-1">
+      <div className="space-y-1 text-center text-gray-500 text-xs">
         <p>1. 打开手机相机或扫码软件</p>
         <p>2. 扫描上方二维码</p>
         <p>3. 在手机上确认登录</p>

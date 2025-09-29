@@ -157,7 +157,7 @@ describe('扫码登录功能', () => {
         body: JSON.stringify({ sceneId: 'invalid-scene-id' }),
       });
 
-      expect(response.status).toBe(200);
+      expect(response.status).toBe(400);
       const data = await response.json();
 
       expect(data.success).toBe(false);
@@ -306,7 +306,7 @@ describe('扫码登录功能', () => {
         }),
       });
 
-      expect(response.status).toBe(200);
+      expect(response.status).toBe(400);
       const data = await response.json();
 
       expect(data.success).toBe(false);
@@ -455,4 +455,85 @@ describe('端到端测试', () => {
 
     console.log('🎉 完整扫码登录流程测试通过');
   }, 10000);
+
+  describe('签名验证测试', () => {
+    test('签名验证功能', async () => {
+      // 生成测试数据
+      const testSceneId = generateTestSceneId();
+      const testTimestamp = Date.now().toString();
+      const testNonce = Math.random().toString(36).substring(2, 11);
+
+      // 生成正确的签名
+      const validSignature = generateTestSignature(testSceneId, testTimestamp, testNonce);
+
+      // 测试正确签名
+      const validResponse = await fetch(`${baseUrl}/api/login/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sceneId: testSceneId,
+          timestamp: testTimestamp,
+          nonce: testNonce,
+          signature: validSignature,
+        }),
+      });
+
+      expect(validResponse.status).toBe(200);
+      const validData = await validResponse.json();
+      expect(validData.success).toBe(true);
+      expect(validData.message).toBe('验证成功');
+
+      console.log('✅ 正确签名验证通过');
+
+      // 测试错误签名
+      const invalidResponse = await fetch(`${baseUrl}/api/login/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sceneId: testSceneId,
+          timestamp: testTimestamp,
+          nonce: testNonce,
+          signature: 'invalid-signature',
+        }),
+      });
+
+      expect(invalidResponse.status).toBe(400);
+      const invalidData = await invalidResponse.json();
+      expect(invalidData.success).toBe(false);
+      expect(invalidData.message).toBe('签名验证失败');
+
+      console.log('✅ 错误签名验证通过');
+    });
+
+    test('签名过期验证', async () => {
+      const testSceneId = generateTestSceneId();
+      const expiredTimestamp = (Date.now() - 1800000 - 1000).toString(); // 30分钟+1秒前
+      const testNonce = Math.random().toString(36).substring(2, 11);
+      const signature = generateTestSignature(testSceneId, expiredTimestamp, testNonce);
+
+      const response = await fetch(`${baseUrl}/api/login/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sceneId: testSceneId,
+          timestamp: expiredTimestamp,
+          nonce: testNonce,
+          signature: signature,
+        }),
+      });
+
+      expect(response.status).toBe(400);
+      const data = await response.json();
+      expect(data.success).toBe(false);
+      expect(data.message).toBe('二维码已过期');
+
+      console.log('✅ 过期验证通过');
+    });
+  });
 });
