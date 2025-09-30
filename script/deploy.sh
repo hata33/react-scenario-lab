@@ -23,12 +23,38 @@ error() {
     exit 1
 }
 
-# 1. 检查镜像 tar 文件是否存在（如果需要加载新镜像）
+# 1. 检查并创建上传目录
+UPLOADS_DIR="./uploads"
+TEMP_DIR="./temp"
+
+info "Checking and creating upload directories..."
+if [ ! -d "$UPLOADS_DIR" ]; then
+    info "Creating uploads directory: $UPLOADS_DIR"
+    mkdir -p "$UPLOADS_DIR" || error "Failed to create uploads directory: $UPLOADS_DIR"
+    success "Uploads directory created: $UPLOADS_DIR"
+else
+    info "Uploads directory already exists: $UPLOADS_DIR"
+fi
+
+if [ ! -d "$TEMP_DIR" ]; then
+    info "Creating temp directory: $TEMP_DIR"
+    mkdir -p "$TEMP_DIR" || error "Failed to create temp directory: $TEMP_DIR"
+    success "Temp directory created: $TEMP_DIR"
+else
+    info "Temp directory already exists: $TEMP_DIR"
+fi
+
+# 设置目录权限，确保容器内用户可以写入
+info "Setting directory permissions..."
+chmod 777 "$UPLOADS_DIR" "$TEMP_DIR" || error "Failed to set directory permissions"
+success "Directory permissions set successfully"
+
+# 2. 检查镜像 tar 文件是否存在（如果需要加载新镜像）
 if [ ! -f "$TAR_FILE" ]; then
     error "Image tar file not found: $TAR_FILE. Please check the path."
 fi
 
-# 2. 停止并移除旧容器（无论是否存在）
+# 3. 停止并移除旧容器（无论是否存在）
 info "Stopping and removing existing container: $CONTAINER_NAME"
 if docker ps -a --format '{{.Names}}' | grep -q "^$CONTAINER_NAME$"; then
     # 停止容器
@@ -44,18 +70,20 @@ else
     info "No existing container named $CONTAINER_NAME, skipping removal"
 fi
 
-# 3. 加载新镜像（覆盖现有镜像）
+# 4. 加载新镜像（覆盖现有镜像）
 info "Loading new image from $TAR_FILE..."
 if ! docker load -i "$TAR_FILE"; then
     error "Failed to load image from $TAR_FILE"
 fi
 success "Image $IMAGE_NAME:$TAG loaded successfully"
 
-# 4. 启动新容器
+# 5. 启动新容器
 info "Starting new container: $CONTAINER_NAME"
 if ! docker run -d \
     --name "$CONTAINER_NAME" \
     -p "$PORT_MAP" \
+    -v "$(pwd)/uploads:/app/uploads" \
+    -v "$(pwd)/temp:/app/temp" \
     "$IMAGE_NAME:$TAG"; then
     error "Failed to start container $CONTAINER_NAME"
 fi

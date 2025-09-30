@@ -2,7 +2,9 @@ import { mkdir, writeFile } from "fs/promises";
 import { type NextRequest, NextResponse } from "next/server";
 import { join } from "path";
 
-// export const maxFileSize = 10 * 1024 * 1024; // 10MB (单分片最大大小)
+// 配置上传目录
+const UPLOAD_BASE_DIR = process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
+const TEMP_BASE_DIR = process.env.TEMP_BASE_DIR || join(process.cwd(), "..", "temp");
 
 export async function POST(request: NextRequest) {
 	try {
@@ -21,7 +23,7 @@ export async function POST(request: NextRequest) {
 		}
 
 		// 创建临时目录
-		const tempDir = join(process.cwd(), "public", "temp", fileHash);
+		const tempDir = join(TEMP_BASE_DIR, fileHash);
 		await mkdir(tempDir, { recursive: true });
 
 		// 保存分片到临时目录

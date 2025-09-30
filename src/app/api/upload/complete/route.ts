@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { writeFile, readFile, readdir, unlink, mkdir } from "fs/promises";
 import { join } from "path";
 
+// 配置上传目录
+const UPLOAD_BASE_DIR = process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
+const TEMP_BASE_DIR = process.env.TEMP_BASE_DIR || join(process.cwd(), "..", "temp");
+
 export async function POST(request: NextRequest) {
 	try {
 		const { fileHash, fileName, fileSize } = await request.json();
@@ -13,8 +17,8 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
-		const tempDir = join(process.cwd(), "public", "temp", fileHash);
-		const uploadsDir = join(process.cwd(), "public", "uploads");
+		const tempDir = join(TEMP_BASE_DIR, fileHash);
+		const uploadsDir = UPLOAD_BASE_DIR;
 		const finalFilePath = join(uploadsDir, fileName);
 
 		// 创建uploads目录

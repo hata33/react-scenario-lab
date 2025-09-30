@@ -47,7 +47,9 @@
       "Bash(pnpm build:*)",
       "Bash(timeout:*)",
       "Bash(docker build:*)",
-      "Bash(pnpm test:*)"
+      "Bash(pnpm test:*)",
+      "Bash(docker exec:*)",
+      "Bash(chmod:*)"
     ],
     "deny": [],
     "ask": []

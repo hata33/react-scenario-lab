@@ -14,8 +14,13 @@ services:
       - CONTAINER_PORT=${CONTAINER_PORT:-3000}
       - HOSTNAME=${HOSTNAME:-0.0.0.0}
       - NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED:-1}
+      - UPLOAD_BASE_DIR=${UPLOAD_BASE_DIR:-/app/uploads}
+      - TEMP_BASE_DIR=${TEMP_BASE_DIR:-/app/temp}
     env_file:
       - .env
+    volumes:
+      - ./uploads:/app/uploads
+      - ./temp:/app/temp
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:${CONTAINER_PORT:-3000}/"]
       interval: ${HEALTH_CHECK_INTERVAL:-30s}

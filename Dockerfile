@@ -40,17 +40,17 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV CONTAINER_PORT=3000
 ENV HOSTNAME=0.0.0.0
+ENV UPLOAD_BASE_DIR=/app/uploads
+ENV TEMP_BASE_DIR=/app/temp
 
-# 创建非 root 用户并设置权限
-RUN addgroup --system --gid 1001 nodejs \
-  && adduser --system --uid 1001 nextjs
-
-USER nextjs
+# 创建上传目录
+RUN mkdir -p /app/uploads /app/temp \
+  && chmod -R 777 /app/uploads /app/temp
 
 # 复制构建产物和必要文件
 COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 # 暴露端口（使用环境变量）
 EXPOSE ${CONTAINER_PORT}
