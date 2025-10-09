@@ -58,6 +58,7 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "upload", title: "文件上传" },
 			{ path: "large-upload", title: "大文件上传" },
 			{ path: "preview", title: "文件预览" },
+			{ path: "export", title: "数据导出" },
 		],
 	},
 	{

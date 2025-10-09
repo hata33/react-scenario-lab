@@ -22,13 +22,18 @@
 		"test:e2e": "npm run test:manager e2e"
 	},
 	"dependencies": {
+		"@ant-design/icons": "^6.1.0",
 		"@tailwindcss/postcss": "^4.1.12",
 		"@types/d3": "^7.4.3",
 		"@types/jsonwebtoken": "^9.0.10",
 		"@types/qrcode": "^1.5.5",
+		"antd": "^5.27.4",
 		"canvas-confetti": "^1.9.3",
 		"d3": "^7.9.0",
+		"docx": "^9.5.1",
+		"file-saver": "^2.0.5",
 		"jsonwebtoken": "^9.0.2",
+		"jszip": "^3.10.1",
 		"liquid-glass-react": "^1.1.1",
 		"lucide-react": "^0.540.0",
 		"next": "^15.5.0",
