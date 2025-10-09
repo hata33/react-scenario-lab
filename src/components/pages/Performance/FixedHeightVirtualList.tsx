@@ -79,8 +79,9 @@ export function FixedHeightVirtualList() {
 						{visibleData.map((item) => (
 							<div
 								key={item.id}
-								className={`flex items-center gap-4 border-b px-4 transition-all hover:bg-muted/50 ${scrolling ? "opacity-90" : "opacity-100"
-									}`}
+								className={`flex items-center gap-4 border-b px-4 transition-all hover:bg-muted/50 ${
+									scrolling ? "opacity-90" : "opacity-100"
+								}`}
 								style={{ height: rowHeight }}
 							>
 								<div className="flex-1">
@@ -94,12 +95,13 @@ export function FixedHeightVirtualList() {
 										{item.role}
 									</span>
 									<span
-										className={`rounded px-2 py-1 text-sm ${item.status === "在线"
-											? "bg-green-100 text-green-800"
-											: item.status === "忙碌"
-												? "bg-yellow-100 text-yellow-800"
-												: "bg-gray-100 text-gray-800"
-											}`}
+										className={`rounded px-2 py-1 text-sm ${
+											item.status === "在线"
+												? "bg-green-100 text-green-800"
+												: item.status === "忙碌"
+													? "bg-yellow-100 text-yellow-800"
+													: "bg-gray-100 text-gray-800"
+										}`}
 									>
 										{item.status}
 									</span>

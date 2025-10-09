@@ -195,11 +195,11 @@ export default function LargeFileUpload() {
 							prev.map((f) =>
 								f.id === uploadFile.id
 									? {
-										...f,
-										progress,
-										speed,
-										remainingTime: remainingTime || 0,
-									}
+											...f,
+											progress,
+											speed,
+											remainingTime: remainingTime || 0,
+										}
 									: f,
 							),
 						);
@@ -234,11 +234,11 @@ export default function LargeFileUpload() {
 				prev.map((f) =>
 					f.id === uploadFile.id
 						? {
-							...f,
-							status: "error" as const,
-							errorMessage:
-								error instanceof Error ? error.message : "上传失败",
-						}
+								...f,
+								status: "error" as const,
+								errorMessage:
+									error instanceof Error ? error.message : "上传失败",
+							}
 						: f,
 				),
 			);
@@ -282,10 +282,11 @@ export default function LargeFileUpload() {
 			{/* 上传区域 */}
 			<div
 				{...getRootProps()}
-				className={`cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors ${isDragActive || isDragging
-					? "border-blue-500 bg-blue-50"
-					: "border-gray-300 hover:border-gray-400"
-					}`}
+				className={`cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
+					isDragActive || isDragging
+						? "border-blue-500 bg-blue-50"
+						: "border-gray-300 hover:border-gray-400"
+				}`}
 			>
 				<input {...getInputProps()} />
 				<div className="space-y-2">

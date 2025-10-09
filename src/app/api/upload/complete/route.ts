@@ -1,10 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
-import { writeFile, readFile, readdir, unlink, mkdir } from "fs/promises";
+import { mkdir, readdir, readFile, unlink, writeFile } from "fs/promises";
+import { type NextRequest, NextResponse } from "next/server";
 import { join } from "path";
 
 // 配置上传目录
-const UPLOAD_BASE_DIR = process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
-const TEMP_BASE_DIR = process.env.TEMP_BASE_DIR || join(process.cwd(), "..", "temp");
+const UPLOAD_BASE_DIR =
+	process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
+const TEMP_BASE_DIR =
+	process.env.TEMP_BASE_DIR || join(process.cwd(), "..", "temp");
 
 export async function POST(request: NextRequest) {
 	try {
@@ -27,10 +29,10 @@ export async function POST(request: NextRequest) {
 		// 读取所有分片并按顺序合并
 		const chunkFiles = await readdir(tempDir);
 		const chunkFilesSorted = chunkFiles
-			.filter(file => file.endsWith('.chunk'))
+			.filter((file) => file.endsWith(".chunk"))
 			.sort((a, b) => {
-				const aIndex = parseInt(a.replace('.chunk', ''));
-				const bIndex = parseInt(b.replace('.chunk', ''));
+				const aIndex = parseInt(a.replace(".chunk", ""));
+				const bIndex = parseInt(b.replace(".chunk", ""));
 				return aIndex - bIndex;
 			});
 

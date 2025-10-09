@@ -49,7 +49,11 @@
       "Bash(docker build:*)",
       "Bash(pnpm test:*)",
       "Bash(docker exec:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(pnpm format:*)",
+      "Bash(PORT=3003 pnpm dev)"
     ],
     "deny": [],
     "ask": []

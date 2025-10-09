@@ -1,9 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
 import { access, constants } from "fs/promises";
+import { type NextRequest, NextResponse } from "next/server";
 import { join } from "path";
 
 // 配置上传目录
-const UPLOAD_BASE_DIR = process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
+const UPLOAD_BASE_DIR =
+	process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
 
 export async function POST(request: NextRequest) {
 	try {

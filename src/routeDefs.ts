@@ -108,4 +108,12 @@ export const routeGroups: RouteGroup[] = [
 		title: "性能",
 		children: [{ path: "virtual-list", title: "虚拟列表" }],
 	},
+	{
+		path: "d3js",
+		title: "D3.js 可视化",
+		children: [
+			{ path: "multi-level-nodes", title: "多层级节点关系" },
+			{ path: "new-style-graph", title: "新风格力导向图" },
+		],
+	},
 ];

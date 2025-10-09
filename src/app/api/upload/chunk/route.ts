@@ -3,8 +3,10 @@ import { type NextRequest, NextResponse } from "next/server";
 import { join } from "path";
 
 // 配置上传目录
-const UPLOAD_BASE_DIR = process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
-const TEMP_BASE_DIR = process.env.TEMP_BASE_DIR || join(process.cwd(), "..", "temp");
+const UPLOAD_BASE_DIR =
+	process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
+const TEMP_BASE_DIR =
+	process.env.TEMP_BASE_DIR || join(process.cwd(), "..", "temp");
 
 export async function POST(request: NextRequest) {
 	try {
