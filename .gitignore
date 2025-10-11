@@ -19,7 +19,7 @@ out
 
 # 保留示例文件（不包含敏感信息，用于指导配置）
 !.env.example
-
+.claude/
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -117,4 +117,22 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "new-style-graph", title: "新风格力导向图" },
 		],
 	},
+	{
+		path: "nextjs-features",
+		title: "Next.js 特性",
+		children: [
+			{ path: "routing", title: "App Router" },
+			{ path: "server-components", title: "Server Components" },
+			{ path: "data-fetching", title: "数据获取" },
+			{ path: "performance", title: "性能优化" },
+			{ path: "api-routes", title: "API 路由" },
+			{ path: "metadata", title: "元数据 SEO" },
+			{ path: "styling", title: "样式方案" },
+			{ path: "state-management", title: "状态管理" },
+			{ path: "forms", title: "表单处理" },
+			{ path: "i18n", title: "国际化" },
+			{ path: "testing", title: "测试策略" },
+			{ path: "security", title: "安全性" },
+		],
+	},
 ];
