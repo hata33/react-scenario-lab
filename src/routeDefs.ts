@@ -127,6 +127,8 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "performance", title: "性能优化" },
 			{ path: "api-routes", title: "API 路由" },
 			{ path: "metadata", title: "元数据 SEO" },
+			{ path: "seo-demo", title: "SEO 实战演示" },
+			{ path: "seo-geo-complete", title: "SEO GEO 完整优化" },
 			{ path: "styling", title: "样式方案" },
 			{ path: "state-management", title: "状态管理" },
 			{ path: "forms", title: "表单处理" },
