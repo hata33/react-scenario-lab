@@ -99,15 +99,15 @@ export const metadata: Metadata = {
     creatorId: "987654321",
     images: ["https://your-domain.com/twitter-seo-geo.jpg"],
   },
-  app: {
-    name: "SEO优化工具",
-    url: "https://your-domain.com/app",
-    category: "productivity",
-  },
+  // app: {
+  //   name: "SEO优化工具",
+  //   url: "https://your-domain.com/app",
+  //   category: "productivity",
+  // },
   verification: {
     google: "your-google-verification-code",
     yandex: "your-yandex-verification-code",
-    baidu: "your-baidu-verification-code",
+    other: { baidu: "your-baidu-verification-code" },
   },
   other: {
     "msvalidate.01": "your-bing-verification-code",

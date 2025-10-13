@@ -32,6 +32,7 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "basic", title: "基础表单" },
 			{ path: "step", title: "分步表单" },
 			{ path: "validation", title: "表单校验" },
+			{ path: "dynamic-builder", title: "动态表单构建器" },
 		],
 	},
 	{
