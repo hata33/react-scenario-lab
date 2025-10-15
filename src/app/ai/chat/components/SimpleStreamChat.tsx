@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { Menu, Send, Bot, User, Square } from "lucide-react";
-import MarkdownMessage from "./MarkdownMessage";
-import ChatSidebar from "./ChatSidebar";
+import { BookOpen, Bot, Menu, Send, Square, User } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useChatHistory } from "../hooks/useChatHistory";
+import { PromptTemplate } from "../types/prompt";
+import ChatSidebar from "./ChatSidebar";
+import MarkdownMessage from "./MarkdownMessage";
+import PromptTemplateLibrary from "./PromptTemplateLibrary";
 
 export default function SimpleStreamChat() {
 	const [inputValue, setInputValue] = useState("");
@@ -12,19 +14,31 @@ export default function SimpleStreamChat() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [streamingText, setStreamingText] = useState("");
 	const [isStreaming, setIsStreaming] = useState(false);
+	const [showTemplateLibrary, setShowTemplateLibrary] = useState(false);
+	const [textareaHeight, setTextareaHeight] = useState("auto");
+	const textareaRef = useRef<HTMLTextAreaElement>(null);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const streamTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-	const {
-		currentHistory,
-		createHistory,
-		addMessage,
-	} = useChatHistory();
+	const { currentHistory, createHistory, addMessage } = useChatHistory();
 
 	// 自动滚动到底部
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [currentHistory?.messages, streamingText]);
+
+	// 自动调整 textarea 高度
+	useEffect(() => {
+		const textarea = textareaRef.current;
+		if (textarea) {
+			// 重置高度以获取正确的 scrollHeight
+			textarea.style.height = "auto";
+			// 计算新高度，最小 60px，最大 200px
+			const newHeight = Math.min(Math.max(textarea.scrollHeight, 60), 200);
+			textarea.style.height = `${newHeight}px`;
+			setTextareaHeight(`${newHeight}px`);
+		}
+	}, [inputValue]);
 
 	// 如果没有当前对话，创建一个新的
 	useEffect(() => {
@@ -34,7 +48,10 @@ export default function SimpleStreamChat() {
 	}, [currentHistory, createHistory]);
 
 	// 流式输出函数
-	const streamText = async (text: string, onUpdate: (chunk: string) => void) => {
+	const streamText = async (
+		text: string,
+		onUpdate: (chunk: string) => void,
+	) => {
 		setIsStreaming(true);
 		setStreamingText("");
 
@@ -48,14 +65,17 @@ export default function SimpleStreamChat() {
 
 			// 随机延迟 10-50ms
 			const delay = Math.random() * 40 + 10;
-			await new Promise(resolve => {
+			await new Promise((resolve) => {
 				streamTimeoutRef.current = setTimeout(resolve, delay);
 			});
 
 			// 在标点符号处稍微停顿
 			if (["。", "！", "？", "\n", "，", "；"].includes(chars[i])) {
-				await new Promise(resolve => {
-					streamTimeoutRef.current = setTimeout(resolve, Math.random() * 150 + 50);
+				await new Promise((resolve) => {
+					streamTimeoutRef.current = setTimeout(
+						resolve,
+						Math.random() * 150 + 50,
+					);
 				});
 			}
 		}
@@ -76,6 +96,14 @@ export default function SimpleStreamChat() {
 
 		const userMessage = inputValue.trim();
 		setInputValue("");
+
+		// 重置 textarea 高度
+		if (textareaRef.current) {
+			textareaRef.current.style.height = "auto";
+			textareaRef.current.style.height = "60px";
+			setTextareaHeight("60px");
+		}
+
 		setIsTyping(true);
 
 		// 生成 AI 响应内容
@@ -182,7 +210,7 @@ export default WelcomeMessage;
 		}
 
 		// 开始流式输出
-		const finalContent = await streamText(aiResponse, () => {});
+		const finalContent = await streamText(aiResponse, () => { });
 
 		// 添加最终的 AI 消息
 		addMessage({
@@ -211,11 +239,70 @@ export default WelcomeMessage;
 		}
 	};
 
-	const handleKeyPress = (e: React.KeyboardEvent) => {
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+		// Enter 发送，Shift+Enter 换行
 		if (e.key === "Enter" && !e.shiftKey) {
 			e.preventDefault();
 			handleSendMessage();
 		}
+
+		// Ctrl/Cmd + Enter 发送（不管是否按 Shift）
+		if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+			e.preventDefault();
+			handleSendMessage();
+		}
+
+		// Escape 清空输入
+		if (e.key === "Escape") {
+			e.preventDefault();
+			setInputValue("");
+			if (textareaRef.current) {
+				textareaRef.current.style.height = "auto";
+				textareaRef.current.style.height = "60px";
+				setTextareaHeight("60px");
+			}
+		}
+	};
+
+	// 处理输入变化
+	const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+		setInputValue(e.target.value);
+	};
+
+	// 处理粘贴事件
+	const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+		e.preventDefault();
+		const pastedText = e.clipboardData.getData("text");
+		setInputValue((prev) => prev + pastedText);
+
+		// 粘贴后重新调整高度
+		setTimeout(() => {
+			const textarea = textareaRef.current;
+			if (textarea) {
+				textarea.style.height = "auto";
+				const newHeight = Math.min(Math.max(textarea.scrollHeight, 60), 200);
+				textarea.style.height = `${newHeight}px`;
+			}
+		}, 0);
+	};
+
+	// 处理模板选择
+	const handleSelectTemplate = (
+		template: PromptTemplate,
+		variables?: Record<string, string>,
+	) => {
+		// 获取处理后的模板内容
+		let content = template.content;
+
+		if (variables && Object.keys(variables).length > 0) {
+			// 替换变量
+			Object.entries(variables).forEach(([key, value]) => {
+				content = content.replace(new RegExp(`{{${key}}}`, "g"), value);
+			});
+		}
+
+		// 设置到输入框
+		setInputValue(content);
 	};
 
 	return (
@@ -243,12 +330,22 @@ export default WelcomeMessage;
 							</p>
 						</div>
 					</div>
-					<button
-						onClick={() => createHistory()}
-						className="px-3 py-1.5 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-colors"
-					>
-						新建对话
-					</button>
+					<div className="flex items-center gap-2">
+						<button
+							onClick={() => setShowTemplateLibrary(true)}
+							className="px-3 py-1.5 bg-purple-500 text-white text-sm rounded-lg hover:bg-purple-600 transition-colors flex items-center gap-1"
+							title="提示词模板库"
+						>
+							<BookOpen className="w-4 h-4" />
+							模板库
+						</button>
+						<button
+							onClick={() => createHistory()}
+							className="px-3 py-1.5 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-colors"
+						>
+							新建对话
+						</button>
+					</div>
 				</div>
 
 				{/* 消息列表 */}
@@ -259,9 +356,7 @@ export default WelcomeMessage;
 							<h3 className="text-lg font-medium text-gray-600 mb-2">
 								开始新的对话
 							</h3>
-							<p className="text-gray-500">
-								输入消息开始与 AI 助手对话
-							</p>
+							<p className="text-gray-500">输入消息开始与 AI 助手对话</p>
 							<div className="mt-6 text-sm text-gray-400">
 								<p>试试输入：</p>
 								<div className="flex flex-wrap gap-2 justify-center mt-2">
@@ -273,37 +368,46 @@ export default WelcomeMessage;
 						</div>
 					) : (
 						currentHistory?.messages.map((message) => (
-							<div key={message.id} className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}>
-								<div className={`flex items-start gap-3 max-w-[80%] ${
-									message.type === "user" ? "flex-row-reverse" : ""
-								}`}>
-									<div className={`
+							<div
+								key={message.id}
+								className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
+							>
+								<div
+									className={`flex items-start gap-3 max-w-[80%] ${message.type === "user" ? "flex-row-reverse" : ""
+										}`}
+								>
+									<div
+										className={`
 										w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
 										${message.type === "user"
-											? "bg-blue-500 text-white ml-2"
-											: "bg-gray-200 text-gray-600 mr-2"
-										}
-									`}>
+												? "bg-blue-500 text-white ml-2"
+												: "bg-gray-200 text-gray-600 mr-2"
+											}
+									`}
+									>
 										{message.type === "user" ? (
 											<User className="w-4 h-4" />
 										) : (
 											<Bot className="w-4 h-4" />
 										)}
 									</div>
-									<div className={`
-										rounded-lg px-4 py-2 ${
-											message.type === "user"
+									<div
+										className={`
+										rounded-lg px-4 py-2 ${message.type === "user"
 												? "bg-blue-500 text-white"
 												: "bg-gray-50 border border-gray-200"
-										}
-									`}>
+											}
+									`}
+									>
 										{message.type === "assistant" ? (
 											<MarkdownMessage
 												content={message.content}
 												className="text-gray-800"
 											/>
 										) : (
-											<p className="text-sm whitespace-pre-wrap">{message.content}</p>
+											<p className="text-sm whitespace-pre-wrap">
+												{message.content}
+											</p>
 										)}
 									</div>
 								</div>
@@ -343,42 +447,124 @@ export default WelcomeMessage;
 				</div>
 
 				{/* 输入区域 */}
-				<div className="border-t border-gray-200 p-4 bg-gray-50">
-					<div className="flex gap-2">
-						<input
-							type="text"
-							value={inputValue}
-							onChange={(e) => setInputValue(e.target.value)}
-							onKeyPress={handleKeyPress}
-							placeholder={isStreaming ? "AI 正在回复中..." : "输入您的问题... (Shift+Enter 换行)"}
-							disabled={isTyping || isStreaming}
-							className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
-						/>
-						{isStreaming ? (
-							<button
-								onClick={handleStopStream}
-								className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 flex items-center gap-2"
-							>
-								<Square className="w-4 h-4" />
-								停止
-							</button>
-						) : (
-							<button
-								onClick={handleSendMessage}
-								disabled={!inputValue.trim() || isTyping}
-								className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center gap-2"
-							>
-								<Send className="w-4 h-4" />
-								发送
-							</button>
-						)}
+				<div className="border-t border-gray-200 bg-white">
+					{/* 主输入容器 */}
+					<div className="p-4">
+						<div className="relative bg-gray-50 rounded-2xl border border-gray-200 focus-within:border-blue-400 transition-colors">
+							{/* 自定义滚动区域容器 */}
+							<div className="relative min-h-[60px] max-h-[200px] overflow-hidden">
+								<textarea
+									ref={textareaRef}
+									value={inputValue}
+									onChange={handleInputChange}
+									onKeyDown={handleKeyDown}
+									onPaste={handlePaste}
+									placeholder={
+										isStreaming ? "AI 正在回复中..." : "给 AI 助手发送消息..."
+									}
+									disabled={isTyping || isStreaming}
+									className="w-full px-4 py-3 pr-12 bg-transparent resize-none overflow-y-auto focus:outline-none placeholder:text-gray-400 disabled:text-gray-500 text-gray-900"
+									style={{
+										minHeight: "60px",
+										maxHeight: "200px",
+										height: textareaHeight,
+										scrollbarWidth: "thin",
+										scrollbarColor: "#E5E7EB transparent",
+									}}
+									rows={1}
+									autoFocus
+								/>
+							</div>
+
+							{/* 字符和行数信息 */}
+							{/* {inputValue.length > 50 && (
+								<div className="absolute bottom-2 left-2 text-xs text-gray-400 pointer-events-none">
+									{inputValue.trim().length} 字符
+								</div>
+							)} */}
+
+							{/* 发送/停止按钮 */}
+							<div className="absolute bottom-2 right-2">
+								{isStreaming ? (
+									<button
+										onClick={handleStopStream}
+										className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-xl transition-all duration-200 flex items-center justify-center group"
+										title="停止生成"
+									>
+										<Square className="w-4 h-4 group-hover:scale-110 transition-transform" />
+									</button>
+								) : (
+									<button
+										onClick={handleSendMessage}
+										disabled={!inputValue.trim() || isTyping}
+										className={`w-8 h-8 rounded-xl transition-all duration-200 flex items-center justify-center group ${inputValue.trim()
+												? "bg-blue-500 hover:bg-blue-600 text-white hover:scale-105 shadow-sm"
+												: "bg-gray-100 text-gray-400 cursor-not-allowed"
+											}`}
+										title="发送消息 (Enter)"
+									>
+										<Send className="w-4 h-4 group-hover:scale-110 transition-transform" />
+									</button>
+								)}
+							</div>
+						</div>
 					</div>
-					<div className="mt-2 text-xs text-gray-500 text-center">
-						支持 Markdown 格式 • 代码高亮显示 • 流式输出 • 历史记录自动保存
-						{isStreaming && " • 正在流式生成中..."}
+
+					{/* 底部工具栏 */}
+					<div className="px-4 pb-4">
+						<div className="flex items-center justify-between">
+							<div className="flex items-center gap-4">
+								{/* 模板库按钮 */}
+								<button
+									onClick={() => setShowTemplateLibrary(true)}
+									className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
+									title="提示词模板库"
+								>
+									<BookOpen className="w-4 h-4" />
+									<span className="hidden sm:inline">模板库</span>
+								</button>
+
+								{/* 功能提示 */}
+								<div className="flex items-center gap-2 text-xs text-gray-500">
+									<span className="hidden sm:inline">支持 Markdown</span>
+									<span className="hidden sm:inline">•</span>
+									<span className="hidden sm:inline">代码高亮</span>
+									<span className="hidden sm:inline">•</span>
+									<span>流式输出</span>
+								</div>
+							</div>
+
+							{/* 状态信息 */}
+							<div className="flex items-center gap-3 text-xs text-gray-500">
+								{inputValue.length > 0 && (
+									<span className="text-gray-400">
+										{inputValue.trim().length} 字符 •{" "}
+										{inputValue.split("\n").length} 行
+									</span>
+								)}
+								{isStreaming && (
+									<span className="text-blue-600 flex items-center gap-1">
+										<div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+										正在生成
+									</span>
+								)}
+							</div>
+						</div>
+
+						{/* 快捷键提示 */}
+						<div className="mt-2 text-xs text-gray-400 text-center">
+							快捷键：Enter 发送 • Shift+Enter 换行 • Ctrl+Enter 发送 • Esc 清空
+						</div>
 					</div>
 				</div>
 			</div>
+
+			{/* 提示词模板库弹窗 */}
+			<PromptTemplateLibrary
+				visible={showTemplateLibrary}
+				onClose={() => setShowTemplateLibrary(false)}
+				onSelectTemplate={handleSelectTemplate}
+			/>
 		</div>
 	);
 }
