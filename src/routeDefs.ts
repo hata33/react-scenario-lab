@@ -146,4 +146,16 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "security", title: "安全性" },
 		],
 	},
+	{
+		path: "ai",
+		title: "AI 能力测试",
+		children: [
+			{ path: "chat", title: "AI 对话" },
+			{ path: "image", title: "文生图" },
+			{ path: "voice", title: "语音处理" },
+			{ path: "video", title: "视频处理" },
+			{ path: "tools", title: "AI 工具集" },
+			{ path: "multimodal", title: "多模态" },
+		],
+	},
 ];

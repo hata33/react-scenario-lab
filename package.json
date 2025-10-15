@@ -3,7 +3,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"scripts": {
-		"dev": "next dev --port 3000",
+		"dev": "next dev --port 3009",
 		"build": "next build",
 		"start": "next start",
 		"lint": "biome lint .",
@@ -29,6 +29,7 @@
 		"@types/d3": "^7.4.3",
 		"@types/jsonwebtoken": "^9.0.10",
 		"@types/qrcode": "^1.5.5",
+		"@types/react-syntax-highlighter": "^15.5.13",
 		"antd": "^5.27.4",
 		"bpmn-js": "^18.7.0",
 		"bpmn-js-properties-panel": "^5.42.1",
@@ -47,6 +48,9 @@
 		"react-dom": "^19.1.1",
 		"react-dropzone": "^14.3.8",
 		"react-hook-form": "^7.65.0",
+		"react-markdown": "^10.1.0",
+		"react-syntax-highlighter": "^15.6.6",
+		"remark-gfm": "^4.0.1",
 		"zod": "^4.1.12",
 		"zustand": "^5.0.8"
 	},
