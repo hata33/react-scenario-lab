@@ -17,13 +17,7 @@ pnpm dev
 pnpm build
 
 # 启动生产服务器
-pnpm start
-
-# 代码检查和格式化
-pnpm lint        # 使用 Biome 进行 linting
-pnpm fix         # 自动修复问题
-pnpm format      # 格式化代码
-pnpm check       # 完整检查
+pnpm start 
 ```
 
 ### 包管理
@@ -123,15 +117,6 @@ src/
 - 每个功能模块有独立的路由组
 - 页面文件名为 `page.tsx`
 - 路由路径使用 kebab-case
-
-## 特殊功能
-
-### 液体玻璃特效
-项目包含多种液体玻璃效果实现：
-- 基础液体玻璃效果
-- 高级液体玻璃效果
-- 交互式液体玻璃效果
-- 实验性液体玻璃效果
 
 ### 性能优化
 - 使用 CSS transform 进行动画

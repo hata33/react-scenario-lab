@@ -23,13 +23,18 @@
 	},
 	"dependencies": {
 		"@ant-design/icons": "^6.1.0",
+		"@bpmn-io/properties-panel": "^3.33.0",
+		"@hookform/resolvers": "^5.2.2",
 		"@tailwindcss/postcss": "^4.1.12",
 		"@types/d3": "^7.4.3",
 		"@types/jsonwebtoken": "^9.0.10",
 		"@types/qrcode": "^1.5.5",
 		"antd": "^5.27.4",
+		"bpmn-js": "^18.7.0",
+		"bpmn-js-properties-panel": "^5.42.1",
 		"canvas-confetti": "^1.9.3",
 		"d3": "^7.9.0",
+		"diagram-js": "^15.4.0",
 		"docx": "^9.5.1",
 		"file-saver": "^2.0.5",
 		"jsonwebtoken": "^9.0.2",
@@ -40,7 +45,10 @@
 		"qrcode": "^1.5.4",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
-		"react-dropzone": "^14.3.8"
+		"react-dropzone": "^14.3.8",
+		"react-hook-form": "^7.65.0",
+		"zod": "^4.1.12",
+		"zustand": "^5.0.8"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.0",

@@ -119,6 +119,14 @@ export const routeGroups: RouteGroup[] = [
 		],
 	},
 	{
+		path: "bpmn",
+		title: "BPMN 流程",
+		children: [
+			{ path: "editor", title: "BPMN 编辑器" },
+			{ path: "viewer", title: "BPMN 查看器" },
+		],
+	},
+	{
 		path: "nextjs-features",
 		title: "Next.js 特性",
 		children: [
