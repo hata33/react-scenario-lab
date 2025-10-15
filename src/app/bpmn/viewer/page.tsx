@@ -4,6 +4,7 @@ import BpmnModeler from "bpmn-js/lib/Modeler";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
+import Layout from "@/components/Layout";
 
 // 组件属性类型定义
 export interface BpmnEditorProps {
@@ -225,7 +226,8 @@ export default function BpmnEditor({
   }, []);
 
   return (
-    <div className={`bpmn-editor-container ${className}`} style={style}>
+    <Layout>
+      <div className={`bpmn-editor-container ${className}`} style={style}>
       {/* 工具栏 */}
       {!readonly && (
         <div
@@ -351,6 +353,7 @@ export default function BpmnEditor({
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </Layout>
   );
 }

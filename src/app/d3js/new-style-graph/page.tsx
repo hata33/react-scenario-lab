@@ -3,6 +3,7 @@
 import type { Selection, Simulation } from "d3";
 import * as d3 from "d3";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import Layout from "@/components/Layout";
 
 // 图形节点接口定义
 interface Node {
@@ -911,185 +912,187 @@ export default function NewStyleGraphPage() {
 	}, [initGraph]);
 
 	return (
-		<div className="min-h-screen bg-gray-50">
-			<div className="container mx-auto px-4 py-8">
-				<div className="mb-8">
-					<h1 className="text-3xl font-bold text-gray-900 mb-2">
-						交互式力导向图形
-					</h1>
-					<p className="text-gray-600">
-						点击节点高亮连接关系。拖拽重新定位。滚轮缩放视图。
-					</p>
-				</div>
+		<Layout>
+			<div className="min-h-screen bg-gray-50">
+				<div className="container mx-auto px-4 py-8">
+					<div className="mb-8">
+						<h1 className="text-3xl font-bold text-gray-900 mb-2">
+							交互式力导向图形
+						</h1>
+						<p className="text-gray-600">
+							点击节点高亮连接关系。拖拽重新定位。滚轮缩放视图。
+						</p>
+					</div>
 
-				<div className="bg-white rounded-lg shadow-lg p-4">
-					<div className="mb-6">
-						<div className="flex items-center justify-between mb-4">
-							<h2 className="text-lg font-semibold text-gray-800">动态数据控制</h2>
-							<label className="flex items-center cursor-pointer">
-								<input
-									type="checkbox"
-									checked={useDynamicData}
-									onChange={(e) => setUseDynamicData(e.target.checked)}
-									className="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-								/>
-								<span className="text-sm text-gray-700">启用动态生成</span>
-							</label>
+					<div className="bg-white rounded-lg shadow-lg p-4">
+						<div className="mb-6">
+							<div className="flex items-center justify-between mb-4">
+								<h2 className="text-lg font-semibold text-gray-800">动态数据控制</h2>
+								<label className="flex items-center cursor-pointer">
+									<input
+										type="checkbox"
+										checked={useDynamicData}
+										onChange={(e) => setUseDynamicData(e.target.checked)}
+										className="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+									/>
+									<span className="text-sm text-gray-700">启用动态生成</span>
+								</label>
+							</div>
+
+							{useDynamicData && (
+								<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
+									<div>
+										<label className="block text-sm font-medium text-gray-700 mb-2">
+											节点数量: {config.nodeCount}
+										</label>
+										<input
+											type="range"
+											min="5"
+											max="100"
+											value={config.nodeCount}
+											onChange={(e) => setConfig({ ...config, nodeCount: parseInt(e.target.value) })}
+											className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+										/>
+									</div>
+
+									<div>
+										<label className="block text-sm font-medium text-gray-700 mb-2">
+											层级数: {config.levels}
+										</label>
+										<input
+											type="range"
+											min="1"
+											max="10"
+											value={config.levels}
+											onChange={(e) => setConfig({ ...config, levels: parseInt(e.target.value) })}
+											className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+										/>
+									</div>
+
+									<div>
+										<label className="block text-sm font-medium text-gray-700 mb-2">
+											连接密度: {(config.connectionDensity * 100).toFixed(0)}%
+										</label>
+										<input
+											type="range"
+											min="0.1"
+											max="0.8"
+											step="0.1"
+											value={config.connectionDensity}
+											onChange={(e) => setConfig({ ...config, connectionDensity: parseFloat(e.target.value) })}
+											className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+										/>
+									</div>
+
+									<div>
+										<label className="block text-sm font-medium text-gray-700 mb-2">
+											分支因子: {config.branchingFactor}
+										</label>
+										<input
+											type="range"
+											min="1"
+											max="10"
+											value={config.branchingFactor}
+											onChange={(e) => setConfig({ ...config, branchingFactor: parseInt(e.target.value) })}
+											className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+										/>
+									</div>
+
+									<div className="flex items-end">
+										<button
+											onClick={regenerateData}
+											className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors font-medium"
+										>
+											重新生成数据
+										</button>
+									</div>
+								</div>
+							)}
 						</div>
 
-						{useDynamicData && (
-							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
-								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-2">
-										节点数量: {config.nodeCount}
-									</label>
-									<input
-										type="range"
-										min="5"
-										max="100"
-										value={config.nodeCount}
-										onChange={(e) => setConfig({...config, nodeCount: parseInt(e.target.value)})}
-										className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-									/>
+						<div className="mb-4 flex flex-wrap gap-4">
+							<button
+								onClick={() => centerNode("root")}
+								className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+							>
+								居中根节点
+							</button>
+							<button
+								onClick={resetHighlight}
+								className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
+							>
+								重置高亮
+							</button>
+							{loading && (
+								<div className="flex items-center">
+									<div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
+									<span className="ml-2 text-gray-600">正在加载图形...</span>
 								</div>
+							)}
+						</div>
 
-								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-2">
-										层级数: {config.levels}
-									</label>
-									<input
-										type="range"
-										min="1"
-										max="10"
-										value={config.levels}
-										onChange={(e) => setConfig({...config, levels: parseInt(e.target.value)})}
-										className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-									/>
-								</div>
-
-								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-2">
-										连接密度: {(config.connectionDensity * 100).toFixed(0)}%
-									</label>
-									<input
-										type="range"
-										min="0.1"
-										max="0.8"
-										step="0.1"
-										value={config.connectionDensity}
-										onChange={(e) => setConfig({...config, connectionDensity: parseFloat(e.target.value)})}
-										className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-									/>
-								</div>
-
-								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-2">
-										分支因子: {config.branchingFactor}
-									</label>
-									<input
-										type="range"
-										min="1"
-										max="10"
-										value={config.branchingFactor}
-										onChange={(e) => setConfig({...config, branchingFactor: parseInt(e.target.value)})}
-										className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-									/>
-								</div>
-
-								<div className="flex items-end">
-									<button
-										onClick={regenerateData}
-										className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors font-medium"
-									>
-										重新生成数据
-									</button>
-								</div>
-							</div>
-						)}
-					</div>
-
-					<div className="mb-4 flex flex-wrap gap-4">
-						<button
-							onClick={() => centerNode("root")}
-							className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-						>
-							居中根节点
-						</button>
-						<button
-							onClick={resetHighlight}
-							className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
-						>
-							重置高亮
-						</button>
-						{loading && (
-							<div className="flex items-center">
-								<div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
-								<span className="ml-2 text-gray-600">正在加载图形...</span>
-							</div>
-						)}
-					</div>
-
-					<div
-						ref={containerRef}
-						className="w-full h-[600px] border border-gray-200 rounded grid-background"
-						style={{
-							backgroundImage: `
+						<div
+							ref={containerRef}
+							className="w-full h-[600px] border border-gray-200 rounded grid-background"
+							style={{
+								backgroundImage: `
                 linear-gradient(rgba(200, 200, 200, 0.2) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(200, 200, 200, 0.2) 1px, transparent 1px)
               `,
-							backgroundSize: "20px 20px",
-						}}
-					/>
-				</div>
+								backgroundSize: "20px 20px",
+							}}
+						/>
+					</div>
 
-				<div className="mt-8 bg-white rounded-lg shadow-lg p-6">
-					<h2 className="text-xl font-semibold mb-4">图形信息</h2>
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-						<div className="bg-gray-50 p-4 rounded">
-							<h3 className="font-medium text-gray-700">节点数量</h3>
-							<p className="text-2xl font-bold text-blue-600">
-								{graphData.nodes.length}
-							</p>
-						</div>
-						<div className="bg-gray-50 p-4 rounded">
-							<h3 className="font-medium text-gray-700">连接数量</h3>
-							<p className="text-2xl font-bold text-green-600">
-								{graphData.edges.length}
-							</p>
-						</div>
-						<div className="bg-gray-50 p-4 rounded">
-							<h3 className="font-medium text-gray-700">状态</h3>
-							<p className="text-lg font-semibold text-gray-600">
-								{loading ? "加载中..." : "就绪"}
-							</p>
+					<div className="mt-8 bg-white rounded-lg shadow-lg p-6">
+						<h2 className="text-xl font-semibold mb-4">图形信息</h2>
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+							<div className="bg-gray-50 p-4 rounded">
+								<h3 className="font-medium text-gray-700">节点数量</h3>
+								<p className="text-2xl font-bold text-blue-600">
+									{graphData.nodes.length}
+								</p>
+							</div>
+							<div className="bg-gray-50 p-4 rounded">
+								<h3 className="font-medium text-gray-700">连接数量</h3>
+								<p className="text-2xl font-bold text-green-600">
+									{graphData.edges.length}
+								</p>
+							</div>
+							<div className="bg-gray-50 p-4 rounded">
+								<h3 className="font-medium text-gray-700">状态</h3>
+								<p className="text-lg font-semibold text-gray-600">
+									{loading ? "加载中..." : "就绪"}
+								</p>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div className="mt-8 bg-white rounded-lg shadow-lg p-6">
-					<h2 className="text-xl font-semibold mb-4">使用说明</h2>
-					<div className="space-y-2 text-gray-600">
-						<p>
-							• <strong>点击节点</strong>：高亮显示该节点的所有连接关系
-						</p>
-						<p>
-							• <strong>拖拽节点</strong>：重新排列节点的位置
-						</p>
-						<p>
-							• <strong>滚轮缩放</strong>：放大或缩小图形视图
-						</p>
-						<p>
-							• <strong>拖拽画布</strong>：平移整个图形
-						</p>
-						<p>
-							• <strong>悬停节点</strong>：查看节点的详细信息
-						</p>
-						<p>
-							• <strong>点击空白区域</strong>：重置高亮状态
-						</p>
+					<div className="mt-8 bg-white rounded-lg shadow-lg p-6">
+						<h2 className="text-xl font-semibold mb-4">使用说明</h2>
+						<div className="space-y-2 text-gray-600">
+							<p>
+								• <strong>点击节点</strong>：高亮显示该节点的所有连接关系
+							</p>
+							<p>
+								• <strong>拖拽节点</strong>：重新排列节点的位置
+							</p>
+							<p>
+								• <strong>滚轮缩放</strong>：放大或缩小图形视图
+							</p>
+							<p>
+								• <strong>拖拽画布</strong>：平移整个图形
+							</p>
+							<p>
+								• <strong>悬停节点</strong>：查看节点的详细信息
+							</p>
+							<p>
+								• <strong>点击空白区域</strong>：重置高亮状态
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</Layout>
 	);
 }

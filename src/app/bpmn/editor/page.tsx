@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import BpmnEditor from "@/components/bpmn/editor/BpmnEditor";
+import Layout from "@/components/Layout";
 
 export default function BpmnEditorPage() {
 	const [bpmnXml, setBpmnXml] = useState("");
@@ -38,8 +39,9 @@ export default function BpmnEditorPage() {
 	};
 
 	return (
-		<div className="container mx-auto p-6">
-			<div className="mb-6">
+		<Layout>
+			<div className="container mx-auto p-6">
+				<div className="mb-6">
 				<h1 className="text-3xl font-bold text-gray-800 mb-2">
 					BPMN 流程编辑器
 				</h1>
@@ -96,6 +98,7 @@ export default function BpmnEditorPage() {
 					<p>• 点击导出按钮可以下载 BPMN XML 文件</p>
 				</div>
 			</div>
-		</div>
+			</div>
+		</Layout>
 	);
 }

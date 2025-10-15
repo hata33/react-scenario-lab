@@ -4,6 +4,7 @@ import * as d3 from "d3";
 import { ArrowLeft, RotateCcw, Search, ZoomIn, ZoomOut } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import Layout from "@/components/Layout";
 
 interface Node {
 	id: string;
@@ -299,8 +300,9 @@ export default function MultiLevelNodesPage() {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-50 p-6">
-			<div className="max-w-7xl mx-auto">
+		<Layout>
+			<div className="min-h-screen bg-gray-50 p-6">
+				<div className="max-w-7xl mx-auto">
 				{/* 头部导航 */}
 				<div className="mb-6">
 					<div className="flex items-center justify-between">
@@ -442,5 +444,7 @@ export default function MultiLevelNodesPage() {
 				</div>
 			</div>
 		</div>
+			</div>
+		</Layout>
 	);
 }

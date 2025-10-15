@@ -7,6 +7,7 @@ import {
 	BpmnViewerAdvanced,
 	defaultBpmnXml,
 } from "@/components/bpmn";
+import Layout from "@/components/Layout";
 
 // 复杂的示例 BPMN XML
 const complexBpmnXml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -240,8 +241,9 @@ export default function BpmnAdvancedPage() {
 	];
 
 	return (
-		<div className="container mx-auto p-6">
-			<div className="mb-6">
+		<Layout>
+			<div className="container mx-auto p-6">
+				<div className="mb-6">
 				<h1 className="text-3xl font-bold text-gray-800 mb-2">
 					BPMN 高级组件演示
 				</h1>
@@ -479,6 +481,7 @@ export default function BpmnAdvancedPage() {
 />`}</pre>
 				</div>
 			</div>
-		</div>
+			</div>
+		</Layout>
 	);
 }

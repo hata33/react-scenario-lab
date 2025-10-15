@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import Layout from "@/components/Layout";
 
 // Dynamically import to avoid static generation issues with useSearchParams
 function ScanPage() {
@@ -152,8 +153,9 @@ function ScanPage() {
 	};
 
 	return (
-		<div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
-			<div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+		<Layout>
+			<div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
+				<div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
 				<div className="mb-6 text-center">
 					<h1 className="font-bold text-2xl text-gray-800">扫码登录</h1>
 					<p className="mt-2 text-gray-600">请在电脑上确认登录</p>
@@ -233,8 +235,9 @@ function ScanPage() {
 						</button>
 					</div>
 				)}
+				</div>
 			</div>
-		</div>
+		</Layout>
 	);
 }
 

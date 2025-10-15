@@ -7,6 +7,7 @@ import FieldLibrary from "./components/FieldLibrary";
 import FormBuilder from "./components/FormBuilder";
 import FieldProperties from "./components/FieldProperties";
 import FormPreview from "./components/FormPreview";
+import Layout from "@/components/Layout";
 
 export default function DynamicFormBuilder() {
 	const {
@@ -33,7 +34,8 @@ export default function DynamicFormBuilder() {
 	} = useFormManager();
 
 	return (
-		<div className="min-h-screen bg-gray-50">
+		<Layout>
+			<div className="min-h-screen bg-gray-50">
 			{/* 头部导航 */}
 			<FormHeader
 				mode={mode}
@@ -91,5 +93,6 @@ export default function DynamicFormBuilder() {
 				)}
 			</div>
 		</div>
+		</Layout>
 	);
 }

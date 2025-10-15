@@ -118,6 +118,12 @@ src/
 - 页面文件名为 `page.tsx`
 - 路由路径使用 kebab-case
 
+### 页面布局规范
+- **所有页面必须使用 Layout 组件包裹**：`import Layout from "@/components/Layout"`
+- 在 return 语句的最外层 JSX 元素上包裹 `<Layout>`
+- 确保统一的侧边栏导航和用户界面体验
+- 新建页面时务必添加 Layout 导入和包裹
+
 ### 性能优化
 - 使用 CSS transform 进行动画
 - 组件懒加载
@@ -129,11 +135,9 @@ src/
 - 支持环境变量配置（`.env.example`、`.env.production`）
 - 包含 Docker 配置文件
 
-## 迁移历史
+## 更新记录
 
-项目已从 Vite + React Router v7 迁移到 Next.js 15，主要变更：
-1. 路由系统从 React Router 迁移到 Next.js App Router
-2. 构建工具从 Vite 迁移到 Next.js 内置构建系统
-3. 代码检查从 ESLint 迁移到 Biome
-4. 保持原有的组件结构和功能
-5. 说中文
+### 2025-10-15
+- **修复 BPMN 编辑器功能**：更新 bpmn-js 导入路径，添加必要的 CSS 样式文件，完善编辑器配置
+- **统一页面布局**：为所有缺少 Layout 包裹的页面添加 Layout 组件，确保界面一致性
+- **新增布局规范**：在 CLAUDE.md 中添加页面布局规范，要求所有新建页面必须使用 Layout 组件

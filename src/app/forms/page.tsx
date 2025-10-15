@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import Layout from "@/components/Layout";
 
 const formsPageData = [
 	{
@@ -32,7 +33,8 @@ const formsPageData = [
 
 export default function FormsPage() {
 	return (
-		<div className="min-h-screen bg-gray-50 p-6">
+		<Layout>
+			<div className="min-h-screen bg-gray-50 p-6">
 			<div className="max-w-7xl mx-auto">
 				<div className="mb-8">
 					<div className="flex items-center mb-4">
@@ -93,5 +95,6 @@ export default function FormsPage() {
 				</div>
 			</div>
 		</div>
+		</Layout>
 	);
 }
