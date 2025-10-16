@@ -4,10 +4,10 @@ param(
     [string]$TAR_FILE = "$IMAGE_NAME.tar"
 )
 
-Write-Host "Building Docker image: $IMAGE_NAME`:$TAG" -ForegroundColor Cyan
+Write-Host "Building Docker image: ${IMAGE_NAME}:${TAG}" -ForegroundColor Cyan
 
-# Build the Docker image
-docker build -t "$IMAGE_NAME`:$TAG" .
+# Build the Docker image (从项目根目录构建)
+docker build -t "${IMAGE_NAME}:${TAG}" ..
 
 # Check if build succeeded
 if ($LASTEXITCODE -ne 0) {
@@ -18,7 +18,7 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "Image built successfully, saving as tar file: $TAR_FILE" -ForegroundColor Cyan
 
 # Save image as tar file
-docker save -o "$TAR_FILE" "$IMAGE_NAME`:$TAG"
+docker save -o "$TAR_FILE" "${IMAGE_NAME}:${TAG}"
 
 # Check if save succeeded
 if ($LASTEXITCODE -ne 0) {

@@ -29,8 +29,11 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# 安装 pnpm (如果需要)
+RUN npm install -g pnpm --registry https://registry.npmmirror.com/
+
 # 构建应用
-RUN npm run build
+RUN pnpm build
 
 # 生产阶段
 FROM base AS runner
