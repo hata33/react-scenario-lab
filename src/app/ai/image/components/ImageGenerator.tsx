@@ -54,7 +54,11 @@ export default function ImageGenerator({
 	const [showAdvanced, setShowAdvanced] = useState(false);
 	const [generatedImage, setGeneratedImage] = useState<string | null>(null);
 	const [showApiConfig, setShowApiConfig] = useState(false);
+	const [showScrollTop, setShowScrollTop] = useState(false);
+	const [showProgress, setShowProgress] = useState(false);
+	const [displayProgress, setDisplayProgress] = useState(0);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	const containerRef = useRef<HTMLDivElement>(null);
 
 	// 使用真实的 API 调用
 	const {
@@ -68,6 +72,13 @@ export default function ImageGenerator({
 	} = useImageGeneration({
 		onSuccess: (result) => {
 			setGeneratedImage(result.url);
+			// 进度条跳到100%
+			setDisplayProgress(100);
+			// 600毫秒后隐藏进度条
+			setTimeout(() => {
+				setShowProgress(false);
+				setDisplayProgress(0);
+			}, 600);
 			onImageGenerated({
 				url: result.url,
 				prompt: result.prompt,
@@ -82,7 +93,9 @@ export default function ImageGenerator({
 			console.error("Image generation error:", error);
 		},
 		onProgress: (progressValue, statusText) => {
-			// 进度由 hook 管理
+			// 更新显示进度
+			setDisplayProgress(progressValue);
+			setShowProgress(true);
 		},
 	});
 
@@ -260,11 +273,15 @@ export default function ImageGenerator({
 	const handleReset = () => {
 		reset();
 		setGeneratedImage(null);
+		setShowProgress(false);
+		setDisplayProgress(0);
 	};
 
 	// 停止生成
 	const handleStopGeneration = () => {
 		stopGeneration();
+		setShowProgress(false);
+		setDisplayProgress(0);
 	};
 
 	// 下载图片
@@ -290,8 +307,48 @@ export default function ImageGenerator({
 		setPrompt(example);
 	};
 
+	// 处理滚动事件
+	const handleScroll = () => {
+		if (containerRef.current) {
+			const scrollTop = containerRef.current.scrollTop;
+			setShowScrollTop(scrollTop > 400);
+		}
+	};
+
+	// 滚动到顶部
+	const scrollToTop = () => {
+		if (containerRef.current) {
+			containerRef.current.scrollTo({
+				top: 0,
+				behavior: "smooth"
+			});
+		}
+	};
+
+	// 监听滚动事件
+	useEffect(() => {
+		const container = containerRef.current;
+		if (container) {
+			container.addEventListener("scroll", handleScroll);
+			return () => container.removeEventListener("scroll", handleScroll);
+		}
+	}, []);
+
 	return (
-		<div className="space-y-6">
+		<>
+			<div
+				ref={containerRef}
+				className="space-y-6 max-h-[calc(100vh-8rem)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-smooth"
+			>
+				{/* 确保在移动设备上的滚动体验 */}
+				<style jsx>{`
+					@media (max-width: 768px) {
+						div {
+							max-height: calc(100vh - 6rem);
+							-webkit-overflow-scrolling: touch;
+						}
+					}
+				`}</style>
 			{/* API 配置状态提示 */}
 			{!apiConfig.openai.configured &&
 				!apiConfig.stability.configured &&
@@ -338,7 +395,7 @@ export default function ImageGenerator({
 						value={prompt}
 						onChange={(e) => setPrompt(e.target.value)}
 						placeholder="详细描述你想要生成的图片，包括主体、风格、色彩、构图等..."
-						className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none h-32"
+						className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-y min-h-[8rem] max-h-[12rem] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
 					/>
 
 					{/* 示例提示词 */}
@@ -377,7 +434,7 @@ export default function ImageGenerator({
 								value={negativePrompt}
 								onChange={(e) => setNegativePrompt(e.target.value)}
 								placeholder="描述不希望出现在图片中的内容，如：模糊、低质量、文字等..."
-								className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none h-20 text-sm"
+								className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-y min-h-[5rem] max-h-[8rem] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 text-sm"
 							/>
 						</div>
 
@@ -511,12 +568,12 @@ export default function ImageGenerator({
 				</div>
 
 				{/* 进度条和状态 */}
-				{isGenerating && (
+				{showProgress && (
 					<div className="mt-3 space-y-2">
 						<div className="w-full bg-gray-200 rounded-full h-2">
 							<div
 								className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300"
-								style={{ width: `${progress}%` }}
+								style={{ width: `${displayProgress}%` }}
 							></div>
 						</div>
 						{status && (
@@ -567,27 +624,33 @@ export default function ImageGenerator({
 							className="w-full rounded-lg shadow-md"
 							style={{ maxHeight: "512px", objectFit: "contain" }}
 						/>
-						<div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-200 rounded-lg flex items-center justify-center">
-							<button
-								onClick={() =>
-									onImageSelect({
-										id: Date.now().toString(),
-										url: generatedImage,
-										prompt: prompt.trim(),
-										negativePrompt: negativePrompt.trim() || undefined,
-										model,
-										size,
-										quality,
-										style,
-										createdAt: new Date(),
-										isFavorite: false,
-									})
-								}
-								className="opacity-0 group-hover:opacity-100 bg-white text-gray-900 px-4 py-2 rounded-lg shadow-lg transition-all duration-200 transform scale-95 group-hover:scale-100"
-							>
-								查看详情
-							</button>
-						</div>
+					</div>
+
+					{/* 操作按钮区域 */}
+					<div className="mt-4 flex justify-center">
+						<button
+							onClick={() =>
+								onImageSelect({
+									id: Date.now().toString(),
+									url: generatedImage,
+									prompt: prompt.trim(),
+									negativePrompt: negativePrompt.trim() || undefined,
+									model,
+									size,
+									quality,
+									style,
+									createdAt: new Date(),
+									isFavorite: false,
+								})
+							}
+							className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors duration-200 flex items-center gap-2"
+						>
+							<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+							</svg>
+							查看详情
+						</button>
 					</div>
 
 					{/* 生成信息 */}
@@ -612,6 +675,20 @@ export default function ImageGenerator({
 					</div>
 				</div>
 			)}
-		</div>
+			</div>
+
+			{/* 滚动到顶部按钮 */}
+			{showScrollTop && (
+				<button
+					onClick={scrollToTop}
+					className="fixed bottom-6 right-6 bg-purple-500 text-white p-3 rounded-full shadow-lg hover:bg-purple-600 transition-all duration-200 z-50 flex items-center justify-center"
+					title="滚动到顶部"
+				>
+					<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+					</svg>
+				</button>
+			)}
+		</>
 	);
 }
