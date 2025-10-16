@@ -7,12 +7,12 @@ import { ExportConfig, ExportOptions } from '@/types/export';
 // 动态导入库
 const importJsPDF = async () => {
   // 暂时禁用PDF导出功能
-  return null;
+  throw new Error('PDF导出功能暂时禁用');
 };
 
 const importDocx = async () => {
   // 暂时禁用docx导出功能
-  return null;
+  throw new Error('Word导出功能暂时禁用');
 };
 
 export class DocumentExporter {
@@ -20,58 +20,60 @@ export class DocumentExporter {
    * 导出为PDF格式
    */
   static async exportToPdf(data: any, options?: ExportOptions): Promise<Blob> {
-    const { jsPDF, autoTable } = await importJsPDF();
-    if (!jsPDF) {
-      throw new Error('PDF导出功能仅在客户端可用');
-    }
+    try {
+      const { jsPDF, autoTable } = await importJsPDF();
 
-    const doc = new jsPDF({
-      orientation: options?.orientation || 'portrait',
-      unit: 'mm',
-      format: options?.pageSize || 'A4'
-    });
+      const doc = new (jsPDF as any)({
+        orientation: options?.orientation || 'portrait',
+        unit: 'mm',
+        format: options?.pageSize || 'A4'
+      });
 
     // 设置字体
-    doc.setFont('helvetica');
+      doc.setFont('helvetica');
 
-    // 添加水印
-    if (options?.watermark) {
-      this.addWatermark(doc, options.watermark);
+      // 添加水印
+      if (options?.watermark) {
+        this.addWatermark(doc, options.watermark);
+      }
+
+      // 根据数据类型处理
+      if (Array.isArray(data)) {
+        this.exportTableToPdf(doc, data, options, autoTable);
+      } else if (typeof data === 'object') {
+        this.exportObjectToPdf(doc, data, options, autoTable);
+      } else {
+        this.exportTextToPdf(doc, String(data), options);
+      }
+
+      return new Blob([doc.output('blob')], { type: 'application/pdf' });
+    } catch (error) {
+      throw new Error('PDF导出功能暂时禁用');
     }
-
-    // 根据数据类型处理
-    if (Array.isArray(data)) {
-      this.exportTableToPdf(doc, data, options, autoTable);
-    } else if (typeof data === 'object') {
-      this.exportObjectToPdf(doc, data, options, autoTable);
-    } else {
-      this.exportTextToPdf(doc, String(data), options);
-    }
-
-    return new Blob([doc.output('blob')], { type: 'application/pdf' });
   }
 
   /**
    * 导出为Word格式
    */
   static async exportToDocx(data: any, options?: ExportOptions): Promise<Blob> {
-    const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell } = await importDocx();
-    if (!Document) {
-      throw new Error('Word导出功能仅在客户端可用');
+    try {
+      const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell } = await importDocx();
+
+      let doc: any;
+
+      if (Array.isArray(data)) {
+        doc = this.createTableDocument(data, options);
+      } else if (typeof data === 'object') {
+        doc = this.createObjectDocument(data, options);
+      } else {
+        doc = this.createTextDocument(String(data), options);
+      }
+
+      const blob = await (Packer as any).toBlob(doc);
+      return blob;
+    } catch (error) {
+      throw new Error('Word导出功能暂时禁用');
     }
-
-    let doc: any;
-
-    if (Array.isArray(data)) {
-      doc = this.createTableDocument(data, options);
-    } else if (typeof data === 'object') {
-      doc = this.createObjectDocument(data, options);
-    } else {
-      doc = this.createTextDocument(String(data), options);
-    }
-
-    const blob = await Packer.toBlob(doc);
-    return blob;
   }
 
   /**

@@ -7,7 +7,7 @@ import { ExportOptions } from '@/types/export';
 // 动态导入库
 const importHtml2canvas = async () => {
   // 暂时禁用图片导出功能
-  return null;
+  throw new Error('图片导出功能暂时禁用');
 };
 
 export class ImageExporter {
@@ -15,56 +15,58 @@ export class ImageExporter {
    * 导出为PNG格式
    */
   static async exportToPng(element: HTMLElement, options?: ExportOptions): Promise<Blob> {
-    const html2canvas = await importHtml2canvas();
-    if (!html2canvas) {
-      throw new Error('图片导出功能仅在客户端可用');
+    try {
+      const html2canvas = await importHtml2canvas();
+
+      const canvas = await (html2canvas as any)(element, {
+        backgroundColor: options?.backgroundColor || '#ffffff',
+        scale: options?.scale || 2,
+        logging: false,
+        useCORS: true,
+        allowTaint: true
+      });
+
+      return new Promise((resolve) => {
+        canvas.toBlob((blob: Blob | null) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            throw new Error('PNG生成失败');
+          }
+        }, 'image/png', options?.quality || 0.9);
+      });
+    } catch (error) {
+      throw new Error('PNG导出功能暂时禁用');
     }
-
-    const canvas = await html2canvas(element, {
-      backgroundColor: options?.backgroundColor || '#ffffff',
-      scale: options?.scale || 2,
-      logging: false,
-      useCORS: true,
-      allowTaint: true
-    });
-
-    return new Promise((resolve) => {
-      canvas.toBlob((blob) => {
-        if (blob) {
-          resolve(blob);
-        } else {
-          throw new Error('PNG生成失败');
-        }
-      }, 'image/png', options?.quality || 0.9);
-    });
   }
 
   /**
    * 导出为JPG格式
    */
   static async exportToJpg(element: HTMLElement, options?: ExportOptions): Promise<Blob> {
-    const html2canvas = await importHtml2canvas();
-    if (!html2canvas) {
-      throw new Error('图片导出功能仅在客户端可用');
+    try {
+      const html2canvas = await importHtml2canvas();
+
+      const canvas = await (html2canvas as any)(element, {
+        backgroundColor: options?.backgroundColor || '#ffffff',
+        scale: options?.scale || 2,
+        logging: false,
+        useCORS: true,
+        allowTaint: true
+      });
+
+      return new Promise((resolve) => {
+        canvas.toBlob((blob: Blob | null) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            throw new Error('JPG生成失败');
+          }
+        }, 'image/jpeg', options?.quality || 0.8);
+      });
+    } catch (error) {
+      throw new Error('JPG导出功能暂时禁用');
     }
-
-    const canvas = await html2canvas(element, {
-      backgroundColor: options?.backgroundColor || '#ffffff',
-      scale: options?.scale || 2,
-      logging: false,
-      useCORS: true,
-      allowTaint: true
-    });
-
-    return new Promise((resolve) => {
-      canvas.toBlob((blob) => {
-        if (blob) {
-          resolve(blob);
-        } else {
-          throw new Error('JPG生成失败');
-        }
-      }, 'image/jpeg', options?.quality || 0.8);
-    });
   }
 
   /**
@@ -83,7 +85,7 @@ export class ImageExporter {
       const mimeType = `image/${format}`;
       const quality = options?.quality || 0.8;
 
-      canvas.toBlob((blob) => {
+      canvas.toBlob((blob: Blob | null) => {
         if (blob) {
           resolve(blob);
         } else {
@@ -169,7 +171,7 @@ export class ImageExporter {
         // 绘制图片
         ctx.drawImage(img, 0, 0, width, height);
 
-        canvas.toBlob((blob) => {
+        canvas.toBlob((blob: Blob | null) => {
           if (blob) {
             resolve(blob);
           } else {
@@ -218,7 +220,7 @@ export class ImageExporter {
         ctx.fillText(watermark, 0, 0);
         ctx.restore();
 
-        canvas.toBlob((blob) => {
+        canvas.toBlob((blob: Blob | null) => {
           if (blob) {
             resolve(blob);
           } else {
@@ -253,7 +255,7 @@ export class ImageExporter {
         const mimeType = `image/${toFormat}`;
         const quality = toFormat === 'png' ? undefined : (options?.quality || 0.8);
 
-        canvas.toBlob((blob) => {
+        canvas.toBlob((blob: Blob | null) => {
           if (blob) {
             resolve(blob);
           } else {

@@ -61,7 +61,7 @@ export function ExportDemoPage() {
   const [activeTab, setActiveTab] = useState('table');
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const { exporting, progress, export: quickExport, preview } = useExport({
+  const { exporting, progress, quickExport, preview } = useExport({
     defaultFilename: 'export_demo',
     defaultFormat: 'xlsx'
   });

@@ -151,7 +151,7 @@ export default WelcomeMessage;
 		}
 
 		// 先添加一个空的助手消息，然后开始流式更新
-	 messageId = Date.now().toString();
+	 const messageId = Date.now().toString();
 		setCurrentStreamingId(messageId);
 
 		addMessage({
@@ -271,7 +271,7 @@ export default WelcomeMessage;
 										{message.type === "assistant" ? (
 											<MarkdownMessage
 												content={message.content}
-												className={message.type === "user" ? "text-white" : "text-gray-800"}
+												className="text-gray-800"
 											/>
 										) : (
 											<p className="text-sm whitespace-pre-wrap">{message.content}</p>

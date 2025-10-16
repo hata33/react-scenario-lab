@@ -15,7 +15,7 @@ import {
 import { ExportConfig, ExportFormat, ExportOptions, ExportProgress } from '@/types/export';
 import { ExportManager } from '@/services/export/exportManager';
 
-interface ExportButtonProps {
+export interface ExportButtonProps {
   data: any;
   filename?: string;
   availableFormats?: ExportFormat[];

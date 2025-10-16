@@ -85,39 +85,7 @@ const posts = [
   },
 ];
 
-// 2. 动态生成 sitemap
-export async function generateSitemap() {
-  const baseUrl = 'https://your-domain.com';
-
-  const posts = [
-    { slug: 'nextjs-15-features', lastModified: new Date('2024-01-15') },
-    { slug: 'react-server-components', lastModified: new Date('2024-01-10') },
-    { slug: 'performance-optimization', lastModified: new Date('2024-01-05') },
-  ];
-
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${baseUrl}/</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/nextjs-features/seo-demo</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  ${posts.map(post => `
-  <url>
-    <loc>${baseUrl}/blog/${post.slug}</loc>
-    <lastmod>${post.lastModified.toISOString()}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>`).join('')}
-</urlset>`;
-}
+// sitemap 生成已移至 app/sitemap.xml/route.ts 文件中
 
 // 3. 结构化数据 (JSON-LD)
 function generateStructuredData() {

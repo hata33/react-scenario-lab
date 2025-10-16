@@ -28,6 +28,7 @@ export interface UseExportReturn {
   setFilename: (filename: string) => void;
   setFormat: (format: ExportFormat) => void;
   setOptions: (options: ExportOptions) => void;
+  exportOptions: ExportOptions;
 
   // 预览
   preview: (data: any, format: ExportFormat) => Promise<string>;
@@ -203,6 +204,7 @@ export function useExport(options: UseExportOptions = {}): UseExportReturn {
     setFilename,
     setFormat,
     setOptions: setExportOptions,
+    exportOptions,
 
     // 预览
     preview: previewData,

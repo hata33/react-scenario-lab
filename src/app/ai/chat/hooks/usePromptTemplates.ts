@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
-	PromptTemplate,
+	DEFAULT_CATEGORIES,
+	DEFAULT_TEMPLATES,
 	PromptCategory,
 	PromptSearchFilters,
+	PromptTemplate,
 	PromptTemplateFormData,
-	DEFAULT_CATEGORIES,
-	DEFAULT_TEMPLATES
 } from "../types/prompt";
 
 const TEMPLATES_STORAGE_KEY = "ai-prompt-templates";
@@ -30,7 +30,10 @@ export function usePromptTemplates() {
 					loadedCategories = JSON.parse(storedCategories);
 				} else {
 					loadedCategories = DEFAULT_CATEGORIES;
-					localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(loadedCategories));
+					localStorage.setItem(
+						CATEGORIES_STORAGE_KEY,
+						JSON.stringify(loadedCategories),
+					);
 				}
 
 				// 加载模板
@@ -38,11 +41,13 @@ export function usePromptTemplates() {
 				let loadedTemplates: PromptTemplate[] = [];
 
 				if (storedTemplates) {
-					loadedTemplates = JSON.parse(storedTemplates).map((template: any) => ({
-						...template,
-						createdAt: new Date(template.createdAt),
-						updatedAt: new Date(template.updatedAt),
-					}));
+					loadedTemplates = JSON.parse(storedTemplates).map(
+						(template: any) => ({
+							...template,
+							createdAt: new Date(template.createdAt),
+							updatedAt: new Date(template.updatedAt),
+						}),
+					);
 				} else {
 					// 创建默认模板
 					loadedTemplates = DEFAULT_TEMPLATES.map((template, index) => ({
@@ -52,7 +57,10 @@ export function usePromptTemplates() {
 						updatedAt: new Date(),
 						usageCount: 0,
 					}));
-					localStorage.setItem(TEMPLATES_STORAGE_KEY, JSON.stringify(loadedTemplates));
+					localStorage.setItem(
+						TEMPLATES_STORAGE_KEY,
+						JSON.stringify(loadedTemplates),
+					);
 				}
 
 				setCategories(loadedCategories);
@@ -61,13 +69,15 @@ export function usePromptTemplates() {
 				console.error("Failed to load prompt templates:", error);
 				// 设置默认数据
 				setCategories(DEFAULT_CATEGORIES);
-				setTemplates(DEFAULT_TEMPLATES.map((template, index) => ({
-					...template,
-					id: `default-${index + 1}`,
-					createdAt: new Date(),
-					updatedAt: new Date(),
-					usageCount: 0,
-				})));
+				setTemplates(
+					DEFAULT_TEMPLATES.map((template, index) => ({
+						...template,
+						id: `default-${index + 1}`,
+						createdAt: new Date(),
+						updatedAt: new Date(),
+						usageCount: 0,
+					})),
+				);
 			} finally {
 				setIsLoading(false);
 			}
@@ -85,7 +95,7 @@ export function usePromptTemplates() {
 
 	// 创建新模板
 	const createTemplate = (data: PromptTemplateFormData) => {
-		const newTemplate: PromptTemplate = {
+		const newTemplate: any = {
 			...data,
 			id: `template-${Date.now()}`,
 			createdAt: new Date(),
@@ -93,52 +103,61 @@ export function usePromptTemplates() {
 			usageCount: 0,
 		};
 
-		setTemplates(prev => [newTemplate, ...prev]);
+		setTemplates((prev) => [newTemplate, ...prev]);
 		return newTemplate;
 	};
 
 	// 更新模板
-	const updateTemplate = (id: string, data: Partial<PromptTemplateFormData>) => {
-		setTemplates(prev => prev.map(template => {
-			if (template.id === id) {
-				return {
-					...template,
-					...data,
-					updatedAt: new Date(),
-				};
-			}
-			return template;
-		}));
+	const updateTemplate = (
+		id: string,
+		data: Partial<PromptTemplateFormData>,
+	) => {
+		setTemplates((prev) =>
+			prev.map((template) => {
+				if (template.id === id) {
+					return {
+						...template,
+						...data,
+						updatedAt: new Date(),
+					};
+				}
+				return template;
+			}),
+		);
 	};
 
 	// 删除模板
 	const deleteTemplate = (id: string) => {
-		setTemplates(prev => prev.filter(template => template.id !== id));
+		setTemplates((prev) => prev.filter((template) => template.id !== id));
 	};
 
 	// 切换收藏状态
 	const toggleFavorite = (id: string) => {
-		setTemplates(prev => prev.map(template => {
-			if (template.id === id) {
-				return { ...template, isFavorite: !template.isFavorite };
-			}
-			return template;
-		}));
+		setTemplates((prev) =>
+			prev.map((template) => {
+				if (template.id === id) {
+					return { ...template, isFavorite: !template.isFavorite };
+				}
+				return template;
+			}),
+		);
 	};
 
 	// 增加使用次数
 	const incrementUsage = (id: string) => {
-		setTemplates(prev => prev.map(template => {
-			if (template.id === id) {
-				return { ...template, usageCount: template.usageCount + 1 };
-			}
-			return template;
-		}));
+		setTemplates((prev) =>
+			prev.map((template) => {
+				if (template.id === id) {
+					return { ...template, usageCount: template.usageCount + 1 };
+				}
+				return template;
+			}),
+		);
 	};
 
 	// 复制模板
 	const duplicateTemplate = (id: string) => {
-		const template = templates.find(t => t.id === id);
+		const template = templates.find((t) => t.id === id);
 		if (!template) return null;
 
 		const duplicated: PromptTemplate = {
@@ -150,18 +169,24 @@ export function usePromptTemplates() {
 			usageCount: 0,
 		};
 
-		setTemplates(prev => [duplicated, ...prev]);
+		setTemplates((prev) => [duplicated, ...prev]);
 		return duplicated;
 	};
 
 	// 获取模板内容（替换变量）
-	const getProcessedContent = (template: PromptTemplate, variables: Record<string, string> = {}) => {
+	const getProcessedContent = (
+		template: PromptTemplate,
+		variables: Record<string, string> = {},
+	) => {
 		let content = template.content;
 
 		// 替换变量
-		template.variables?.forEach(variable => {
-			const value = variables[variable.name] || variable.defaultValue || `{{${variable.name}}}`;
-			content = content.replace(new RegExp(`{{${variable.name}}}`, 'g'), value);
+		template.variables?.forEach((variable) => {
+			const value =
+				variables[variable.name] ||
+				variable.defaultValue ||
+				`{{${variable.name}}}`;
+			content = content.replace(new RegExp(`{{${variable.name}}}`, "g"), value);
 		});
 
 		return content;
@@ -169,16 +194,16 @@ export function usePromptTemplates() {
 
 	// 搜索和过滤模板
 	const filteredTemplates = useMemo(() => {
-		return templates.filter(template => {
+		return templates.filter((template) => {
 			// 搜索文本过滤
-			const searchText = ""; // 可以从外部传入
+			const searchText: string = ""; // 可以从外部传入
 			if (searchText) {
 				const searchLower = searchText.toLowerCase();
 				const matchesSearch =
 					template.title.toLowerCase().includes(searchLower) ||
 					template.description?.toLowerCase().includes(searchLower) ||
 					template.content.toLowerCase().includes(searchLower) ||
-					template.tags.some(tag => tag.toLowerCase().includes(searchLower));
+					template.tags.some((tag) => tag.toLowerCase().includes(searchLower));
 
 				if (!matchesSearch) return false;
 			}
@@ -189,12 +214,12 @@ export function usePromptTemplates() {
 
 	// 按分类获取模板
 	const getTemplatesByCategory = (categoryId: string) => {
-		return templates.filter(template => template.category === categoryId);
+		return templates.filter((template) => template.category === categoryId);
 	};
 
 	// 获取收藏模板
 	const getFavoriteTemplates = () => {
-		return templates.filter(template => template.isFavorite);
+		return templates.filter((template) => template.isFavorite);
 	};
 
 	// 获取热门模板（按使用次数排序）
@@ -213,7 +238,7 @@ export function usePromptTemplates() {
 
 	// 搜索模板
 	const searchTemplates = (filters: PromptSearchFilters) => {
-		return templates.filter(template => {
+		return templates.filter((template) => {
 			// 分类过滤
 			if (filters.category && template.category !== filters.category) {
 				return false;
@@ -221,14 +246,17 @@ export function usePromptTemplates() {
 
 			// 标签过滤
 			if (filters.tags && filters.tags.length > 0) {
-				const hasAllTags = filters.tags.every(tag =>
-					template.tags.includes(tag)
+				const hasAllTags = filters.tags.every((tag) =>
+					template.tags.includes(tag),
 				);
 				if (!hasAllTags) return false;
 			}
 
 			// 收藏过滤
-			if (filters.isFavorite !== undefined && template.isFavorite !== filters.isFavorite) {
+			if (
+				filters.isFavorite !== undefined &&
+				template.isFavorite !== filters.isFavorite
+			) {
 				return false;
 			}
 
@@ -239,7 +267,7 @@ export function usePromptTemplates() {
 					template.title.toLowerCase().includes(searchLower) ||
 					template.description?.toLowerCase().includes(searchLower) ||
 					template.content.toLowerCase().includes(searchLower) ||
-					template.tags.some(tag => tag.toLowerCase().includes(searchLower));
+					template.tags.some((tag) => tag.toLowerCase().includes(searchLower));
 
 				if (!matchesSearch) return false;
 			}
@@ -251,7 +279,7 @@ export function usePromptTemplates() {
 	// 导出模板
 	const exportTemplates = (ids?: string[]) => {
 		const templatesToExport = ids
-			? templates.filter(t => ids.includes(t.id))
+			? templates.filter((t) => ids.includes(t.id))
 			: templates;
 
 		const exportData = {
@@ -262,12 +290,12 @@ export function usePromptTemplates() {
 		};
 
 		const blob = new Blob([JSON.stringify(exportData, null, 2)], {
-			type: "application/json"
+			type: "application/json",
 		});
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement("a");
 		a.href = url;
-		a.download = `prompt-templates-${new Date().toISOString().split('T')[0]}.json`;
+		a.download = `prompt-templates-${new Date().toISOString().split("T")[0]}.json`;
 		document.body.appendChild(a);
 		a.click();
 		document.body.removeChild(a);
@@ -279,23 +307,25 @@ export function usePromptTemplates() {
 	// 导入模板
 	const importTemplates = (data: any) => {
 		try {
-			const importedTemplates: PromptTemplate[] = data.templates.map((template: any) => ({
-				...template,
-				id: `imported-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-				createdAt: new Date(template.createdAt),
-				updatedAt: new Date(),
-				usageCount: 0,
-			}));
+			const importedTemplates: PromptTemplate[] = data.templates.map(
+				(template: any) => ({
+					...template,
+					id: `imported-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+					createdAt: new Date(template.createdAt),
+					updatedAt: new Date(),
+					usageCount: 0,
+				}),
+			);
 
-			setTemplates(prev => [...importedTemplates, ...prev]);
+			setTemplates((prev) => [...importedTemplates, ...prev]);
 
 			// 导入分类（如果不存在）
 			if (data.categories) {
-				const newCategories = data.categories.filter((cat: any) =>
-					!categories.some(existing => existing.id === cat.id)
+				const newCategories = data.categories.filter(
+					(cat: any) => !categories.some((existing) => existing.id === cat.id),
 				);
 				if (newCategories.length > 0) {
-					setCategories(prev => [...prev, ...newCategories]);
+					setCategories((prev) => [...prev, ...newCategories]);
 				}
 			}
 

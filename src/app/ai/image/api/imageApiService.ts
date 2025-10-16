@@ -185,8 +185,8 @@ export const generateImageWithStability = async (
 		);
 	}
 
-	// 提取尺寸
-	const [width, height] = request.size.split("x").map(Number);
+	// 对于 Stability AI，width 和 height 已经在 request 中
+	const { width, height } = request;
 
 	if (onProgress) {
 		onProgress(10, "正在验证请求...");
@@ -404,12 +404,14 @@ export const generateImage = async (
 			};
 		} else if (model.startsWith("stable-diffusion")) {
 			// Stability AI
+			const [width, height] = request.size.split("x").map(Number);
 			const response = await generateImageWithStability(
 				{
 					prompt: request.prompt,
 					negative_prompt: request.negative_prompt,
 					model: request.model,
-					size: request.size,
+					width,
+					height,
 					samples: 1,
 				},
 				onProgress,

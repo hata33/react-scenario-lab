@@ -1,37 +1,44 @@
 "use client";
 
-import { useState, useMemo } from "react";
 import {
-	Search,
-	Plus,
-	Star,
-	StarOff,
-	Copy,
-	Edit,
-	Trash2,
-	Download,
-	Upload,
-	X,
 	Check,
 	ChevronDown,
-	Filter,
-	TrendingUp,
 	Clock,
-	Heart
+	Copy,
+	Download,
+	Edit,
+	Filter,
+	Heart,
+	Plus,
+	Search,
+	Star,
+	StarOff,
+	Trash2,
+	TrendingUp,
+	Upload,
+	X,
 } from "lucide-react";
+import { useMemo, useState } from "react";
 import { usePromptTemplates } from "../hooks/usePromptTemplates";
-import { PromptTemplate, PromptTemplateFormData, PromptCategory } from "../types/prompt";
+import {
+	PromptCategory,
+	PromptTemplate,
+	PromptTemplateFormData,
+} from "../types/prompt";
 
 interface PromptTemplateLibraryProps {
 	visible: boolean;
 	onClose: () => void;
-	onSelectTemplate: (template: PromptTemplate, variables?: Record<string, string>) => void;
+	onSelectTemplate: (
+		template: PromptTemplate,
+		variables?: Record<string, string>,
+	) => void;
 }
 
 export default function PromptTemplateLibrary({
 	visible,
 	onClose,
-	onSelectTemplate
+	onSelectTemplate,
 }: PromptTemplateLibraryProps) {
 	const {
 		templates,
@@ -47,7 +54,7 @@ export default function PromptTemplateLibrary({
 		getRecentTemplates,
 		searchTemplates,
 		exportTemplates,
-		importTemplates
+		importTemplates,
 	} = usePromptTemplates();
 
 	const [searchText, setSearchText] = useState("");
@@ -55,10 +62,15 @@ export default function PromptTemplateLibrary({
 	const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 	const [sortBy, setSortBy] = useState<"recent" | "popular" | "name">("recent");
 	const [showCreateForm, setShowCreateForm] = useState(false);
-	const [editingTemplate, setEditingTemplate] = useState<PromptTemplate | null>(null);
+	const [editingTemplate, setEditingTemplate] = useState<PromptTemplate | null>(
+		null,
+	);
 	const [showVariableModal, setShowVariableModal] = useState(false);
-	const [selectedTemplate, setSelectedTemplate] = useState<PromptTemplate | null>(null);
-	const [templateVariables, setTemplateVariables] = useState<Record<string, string>>({});
+	const [selectedTemplate, setSelectedTemplate] =
+		useState<PromptTemplate | null>(null);
+	const [templateVariables, setTemplateVariables] = useState<
+		Record<string, string>
+	>({});
 
 	// 表单状态
 	const [formData, setFormData] = useState<PromptTemplateFormData>({
@@ -67,7 +79,7 @@ export default function PromptTemplateLibrary({
 		description: "",
 		category: "",
 		tags: [],
-		variables: []
+		variables: [],
 	});
 
 	// 过滤和搜索模板
@@ -75,7 +87,7 @@ export default function PromptTemplateLibrary({
 		let filtered = searchTemplates({
 			searchText: searchText || undefined,
 			category: selectedCategory || undefined,
-			isFavorite: showFavoritesOnly || undefined
+			isFavorite: showFavoritesOnly || undefined,
 		});
 
 		// 排序
@@ -93,7 +105,14 @@ export default function PromptTemplateLibrary({
 		}
 
 		return filtered;
-	}, [templates, searchText, selectedCategory, showFavoritesOnly, sortBy, searchTemplates]);
+	}, [
+		templates,
+		searchText,
+		selectedCategory,
+		showFavoritesOnly,
+		sortBy,
+		searchTemplates,
+	]);
 
 	// 重置表单
 	const resetForm = () => {
@@ -103,7 +122,7 @@ export default function PromptTemplateLibrary({
 			description: "",
 			category: "",
 			tags: [],
-			variables: []
+			variables: [],
 		});
 		setEditingTemplate(null);
 	};
@@ -167,32 +186,35 @@ export default function PromptTemplateLibrary({
 
 	// 添加变量
 	const addVariable = () => {
-		setFormData(prev => ({
+		setFormData((prev) => ({
 			...prev,
-			variables: [...prev.variables, {
-				name: "",
-				description: "",
-				defaultValue: "",
-				required: false
-			}]
+			variables: [
+				...prev.variables,
+				{
+					name: "",
+					description: "",
+					defaultValue: "",
+					required: false,
+				},
+			],
 		}));
 	};
 
 	// 更新变量
 	const updateVariable = (index: number, field: string, value: any) => {
-		setFormData(prev => ({
+		setFormData((prev) => ({
 			...prev,
 			variables: prev.variables.map((variable, i) =>
-				i === index ? { ...variable, [field]: value } : variable
-			)
+				i === index ? { ...variable, [field]: value } : variable,
+			),
 		}));
 	};
 
 	// 删除变量
 	const removeVariable = (index: number) => {
-		setFormData(prev => ({
+		setFormData((prev) => ({
 			...prev,
-			variables: prev.variables.filter((_, i) => i !== index)
+			variables: prev.variables.filter((_, i) => i !== index),
 		}));
 	};
 
@@ -217,7 +239,10 @@ export default function PromptTemplateLibrary({
 						>
 							<Download className="w-5 h-5" />
 						</button>
-						<label className="p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer" title="导入模板">
+						<label
+							className="p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+							title="导入模板"
+						>
 							<Upload className="w-5 h-5" />
 							<input
 								type="file"
@@ -261,7 +286,7 @@ export default function PromptTemplateLibrary({
 							className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
 						>
 							<option value="">所有分类</option>
-							{categories.map(category => (
+							{categories.map((category) => (
 								<option key={category.id} value={category.id}>
 									{category.icon} {category.name}
 								</option>
@@ -278,13 +303,14 @@ export default function PromptTemplateLibrary({
 						</select>
 						<button
 							onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-							className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
-								showFavoritesOnly
+							className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${showFavoritesOnly
 									? "bg-yellow-100 text-yellow-700 border border-yellow-300"
 									: "bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200"
-							}`}
+								}`}
 						>
-							<Heart className={`w-4 h-4 ${showFavoritesOnly ? "fill-current" : ""}`} />
+							<Heart
+								className={`w-4 h-4 ${showFavoritesOnly ? "fill-current" : ""}`}
+							/>
 							{showFavoritesOnly ? "已收藏" : "收藏"}
 						</button>
 					</div>
@@ -297,7 +323,9 @@ export default function PromptTemplateLibrary({
 							<div className="text-gray-400 mb-4">
 								<Search className="w-16 h-16 mx-auto" />
 							</div>
-							<h3 className="text-lg font-medium text-gray-900 mb-2">未找到模板</h3>
+							<h3 className="text-lg font-medium text-gray-900 mb-2">
+								未找到模板
+							</h3>
 							<p className="text-gray-500">
 								{searchText || selectedCategory || showFavoritesOnly
 									? "尝试调整搜索条件或筛选器"
@@ -306,8 +334,10 @@ export default function PromptTemplateLibrary({
 						</div>
 					) : (
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-							{filteredTemplates.map(template => {
-								const category = categories.find(c => c.id === template.category);
+							{filteredTemplates.map((template) => {
+								const category = categories.find(
+									(c) => c.id === template.category,
+								);
 								return (
 									<div
 										key={template.id}
@@ -359,7 +389,7 @@ export default function PromptTemplateLibrary({
 															description: template.description || "",
 															category: template.category,
 															tags: template.tags,
-															variables: template.variables || []
+															variables: template.variables || [],
 														});
 														setShowCreateForm(true);
 													}}
@@ -390,7 +420,7 @@ export default function PromptTemplateLibrary({
 										)}
 
 										<div className="flex flex-wrap gap-1 mb-3">
-											{template.tags.map(tag => (
+											{template.tags.map((tag) => (
 												<span
 													key={tag}
 													className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
@@ -455,7 +485,9 @@ export default function PromptTemplateLibrary({
 									type="text"
 									required
 									value={formData.title}
-									onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+									onChange={(e) =>
+										setFormData((prev) => ({ ...prev, title: e.target.value }))
+									}
 									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
 									placeholder="输入模板标题"
 								/>
@@ -468,7 +500,12 @@ export default function PromptTemplateLibrary({
 								<textarea
 									required
 									value={formData.content}
-									onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+									onChange={(e) =>
+										setFormData((prev) => ({
+											...prev,
+											content: e.target.value,
+										}))
+									}
 									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-32 resize-none"
 									placeholder="输入提示词内容，使用 {{变量名}} 定义变量"
 								/>
@@ -481,7 +518,12 @@ export default function PromptTemplateLibrary({
 								<input
 									type="text"
 									value={formData.description}
-									onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+									onChange={(e) =>
+										setFormData((prev) => ({
+											...prev,
+											description: e.target.value,
+										}))
+									}
 									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
 									placeholder="简短描述这个模板的用途"
 								/>
@@ -494,11 +536,16 @@ export default function PromptTemplateLibrary({
 								<select
 									required
 									value={formData.category}
-									onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+									onChange={(e) =>
+										setFormData((prev) => ({
+											...prev,
+											category: e.target.value,
+										}))
+									}
 									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
 								>
 									<option value="">选择分类</option>
-									{categories.map(category => (
+									{categories.map((category) => (
 										<option key={category.id} value={category.id}>
 											{category.icon} {category.name}
 										</option>
@@ -513,10 +560,15 @@ export default function PromptTemplateLibrary({
 								<input
 									type="text"
 									value={formData.tags.join(", ")}
-									onChange={(e) => setFormData(prev => ({
-										...prev,
-										tags: e.target.value.split(",").map(tag => tag.trim()).filter(Boolean)
-									}))}
+									onChange={(e) =>
+										setFormData((prev) => ({
+											...prev,
+											tags: e.target.value
+												.split(",")
+												.map((tag) => tag.trim())
+												.filter(Boolean),
+										}))
+									}
 									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
 									placeholder="输入标签，用逗号分隔"
 								/>
@@ -539,25 +591,36 @@ export default function PromptTemplateLibrary({
 
 								{formData.variables.length === 0 ? (
 									<p className="text-sm text-gray-500 italic">
-										在模板内容中使用 {{变量名}} 来定义变量
+										在模板内容中使用 {`{{variable}}`} 来定义变量
 									</p>
 								) : (
 									<div className="space-y-2">
 										{formData.variables.map((variable, index) => (
-											<div key={index} className="border border-gray-200 rounded-lg p-3">
+											<div
+												key={index}
+												className="border border-gray-200 rounded-lg p-3"
+											>
 												<div className="grid grid-cols-2 gap-2 mb-2">
 													<input
 														type="text"
 														placeholder="变量名"
 														value={variable.name}
-														onChange={(e) => updateVariable(index, "name", e.target.value)}
+														onChange={(e) =>
+															updateVariable(index, "name", e.target.value)
+														}
 														className="px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
 													/>
 													<input
 														type="text"
 														placeholder="默认值"
 														value={variable.defaultValue}
-														onChange={(e) => updateVariable(index, "defaultValue", e.target.value)}
+														onChange={(e) =>
+															updateVariable(
+																index,
+																"defaultValue",
+																e.target.value,
+															)
+														}
 														className="px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
 													/>
 												</div>
@@ -565,7 +628,9 @@ export default function PromptTemplateLibrary({
 													type="text"
 													placeholder="变量描述"
 													value={variable.description}
-													onChange={(e) => updateVariable(index, "description", e.target.value)}
+													onChange={(e) =>
+														updateVariable(index, "description", e.target.value)
+													}
 													className="w-full px-2 py-1 border border-gray-300 rounded text-sm mb-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
 												/>
 												<div className="flex items-center justify-between">
@@ -573,7 +638,13 @@ export default function PromptTemplateLibrary({
 														<input
 															type="checkbox"
 															checked={variable.required}
-															onChange={(e) => updateVariable(index, "required", e.target.checked)}
+															onChange={(e) =>
+																updateVariable(
+																	index,
+																	"required",
+																	e.target.checked,
+																)
+															}
 															className="rounded"
 														/>
 														必填
@@ -635,9 +706,13 @@ export default function PromptTemplateLibrary({
 
 						<div className="p-6">
 							<div className="mb-4">
-								<h4 className="font-semibold text-gray-900 mb-2">{selectedTemplate.title}</h4>
+								<h4 className="font-semibold text-gray-900 mb-2">
+									{selectedTemplate.title}
+								</h4>
 								{selectedTemplate.description && (
-									<p className="text-sm text-gray-600">{selectedTemplate.description}</p>
+									<p className="text-sm text-gray-600">
+										{selectedTemplate.description}
+									</p>
 								)}
 							</div>
 
@@ -646,20 +721,32 @@ export default function PromptTemplateLibrary({
 									<div key={variable.name}>
 										<label className="block text-sm font-medium text-gray-700 mb-1">
 											{variable.name}
-											{variable.required && <span className="text-red-500 ml-1">*</span>}
+											{variable.required && (
+												<span className="text-red-500 ml-1">*</span>
+											)}
 										</label>
 										{variable.description && (
-											<p className="text-xs text-gray-500 mb-1">{variable.description}</p>
+											<p className="text-xs text-gray-500 mb-1">
+												{variable.description}
+											</p>
 										)}
 										<input
 											type="text"
 											required={variable.required}
-											value={templateVariables[variable.name] || variable.defaultValue || ""}
-											onChange={(e) => setTemplateVariables(prev => ({
-												...prev,
-												[variable.name]: e.target.value
-											}))}
-											placeholder={variable.defaultValue || `输入${variable.name}`}
+											value={
+												templateVariables[variable.name] ||
+												variable.defaultValue ||
+												""
+											}
+											onChange={(e) =>
+												setTemplateVariables((prev) => ({
+													...prev,
+													[variable.name]: e.target.value,
+												}))
+											}
+											placeholder={
+												variable.defaultValue || `输入${variable.name}`
+											}
 											className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
 										/>
 									</div>

@@ -49,8 +49,8 @@ export default function ImageGenerator({
 	const [negativePrompt, setNegativePrompt] = useState("");
 	const [model, setModel] = useState("Kwai-Kolors/Kolors");
 	const [size, setSize] = useState("1024x1024");
-	const [quality, setQuality] = useState("standard");
-	const [style, setStyle] = useState("vivid");
+	const [quality, setQuality] = useState<"standard" | "hd">("standard");
+	const [style, setStyle] = useState<"vivid" | "natural">("vivid");
 	const [showAdvanced, setShowAdvanced] = useState(false);
 	const [generatedImage, setGeneratedImage] = useState<string | null>(null);
 	const [showApiConfig, setShowApiConfig] = useState(false);
@@ -87,6 +87,7 @@ export default function ImageGenerator({
 				size,
 				quality,
 				style,
+				isFavorite: false,
 			});
 		},
 		onError: (error) => {
@@ -489,7 +490,7 @@ export default function ImageGenerator({
 								</label>
 								<select
 									value={quality}
-									onChange={(e) => setQuality(e.target.value)}
+									onChange={(e) => setQuality(e.target.value as "standard" | "hd")}
 									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
 								>
 									{qualities.map((q) => {
@@ -514,7 +515,7 @@ export default function ImageGenerator({
 								</label>
 								<select
 									value={style}
-									onChange={(e) => setStyle(e.target.value)}
+									onChange={(e) => setStyle(e.target.value as "vivid" | "natural")}
 									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
 								>
 									{styles.map((s) => {

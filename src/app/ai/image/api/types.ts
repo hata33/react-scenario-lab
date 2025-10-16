@@ -46,8 +46,8 @@ export interface StabilityGenerationResponse {
 		base64: string;
 		seed: number;
 		finalSeed: number;
-	 finishReason: string;
-	}];
+		finishReason: string;
+	}>;
 }
 
 export interface MidjourneyRequest {

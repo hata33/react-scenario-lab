@@ -7,7 +7,7 @@ import { ExportConfig, ExportOptions } from '@/types/export';
 // 动态导入xlsx库（仅在客户端使用）
 const importXlsx = async () => {
   // 暂时禁用Excel导出功能
-  return null;
+  throw new Error('Excel导出功能暂时禁用');
 };
 
 export class TableExporter {
@@ -15,53 +15,55 @@ export class TableExporter {
    * 导出为Excel格式
    */
   static async exportToExcel(data: any[], options?: ExportOptions): Promise<Blob> {
-    const XLSX = await importXlsx();
-    if (!XLSX) {
-      throw new Error('Excel导出功能仅在客户端可用');
+    try {
+      const XLSX = await importXlsx();
+
+      const workbook = (XLSX as any).utils.book_new();
+      const sheetName = options?.sheetName || 'Sheet1';
+
+      // 处理数据
+      const worksheet = (XLSX as any).utils.json_to_sheet(data);
+
+      // 设置单元格样式
+      if (options?.quality) {
+        this.applyCellStyles(worksheet, options);
+      }
+
+      (XLSX as any).utils.book_append_sheet(workbook, worksheet, sheetName);
+
+      // 如果有密码保护
+      if (options?.password) {
+        return this.createProtectedExcel(workbook, options.password);
+      }
+
+      // 生成Excel文件
+      const excelBuffer = (XLSX as any).write(workbook, { bookType: 'xlsx', type: 'array' });
+      return new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    } catch (error) {
+      throw new Error('Excel导出功能暂时禁用');
     }
-
-    const workbook = XLSX.utils.book_new();
-    const sheetName = options?.sheetName || 'Sheet1';
-
-    // 处理数据
-    const worksheet = XLSX.utils.json_to_sheet(data);
-
-    // 设置单元格样式
-    if (options?.quality) {
-      this.applyCellStyles(worksheet, options);
-    }
-
-    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
-
-    // 如果有密码保护
-    if (options?.password) {
-      return this.createProtectedExcel(workbook, options.password);
-    }
-
-    // 生成Excel文件
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    return new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
   }
 
   /**
    * 导出多工作表Excel
    */
   static async exportToMultiSheetExcel(data: Record<string, any[]>, options?: ExportOptions): Promise<Blob> {
-    const XLSX = await importXlsx();
-    if (!XLSX) {
-      throw new Error('Excel导出功能仅在客户端可用');
+    try {
+      const XLSX = await importXlsx();
+
+      const workbook = (XLSX as any).utils.book_new();
+
+      // 为每个数据集创建工作表
+      Object.entries(data).forEach(([sheetName, sheetData]) => {
+        const worksheet = (XLSX as any).utils.json_to_sheet(sheetData);
+        (XLSX as any).utils.book_append_sheet(workbook, worksheet, sheetName);
+      });
+
+      const excelBuffer = (XLSX as any).write(workbook, { bookType: 'xlsx', type: 'array' });
+      return new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    } catch (error) {
+      throw new Error('Excel导出功能暂时禁用');
     }
-
-    const workbook = XLSX.utils.book_new();
-
-    // 为每个数据集创建工作表
-    Object.entries(data).forEach(([sheetName, sheetData]) => {
-      const worksheet = XLSX.utils.json_to_sheet(sheetData);
-      XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
-    });
-
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    return new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
   }
 
   /**
@@ -107,22 +109,23 @@ export class TableExporter {
    * 创建数据透视表
    */
   static async exportPivotTable(data: any[], pivotConfig: any, options?: ExportOptions): Promise<Blob> {
-    const XLSX = await importXlsx();
-    if (!XLSX) {
-      throw new Error('Excel导出功能仅在客户端可用');
+    try {
+      const XLSX = await importXlsx();
+
+      // 创建主数据工作表
+      const workbook = (XLSX as any).utils.book_new();
+      const dataSheet = (XLSX as any).utils.json_to_sheet(data);
+      (XLSX as any).utils.book_append_sheet(workbook, dataSheet, 'Data');
+
+      // 创建透视表
+      const pivotSheet = this.createPivotSheet(data, pivotConfig);
+      (XLSX as any).utils.book_append_sheet(workbook, pivotSheet, 'Pivot');
+
+      const excelBuffer = (XLSX as any).write(workbook, { bookType: 'xlsx', type: 'array' });
+      return new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    } catch (error) {
+      throw new Error('Excel导出功能暂时禁用');
     }
-
-    // 创建主数据工作表
-    const workbook = XLSX.utils.book_new();
-    const dataSheet = XLSX.utils.json_to_sheet(data);
-    XLSX.utils.book_append_sheet(workbook, dataSheet, 'Data');
-
-    // 创建透视表
-    const pivotSheet = this.createPivotSheet(data, pivotConfig);
-    XLSX.utils.book_append_sheet(workbook, pivotSheet, 'Pivot');
-
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    return new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
   }
 
   /**
@@ -148,7 +151,8 @@ export class TableExporter {
   private static createProtectedExcel(workbook: any, password: string): Blob {
     // 注意：xlsx库本身不支持密码保护
     // 这里创建一个基本的Excel文件，实际项目中可能需要使用其他库
-    const excelBuffer = workbook.write({ bookType: 'xlsx', type: 'array' });
+    const XLSX = workbook.constructor as any;
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     return new Blob([excelBuffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });

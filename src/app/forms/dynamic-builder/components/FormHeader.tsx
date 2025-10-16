@@ -10,7 +10,7 @@ interface FormHeaderProps {
 	onModeToggle: () => void;
 	onExport: () => void;
 	onImport: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	fileInputRef: React.RefObject<HTMLInputElement>;
+	fileInputRef: React.RefObject<HTMLInputElement | null>;
 }
 
 const FormHeader: React.FC<FormHeaderProps> = ({

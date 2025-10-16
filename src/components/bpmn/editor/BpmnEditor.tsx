@@ -70,9 +70,6 @@ export default function BpmnEditor({
 		// 创建 BPMN 实例
 		const viewer = new BpmnJS({
 			container: containerRef.current,
-			keyboard: {
-				bindTo: window,
-			},
 			propertiesPanel: {
 				parent: document.body,
 			},
@@ -88,10 +85,10 @@ export default function BpmnEditor({
 
 				// 如果是只读模式，禁用编辑功能
 				if (readonly) {
-					const eventBus = viewer.get("eventBus");
-					const selection = viewer.get("selection");
-					const palette = viewer.get("palette");
-					const contextPad = viewer.get("contextPad");
+					const eventBus = viewer.get("eventBus") as any;
+					const selection = viewer.get("selection") as any;
+					const palette = viewer.get("palette") as any;
+					const contextPad = viewer.get("contextPad") as any;
 
 					// 禁用选择
 					selection.off("selection.changed");
@@ -126,7 +123,7 @@ export default function BpmnEditor({
 	}, [xml, readonly, onLoad, onError]);
 
 	// 获取 BPMN XML
-	const getXml = async (): Promise<string> => {
+	const getXml = async (): Promise<string | undefined> => {
 		if (!viewerRef.current) return xml;
 
 		try {

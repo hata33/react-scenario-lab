@@ -243,7 +243,7 @@ export default function MultiLevelNodesPage() {
 		const svg = d3.select(svgRef.current);
 
 		// 只选择有数据的节点组（包含圆圈的g元素）
-		const nodes = svg.selectAll("g").filter(function(d: any) {
+		const nodes = svg.selectAll("g").filter(function (d: any) {
 			// 过滤掉没有数据的g元素（如连接线的容器g）
 			return d && d.name; // 确保有数据且包含name属性
 		});
@@ -303,147 +303,146 @@ export default function MultiLevelNodesPage() {
 		<Layout>
 			<div className="min-h-screen bg-gray-50 p-6">
 				<div className="max-w-7xl mx-auto">
-				{/* 头部导航 */}
-				<div className="mb-6">
-					<div className="flex items-center justify-between">
-						<div className="flex items-center">
-							<Link
-								href="/d3js"
-								className="flex items-center text-gray-600 hover:text-gray-900 transition-colors mr-4"
-							>
-								<ArrowLeft className="w-5 h-5 mr-2" />
-								返回D3.js列表
-							</Link>
-							<h1 className="text-3xl font-bold text-gray-900">
-								多层级节点关系图
-							</h1>
+					{/* 头部导航 */}
+					<div className="mb-6">
+						<div className="flex items-center justify-between">
+							<div className="flex items-center">
+								<Link
+									href="/d3js"
+									className="flex items-center text-gray-600 hover:text-gray-900 transition-colors mr-4"
+								>
+									<ArrowLeft className="w-5 h-5 mr-2" />
+									返回D3.js列表
+								</Link>
+								<h1 className="text-3xl font-bold text-gray-900">
+									多层级节点关系图
+								</h1>
+							</div>
 						</div>
+						<p className="text-gray-600 mt-2">
+							交互式的力导向图，展示多层级节点关系，支持拖拽、缩放和搜索
+						</p>
 					</div>
-					<p className="text-gray-600 mt-2">
-						交互式的力导向图，展示多层级节点关系，支持拖拽、缩放和搜索
-					</p>
-				</div>
 
-				<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-					{/* 控制面板 */}
-					<div className="lg:col-span-1">
-						<div className="bg-white rounded-lg shadow-md p-6">
-							<h2 className="text-lg font-semibold text-gray-900 mb-4">
-								控制面板
-							</h2>
+					<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+						{/* 控制面板 */}
+						<div className="lg:col-span-1">
+							<div className="bg-white rounded-lg shadow-md p-6">
+								<h2 className="text-lg font-semibold text-gray-900 mb-4">
+									控制面板
+								</h2>
 
-							{/* 搜索功能 */}
-							<div className="mb-6">
-								<label className="block text-sm font-medium text-gray-700 mb-2">
-									搜索节点
-								</label>
-								<div className="relative">
-									<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-									<input
-										type="text"
-										value={searchTerm}
-										onChange={(e) => handleSearch(e.target.value)}
-										placeholder="输入节点名称..."
-										className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-									/>
-								</div>
-							</div>
-
-							{/* 缩放控制 */}
-							<div className="mb-6">
-								<label className="block text-sm font-medium text-gray-700 mb-2">
-									缩放控制
-								</label>
-								<div className="flex space-x-2">
-									<button
-										onClick={handleZoomIn}
-										className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
-									>
-										<ZoomIn className="w-4 h-4" />
-									</button>
-									<button
-										onClick={handleZoomOut}
-										className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
-									>
-										<ZoomOut className="w-4 h-4" />
-									</button>
-									<button
-										onClick={handleReset}
-										className="flex-1 px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center"
-									>
-										<RotateCcw className="w-4 h-4" />
-									</button>
-								</div>
-								<div className="mt-2 text-sm text-gray-600 text-center">
-									当前缩放: {(zoom * 100).toFixed(0)}%
-								</div>
-							</div>
-
-							{/* 选中节点信息 */}
-							{selectedNode && (
+								{/* 搜索功能 */}
 								<div className="mb-6">
 									<label className="block text-sm font-medium text-gray-700 mb-2">
-										选中节点
+										搜索节点
 									</label>
-									<div className="p-3 bg-blue-50 rounded-lg">
-										<div className="font-medium text-blue-900">
-											{selectedNode.name}
-										</div>
-										<div className="text-sm text-blue-700">
-											级别: {selectedNode.level} | 组: {selectedNode.group}
-										</div>
+									<div className="relative">
+										<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+										<input
+											type="text"
+											value={searchTerm}
+											onChange={(e) => handleSearch(e.target.value)}
+											placeholder="输入节点名称..."
+											className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										/>
 									</div>
 								</div>
-							)}
 
-							{/* 图例 */}
-							<div>
-								<label className="block text-sm font-medium text-gray-700 mb-2">
-									图例
-								</label>
-								<div className="space-y-2 text-sm">
-									<div className="flex items-center">
-										<div className="w-4 h-4 rounded-full bg-orange-500 mr-2"></div>
-										<span>根节点</span>
+								{/* 缩放控制 */}
+								<div className="mb-6">
+									<label className="block text-sm font-medium text-gray-700 mb-2">
+										缩放控制
+									</label>
+									<div className="flex space-x-2">
+										<button
+											onClick={handleZoomIn}
+											className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
+										>
+											<ZoomIn className="w-4 h-4" />
+										</button>
+										<button
+											onClick={handleZoomOut}
+											className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
+										>
+											<ZoomOut className="w-4 h-4" />
+										</button>
+										<button
+											onClick={handleReset}
+											className="flex-1 px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center"
+										>
+											<RotateCcw className="w-4 h-4" />
+										</button>
 									</div>
-									<div className="flex items-center">
-										<div className="w-4 h-4 rounded-full bg-blue-500 mr-2"></div>
-										<span>主分类</span>
+									<div className="mt-2 text-sm text-gray-600 text-center">
+										当前缩放: {(zoom * 100).toFixed(0)}%
 									</div>
-									<div className="flex items-center">
-										<div className="w-4 h-4 rounded-full bg-green-500 mr-2"></div>
-										<span>子分类</span>
+								</div>
+
+								{/* 选中节点信息 */}
+								{selectedNode && (
+									<div className="mb-6">
+										<label className="block text-sm font-medium text-gray-700 mb-2">
+											选中节点
+										</label>
+										<div className="p-3 bg-blue-50 rounded-lg">
+											<div className="font-medium text-blue-900">
+												{selectedNode.name}
+											</div>
+											<div className="text-sm text-blue-700">
+												级别: {selectedNode.level} | 组: {selectedNode.group}
+											</div>
+										</div>
 									</div>
-									<div className="flex items-center">
-										<div className="w-4 h-4 rounded-full bg-red-500 mr-2"></div>
-										<span>具体项目</span>
+								)}
+
+								{/* 图例 */}
+								<div>
+									<label className="block text-sm font-medium text-gray-700 mb-2">
+										图例
+									</label>
+									<div className="space-y-2 text-sm">
+										<div className="flex items-center">
+											<div className="w-4 h-4 rounded-full bg-orange-500 mr-2"></div>
+											<span>根节点</span>
+										</div>
+										<div className="flex items-center">
+											<div className="w-4 h-4 rounded-full bg-blue-500 mr-2"></div>
+											<span>主分类</span>
+										</div>
+										<div className="flex items-center">
+											<div className="w-4 h-4 rounded-full bg-green-500 mr-2"></div>
+											<span>子分类</span>
+										</div>
+										<div className="flex items-center">
+											<div className="w-4 h-4 rounded-full bg-red-500 mr-2"></div>
+											<span>具体项目</span>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 
-					{/* 图表区域 */}
-					<div className="lg:col-span-3">
-						<div className="bg-white rounded-lg shadow-md p-6">
-							<div className="border-2 border-gray-200 rounded-lg overflow-hidden">
-								<svg
-									ref={svgRef}
-									className="w-full h-full"
-									style={{ minHeight: "600px" }}
-								></svg>
-							</div>
-							<div className="mt-4 text-sm text-gray-600">
-								<p>• 拖拽节点可以调整位置</p>
-								<p>• 使用鼠标滚轮进行缩放</p>
-								<p>• 点击节点查看详细信息</p>
-								<p>• 使用搜索框过滤节点</p>
+						{/* 图表区域 */}
+						<div className="lg:col-span-3">
+							<div className="bg-white rounded-lg shadow-md p-6">
+								<div className="border-2 border-gray-200 rounded-lg overflow-hidden">
+									<svg
+										ref={svgRef}
+										className="w-full h-full"
+										style={{ minHeight: "600px" }}
+									></svg>
+								</div>
+								<div className="mt-4 text-sm text-gray-600">
+									<p>• 拖拽节点可以调整位置</p>
+									<p>• 使用鼠标滚轮进行缩放</p>
+									<p>• 点击节点查看详细信息</p>
+									<p>• 使用搜索框过滤节点</p>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
 			</div>
 		</Layout>
 	);
