@@ -52,7 +52,9 @@
       "Bash(netstat:*)",
       "Bash(findstr:*)",
       "Bash(PORT=3003 pnpm dev)",
-      "Bash(pnpm dev:*)"
+      "Bash(pnpm dev:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs"
     ],
     "deny": [],
     "ask": []

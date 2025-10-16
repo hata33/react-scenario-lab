@@ -136,7 +136,7 @@ export default function Layout({ children }: LayoutProps) {
 				</div>
 			</div>
 
-			<main className="h-full overflow-y-auto bg-gray-50">
+			<main id="scroll-container" className="h-full overflow-y-auto bg-gray-50">
 				<div className="relative min-h-full p-4 md:p-6 lg:p-8">{children}</div>
 			</main>
 		</div>

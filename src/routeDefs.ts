@@ -150,4 +150,15 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "multimodal", title: "多模态" },
 		],
 	},
+	{
+		path: "gsap",
+		title: "GSAP",
+		children: [
+			{ path: "playground", title: "Playground 总览" },
+			{ path: "base", title: "基础入门" },
+			{ path: "timeline", title: "时间轴" },
+			{ path: "eases", title: "缓动函数" },
+			{ path: "stagger", title: "错位动画" }
+		],
+	},
 ];
