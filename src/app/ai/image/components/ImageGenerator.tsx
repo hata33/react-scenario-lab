@@ -1,19 +1,27 @@
 "use client";
 
-import { useState, useRef } from "react";
 import {
-	Download,
-	Image,
-	Settings,
-	Sparkles,
-	Wand2,
-	Loader2,
-	X,
+	AlertCircle,
+	CheckCircle,
 	Copy,
+	Download,
 	Heart,
+	Image,
+	Loader2,
+	RefreshCw,
+	Settings,
 	Share2,
-	Trash2
+	Sparkles,
+	Trash2,
+	Wand2,
+	X,
 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import {
+	checkApiConfiguration,
+	getAvailableModels,
+} from "../api/imageApiService";
+import { useImageGeneration } from "../hooks/useImageGeneration";
 
 export interface GeneratedImage {
 	id: string;
@@ -33,105 +41,237 @@ interface ImageGeneratorProps {
 	onImageSelect: (image: GeneratedImage) => void;
 }
 
-export default function ImageGenerator({ onImageGenerated, onImageSelect }: ImageGeneratorProps) {
+export default function ImageGenerator({
+	onImageGenerated,
+	onImageSelect,
+}: ImageGeneratorProps) {
 	const [prompt, setPrompt] = useState("");
 	const [negativePrompt, setNegativePrompt] = useState("");
-	const [model, setModel] = useState("dall-e-3");
+	const [model, setModel] = useState("Kwai-Kolors/Kolors");
 	const [size, setSize] = useState("1024x1024");
 	const [quality, setQuality] = useState("standard");
 	const [style, setStyle] = useState("vivid");
-	const [isGenerating, setIsGenerating] = useState(false);
 	const [showAdvanced, setShowAdvanced] = useState(false);
 	const [generatedImage, setGeneratedImage] = useState<string | null>(null);
-	const [progress, setProgress] = useState(0);
+	const [showApiConfig, setShowApiConfig] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	// 使用真实的 API 调用
+	const {
+		generate,
+		isGenerating,
+		error,
+		progress,
+		status,
+		stopGeneration,
+		reset,
+	} = useImageGeneration({
+		onSuccess: (result) => {
+			setGeneratedImage(result.url);
+			onImageGenerated({
+				url: result.url,
+				prompt: result.prompt,
+				negativePrompt: negativePrompt.trim() || undefined,
+				model,
+				size,
+				quality,
+				style,
+			});
+		},
+		onError: (error) => {
+			console.error("Image generation error:", error);
+		},
+		onProgress: (progressValue, statusText) => {
+			// 进度由 hook 管理
+		},
+	});
+
+	// 检查 API 配置状态
+	const [apiConfig, setApiConfig] = useState(() => checkApiConfiguration());
+	const [availableModels, setAvailableModels] = useState<any>(() =>
+		getAvailableModels(),
+	);
+
+	useEffect(() => {
+		setApiConfig(checkApiConfiguration());
+		setAvailableModels(getAvailableModels());
+	}, []);
+
+	// 获取当前模型的可用选项
+	const getCurrentModelConfig = () => {
+		const provider = model.startsWith("dall-e")
+			? "openai"
+			: model.startsWith("stable-diffusion")
+				? "stability"
+				: model.startsWith("midjourney")
+					? "midjourney"
+					: "siliconflow";
+		const models = availableModels[provider as keyof typeof availableModels];
+		return models?.[model];
+	};
 
 	// 模型选项
 	const models = [
-		{ value: "dall-e-3", label: "DALL-E 3", description: "最新版本，质量最佳" },
-		{ value: "dall-e-2", label: "DALL-E 2", description: "经典版本，速度更快" },
-		{ value: "stable-diffusion", label: "Stable Diffusion", description: "开源模型，风格多样" },
-		{ value: "midjourney", label: "Midjourney", description: "艺术风格，创意独特" }
+		{
+			value: "Kwai-Kolors/Kolors",
+			label: "Kwai Kolors",
+			description: "快手 AI 模型，性价比高",
+		},
+		{
+			value: "dall-e-3",
+			label: "DALL-E 3",
+			description: "OpenAI 最新模型，质量更高",
+		},
+		{
+			value: "dall-e-2",
+			label: "DALL-E 2",
+			description: "OpenAI 经典模型，速度快",
+		},
+		{
+			value: "stable-diffusion-xl-1024-v1-0",
+			label: "Stable Diffusion XL",
+			description: "开源模型，可定制性强",
+		},
+		{
+			value: "midjourney-v6",
+			label: "Midjourney V6",
+			description: "艺术效果最强",
+		},
 	];
 
 	// 尺寸选项
 	const sizes = [
-		{ value: "1024x1024", label: "正方形 (1024×1024)" },
-		{ value: "1792x1024", label: "横向 (1792×1024)" },
-		{ value: "1024x1792", label: "纵向 (1024×1792)" },
-		{ value: "512x512", label: "小正方形 (512×512)" }
+		{ value: "256x256", label: "256×256", description: "小尺寸" },
+		{ value: "512x512", label: "512×512", description: "中等尺寸" },
+		{ value: "1024x1024", label: "1024×1024", description: "标准尺寸" },
+		{ value: "1792x1024", label: "1792×1024", description: "横向" },
+		{ value: "1024x1792", label: "1024×1792", description: "纵向" },
 	];
 
 	// 质量选项
 	const qualities = [
-		{ value: "standard", label: "标准", description: "快速生成" },
-		{ value: "hd", label: "高清", description: "细节更丰富" }
+		{ value: "standard", label: "标准", description: "速度快" },
+		{ value: "hd", label: "高清", description: "细节更丰富" },
 	];
 
 	// 风格选项
 	const styles = [
-		{ value: "vivid", label: "生动", description: "色彩鲜艳，富有创意" },
-		{ value: "natural", label: "自然", description: "更加真实自然" }
+		{ value: "vivid", label: "生动", description: "色彩鲜艳" },
+		{ value: "natural", label: "自然", description: "贴近现实" },
 	];
+
+	// 检查尺寸是否支持
+	const isSizeSupported = (sizeToCheck: string, modelToCheck: string) => {
+		const config = getCurrentModelConfig();
+
+		// 对于 Kolors 模型，检查特定的支持尺寸
+		if (modelToCheck === "Kwai-Kolors/Kolors") {
+			const supportedSizes = ["1024x1024", "1024x768", "768x1024"];
+			return supportedSizes.includes(sizeToCheck);
+		}
+
+		// 对于其他模型，使用配置的尺寸
+		return config?.supportedSizes?.includes(sizeToCheck) || false;
+	};
+
+	// 检查质量是否支持
+	const isQualitySupported = (qualityToCheck: string, modelToCheck: string) => {
+		const config = getCurrentModelConfig();
+
+		// 对于 Kolors 模型，如果没有质量配置，则默认支持标准质量
+		if (modelToCheck === "Kwai-Kolors/Kolors") {
+			return qualityToCheck === "standard";
+		}
+
+		// 对于其他模型，如果没有配置质量选项，则认为所有质量都支持
+		if (!config?.supportedQualities || config.supportedQualities.length === 0) {
+			return true;
+		}
+
+		return config.supportedQualities.includes(qualityToCheck);
+	};
+
+	// 检查风格是否支持
+	const isStyleSupported = (styleToCheck: string, modelToCheck: string) => {
+		const config = getCurrentModelConfig();
+
+		// 对于 Kolors 模型，如果没有风格配置，则默认支持 vivid 风格
+		if (modelToCheck === "Kwai-Kolors/Kolors") {
+			return styleToCheck === "vivid";
+		}
+
+		// 对于其他模型，如果没有配置风格选项，则认为所有风格都支持
+		if (!config?.supportedStyles || config.supportedStyles.length === 0) {
+			return true;
+		}
+
+		return config.supportedStyles.includes(styleToCheck);
+	};
 
 	// 示例提示词
 	const examplePrompts = [
 		"一只可爱的橙色猫咪坐在窗台上，阳光透过窗户洒进来，温暖的午后光线，摄影风格",
 		"未来城市的摩天大楼群，霓虹灯闪烁，赛博朋克风格，数字艺术，高清细节",
 		"中国古典山水画，水墨风格，远山如黛，近水含烟，诗意盎然",
-		"一座漂浮在云端的魔法城堡，彩虹桥连接天际，梦幻色彩，童话风格"
+		"一座漂浮在云端的魔法城堡，彩虹桥连接天际，梦幻色彩，童话风格",
 	];
 
-	// 模拟生成图片
+	// 真实的图片生成函数
 	const generateImage = async () => {
 		if (!prompt.trim()) return;
 
-		setIsGenerating(true);
-		setProgress(0);
+		try {
+			// 检查模型配置
+			const modelConfig = getCurrentModelConfig();
+			if (!modelConfig) {
+				throw new Error(`模型 ${model} 配置无效`);
+			}
 
-		// 模拟进度更新
-		const progressInterval = setInterval(() => {
-			setProgress(prev => {
-				if (prev >= 90) {
-					clearInterval(progressInterval);
-					return 90;
-				}
-				return prev + Math.random() * 20;
+			// 验证参数
+			if (!isSizeSupported(size, model)) {
+				throw new Error(`模型 ${model} 不支持尺寸 ${size}`);
+			}
+
+			if (!isQualitySupported(quality, model)) {
+				throw new Error(`模型 ${model} 不支持质量 ${quality}`);
+			}
+
+			if (!isStyleSupported(style, model)) {
+				throw new Error(`模型 ${model} 不支持风格 ${style}`);
+			}
+
+			await generate({
+				prompt: prompt.trim(),
+				negative_prompt: negativePrompt.trim() || undefined,
+				model,
+				size,
+				quality,
+				style,
+				response_format: "url",
+				n: 1,
 			});
-		}, 500);
+		} catch (error) {
+			console.error("Generate image failed:", error);
+			// 错误已经通过 useImageGeneration 处理
+		}
+	};
 
-		// 模拟 API 调用延迟
-		await new Promise(resolve => setTimeout(resolve, 3000 + Math.random() * 2000));
+	// 重置状态
+	const handleReset = () => {
+		reset();
+		setGeneratedImage(null);
+	};
 
-		// 生成随机图片
-		const randomSeed = Math.random().toString(36).substring(7);
-		const width = parseInt(size.split('x')[0]);
-		const height = parseInt(size.split('x')[1]);
-		const imageUrl = `https://picsum.photos/${width}/${height}?random=${randomSeed}`;
-
-		setGeneratedImage(imageUrl);
-		setProgress(100);
-		clearInterval(progressInterval);
-
-		// 保存到历史记录
-		onImageGenerated({
-			url: imageUrl,
-			prompt: prompt.trim(),
-			negativePrompt: negativePrompt.trim() || undefined,
-			model,
-			size,
-			quality,
-			style
-		});
-
-		setIsGenerating(false);
+	// 停止生成
+	const handleStopGeneration = () => {
+		stopGeneration();
 	};
 
 	// 下载图片
 	const downloadImage = () => {
 		if (!generatedImage) return;
 
-		const link = document.createElement('a');
+		const link = document.createElement("a");
 		link.href = generatedImage;
 		link.download = `ai-image-${Date.now()}.jpg`;
 		document.body.appendChild(link);
@@ -152,11 +292,44 @@ export default function ImageGenerator({ onImageGenerated, onImageSelect }: Imag
 
 	return (
 		<div className="space-y-6">
+			{/* API 配置状态提示 */}
+			{!apiConfig.openai.configured &&
+				!apiConfig.stability.configured &&
+				!apiConfig.midjourney.configured &&
+				!apiConfig.siliconflow.configured && (
+					<div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+						<div className="flex items-center gap-3">
+							<AlertCircle className="w-5 h-5 text-yellow-600" />
+							<div>
+								<h4 className="font-medium text-yellow-800">需要配置 API</h4>
+								<p className="text-sm text-yellow-700 mt-1">
+									请在环境变量中配置至少一个 AI 服务的 API 密钥
+								</p>
+							</div>
+						</div>
+					</div>
+				)}
+
+			{/* 错误提示 */}
+			{error && (
+				<div className="bg-red-50 border border-red-200 rounded-xl p-4">
+					<div className="flex items-center gap-3">
+						<AlertCircle className="w-5 h-5 text-red-600" />
+						<div>
+							<h4 className="font-medium text-red-800">生成失败</h4>
+							<p className="text-sm text-red-700 mt-1">{error}</p>
+						</div>
+					</div>
+				</div>
+			)}
+
 			{/* 主输入区域 */}
 			<div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
 				<div className="flex items-center gap-2 mb-4">
 					<Sparkles className="w-5 h-5 text-purple-500" />
-					<h3 className="text-lg font-semibold text-gray-900">描述你想要生成的图片</h3>
+					<h3 className="text-lg font-semibold text-gray-900">
+						描述你想要生成的图片
+					</h3>
 				</div>
 
 				{/* 提示词输入 */}
@@ -218,7 +391,7 @@ export default function ImageGenerator({ onImageGenerated, onImageSelect }: Imag
 								onChange={(e) => setModel(e.target.value)}
 								className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
 							>
-								{models.map(m => (
+								{models.map((m) => (
 									<option key={m.value} value={m.value}>
 										{m.label} - {m.description}
 									</option>
@@ -237,11 +410,19 @@ export default function ImageGenerator({ onImageGenerated, onImageSelect }: Imag
 									onChange={(e) => setSize(e.target.value)}
 									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
 								>
-									{sizes.map(s => (
-										<option key={s.value} value={s.value}>
-											{s.label}
-										</option>
-									))}
+									{sizes.map((s) => {
+										const supported = isSizeSupported(s.value, model);
+										return (
+											<option
+												key={s.value}
+												value={s.value}
+												disabled={!supported}
+												className={!supported ? "text-gray-400" : ""}
+											>
+												{s.label} {!supported && "(不支持)"}
+											</option>
+										);
+									})}
 								</select>
 							</div>
 
@@ -254,11 +435,19 @@ export default function ImageGenerator({ onImageGenerated, onImageSelect }: Imag
 									onChange={(e) => setQuality(e.target.value)}
 									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
 								>
-									{qualities.map(q => (
-										<option key={q.value} value={q.value}>
-											{q.label} - {q.description}
-										</option>
-									))}
+									{qualities.map((q) => {
+										const supported = isQualitySupported(q.value, model);
+										return (
+											<option
+												key={q.value}
+												value={q.value}
+												disabled={!supported}
+												className={!supported ? "text-gray-400" : ""}
+											>
+												{q.label} - {q.description} {!supported && "(不支持)"}
+											</option>
+										);
+									})}
 								</select>
 							</div>
 
@@ -271,45 +460,68 @@ export default function ImageGenerator({ onImageGenerated, onImageSelect }: Imag
 									onChange={(e) => setStyle(e.target.value)}
 									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
 								>
-									{styles.map(s => (
-										<option key={s.value} value={s.value}>
-											{s.label} - {s.description}
-										</option>
-									))}
+									{styles.map((s) => {
+										const supported = isStyleSupported(s.value, model);
+										return (
+											<option
+												key={s.value}
+												value={s.value}
+												disabled={!supported}
+												className={!supported ? "text-gray-400" : ""}
+											>
+												{s.label} - {s.description} {!supported && "(不支持)"}
+											</option>
+										);
+									})}
 								</select>
 							</div>
 						</div>
 					</div>
 				)}
 
-				{/* 生成按钮 */}
-				<button
-					onClick={generateImage}
-					disabled={!prompt.trim() || isGenerating}
-					className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium"
-				>
+				{/* 生成按钮区域 */}
+				<div className="flex gap-3">
 					{isGenerating ? (
 						<>
-							<Loader2 className="w-5 h-5 animate-spin" />
-							生成中... {Math.round(progress)}%
+							<button
+								onClick={handleStopGeneration}
+								className="flex-1 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+							>
+								<X className="w-5 h-5" />
+								停止生成
+							</button>
+							<button
+								onClick={handleReset}
+								className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+							>
+								<RefreshCw className="w-5 h-5" />
+								重置
+							</button>
 						</>
 					) : (
-						<>
+						<button
+							onClick={generateImage}
+							disabled={!prompt.trim() || isGenerating}
+							className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium"
+						>
 							<Wand2 className="w-5 h-5" />
 							生成图片
-						</>
+						</button>
 					)}
-				</button>
+				</div>
 
-				{/* 进度条 */}
+				{/* 进度条和状态 */}
 				{isGenerating && (
-					<div className="mt-3">
+					<div className="mt-3 space-y-2">
 						<div className="w-full bg-gray-200 rounded-full h-2">
 							<div
 								className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300"
 								style={{ width: `${progress}%` }}
 							></div>
 						</div>
+						{status && (
+							<p className="text-sm text-gray-600 text-center">{status}</p>
+						)}
 					</div>
 				)}
 			</div>
@@ -353,22 +565,24 @@ export default function ImageGenerator({ onImageGenerated, onImageSelect }: Imag
 							src={generatedImage}
 							alt="Generated image"
 							className="w-full rounded-lg shadow-md"
-							style={{ maxHeight: '512px', objectFit: 'contain' }}
+							style={{ maxHeight: "512px", objectFit: "contain" }}
 						/>
 						<div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-200 rounded-lg flex items-center justify-center">
 							<button
-								onClick={() => onImageSelect({
-									id: Date.now().toString(),
-									url: generatedImage,
-									prompt: prompt.trim(),
-									negativePrompt: negativePrompt.trim() || undefined,
-									model,
-									size,
-									quality,
-									style,
-									createdAt: new Date(),
-									isFavorite: false
-								})}
+								onClick={() =>
+									onImageSelect({
+										id: Date.now().toString(),
+										url: generatedImage,
+										prompt: prompt.trim(),
+										negativePrompt: negativePrompt.trim() || undefined,
+										model,
+										size,
+										quality,
+										style,
+										createdAt: new Date(),
+										isFavorite: false,
+									})
+								}
 								className="opacity-0 group-hover:opacity-100 bg-white text-gray-900 px-4 py-2 rounded-lg shadow-lg transition-all duration-200 transform scale-95 group-hover:scale-100"
 							>
 								查看详情
@@ -379,10 +593,21 @@ export default function ImageGenerator({ onImageGenerated, onImageSelect }: Imag
 					{/* 生成信息 */}
 					<div className="mt-4 p-3 bg-gray-50 rounded-lg">
 						<div className="text-sm text-gray-600 space-y-1">
-							<p><strong>模型:</strong> {models.find(m => m.value === model)?.label}</p>
-							<p><strong>尺寸:</strong> {size}</p>
-							<p><strong>质量:</strong> {qualities.find(q => q.value === quality)?.label}</p>
-							<p><strong>风格:</strong> {styles.find(s => s.value === style)?.label}</p>
+							<p>
+								<strong>模型:</strong>{" "}
+								{models.find((m) => m.value === model)?.label}
+							</p>
+							<p>
+								<strong>尺寸:</strong> {size}
+							</p>
+							<p>
+								<strong>质量:</strong>{" "}
+								{qualities.find((q) => q.value === quality)?.label}
+							</p>
+							<p>
+								<strong>风格:</strong>{" "}
+								{styles.find((s) => s.value === style)?.label}
+							</p>
 						</div>
 					</div>
 				</div>
