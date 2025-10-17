@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import Script from "next/script";
 import "../index.css";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "React Scenario Lab",
@@ -17,7 +14,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="zh-CN">
-			<body className={inter.className}>
+			<body className="font-sans antialiased">
 				{children}
 				{/* 百度统计代码 */}
 				<Script strategy="afterInteractive">

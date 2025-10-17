@@ -13,9 +13,6 @@ import {
 import Layout from "@/components/Layout";
 import Link from "next/link";
 import Image from "next/image";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
 
 interface PerformanceExample {
 	id: string;
@@ -86,27 +83,31 @@ function OptimizedImage() {
 		category: "Fonts",
 		difficulty: "初级",
 		status: "completed",
-		codeSnippet: `import { Inter, Roboto } from 'next/font/google';
+		codeSnippet: `// 方式1：使用 next/font (需要网络连接)
+import { Inter } from 'next/font/google';
 
-// 自动优化字体加载
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
-  display: 'swap', // 字体显示策略
-  preload: true, // 预加载字体
-  fallback: ['system-ui', 'arial'] // 后备字体
+  display: 'swap',
+  fallback: ['system-ui', 'sans-serif']
 });
 
-const roboto = Roboto({
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  variable: '--font-roboto'
+// 方式2：使用本地字体 (推荐用于生产环境)
+import localFont from 'next/font/local';
+
+const myFont = localFont({
+  src: './fonts/my-font.woff2',
+  variable: '--font-my-font',
+  display: 'swap'
 });
 
+// 方式3：使用系统字体 (最可靠)
 function App() {
   return (
-    <div className={\`\${inter.variable} \${roboto.variable}\`}>
-      {/* 应用字体 */}
+    <div className="font-sans">
+      {/* 使用 Tailwind 的系统字体堆栈 */}
+      {/* font-family: ui-sans-serif, system-ui, sans-serif */}
     </div>
   );
 }`,

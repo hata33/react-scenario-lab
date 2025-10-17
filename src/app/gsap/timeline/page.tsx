@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { useEffect, useRef } from "react";
 
 export default function Page() {
 	const itemsRef = useRef<HTMLDivElement[]>([]);
@@ -9,6 +9,7 @@ export default function Page() {
 	useEffect(() => {
 		const items = itemsRef.current.filter(Boolean);
 		if (items.length === 0) return;
+
 		const tl = gsap.timeline({
 			defaults: { duration: 0.5, ease: "power3.out" },
 		});
