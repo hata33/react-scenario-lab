@@ -8,7 +8,7 @@ export default function Page() {
 
 	useEffect(() => {
 		const items = itemsRef.current.filter(Boolean);
-		if (items.length === 0) return;
+		if (items.length === 0) return () => { };
 
 		const tl = gsap.timeline({
 			defaults: { duration: 0.5, ease: "power3.out" },
