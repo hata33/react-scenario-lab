@@ -10,7 +10,9 @@ interface HeroSectionProps {
 	onScrollTriggerUpdate?: (progress: number) => void;
 }
 
-export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps) {
+export default function HeroSection({
+	onScrollTriggerUpdate,
+}: HeroSectionProps) {
 	const heroRef = useRef<HTMLDivElement>(null);
 	const titleRef = useRef<HTMLHeadingElement>(null);
 	const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -22,11 +24,12 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 		if (!hero) return;
 
 		// 确保使用正确的滚动容器
-		const scroller = document.querySelector('#scroll-container') || window;
+		const scroller = document.querySelector("#scroll-container") || window;
 
 		// 标题动画：从下方滑入并淡入，滚动时向上移动并淡出
 		if (titleRef.current) {
-			gsap.fromTo(titleRef.current,
+			gsap.fromTo(
+				titleRef.current,
 				{ y: 100, opacity: 0, scale: 0.9 },
 				{
 					y: 0,
@@ -49,25 +52,26 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 								scrub: 1,
 								onUpdate: (self) => {
 									onScrollTriggerUpdate?.(self.progress);
-								}
-							}
+								},
+							},
 						});
-					}
-				}
+					},
+				},
 			);
 		}
 
 		// 副标题动画：延迟进入，滚动时淡出
 		if (subtitleRef.current) {
-			gsap.fromTo(subtitleRef.current,
+			gsap.fromTo(
+				subtitleRef.current,
 				{ y: 60, opacity: 0 },
 				{
 					y: 0,
 					opacity: 0.9,
 					duration: 1,
 					ease: "power2.out",
-					delay: 0.3
-				}
+					delay: 0.3,
+				},
 			);
 
 			gsap.to(subtitleRef.current, {
@@ -80,14 +84,15 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 					trigger: hero,
 					start: "top top",
 					end: "40% top",
-					scrub: 1
-				}
+					scrub: 1,
+				},
 			});
 		}
 
 		// CTA按钮动画：弹性进入
 		if (ctaRef.current) {
-			gsap.fromTo(ctaRef.current,
+			gsap.fromTo(
+				ctaRef.current,
 				{ y: 40, opacity: 0, scale: 0.8 },
 				{
 					y: 0,
@@ -95,8 +100,8 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 					scale: 1,
 					duration: 0.8,
 					ease: "back.out(1.7)",
-					delay: 0.6
-				}
+					delay: 0.6,
+				},
 			);
 
 			gsap.to(ctaRef.current, {
@@ -109,23 +114,24 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 					trigger: hero,
 					start: "20% top",
 					end: "60% top",
-					scrub: 1
-				}
+					scrub: 1,
+				},
 			});
 		}
 
 		// 背景元素动画：多层视差效果
 		if (bgRef.current) {
 			// 背景圆形缩放和移动
-			gsap.fromTo(bgRef.current,
+			gsap.fromTo(
+				bgRef.current,
 				{ scale: 0.8, x: 100, y: 100 },
 				{
 					scale: 1,
 					x: 0,
 					y: 0,
 					duration: 2,
-					ease: "power2.out"
-				}
+					ease: "power2.out",
+				},
 			);
 
 			gsap.to(bgRef.current, {
@@ -139,15 +145,15 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 					trigger: hero,
 					start: "top top",
 					end: "bottom top",
-					scrub: 1.5
-				}
+					scrub: 1.5,
+				},
 			});
 		}
 
 		// 创建粒子效果
 		const createParticles = () => {
-			const particlesContainer = document.createElement('div');
-			particlesContainer.className = 'particles-container';
+			const particlesContainer = document.createElement("div");
+			particlesContainer.className = "particles-container";
 			particlesContainer.style.cssText = `
 				position: absolute;
 				top: 0;
@@ -159,7 +165,7 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 			`;
 
 			for (let i = 0; i < 20; i++) {
-				const particle = document.createElement('div');
+				const particle = document.createElement("div");
 				const size = Math.random() * 4 + 2;
 				particle.style.cssText = `
 					position: absolute;
@@ -174,15 +180,16 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 				particlesContainer.appendChild(particle);
 
 				// 粒子动画
-				gsap.fromTo(particle,
+				gsap.fromTo(
+					particle,
 					{ opacity: 0, scale: 0 },
 					{
 						opacity: 1,
 						scale: 1,
 						duration: Math.random() * 2 + 1,
 						ease: "power2.out",
-						delay: Math.random() * 2
-					}
+						delay: Math.random() * 2,
+					},
 				);
 
 				gsap.to(particle, {
@@ -197,8 +204,8 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 						trigger: hero,
 						start: "top top",
 						end: "bottom top",
-						scrub: 1
-					}
+						scrub: 1,
+					},
 				});
 			}
 
@@ -209,7 +216,7 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 		const particlesContainer = createParticles();
 
 		return () => {
-			ScrollTrigger.getAll().forEach(st => st.kill());
+			ScrollTrigger.getAll().forEach((st) => st.kill());
 			if (particlesContainer && particlesContainer.parentNode) {
 				particlesContainer.parentNode.removeChild(particlesContainer);
 			}
@@ -222,12 +229,13 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 			style={{
 				minHeight: "100vh",
 				position: "relative",
-				background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
+				background:
+					"linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
 				overflow: "hidden",
-				marginBottom: "50vh"
+				marginBottom: "50vh",
 			}}
 		>
 			{/* 背景装饰元素 */}
@@ -239,9 +247,10 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 					right: "-20%",
 					width: "80%",
 					height: "160%",
-					background: "radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)",
+					background:
+						"radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)",
 					borderRadius: "50%",
-					filter: "blur(40px)"
+					filter: "blur(40px)",
 				}}
 			/>
 
@@ -253,21 +262,24 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 					left: "-10%",
 					width: "40%",
 					height: "40%",
-					background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%)",
+					background:
+						"radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%)",
 					borderRadius: "50%",
-					filter: "blur(30px)"
+					filter: "blur(30px)",
 				}}
 			/>
 
 			{/* 主要内容 */}
-			<div style={{
-				position: "relative",
-				zIndex: 2,
-				textAlign: "center",
-				color: "white",
-				maxWidth: "900px",
-				padding: "0 20px"
-			}}>
+			<div
+				style={{
+					position: "relative",
+					zIndex: 2,
+					textAlign: "center",
+					color: "white",
+					maxWidth: "900px",
+					padding: "0 20px",
+				}}
+			>
 				<h1
 					ref={titleRef}
 					style={{
@@ -276,16 +288,18 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 						marginBottom: 24,
 						lineHeight: 1.1,
 						textShadow: "0 4px 20px rgba(0,0,0,0.3)",
-						letterSpacing: "-0.02em"
+						letterSpacing: "-0.02em",
 					}}
 				>
-					ScrollTrigger <br/>
-					<span style={{
-						background: "linear-gradient(90deg, #fff, #f0f0f0)",
-						WebkitBackgroundClip: "text",
-						WebkitTextFillColor: "transparent",
-						backgroundClip: "text"
-					}}>
+					ScrollTrigger <br />
+					<span
+						style={{
+							background: "linear-gradient(90deg, #fff, #f0f0f0)",
+							WebkitBackgroundClip: "text",
+							WebkitTextFillColor: "transparent",
+							backgroundClip: "text",
+						}}
+					>
 						魔法实验室
 					</span>
 				</h1>
@@ -299,11 +313,12 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 						margin: "0 auto 40px",
 						lineHeight: 1.6,
 						fontWeight: 300,
-						textShadow: "0 2px 10px rgba(0,0,0,0.2)"
+						textShadow: "0 2px 10px rgba(0,0,0,0.2)",
 					}}
 				>
-					体验 GSAP ScrollTrigger 带来的极致滚动体验，包含视差、固定、时间轴等多种效果。
-					<br/>
+					体验 GSAP ScrollTrigger
+					带来的极致滚动体验，包含视差、固定、时间轴等多种效果。
+					<br />
 					<span style={{ fontSize: "0.9em", opacity: 0.8 }}>
 						向下滚动开始探索无限可能 ✨
 					</span>
@@ -324,20 +339,20 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 						fontWeight: 600,
 						cursor: "pointer",
 						transition: "all 0.3s ease",
-						boxShadow: "0 8px 32px rgba(0,0,0,0.1)"
+						boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
 					}}
 					onMouseEnter={(e) => {
 						gsap.to(e.currentTarget, {
 							scale: 1.05,
 							duration: 0.3,
-							ease: "power2.out"
+							ease: "power2.out",
 						});
 					}}
 					onMouseLeave={(e) => {
 						gsap.to(e.currentTarget, {
 							scale: 1,
 							duration: 0.3,
-							ease: "power2.out"
+							ease: "power2.out",
 						});
 					}}
 				>
@@ -347,32 +362,38 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 			</div>
 
 			{/* 滚动指示器 */}
-			<div style={{
-				position: "absolute",
-				bottom: 40,
-				left: "50%",
-				transform: "translateX(-50%)",
-				zIndex: 3
-			}}>
-				<div style={{
-					width: 30,
-					height: 50,
-					border: "2px solid rgba(255, 255, 255, 0.8)",
-					borderRadius: 15,
-					position: "relative",
-					cursor: "pointer"
-				}}>
-					<div style={{
-						width: 6,
-						height: 6,
-						background: "white",
-						borderRadius: "50%",
-						position: "absolute",
-						top: 8,
-						left: "50%",
-						transform: "translateX(-50%)",
-						animation: "scrollWheel 2s infinite"
-					}}/>
+			<div
+				style={{
+					position: "absolute",
+					bottom: 40,
+					left: "50%",
+					transform: "translateX(-50%)",
+					zIndex: 3,
+				}}
+			>
+				<div
+					style={{
+						width: 30,
+						height: 50,
+						border: "2px solid rgba(255, 255, 255, 0.8)",
+						borderRadius: 15,
+						position: "relative",
+						cursor: "pointer",
+					}}
+				>
+					<div
+						style={{
+							width: 6,
+							height: 6,
+							background: "white",
+							borderRadius: "50%",
+							position: "absolute",
+							top: 8,
+							left: "50%",
+							transform: "translateX(-50%)",
+							animation: "scrollWheel 2s infinite",
+						}}
+					/>
 				</div>
 			</div>
 

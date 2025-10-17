@@ -29,7 +29,7 @@ export default function PinSection() {
 			details: [
 				"gsap.registerPlugin(ScrollTrigger)",
 				"设置 scroller 和 trigger",
-				"配置 start 和 end 位置"
+				"配置 start 和 end 位置",
 			],
 			code: `gsap.registerPlugin(ScrollTrigger);\ngsap.to(element, {
   scrollTrigger: {
@@ -37,7 +37,7 @@ export default function PinSection() {
     start: "top top",
     end: "bottom top"
   }
-});`
+});`,
 		},
 		{
 			title: "第二步：配置触发器和动画",
@@ -46,7 +46,7 @@ export default function PinSection() {
 			details: [
 				"定义动画属性 (x, y, opacity, scale)",
 				"设置缓动函数 ease",
-				"配置持续时间 duration"
+				"配置持续时间 duration",
 			],
 			code: `gsap.to(element, {
   x: 100,
@@ -57,7 +57,7 @@ export default function PinSection() {
     trigger: element,
     start: "top 80%"
   }
-});`
+});`,
 		},
 		{
 			title: "第三步：添加 scrub 和 pin 效果",
@@ -66,7 +66,7 @@ export default function PinSection() {
 			details: [
 				"scrub: true 实现滚动联动",
 				"pin: true 固定元素",
-				"toggleActions 控制播放行为"
+				"toggleActions 控制播放行为",
 			],
 			code: `gsap.to(element, {
   x: 200,
@@ -77,7 +77,7 @@ export default function PinSection() {
     start: "top top",
     end: "+=100%"
   }
-});`
+});`,
 		},
 		{
 			title: "第四步：优化性能和用户体验",
@@ -86,13 +86,13 @@ export default function PinSection() {
 			details: [
 				"使用 invalidateOnRefresh",
 				"添加 markers 调试",
-				"处理响应式和移动端"
+				"处理响应式和移动端",
 			],
 			code: `ScrollTrigger.refresh();
 ScrollTrigger.addEventListener("refreshInit", () => {
   // 清理和重置逻辑
-});`
-		}
+});`,
+		},
 	];
 
 	const setStepRef = (idx: number) => (el: HTMLDivElement | null) => {
@@ -103,11 +103,12 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 		const section = sectionRef.current;
 		if (!section) return;
 
-		const scroller = document.querySelector('#scroll-container') || window;
+		const scroller = document.querySelector("#scroll-container") || window;
 
 		// 标题动画
 		if (titleRef.current) {
-			gsap.fromTo(titleRef.current,
+			gsap.fromTo(
+				titleRef.current,
 				{ y: 80, opacity: 0, scale: 0.9 },
 				{
 					y: 0,
@@ -120,9 +121,9 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 						trigger: titleRef.current,
 						start: "top 85%",
 						end: "top 15%",
-						toggleActions: "play none none reverse"
-					}
-				}
+						toggleActions: "play none none reverse",
+					},
+				},
 			);
 		}
 
@@ -148,8 +149,8 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 							hsl(${hue}, 70%, ${lightness}%),
 							hsl(${hue + 20}, 60%, ${lightness + 5}%))`;
 					}
-				}
-			}
+				},
+			},
 		});
 
 		// 内容区域的缩放和旋转动画
@@ -158,26 +159,26 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 				scale: 1.05,
 				rotation: 2,
 				duration: 0.5,
-				ease: "power2.inOut"
+				ease: "power2.inOut",
 			})
-			.to(contentRef.current, {
-				scale: 1,
-				rotation: -1,
-				duration: 0.5,
-				ease: "power2.inOut"
-			})
-			.to(contentRef.current, {
-				scale: 1.02,
-				rotation: 0.5,
-				duration: 0.5,
-				ease: "power2.inOut"
-			})
-			.to(contentRef.current, {
-				scale: 1,
-				rotation: 0,
-				duration: 0.5,
-				ease: "power2.inOut"
-			});
+				.to(contentRef.current, {
+					scale: 1,
+					rotation: -1,
+					duration: 0.5,
+					ease: "power2.inOut",
+				})
+				.to(contentRef.current, {
+					scale: 1.02,
+					rotation: 0.5,
+					duration: 0.5,
+					ease: "power2.inOut",
+				})
+				.to(contentRef.current, {
+					scale: 1,
+					rotation: 0,
+					duration: 0.5,
+					ease: "power2.inOut",
+				});
 		}
 
 		// 步骤动画
@@ -188,84 +189,101 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 			if (!stepData) return;
 
 			// 每个步骤的进入动画
-			tl.to(step, {
-				opacity: 1,
-				y: 0,
-				scale: 1,
-				rotation: 0,
-				duration: 0.8,
-				ease: "back.out(1.3)",
-			}, `step${i + 1}`);
+			tl.to(
+				step,
+				{
+					opacity: 1,
+					y: 0,
+					scale: 1,
+					rotation: 0,
+					duration: 0.8,
+					ease: "back.out(1.3)",
+				},
+				`step${i + 1}`,
+			);
 
 			// 步骤内容的详细动画
-			const title = step.querySelector('.step-title');
-			const description = step.querySelector('.step-description');
-			const icon = step.querySelector('.step-icon');
-			const details = step.querySelectorAll('.step-detail');
-			const codeBlock = step.querySelector('.step-code');
+			const title = step.querySelector(".step-title");
+			const description = step.querySelector(".step-description");
+			const icon = step.querySelector(".step-icon");
+			const details = step.querySelectorAll(".step-detail");
+			const codeBlock = step.querySelector(".step-code");
 
 			if (icon) {
-				tl.fromTo(icon,
+				tl.fromTo(
+					icon,
 					{ scale: 0, rotation: -180 },
 					{ scale: 1, rotation: 0, duration: 0.6, ease: "back.out(1.8)" },
-					`step${i + 1}+=0.1`
+					`step${i + 1}+=0.1`,
 				);
 			}
 
 			if (title) {
-				tl.fromTo(title,
+				tl.fromTo(
+					title,
 					{ x: -30, opacity: 0 },
 					{ x: 0, opacity: 1, duration: 0.5, ease: "power2.out" },
-					`step${i + 1}+=0.2`
+					`step${i + 1}+=0.2`,
 				);
 			}
 
 			if (description) {
-				tl.fromTo(description,
+				tl.fromTo(
+					description,
 					{ x: -30, opacity: 0 },
 					{ x: 0, opacity: 1, duration: 0.5, ease: "power2.out" },
-					`step${i + 1}+=0.3`
+					`step${i + 1}+=0.3`,
 				);
 			}
 
 			details.forEach((detail, idx) => {
-				tl.fromTo(detail,
+				tl.fromTo(
+					detail,
 					{ x: -20, opacity: 0 },
 					{ x: 0, opacity: 1, duration: 0.3, ease: "power2.out" },
-					`step${i + 1}+=${0.4 + idx * 0.1}`
+					`step${i + 1}+=${0.4 + idx * 0.1}`,
 				);
 			});
 
 			if (codeBlock) {
-				tl.fromTo(codeBlock,
+				tl.fromTo(
+					codeBlock,
 					{ y: 20, opacity: 0, scale: 0.95 },
 					{ y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" },
-					`step${i + 1}+=0.6`
+					`step${i + 1}+=0.6`,
 				);
 			}
 
 			// 高亮当前步骤
 			if (i < progressStepsRef.current.length - 1) {
-				tl.to(step, {
-					borderColor: "rgba(255, 255, 255, 0.6)",
-					background: "rgba(255, 255, 255, 0.15)",
-					duration: 0.3,
-					ease: "power2.inOut"
-				}, `step${i + 1}+=1.5`);
+				tl.to(
+					step,
+					{
+						borderColor: "rgba(255, 255, 255, 0.6)",
+						background: "rgba(255, 255, 255, 0.15)",
+						duration: 0.3,
+						ease: "power2.inOut",
+					},
+					`step${i + 1}+=1.5`,
+				);
 
 				// 取消高亮
-				tl.to(step, {
-					borderColor: "rgba(255, 255, 255, 0.2)",
-					background: "rgba(255, 255, 255, 0.1)",
-					duration: 0.3,
-					ease: "power2.inOut"
-				}, `step${i + 2}`);
+				tl.to(
+					step,
+					{
+						borderColor: "rgba(255, 255, 255, 0.2)",
+						background: "rgba(255, 255, 255, 0.1)",
+						duration: 0.3,
+						ease: "power2.inOut",
+					},
+					`step${i + 2}`,
+				);
 			}
 		});
 
 		// 创建背景粒子效果
 		const createBackgroundParticles = () => {
-			const particlesContainer = document.createElement('div');
+			const particlesContainer = document.createElement("div");
 			particlesContainer.style.cssText = `
 				position: absolute;
 				top: 0;
@@ -277,7 +295,7 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 			`;
 
 			for (let i = 0; i < 25; i++) {
-				const particle = document.createElement('div');
+				const particle = document.createElement("div");
 				const size = Math.random() * 3 + 1;
 				particle.style.cssText = `
 					position: absolute;
@@ -292,14 +310,18 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 				particlesContainer.appendChild(particle);
 
 				// 粒子随时间轴动画
-				tl.to(particle, {
-					y: -200 - Math.random() * 300,
-					x: (Math.random() - 0.5) * 100,
-					opacity: 0,
-					scale: 0,
-					duration: 2 + Math.random() * 2,
-					ease: "none"
-				}, Math.random() * 3);
+				tl.to(
+					particle,
+					{
+						y: -200 - Math.random() * 300,
+						x: (Math.random() - 0.5) * 100,
+						opacity: 0,
+						scale: 0,
+						duration: 2 + Math.random() * 2,
+						ease: "none",
+					},
+					Math.random() * 3,
+				);
 			}
 
 			section?.appendChild(particlesContainer);
@@ -309,7 +331,7 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 		const particlesContainer = createBackgroundParticles();
 
 		return () => {
-			ScrollTrigger.getAll().forEach(st => st.kill());
+			ScrollTrigger.getAll().forEach((st) => st.kill());
 			tl.kill();
 			if (particlesContainer && particlesContainer.parentNode) {
 				particlesContainer.parentNode.removeChild(particlesContainer);
@@ -327,23 +349,25 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 				alignItems: "center",
 				justifyContent: "center",
 				position: "relative",
-				overflow: "hidden"
+				overflow: "hidden",
 			}}
 		>
 			{/* 背景装饰 */}
-			<div style={{
-				position: "absolute",
-				top: 0,
-				left: 0,
-				width: "100%",
-				height: "100%",
-				background: `
+			<div
+				style={{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					width: "100%",
+					height: "100%",
+					background: `
 					radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
 					radial-gradient(circle at 70% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
 					radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.05) 0%, transparent 70%)
 				`,
-				pointerEvents: "none"
-			}} />
+					pointerEvents: "none",
+				}}
+			/>
 
 			{/* 主要内容 */}
 			<div
@@ -354,7 +378,7 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 					textAlign: "center",
 					color: "white",
 					maxWidth: 900,
-					padding: "0 40px"
+					padding: "0 40px",
 				}}
 			>
 				<h2
@@ -364,7 +388,7 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 						fontWeight: 800,
 						marginBottom: 60,
 						textShadow: "0 4px 20px rgba(0,0,0,0.3)",
-						letterSpacing: "-0.02em"
+						letterSpacing: "-0.02em",
 					}}
 				>
 					🎯 ScrollTrigger 实战教程
@@ -378,7 +402,7 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 						flexDirection: "column",
 						gap: 40,
 						maxWidth: "800px",
-						margin: "0 auto"
+						margin: "0 auto",
 					}}
 				>
 					{progressSteps.map((step, i) => (
@@ -398,43 +422,52 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 								transition: "all 0.3s ease",
 								textAlign: "left",
 								position: "relative",
-								overflow: "hidden"
+								overflow: "hidden",
 							}}
 							onMouseEnter={(e) => {
 								gsap.to(e.currentTarget, {
 									scale: 1.02,
 									duration: 0.3,
-									ease: "power2.out"
+									ease: "power2.out",
 								});
 							}}
 							onMouseLeave={(e) => {
 								gsap.to(e.currentTarget, {
 									scale: 1,
 									duration: 0.3,
-									ease: "power2.out"
+									ease: "power2.out",
 								});
 							}}
 						>
 							{/* 步骤编号 */}
-							<div style={{
-								position: "absolute",
-								top: 20,
-								right: 20,
-								width: 40,
-								height: 40,
-								background: "rgba(255,255,255,0.2)",
-								borderRadius: "50%",
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "center",
-								fontWeight: "bold",
-								fontSize: 18
-							}}>
+							<div
+								style={{
+									position: "absolute",
+									top: 20,
+									right: 20,
+									width: 40,
+									height: 40,
+									background: "rgba(255,255,255,0.2)",
+									borderRadius: "50%",
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+									fontWeight: "bold",
+									fontSize: 18,
+								}}
+							>
 								{i + 1}
 							</div>
 
 							{/* 图标和标题 */}
-							<div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
+							<div
+								style={{
+									display: "flex",
+									alignItems: "center",
+									gap: 16,
+									marginBottom: 20,
+								}}
+							>
 								<span className="step-icon" style={{ fontSize: 32 }}>
 									{step.icon}
 								</span>
@@ -444,7 +477,7 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 										fontSize: 24,
 										fontWeight: 700,
 										margin: 0,
-										color: "#f8fafc"
+										color: "#f8fafc",
 									}}
 								>
 									{step.title}
@@ -459,7 +492,7 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 									color: "#cbd5e1",
 									lineHeight: 1.6,
 									marginBottom: 20,
-									fontWeight: 500
+									fontWeight: 500,
 								}}
 							>
 								{step.description}
@@ -477,14 +510,16 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 											gap: 12,
 											marginBottom: 8,
 											fontSize: 16,
-											color: "#94a3b8"
+											color: "#94a3b8",
 										}}
 									>
-										<span style={{
-											color: "#3b82f6",
-											fontWeight: "bold",
-											marginTop: 2
-										}}>
+										<span
+											style={{
+												color: "#3b82f6",
+												fontWeight: "bold",
+												marginTop: 2,
+											}}
+										>
 											▸
 										</span>
 										{detail}
@@ -505,10 +540,16 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 										fontSize: 14,
 										lineHeight: 1.5,
 										overflow: "auto",
-										maxHeight: 200
+										maxHeight: 200,
 									}}
 								>
-									<pre style={{ margin: 0, color: "#e2e8f0", whiteSpace: "pre-wrap" }}>
+									<pre
+										style={{
+											margin: 0,
+											color: "#e2e8f0",
+											whiteSpace: "pre-wrap",
+										}}
+									>
 										{step.code}
 									</pre>
 								</div>
@@ -518,17 +559,19 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 				</div>
 
 				{/* 滚动提示 */}
-				<div style={{
-					marginTop: 60,
-					padding: "16px 24px",
-					background: "rgba(255,255,255,0.1)",
-					backdropFilter: "blur(10px)",
-					borderRadius: 30,
-					border: "1px solid rgba(255,255,255,0.2)",
-					display: "inline-block",
-					fontSize: 16,
-					color: "#cbd5e1"
-				}}>
+				<div
+					style={{
+						marginTop: 60,
+						padding: "16px 24px",
+						background: "rgba(255,255,255,0.1)",
+						backdropFilter: "blur(10px)",
+						borderRadius: 30,
+						border: "1px solid rgba(255,255,255,0.2)",
+						display: "inline-block",
+						fontSize: 16,
+						color: "#cbd5e1",
+					}}
+				>
 					📜 继续滚动查看完整教程
 				</div>
 			</div>

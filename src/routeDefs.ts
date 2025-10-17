@@ -118,7 +118,7 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "new-style-graph", title: "新风格力导向图" },
 		],
 	},
-		{
+	{
 		path: "nextjs-features",
 		title: "Next.js 特性",
 		children: [
@@ -158,7 +158,7 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "base", title: "基础入门" },
 			{ path: "timeline", title: "时间轴" },
 			{ path: "eases", title: "缓动函数" },
-			{ path: "stagger", title: "错位动画" }
+			{ path: "stagger", title: "错位动画" },
 		],
 	},
 ];

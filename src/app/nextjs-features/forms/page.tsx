@@ -8,7 +8,7 @@ import {
 	Edit3,
 	Shield,
 	Upload,
-	Database
+	Database,
 } from "lucide-react";
 import Link from "next/link";
 import Layout from "@/components/Layout";
@@ -17,7 +17,13 @@ interface FormExample {
 	id: string;
 	title: string;
 	description: string;
-	category: "Controlled" | "Uncontrolled" | "React Hook Form" | "Zod" | "File Upload" | "Multi-step";
+	category:
+		| "Controlled"
+		| "Uncontrolled"
+		| "React Hook Form"
+		| "Zod"
+		| "File Upload"
+		| "Multi-step";
 	difficulty: "初级" | "中级" | "高级";
 	status: "completed" | "in-progress" | "planned";
 	codeSnippet: string;
@@ -208,8 +214,8 @@ function ContactForm() {
 		performance: {
 			bundleSize: "0KB",
 			renderCount: "适中",
-			userExperience: "良好"
-		}
+			userExperience: "良好",
+		},
 	},
 	{
 		id: "react-hook-form",
@@ -420,8 +426,8 @@ function RegistrationForm() {
 		performance: {
 			bundleSize: "27KB",
 			renderCount: "最少",
-			userExperience: "优秀"
-		}
+			userExperience: "优秀",
+		},
 	},
 	{
 		id: "zod-validation",
@@ -673,8 +679,8 @@ function UserProfileForm() {
 		performance: {
 			bundleSize: "3KB",
 			renderCount: "最少",
-			userExperience: "优秀"
-		}
+			userExperience: "优秀",
+		},
 	},
 	{
 		id: "file-upload",
@@ -974,8 +980,8 @@ function FileUploadForm() {
 		performance: {
 			bundleSize: "适中",
 			renderCount: "最少",
-			userExperience: "优秀"
-		}
+			userExperience: "优秀",
+		},
 	},
 	{
 		id: "multi-step-form",
@@ -1248,13 +1254,15 @@ function PersonalInfoStep() {
 		performance: {
 			bundleSize: "适中",
 			renderCount: "最少",
-			userExperience: "优秀"
-		}
-	}
+			userExperience: "优秀",
+		},
+	},
 ];
 
 export default function FormsFeaturePage() {
-	const [selectedExample, setSelectedExample] = useState<FormExample | null>(null);
+	const [selectedExample, setSelectedExample] = useState<FormExample | null>(
+		null,
+	);
 
 	const getCategoryColor = (category: FormExample["category"]) => {
 		switch (category) {
@@ -1335,7 +1343,8 @@ export default function FormsFeaturePage() {
 										表单处理特性
 									</h1>
 									<p className="text-gray-600">
-										Next.js 完整表单解决方案：受控组件、React Hook Form、Zod 验证
+										Next.js 完整表单解决方案：受控组件、React Hook Form、Zod
+										验证
 									</p>
 								</div>
 							</div>
@@ -1366,7 +1375,9 @@ export default function FormsFeaturePage() {
 								<div className="flex items-center justify-center mb-2">
 									<Database className="w-6 h-6 text-purple-600" />
 								</div>
-								<h3 className="font-semibold text-purple-900 mb-2">Hook Form</h3>
+								<h3 className="font-semibold text-purple-900 mb-2">
+									Hook Form
+								</h3>
 								<p className="text-sm text-purple-700">高性能</p>
 								<div className="mt-2 text-xs text-purple-600">
 									<div>🚀 性能优秀</div>
@@ -1451,21 +1462,21 @@ export default function FormsFeaturePage() {
 												<div className="flex items-center space-x-2 mb-2">
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(
-															example.category
+															example.category,
 														)}`}
 													>
 														{example.category}
 													</span>
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
-															example.difficulty
+															example.difficulty,
 														)}`}
 													>
 														{example.difficulty}
 													</span>
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-															example.status
+															example.status,
 														)}`}
 													>
 														{getStatusText(example.status)}
@@ -1498,7 +1509,7 @@ export default function FormsFeaturePage() {
 											<div className="flex items-center space-x-2">
 												<span
 													className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(
-														selectedExample.category
+														selectedExample.category,
 													)}`}
 												>
 													{selectedExample.category}
@@ -1510,17 +1521,13 @@ export default function FormsFeaturePage() {
 										</p>
 										<div className="grid grid-cols-3 gap-4 text-sm">
 											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													包体积
-												</div>
+												<div className="font-medium text-gray-900">包体积</div>
 												<div className="text-gray-600">
 													{selectedExample.performance.bundleSize}
 												</div>
 											</div>
 											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													重渲染
-												</div>
+												<div className="font-medium text-gray-900">重渲染</div>
 												<div className="text-gray-600">
 													{selectedExample.performance.renderCount}
 												</div>
@@ -1583,7 +1590,9 @@ export default function FormsFeaturePage() {
 										<div className="p-6 bg-green-50 border-t border-green-200">
 											<div className="flex items-center space-x-2 text-green-800">
 												<CheckCircle className="w-5 h-5" />
-												<span className="font-medium">该表单方案已完成并可用</span>
+												<span className="font-medium">
+													该表单方案已完成并可用
+												</span>
 											</div>
 										</div>
 									)}

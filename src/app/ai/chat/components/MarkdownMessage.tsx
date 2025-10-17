@@ -11,7 +11,10 @@ interface MarkdownMessageProps {
 	className?: string;
 }
 
-export default function MarkdownMessage({ content, className = "" }: MarkdownMessageProps) {
+export default function MarkdownMessage({
+	content,
+	className = "",
+}: MarkdownMessageProps) {
 	return (
 		<div className={`prose prose-sm max-w-none ${className}`}>
 			<ReactMarkdown
@@ -28,7 +31,9 @@ export default function MarkdownMessage({ content, className = "" }: MarkdownMes
 									<span>{language}</span>
 									<button
 										onClick={() => {
-											navigator.clipboard.writeText(String(children).replace(/\n$/, ""));
+											navigator.clipboard.writeText(
+												String(children).replace(/\n$/, ""),
+											);
 										}}
 										className="hover:text-white transition-colors"
 									>
@@ -46,7 +51,10 @@ export default function MarkdownMessage({ content, className = "" }: MarkdownMes
 								</SyntaxHighlighter>
 							</div>
 						) : (
-							<code className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono" {...props}>
+							<code
+								className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono"
+								{...props}
+							>
 								{children}
 							</code>
 						);
@@ -62,10 +70,18 @@ export default function MarkdownMessage({ content, className = "" }: MarkdownMes
 						);
 					},
 					ul({ children }) {
-						return <ul className="list-disc list-inside my-2 space-y-1">{children}</ul>;
+						return (
+							<ul className="list-disc list-inside my-2 space-y-1">
+								{children}
+							</ul>
+						);
 					},
 					ol({ children }) {
-						return <ol className="list-decimal list-inside my-2 space-y-1">{children}</ol>;
+						return (
+							<ol className="list-decimal list-inside my-2 space-y-1">
+								{children}
+							</ol>
+						);
 					},
 					h1({ children }) {
 						return <h1 className="text-2xl font-bold my-4">{children}</h1>;
@@ -109,9 +125,7 @@ export default function MarkdownMessage({ content, className = "" }: MarkdownMes
 					},
 					td({ children }) {
 						return (
-							<td className="border border-gray-300 px-4 py-2">
-								{children}
-							</td>
+							<td className="border border-gray-300 px-4 py-2">{children}</td>
 						);
 					},
 				}}

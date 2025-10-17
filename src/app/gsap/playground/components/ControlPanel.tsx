@@ -14,7 +14,7 @@ export default function ControlPanel({
 	onScrubChange,
 	onMarkersChange,
 	onRefresh,
-	onSpeedChange
+	onSpeedChange,
 }: ControlPanelProps) {
 	const [scrubValue, setScrubValue] = useState(true);
 	const [markers, setMarkers] = useState(false);
@@ -45,11 +45,11 @@ export default function ControlPanel({
 			scrub: scrubValue,
 			markers: markers,
 			speed: speed,
-			timestamp: new Date().toISOString()
+			timestamp: new Date().toISOString(),
 		};
 
 		const blob = new Blob([JSON.stringify(config, null, 2)], {
-			type: "application/json"
+			type: "application/json",
 		});
 
 		const url = URL.createObjectURL(blob);
@@ -83,19 +83,21 @@ export default function ControlPanel({
 				zIndex: 1000,
 				boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
 				minWidth: 280,
-				maxWidth: 320
+				maxWidth: 320,
 			}}
 		>
 			{/* 标题 */}
-			<h3 style={{
-				fontSize: 18,
-				fontWeight: 700,
-				marginBottom: 16,
-				color: "#1e293b",
-				display: "flex",
-				alignItems: "center",
-				gap: 8
-			}}>
+			<h3
+				style={{
+					fontSize: 18,
+					fontWeight: 700,
+					marginBottom: 16,
+					color: "#1e293b",
+					display: "flex",
+					alignItems: "center",
+					gap: 8,
+				}}
+			>
 				<span>🎛️</span>
 				控制面板
 			</h3>
@@ -103,25 +105,29 @@ export default function ControlPanel({
 			{/* 控制选项 */}
 			<div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
 				{/* Scrub 控制 */}
-				<div style={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "space-between",
-					padding: "12px 16px",
-					background: "#f8fafc",
-					borderRadius: 12,
-					border: "1px solid #e2e8f0"
-				}}>
-					<label style={{
-						fontSize: 14,
-						fontWeight: 600,
-						color: "#475569",
-						cursor: "pointer",
-						userSelect: "none",
+				<div
+					style={{
 						display: "flex",
 						alignItems: "center",
-						gap: 8
-					}}>
+						justifyContent: "space-between",
+						padding: "12px 16px",
+						background: "#f8fafc",
+						borderRadius: 12,
+						border: "1px solid #e2e8f0",
+					}}
+				>
+					<label
+						style={{
+							fontSize: 14,
+							fontWeight: 600,
+							color: "#475569",
+							cursor: "pointer",
+							userSelect: "none",
+							display: "flex",
+							alignItems: "center",
+							gap: 8,
+						}}
+					>
 						<input
 							type="checkbox"
 							checked={scrubValue}
@@ -130,40 +136,46 @@ export default function ControlPanel({
 								width: 18,
 								height: 18,
 								cursor: "pointer",
-								accentColor: "#3b82f6"
+								accentColor: "#3b82f6",
 							}}
 						/>
 						Scrub
 					</label>
-					<span style={{
-						fontSize: 12,
-						color: scrubValue ? "#3b82f6" : "#94a3b8",
-						fontWeight: 600
-					}}>
+					<span
+						style={{
+							fontSize: 12,
+							color: scrubValue ? "#3b82f6" : "#94a3b8",
+							fontWeight: 600,
+						}}
+					>
 						{scrubValue ? "ON" : "OFF"}
 					</span>
 				</div>
 
 				{/* Markers 控制 */}
-				<div style={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "space-between",
-					padding: "12px 16px",
-					background: "#f8fafc",
-					borderRadius: 12,
-					border: "1px solid #e2e8f0"
-				}}>
-					<label style={{
-						fontSize: 14,
-						fontWeight: 600,
-						color: "#475569",
-						cursor: "pointer",
-						userSelect: "none",
+				<div
+					style={{
 						display: "flex",
 						alignItems: "center",
-						gap: 8
-					}}>
+						justifyContent: "space-between",
+						padding: "12px 16px",
+						background: "#f8fafc",
+						borderRadius: 12,
+						border: "1px solid #e2e8f0",
+					}}
+				>
+					<label
+						style={{
+							fontSize: 14,
+							fontWeight: 600,
+							color: "#475569",
+							cursor: "pointer",
+							userSelect: "none",
+							display: "flex",
+							alignItems: "center",
+							gap: 8,
+						}}
+					>
 						<input
 							type="checkbox"
 							checked={markers}
@@ -172,45 +184,55 @@ export default function ControlPanel({
 								width: 18,
 								height: 18,
 								cursor: "pointer",
-								accentColor: "#3b82f6"
+								accentColor: "#3b82f6",
 							}}
 						/>
 						Markers
 					</label>
-					<span style={{
-						fontSize: 12,
-						color: markers ? "#3b82f6" : "#94a3b8",
-						fontWeight: 600
-					}}>
+					<span
+						style={{
+							fontSize: 12,
+							color: markers ? "#3b82f6" : "#94a3b8",
+							fontWeight: 600,
+						}}
+					>
 						{markers ? "ON" : "OFF"}
 					</span>
 				</div>
 
 				{/* 速度控制 */}
-				<div style={{
-					padding: "12px 16px",
-					background: "#f8fafc",
-					borderRadius: 12,
-					border: "1px solid #e2e8f0"
-				}}>
-					<div style={{
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "space-between",
-						marginBottom: 8
-					}}>
-						<label style={{
-							fontSize: 14,
-							fontWeight: 600,
-							color: "#475569"
-						}}>
+				<div
+					style={{
+						padding: "12px 16px",
+						background: "#f8fafc",
+						borderRadius: 12,
+						border: "1px solid #e2e8f0",
+					}}
+				>
+					<div
+						style={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "space-between",
+							marginBottom: 8,
+						}}
+					>
+						<label
+							style={{
+								fontSize: 14,
+								fontWeight: 600,
+								color: "#475569",
+							}}
+						>
 							动画速度
 						</label>
-						<span style={{
-							fontSize: 12,
-							color: "#3b82f6",
-							fontWeight: 600
-						}}>
+						<span
+							style={{
+								fontSize: 12,
+								color: "#3b82f6",
+								fontWeight: 600,
+							}}
+						>
 							{speed.toFixed(1)}x
 						</span>
 					</div>
@@ -228,17 +250,19 @@ export default function ControlPanel({
 							background: "#e2e8f0",
 							outline: "none",
 							cursor: "pointer",
-							accentColor: "#3b82f6"
+							accentColor: "#3b82f6",
 						}}
 					/>
 				</div>
 
 				{/* 操作按钮 */}
-				<div style={{
-					display: "flex",
-					flexDirection: "column",
-					gap: 8
-				}}>
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						gap: 8,
+					}}
+				>
 					<button
 						onClick={handleRefresh}
 						style={{
@@ -254,7 +278,7 @@ export default function ControlPanel({
 							display: "flex",
 							alignItems: "center",
 							justifyContent: "center",
-							gap: 8
+							gap: 8,
 						}}
 						onMouseEnter={(e) => {
 							e.currentTarget.style.background = "#2563eb";
@@ -286,7 +310,7 @@ export default function ControlPanel({
 								display: "flex",
 								alignItems: "center",
 								justifyContent: "center",
-								gap: 6
+								gap: 6,
 							}}
 							onMouseEnter={(e) => {
 								e.currentTarget.style.background = "#059669";
@@ -317,7 +341,7 @@ export default function ControlPanel({
 								display: "flex",
 								alignItems: "center",
 								justifyContent: "center",
-								gap: 6
+								gap: 6,
 							}}
 							onMouseEnter={(e) => {
 								e.currentTarget.style.background = "#dc2626";
@@ -335,28 +359,36 @@ export default function ControlPanel({
 				</div>
 
 				{/* 统计信息 */}
-				<div style={{
-					marginTop: 16,
-					padding: "12px 16px",
-					background: "#f1f5f9",
-					borderRadius: 12,
-					border: "1px solid #e2e8f0"
-				}}>
-					<div style={{
-						fontSize: 12,
-						color: "#64748b",
-						marginBottom: 8,
-						fontWeight: 600
-					}}>
+				<div
+					style={{
+						marginTop: 16,
+						padding: "12px 16px",
+						background: "#f1f5f9",
+						borderRadius: 12,
+						border: "1px solid #e2e8f0",
+					}}
+				>
+					<div
+						style={{
+							fontSize: 12,
+							color: "#64748b",
+							marginBottom: 8,
+							fontWeight: 600,
+						}}
+					>
 						统计信息
 					</div>
-					<div style={{
-						fontSize: 11,
-						color: "#94a3b8",
-						lineHeight: 1.4
-					}}>
+					<div
+						style={{
+							fontSize: 11,
+							color: "#94a3b8",
+							lineHeight: 1.4,
+						}}
+					>
 						<div>ScrollTrigger 实例: {ScrollTrigger.getAll().length}</div>
-						<div>当前配置: {JSON.stringify({ scrub: scrubValue, markers, speed })}</div>
+						<div>
+							当前配置: {JSON.stringify({ scrub: scrubValue, markers, speed })}
+						</div>
 					</div>
 				</div>
 			</div>

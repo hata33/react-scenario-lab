@@ -42,23 +42,25 @@ export function useImageHistory() {
 			createdAt: new Date(),
 		};
 
-		setImages(prev => [newImage, ...prev]);
+		setImages((prev) => [newImage, ...prev]);
 		return newImage;
 	};
 
 	// 删除图片
 	const deleteImage = (id: string) => {
-		setImages(prev => prev.filter(image => image.id !== id));
+		setImages((prev) => prev.filter((image) => image.id !== id));
 	};
 
 	// 切换收藏状态
 	const toggleFavorite = (id: string) => {
-		setImages(prev => prev.map(image => {
-			if (image.id === id) {
-				return { ...image, isFavorite: !image.isFavorite };
-			}
-			return image;
-		}));
+		setImages((prev) =>
+			prev.map((image) => {
+				if (image.id === id) {
+					return { ...image, isFavorite: !image.isFavorite };
+				}
+				return image;
+			}),
+		);
 	};
 
 	// 清空历史记录
@@ -74,19 +76,19 @@ export function useImageHistory() {
 		const exportData = {
 			version: "1.0",
 			exportDate: new Date().toISOString(),
-			images: images.map(image => ({
+			images: images.map((image) => ({
 				...image,
 				createdAt: image.createdAt.toISOString(),
 			})),
 		};
 
 		const blob = new Blob([JSON.stringify(exportData, null, 2)], {
-			type: "application/json"
+			type: "application/json",
 		});
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement("a");
 		a.href = url;
-		a.download = `image-history-${new Date().toISOString().split('T')[0]}.json`;
+		a.download = `image-history-${new Date().toISOString().split("T")[0]}.json`;
 		document.body.appendChild(a);
 		a.click();
 		document.body.removeChild(a);
@@ -95,14 +97,14 @@ export function useImageHistory() {
 
 	// 获取收藏的图片
 	const getFavoriteImages = () => {
-		return images.filter(image => image.isFavorite);
+		return images.filter((image) => image.isFavorite);
 	};
 
 	// 按日期分组图片
 	const getImagesByDate = () => {
 		const grouped: Record<string, GeneratedImage[]> = {};
 
-		images.forEach(image => {
+		images.forEach((image) => {
 			const date = image.createdAt.toLocaleDateString("zh-CN");
 			if (!grouped[date]) {
 				grouped[date] = [];
@@ -118,38 +120,42 @@ export function useImageHistory() {
 		if (!query.trim()) return images;
 
 		const lowercaseQuery = query.toLowerCase();
-		return images.filter(image =>
-			image.prompt.toLowerCase().includes(lowercaseQuery) ||
-			image.negativePrompt?.toLowerCase().includes(lowercaseQuery) ||
-			image.model.toLowerCase().includes(lowercaseQuery) ||
-			image.style.toLowerCase().includes(lowercaseQuery)
+		return images.filter(
+			(image) =>
+				image.prompt.toLowerCase().includes(lowercaseQuery) ||
+				image.negativePrompt?.toLowerCase().includes(lowercaseQuery) ||
+				image.model.toLowerCase().includes(lowercaseQuery) ||
+				image.style.toLowerCase().includes(lowercaseQuery),
 		);
 	};
 
 	// 按模型筛选
 	const filterByModel = (model: string) => {
-		return images.filter(image => image.model === model);
+		return images.filter((image) => image.model === model);
 	};
 
 	// 按尺寸筛选
 	const filterBySize = (size: string) => {
-		return images.filter(image => image.size === size);
+		return images.filter((image) => image.size === size);
 	};
 
 	// 获取统计信息
 	const getStats = () => {
 		const total = images.length;
-		const favorites = images.filter(img => img.isFavorite).length;
-		const modelCounts = images.reduce((acc, img) => {
-			acc[img.model] = (acc[img.model] || 0) + 1;
-			return acc;
-		}, {} as Record<string, number>);
+		const favorites = images.filter((img) => img.isFavorite).length;
+		const modelCounts = images.reduce(
+			(acc, img) => {
+				acc[img.model] = (acc[img.model] || 0) + 1;
+				return acc;
+			},
+			{} as Record<string, number>,
+		);
 
 		return {
 			total,
 			favorites,
 			modelCounts,
-				};
+		};
 	};
 
 	return {

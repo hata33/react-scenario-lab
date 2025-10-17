@@ -6,7 +6,11 @@ interface InputAreaProps {
 	onSendMessage: () => void;
 }
 
-export default function InputArea({ value, onChange, onSendMessage }: InputAreaProps) {
+export default function InputArea({
+	value,
+	onChange,
+	onSendMessage,
+}: InputAreaProps) {
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === "Enter" && !e.shiftKey) {
 			e.preventDefault();

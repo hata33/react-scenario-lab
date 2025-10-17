@@ -36,63 +36,63 @@ export default function DynamicFormBuilder() {
 	return (
 		<Layout>
 			<div className="min-h-screen bg-gray-50">
-			{/* 头部导航 */}
-			<FormHeader
-				mode={mode}
-				onModeToggle={toggleMode}
-				onExport={exportForm}
-				onImport={importForm}
-				fileInputRef={fileInputRef}
-			/>
+				{/* 头部导航 */}
+				<FormHeader
+					mode={mode}
+					onModeToggle={toggleMode}
+					onExport={exportForm}
+					onImport={importForm}
+					fileInputRef={fileInputRef}
+				/>
 
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-				{mode === "builder" ? (
-					<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-						{/* 左侧：字段选择器 */}
-						<div className="lg:col-span-1">
-							<FieldLibrary
-								activeTab={activeTab}
-								onTabChange={setActiveTab}
-								onFieldSelect={addField}
-								onTemplateSelect={loadTemplate}
-							/>
-						</div>
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+					{mode === "builder" ? (
+						<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+							{/* 左侧：字段选择器 */}
+							<div className="lg:col-span-1">
+								<FieldLibrary
+									activeTab={activeTab}
+									onTabChange={setActiveTab}
+									onFieldSelect={addField}
+									onTemplateSelect={loadTemplate}
+								/>
+							</div>
 
-						{/* 中间：表单构建区 */}
-						<div className="lg:col-span-2">
-							<FormBuilder
-								formConfig={formConfig}
-								onConfigChange={setFormConfig}
-								onFieldSelect={setSelectedField}
-								onFieldDelete={deleteField}
-								selectedField={selectedField}
-								formData={formData}
-								onFieldChange={handleFieldChange}
-								errors={errors}
-							/>
-						</div>
+							{/* 中间：表单构建区 */}
+							<div className="lg:col-span-2">
+								<FormBuilder
+									formConfig={formConfig}
+									onConfigChange={setFormConfig}
+									onFieldSelect={setSelectedField}
+									onFieldDelete={deleteField}
+									selectedField={selectedField}
+									formData={formData}
+									onFieldChange={handleFieldChange}
+									errors={errors}
+								/>
+							</div>
 
-						{/* 右侧：字段属性编辑器 */}
-						<div className="lg:col-span-1">
-							<FieldProperties
-								selectedField={selectedField}
-								onFieldUpdate={updateField}
-							/>
+							{/* 右侧：字段属性编辑器 */}
+							<div className="lg:col-span-1">
+								<FieldProperties
+									selectedField={selectedField}
+									onFieldUpdate={updateField}
+								/>
+							</div>
 						</div>
-					</div>
-				) : (
-					/* 预览模式 */
-					<FormPreview
-						formConfig={formConfig}
-						formData={formData}
-						onFieldChange={handleFieldChange}
-						onSubmit={handleSubmit}
-						onReset={resetForm}
-						errors={errors}
-					/>
-				)}
+					) : (
+						/* 预览模式 */
+						<FormPreview
+							formConfig={formConfig}
+							formData={formData}
+							onFieldChange={handleFieldChange}
+							onSubmit={handleSubmit}
+							onReset={resetForm}
+							errors={errors}
+						/>
+					)}
+				</div>
 			</div>
-		</div>
 		</Layout>
 	);
 }

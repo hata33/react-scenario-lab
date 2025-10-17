@@ -12,7 +12,7 @@ interface BackButtonProps {
 export default function BackButton({
 	className = "",
 	text = "返回",
-	onClick
+	onClick,
 }: BackButtonProps) {
 	const router = useRouter();
 

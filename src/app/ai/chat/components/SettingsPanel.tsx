@@ -7,7 +7,10 @@ interface SettingsPanelProps {
 	onApiKeyChange: (apiKey: string) => void;
 }
 
-export default function SettingsPanel({ onModelChange, onApiKeyChange }: SettingsPanelProps) {
+export default function SettingsPanel({
+	onModelChange,
+	onApiKeyChange,
+}: SettingsPanelProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedModel, setSelectedModel] = useState("gpt-3.5-turbo");
 	const [apiKey, setApiKey] = useState("");

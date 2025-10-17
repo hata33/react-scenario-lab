@@ -7,8 +7,8 @@ import {
 	CheckCircle,
 	Brush,
 	Monitor,
-	 Smartphone,
-	Settings
+	Smartphone,
+	Settings,
 } from "lucide-react";
 import Link from "next/link";
 import Layout from "@/components/Layout";
@@ -17,7 +17,12 @@ interface StylingExample {
 	id: string;
 	title: string;
 	description: string;
-	framework: "Tailwind" | "CSS Modules" | "Styled Components" | "Emotion" | "Global CSS";
+	framework:
+		| "Tailwind"
+		| "CSS Modules"
+		| "Styled Components"
+		| "Emotion"
+		| "Global CSS";
 	difficulty: "初级" | "中级" | "高级";
 	status: "completed" | "in-progress" | "planned";
 	codeSnippet: string;
@@ -75,8 +80,8 @@ function Button({ variant = 'primary', children }) {
 		performance: {
 			bundleSize: "< 10KB",
 			runtime: "极快",
-			maintainability: "优秀"
-		}
+			maintainability: "优秀",
+		},
 	},
 	{
 		id: "css-modules",
@@ -124,8 +129,8 @@ function Button({ variant = 'primary', children }) {
 		performance: {
 			bundleSize: "轻量级",
 			runtime: "快速",
-			maintainability: "良好"
-		}
+			maintainability: "良好",
+		},
 	},
 	{
 		id: "styled-components",
@@ -188,8 +193,8 @@ function App() {
 		performance: {
 			bundleSize: "中等",
 			runtime: "良好",
-			maintainability: "优秀"
-		}
+			maintainability: "优秀",
+		},
 	},
 	{
 		id: "emotion-react",
@@ -251,8 +256,8 @@ function App() {
 		performance: {
 			bundleSize: "< 15KB",
 			runtime: "快速",
-			maintainability: "优秀"
-		}
+			maintainability: "优秀",
+		},
 	},
 	{
 		id: "global-css-variables",
@@ -320,8 +325,8 @@ function App() {
 		performance: {
 			bundleSize: "极小",
 			runtime: "最快",
-			maintainability: "良好"
-		}
+			maintainability: "良好",
+		},
 	},
 	{
 		id: "responsive-design",
@@ -380,13 +385,15 @@ function ResponsiveLayout() {
 		performance: {
 			bundleSize: "轻量级",
 			runtime: "优秀",
-			maintainability: "良好"
-		}
-	}
+			maintainability: "良好",
+		},
+	},
 ];
 
 export default function StylingFeaturePage() {
-	const [selectedExample, setSelectedExample] = useState<StylingExample | null>(null);
+	const [selectedExample, setSelectedExample] = useState<StylingExample | null>(
+		null,
+	);
 
 	const getFrameworkColor = (framework: StylingExample["framework"]) => {
 		switch (framework) {
@@ -496,7 +503,9 @@ export default function StylingFeaturePage() {
 								<div className="flex items-center justify-center mb-2">
 									<Settings className="w-6 h-6 text-blue-600" />
 								</div>
-								<h3 className="font-semibold text-blue-900 mb-2">CSS Modules</h3>
+								<h3 className="font-semibold text-blue-900 mb-2">
+									CSS Modules
+								</h3>
 								<p className="text-sm text-blue-700">模块化样式</p>
 								<div className="mt-2 text-xs text-blue-600">
 									<div>🔒 局部作用域</div>
@@ -508,7 +517,9 @@ export default function StylingFeaturePage() {
 								<div className="flex items-center justify-center mb-2">
 									<Palette className="w-6 h-6 text-pink-600" />
 								</div>
-								<h3 className="font-semibold text-pink-900 mb-2">Styled Comp</h3>
+								<h3 className="font-semibold text-pink-900 mb-2">
+									Styled Comp
+								</h3>
 								<p className="text-sm text-pink-700">CSS-in-JS</p>
 								<div className="mt-2 text-xs text-pink-600">
 									<div>🎯 动态样式</div>
@@ -532,7 +543,9 @@ export default function StylingFeaturePage() {
 								<div className="flex items-center justify-center mb-2">
 									<Monitor className="w-6 h-6 text-green-600" />
 								</div>
-								<h3 className="font-semibold text-green-900 mb-2">Global CSS</h3>
+								<h3 className="font-semibold text-green-900 mb-2">
+									Global CSS
+								</h3>
 								<p className="text-sm text-green-700">全局样式系统</p>
 								<div className="mt-2 text-xs text-green-600">
 									<div>🌐 原生支持</div>
@@ -569,21 +582,21 @@ export default function StylingFeaturePage() {
 												<div className="flex items-center space-x-2 mb-2">
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getFrameworkColor(
-															example.framework
+															example.framework,
 														)}`}
 													>
 														{example.framework}
 													</span>
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
-															example.difficulty
+															example.difficulty,
 														)}`}
 													>
 														{example.difficulty}
 													</span>
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-															example.status
+															example.status,
 														)}`}
 													>
 														{getStatusText(example.status)}
@@ -616,7 +629,7 @@ export default function StylingFeaturePage() {
 											<div className="flex items-center space-x-2">
 												<span
 													className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getFrameworkColor(
-														selectedExample.framework
+														selectedExample.framework,
 													)}`}
 												>
 													{selectedExample.framework}
@@ -628,25 +641,19 @@ export default function StylingFeaturePage() {
 										</p>
 										<div className="grid grid-cols-3 gap-4 text-sm">
 											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													包体积
-												</div>
+												<div className="font-medium text-gray-900">包体积</div>
 												<div className="text-gray-600">
 													{selectedExample.performance.bundleSize}
 												</div>
 											</div>
 											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													运行时
-												</div>
+												<div className="font-medium text-gray-900">运行时</div>
 												<div className="text-gray-600">
 													{selectedExample.performance.runtime}
 												</div>
 											</div>
 											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													维护性
-												</div>
+												<div className="font-medium text-gray-900">维护性</div>
 												<div className="text-gray-600">
 													{selectedExample.performance.maintainability}
 												</div>
@@ -701,7 +708,9 @@ export default function StylingFeaturePage() {
 										<div className="p-6 bg-green-50 border-t border-green-200">
 											<div className="flex items-center space-x-2 text-green-800">
 												<CheckCircle className="w-5 h-5" />
-												<span className="font-medium">该样式方案已完成并可用</span>
+												<span className="font-medium">
+													该样式方案已完成并可用
+												</span>
 											</div>
 										</div>
 									)}

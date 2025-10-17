@@ -156,85 +156,89 @@ function ScanPage() {
 		<Layout>
 			<div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
 				<div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
-				<div className="mb-6 text-center">
-					<h1 className="font-bold text-2xl text-gray-800">扫码登录</h1>
-					<p className="mt-2 text-gray-600">请在电脑上确认登录</p>
-				</div>
-
-				{status === "loading" && (
-					<div className="text-center">
-						<div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-blue-500 border-b-2"></div>
-						<p className="text-gray-600">正在验证二维码...</p>
+					<div className="mb-6 text-center">
+						<h1 className="font-bold text-2xl text-gray-800">扫码登录</h1>
+						<p className="mt-2 text-gray-600">请在电脑上确认登录</p>
 					</div>
-				)}
 
-				{status === "invalid" && (
-					<div className="text-center">
-						<div className="mb-4 text-6xl text-red-500">⚠️</div>
-						<h2 className="mb-2 font-semibold text-red-600 text-xl">
-							二维码无效
-						</h2>
-						<p className="mb-4 text-gray-600">二维码已过期或无效，请重新扫描</p>
-						<button
-							onClick={() => router.back()}
-							className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
-						>
-							返回
-						</button>
-					</div>
-				)}
+					{status === "loading" && (
+						<div className="text-center">
+							<div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-blue-500 border-b-2"></div>
+							<p className="text-gray-600">正在验证二维码...</p>
+						</div>
+					)}
 
-				{status === "valid" && (
-					<div className="text-center">
-						<div className="mb-4 text-6xl text-green-500">✓</div>
-						<h2 className="mb-2 font-semibold text-gray-800 text-xl">
-							二维码有效
-						</h2>
-						<p className="mb-6 text-gray-600">是否允许在当前设备上登录？</p>
-
-						<div className="space-y-3">
-							<button
-								onClick={handleScan}
-								className="w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-							>
-								模拟扫码
-							</button>
-
-							<button
-								onClick={handleConfirm}
-								className="w-full rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"
-							>
-								确认登录
-							</button>
-
+					{status === "invalid" && (
+						<div className="text-center">
+							<div className="mb-4 text-6xl text-red-500">⚠️</div>
+							<h2 className="mb-2 font-semibold text-red-600 text-xl">
+								二维码无效
+							</h2>
+							<p className="mb-4 text-gray-600">
+								二维码已过期或无效，请重新扫描
+							</p>
 							<button
 								onClick={() => router.back()}
-								className="w-full rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
+								className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
 							>
-								取消
+								返回
 							</button>
 						</div>
-					</div>
-				)}
+					)}
 
-				{status === "confirmed" && (
-					<div className="text-center">
-						<div className="mb-4 text-6xl text-green-500">✓</div>
-						<h2 className="mb-2 font-semibold text-gray-800 text-xl">
-							登录成功
-						</h2>
-						<p className="mb-4 text-gray-600">
-							{userInfo && `欢迎 ${userInfo.name}`}
-						</p>
-						<p className="mb-6 text-gray-500 text-sm">请在电脑上查看登录结果</p>
-						<button
-							onClick={() => router.back()}
-							className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
-						>
-							完成
-						</button>
-					</div>
-				)}
+					{status === "valid" && (
+						<div className="text-center">
+							<div className="mb-4 text-6xl text-green-500">✓</div>
+							<h2 className="mb-2 font-semibold text-gray-800 text-xl">
+								二维码有效
+							</h2>
+							<p className="mb-6 text-gray-600">是否允许在当前设备上登录？</p>
+
+							<div className="space-y-3">
+								<button
+									onClick={handleScan}
+									className="w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+								>
+									模拟扫码
+								</button>
+
+								<button
+									onClick={handleConfirm}
+									className="w-full rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+								>
+									确认登录
+								</button>
+
+								<button
+									onClick={() => router.back()}
+									className="w-full rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
+								>
+									取消
+								</button>
+							</div>
+						</div>
+					)}
+
+					{status === "confirmed" && (
+						<div className="text-center">
+							<div className="mb-4 text-6xl text-green-500">✓</div>
+							<h2 className="mb-2 font-semibold text-gray-800 text-xl">
+								登录成功
+							</h2>
+							<p className="mb-4 text-gray-600">
+								{userInfo && `欢迎 ${userInfo.name}`}
+							</p>
+							<p className="mb-6 text-gray-500 text-sm">
+								请在电脑上查看登录结果
+							</p>
+							<button
+								onClick={() => router.back()}
+								className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
+							>
+								完成
+							</button>
+						</div>
+					)}
 				</div>
 			</div>
 		</Layout>

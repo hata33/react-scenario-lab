@@ -9,7 +9,7 @@ import {
 	Key,
 	Eye,
 	Database,
-	AlertTriangle
+	AlertTriangle,
 } from "lucide-react";
 import Link from "next/link";
 import Layout from "@/components/Layout";
@@ -18,7 +18,13 @@ interface SecurityExample {
 	id: string;
 	title: string;
 	description: string;
-	category: "Authentication" | "Authorization" | "Data Protection" | "API Security" | "CSRF" | "XSS";
+	category:
+		| "Authentication"
+		| "Authorization"
+		| "Data Protection"
+		| "API Security"
+		| "CSRF"
+		| "XSS";
 	difficulty: "初级" | "中级" | "高级";
 	status: "completed" | "in-progress" | "planned";
 	codeSnippet: string;
@@ -231,8 +237,8 @@ export const config = {
 		security: {
 			protection: "企业级",
 			complexity: "中等",
-			standards: "OAuth 2.0"
-		}
+			standards: "OAuth 2.0",
+		},
 	},
 	{
 		id: "rbac-authorization",
@@ -555,8 +561,8 @@ export async function POST(request: NextRequest) {
 		security: {
 			protection: "企业级",
 			complexity: "高",
-			standards: "NIST"
-		}
+			standards: "NIST",
+		},
 	},
 	{
 		id: "csrf-protection",
@@ -860,8 +866,8 @@ function UserProfileForm() {
 		security: {
 			protection: "高级",
 			complexity: "中等",
-			standards: "OWASP"
-		}
+			standards: "OWASP",
+		},
 	},
 	{
 		id: "xss-prevention",
@@ -1132,8 +1138,8 @@ function Comment({ comment }: { comment: any }) {
 		security: {
 			protection: "高级",
 			complexity: "中等",
-			standards: "OWASP"
-		}
+			standards: "OWASP",
+		},
 	},
 	{
 		id: "api-rate-limiting",
@@ -1498,8 +1504,8 @@ export function useRateLimit() {
 		security: {
 			protection: "高级",
 			complexity: "中等",
-			standards: "NIST"
-		}
+			standards: "NIST",
+		},
 	},
 	{
 		id: "data-encryption",
@@ -1563,13 +1569,14 @@ export class DataEncryption {
 		security: {
 			protection: "最高级",
 			complexity: "高",
-			standards: "ISO 27001"
-		}
-	}
+			standards: "ISO 27001",
+		},
+	},
 ];
 
 export default function SecurityFeaturePage() {
-	const [selectedExample, setSelectedExample] = useState<SecurityExample | null>(null);
+	const [selectedExample, setSelectedExample] =
+		useState<SecurityExample | null>(null);
 
 	const getCategoryColor = (category: SecurityExample["category"]) => {
 		switch (category) {
@@ -1766,21 +1773,21 @@ export default function SecurityFeaturePage() {
 												<div className="flex items-center space-x-2 mb-2">
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(
-															example.category
+															example.category,
 														)}`}
 													>
 														{example.category}
 													</span>
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
-															example.difficulty
+															example.difficulty,
 														)}`}
 													>
 														{example.difficulty}
 													</span>
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-															example.status
+															example.status,
 														)}`}
 													>
 														{getStatusText(example.status)}
@@ -1813,7 +1820,7 @@ export default function SecurityFeaturePage() {
 											<div className="flex items-center space-x-2">
 												<span
 													className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(
-														selectedExample.category
+														selectedExample.category,
 													)}`}
 												>
 													{selectedExample.category}
@@ -1833,9 +1840,7 @@ export default function SecurityFeaturePage() {
 												</div>
 											</div>
 											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													复杂度
-												</div>
+												<div className="font-medium text-gray-900">复杂度</div>
 												<div className="text-gray-600">
 													{selectedExample.security.complexity}
 												</div>
@@ -1898,7 +1903,9 @@ export default function SecurityFeaturePage() {
 										<div className="p-6 bg-green-50 border-t border-green-200">
 											<div className="flex items-center space-x-2 text-green-800">
 												<CheckCircle className="w-5 h-5" />
-												<span className="font-medium">该安全方案已完成并可用</span>
+												<span className="font-medium">
+													该安全方案已完成并可用
+												</span>
 											</div>
 										</div>
 									)}

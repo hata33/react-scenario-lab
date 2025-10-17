@@ -321,7 +321,7 @@ export default function ImageGenerator({
 		if (containerRef.current) {
 			containerRef.current.scrollTo({
 				top: 0,
-				behavior: "smooth"
+				behavior: "smooth",
 			});
 		}
 	};
@@ -350,332 +350,353 @@ export default function ImageGenerator({
 						}
 					}
 				`}</style>
-			{/* API 配置状态提示 */}
-			{!apiConfig.openai.configured &&
-				!apiConfig.stability.configured &&
-				!apiConfig.midjourney.configured &&
-				!apiConfig.siliconflow.configured && (
-					<div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+				{/* API 配置状态提示 */}
+				{!apiConfig.openai.configured &&
+					!apiConfig.stability.configured &&
+					!apiConfig.midjourney.configured &&
+					!apiConfig.siliconflow.configured && (
+						<div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+							<div className="flex items-center gap-3">
+								<AlertCircle className="w-5 h-5 text-yellow-600" />
+								<div>
+									<h4 className="font-medium text-yellow-800">需要配置 API</h4>
+									<p className="text-sm text-yellow-700 mt-1">
+										请在环境变量中配置至少一个 AI 服务的 API 密钥
+									</p>
+								</div>
+							</div>
+						</div>
+					)}
+
+				{/* 错误提示 */}
+				{error && (
+					<div className="bg-red-50 border border-red-200 rounded-xl p-4">
 						<div className="flex items-center gap-3">
-							<AlertCircle className="w-5 h-5 text-yellow-600" />
+							<AlertCircle className="w-5 h-5 text-red-600" />
 							<div>
-								<h4 className="font-medium text-yellow-800">需要配置 API</h4>
-								<p className="text-sm text-yellow-700 mt-1">
-									请在环境变量中配置至少一个 AI 服务的 API 密钥
+								<h4 className="font-medium text-red-800">生成失败</h4>
+								<p className="text-sm text-red-700 mt-1">{error}</p>
+							</div>
+						</div>
+					</div>
+				)}
+
+				{/* 主输入区域 */}
+				<div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+					<div className="flex items-center gap-2 mb-4">
+						<Sparkles className="w-5 h-5 text-purple-500" />
+						<h3 className="text-lg font-semibold text-gray-900">
+							描述你想要生成的图片
+						</h3>
+					</div>
+
+					{/* 提示词输入 */}
+					<div className="space-y-4">
+						<textarea
+							value={prompt}
+							onChange={(e) => setPrompt(e.target.value)}
+							placeholder="详细描述你想要生成的图片，包括主体、风格、色彩、构图等..."
+							className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-y min-h-[8rem] max-h-[12rem] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
+						/>
+
+						{/* 示例提示词 */}
+						<div className="flex flex-wrap gap-2">
+							<span className="text-sm text-gray-500">试试这些：</span>
+							{examplePrompts.map((example, index) => (
+								<button
+									key={index}
+									onClick={() => useExamplePrompt(example)}
+									className="text-sm px-2 py-1 bg-purple-50 text-purple-600 rounded-full hover:bg-purple-100 transition-colors"
+								>
+									{example.substring(0, 30)}...
+								</button>
+							))}
+						</div>
+					</div>
+
+					{/* 高级选项切换 */}
+					<button
+						onClick={() => setShowAdvanced(!showAdvanced)}
+						className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors mt-4"
+					>
+						<Settings className="w-4 h-4" />
+						{showAdvanced ? "隐藏高级选项" : "显示高级选项"}
+					</button>
+
+					{/* 高级选项 */}
+					{showAdvanced && (
+						<div className="mt-4 space-y-4 p-4 bg-gray-50 rounded-lg">
+							{/* 负面提示词 */}
+							<div>
+								<label className="block text-sm font-medium text-gray-700 mb-2">
+									负面提示词（不希望出现的内容）
+								</label>
+								<textarea
+									value={negativePrompt}
+									onChange={(e) => setNegativePrompt(e.target.value)}
+									placeholder="描述不希望出现在图片中的内容，如：模糊、低质量、文字等..."
+									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-y min-h-[5rem] max-h-[8rem] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 text-sm"
+								/>
+							</div>
+
+							{/* 模型选择 */}
+							<div>
+								<label className="block text-sm font-medium text-gray-700 mb-2">
+									模型选择
+								</label>
+								<select
+									value={model}
+									onChange={(e) => setModel(e.target.value)}
+									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+								>
+									{models.map((m) => (
+										<option key={m.value} value={m.value}>
+											{m.label} - {m.description}
+										</option>
+									))}
+								</select>
+							</div>
+
+							{/* 参数设置 */}
+							<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+								<div>
+									<label className="block text-sm font-medium text-gray-700 mb-2">
+										尺寸
+									</label>
+									<select
+										value={size}
+										onChange={(e) => setSize(e.target.value)}
+										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+									>
+										{sizes.map((s) => {
+											const supported = isSizeSupported(s.value, model);
+											return (
+												<option
+													key={s.value}
+													value={s.value}
+													disabled={!supported}
+													className={!supported ? "text-gray-400" : ""}
+												>
+													{s.label} {!supported && "(不支持)"}
+												</option>
+											);
+										})}
+									</select>
+								</div>
+
+								<div>
+									<label className="block text-sm font-medium text-gray-700 mb-2">
+										质量
+									</label>
+									<select
+										value={quality}
+										onChange={(e) =>
+											setQuality(e.target.value as "standard" | "hd")
+										}
+										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+									>
+										{qualities.map((q) => {
+											const supported = isQualitySupported(q.value, model);
+											return (
+												<option
+													key={q.value}
+													value={q.value}
+													disabled={!supported}
+													className={!supported ? "text-gray-400" : ""}
+												>
+													{q.label} - {q.description} {!supported && "(不支持)"}
+												</option>
+											);
+										})}
+									</select>
+								</div>
+
+								<div>
+									<label className="block text-sm font-medium text-gray-700 mb-2">
+										风格
+									</label>
+									<select
+										value={style}
+										onChange={(e) =>
+											setStyle(e.target.value as "vivid" | "natural")
+										}
+										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+									>
+										{styles.map((s) => {
+											const supported = isStyleSupported(s.value, model);
+											return (
+												<option
+													key={s.value}
+													value={s.value}
+													disabled={!supported}
+													className={!supported ? "text-gray-400" : ""}
+												>
+													{s.label} - {s.description} {!supported && "(不支持)"}
+												</option>
+											);
+										})}
+									</select>
+								</div>
+							</div>
+						</div>
+					)}
+
+					{/* 生成按钮区域 */}
+					<div className="flex gap-3">
+						{isGenerating ? (
+							<>
+								<button
+									onClick={handleStopGeneration}
+									className="flex-1 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+								>
+									<X className="w-5 h-5" />
+									停止生成
+								</button>
+								<button
+									onClick={handleReset}
+									className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+								>
+									<RefreshCw className="w-5 h-5" />
+									重置
+								</button>
+							</>
+						) : (
+							<button
+								onClick={generateImage}
+								disabled={!prompt.trim() || isGenerating}
+								className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium"
+							>
+								<Wand2 className="w-5 h-5" />
+								生成图片
+							</button>
+						)}
+					</div>
+
+					{/* 进度条和状态 */}
+					{showProgress && (
+						<div className="mt-3 space-y-2">
+							<div className="w-full bg-gray-200 rounded-full h-2">
+								<div
+									className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300"
+									style={{ width: `${displayProgress}%` }}
+								></div>
+							</div>
+							{status && (
+								<p className="text-sm text-gray-600 text-center">{status}</p>
+							)}
+						</div>
+					)}
+				</div>
+
+				{/* 生成结果 */}
+				{generatedImage && (
+					<div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+						<div className="flex items-center justify-between mb-4">
+							<div className="flex items-center gap-2">
+								<Image className="w-5 h-5 text-green-500" />
+								<h3 className="text-lg font-semibold text-gray-900">
+									生成结果
+								</h3>
+							</div>
+							<div className="flex items-center gap-2">
+								<button
+									onClick={downloadImage}
+									className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+									title="下载图片"
+								>
+									<Download className="w-4 h-4 text-gray-600" />
+								</button>
+								<button
+									onClick={copyImageUrl}
+									className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+									title="复制链接"
+								>
+									<Copy className="w-4 h-4 text-gray-600" />
+								</button>
+								<button
+									onClick={() => setGeneratedImage(null)}
+									className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+									title="清除"
+								>
+									<X className="w-4 h-4 text-gray-600" />
+								</button>
+							</div>
+						</div>
+
+						{/* 图片显示 */}
+						<div className="relative group">
+							<img
+								src={generatedImage}
+								alt="Generated image"
+								className="w-full rounded-lg shadow-md"
+								style={{ maxHeight: "512px", objectFit: "contain" }}
+							/>
+						</div>
+
+						{/* 操作按钮区域 */}
+						<div className="mt-4 flex justify-center">
+							<button
+								onClick={() =>
+									onImageSelect({
+										id: Date.now().toString(),
+										url: generatedImage,
+										prompt: prompt.trim(),
+										negativePrompt: negativePrompt.trim() || undefined,
+										model,
+										size,
+										quality,
+										style,
+										createdAt: new Date(),
+										isFavorite: false,
+									})
+								}
+								className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors duration-200 flex items-center gap-2"
+							>
+								<svg
+									className="w-4 h-4"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+									/>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+									/>
+								</svg>
+								查看详情
+							</button>
+						</div>
+
+						{/* 生成信息 */}
+						<div className="mt-4 p-3 bg-gray-50 rounded-lg">
+							<div className="text-sm text-gray-600 space-y-1">
+								<p>
+									<strong>模型:</strong>{" "}
+									{models.find((m) => m.value === model)?.label}
+								</p>
+								<p>
+									<strong>尺寸:</strong> {size}
+								</p>
+								<p>
+									<strong>质量:</strong>{" "}
+									{qualities.find((q) => q.value === quality)?.label}
+								</p>
+								<p>
+									<strong>风格:</strong>{" "}
+									{styles.find((s) => s.value === style)?.label}
 								</p>
 							</div>
 						</div>
 					</div>
 				)}
-
-			{/* 错误提示 */}
-			{error && (
-				<div className="bg-red-50 border border-red-200 rounded-xl p-4">
-					<div className="flex items-center gap-3">
-						<AlertCircle className="w-5 h-5 text-red-600" />
-						<div>
-							<h4 className="font-medium text-red-800">生成失败</h4>
-							<p className="text-sm text-red-700 mt-1">{error}</p>
-						</div>
-					</div>
-				</div>
-			)}
-
-			{/* 主输入区域 */}
-			<div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-				<div className="flex items-center gap-2 mb-4">
-					<Sparkles className="w-5 h-5 text-purple-500" />
-					<h3 className="text-lg font-semibold text-gray-900">
-						描述你想要生成的图片
-					</h3>
-				</div>
-
-				{/* 提示词输入 */}
-				<div className="space-y-4">
-					<textarea
-						value={prompt}
-						onChange={(e) => setPrompt(e.target.value)}
-						placeholder="详细描述你想要生成的图片，包括主体、风格、色彩、构图等..."
-						className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-y min-h-[8rem] max-h-[12rem] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
-					/>
-
-					{/* 示例提示词 */}
-					<div className="flex flex-wrap gap-2">
-						<span className="text-sm text-gray-500">试试这些：</span>
-						{examplePrompts.map((example, index) => (
-							<button
-								key={index}
-								onClick={() => useExamplePrompt(example)}
-								className="text-sm px-2 py-1 bg-purple-50 text-purple-600 rounded-full hover:bg-purple-100 transition-colors"
-							>
-								{example.substring(0, 30)}...
-							</button>
-						))}
-					</div>
-				</div>
-
-				{/* 高级选项切换 */}
-				<button
-					onClick={() => setShowAdvanced(!showAdvanced)}
-					className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors mt-4"
-				>
-					<Settings className="w-4 h-4" />
-					{showAdvanced ? "隐藏高级选项" : "显示高级选项"}
-				</button>
-
-				{/* 高级选项 */}
-				{showAdvanced && (
-					<div className="mt-4 space-y-4 p-4 bg-gray-50 rounded-lg">
-						{/* 负面提示词 */}
-						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-2">
-								负面提示词（不希望出现的内容）
-							</label>
-							<textarea
-								value={negativePrompt}
-								onChange={(e) => setNegativePrompt(e.target.value)}
-								placeholder="描述不希望出现在图片中的内容，如：模糊、低质量、文字等..."
-								className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-y min-h-[5rem] max-h-[8rem] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 text-sm"
-							/>
-						</div>
-
-						{/* 模型选择 */}
-						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-2">
-								模型选择
-							</label>
-							<select
-								value={model}
-								onChange={(e) => setModel(e.target.value)}
-								className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-							>
-								{models.map((m) => (
-									<option key={m.value} value={m.value}>
-										{m.label} - {m.description}
-									</option>
-								))}
-							</select>
-						</div>
-
-						{/* 参数设置 */}
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-							<div>
-								<label className="block text-sm font-medium text-gray-700 mb-2">
-									尺寸
-								</label>
-								<select
-									value={size}
-									onChange={(e) => setSize(e.target.value)}
-									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-								>
-									{sizes.map((s) => {
-										const supported = isSizeSupported(s.value, model);
-										return (
-											<option
-												key={s.value}
-												value={s.value}
-												disabled={!supported}
-												className={!supported ? "text-gray-400" : ""}
-											>
-												{s.label} {!supported && "(不支持)"}
-											</option>
-										);
-									})}
-								</select>
-							</div>
-
-							<div>
-								<label className="block text-sm font-medium text-gray-700 mb-2">
-									质量
-								</label>
-								<select
-									value={quality}
-									onChange={(e) => setQuality(e.target.value as "standard" | "hd")}
-									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-								>
-									{qualities.map((q) => {
-										const supported = isQualitySupported(q.value, model);
-										return (
-											<option
-												key={q.value}
-												value={q.value}
-												disabled={!supported}
-												className={!supported ? "text-gray-400" : ""}
-											>
-												{q.label} - {q.description} {!supported && "(不支持)"}
-											</option>
-										);
-									})}
-								</select>
-							</div>
-
-							<div>
-								<label className="block text-sm font-medium text-gray-700 mb-2">
-									风格
-								</label>
-								<select
-									value={style}
-									onChange={(e) => setStyle(e.target.value as "vivid" | "natural")}
-									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-								>
-									{styles.map((s) => {
-										const supported = isStyleSupported(s.value, model);
-										return (
-											<option
-												key={s.value}
-												value={s.value}
-												disabled={!supported}
-												className={!supported ? "text-gray-400" : ""}
-											>
-												{s.label} - {s.description} {!supported && "(不支持)"}
-											</option>
-										);
-									})}
-								</select>
-							</div>
-						</div>
-					</div>
-				)}
-
-				{/* 生成按钮区域 */}
-				<div className="flex gap-3">
-					{isGenerating ? (
-						<>
-							<button
-								onClick={handleStopGeneration}
-								className="flex-1 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
-							>
-								<X className="w-5 h-5" />
-								停止生成
-							</button>
-							<button
-								onClick={handleReset}
-								className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
-							>
-								<RefreshCw className="w-5 h-5" />
-								重置
-							</button>
-						</>
-					) : (
-						<button
-							onClick={generateImage}
-							disabled={!prompt.trim() || isGenerating}
-							className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium"
-						>
-							<Wand2 className="w-5 h-5" />
-							生成图片
-						</button>
-					)}
-				</div>
-
-				{/* 进度条和状态 */}
-				{showProgress && (
-					<div className="mt-3 space-y-2">
-						<div className="w-full bg-gray-200 rounded-full h-2">
-							<div
-								className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300"
-								style={{ width: `${displayProgress}%` }}
-							></div>
-						</div>
-						{status && (
-							<p className="text-sm text-gray-600 text-center">{status}</p>
-						)}
-					</div>
-				)}
-			</div>
-
-			{/* 生成结果 */}
-			{generatedImage && (
-				<div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-					<div className="flex items-center justify-between mb-4">
-						<div className="flex items-center gap-2">
-							<Image className="w-5 h-5 text-green-500" />
-							<h3 className="text-lg font-semibold text-gray-900">生成结果</h3>
-						</div>
-						<div className="flex items-center gap-2">
-							<button
-								onClick={downloadImage}
-								className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-								title="下载图片"
-							>
-								<Download className="w-4 h-4 text-gray-600" />
-							</button>
-							<button
-								onClick={copyImageUrl}
-								className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-								title="复制链接"
-							>
-								<Copy className="w-4 h-4 text-gray-600" />
-							</button>
-							<button
-								onClick={() => setGeneratedImage(null)}
-								className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-								title="清除"
-							>
-								<X className="w-4 h-4 text-gray-600" />
-							</button>
-						</div>
-					</div>
-
-					{/* 图片显示 */}
-					<div className="relative group">
-						<img
-							src={generatedImage}
-							alt="Generated image"
-							className="w-full rounded-lg shadow-md"
-							style={{ maxHeight: "512px", objectFit: "contain" }}
-						/>
-					</div>
-
-					{/* 操作按钮区域 */}
-					<div className="mt-4 flex justify-center">
-						<button
-							onClick={() =>
-								onImageSelect({
-									id: Date.now().toString(),
-									url: generatedImage,
-									prompt: prompt.trim(),
-									negativePrompt: negativePrompt.trim() || undefined,
-									model,
-									size,
-									quality,
-									style,
-									createdAt: new Date(),
-									isFavorite: false,
-								})
-							}
-							className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors duration-200 flex items-center gap-2"
-						>
-							<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-							</svg>
-							查看详情
-						</button>
-					</div>
-
-					{/* 生成信息 */}
-					<div className="mt-4 p-3 bg-gray-50 rounded-lg">
-						<div className="text-sm text-gray-600 space-y-1">
-							<p>
-								<strong>模型:</strong>{" "}
-								{models.find((m) => m.value === model)?.label}
-							</p>
-							<p>
-								<strong>尺寸:</strong> {size}
-							</p>
-							<p>
-								<strong>质量:</strong>{" "}
-								{qualities.find((q) => q.value === quality)?.label}
-							</p>
-							<p>
-								<strong>风格:</strong>{" "}
-								{styles.find((s) => s.value === style)?.label}
-							</p>
-						</div>
-					</div>
-				</div>
-			)}
 			</div>
 
 			{/* 滚动到顶部按钮 */}
@@ -685,8 +706,18 @@ export default function ImageGenerator({
 					className="fixed bottom-6 right-6 bg-purple-500 text-white p-3 rounded-full shadow-lg hover:bg-purple-600 transition-all duration-200 z-50 flex items-center justify-center"
 					title="滚动到顶部"
 				>
-					<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+					<svg
+						className="w-5 h-5"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							strokeWidth={2}
+							d="M5 10l7-7m0 0l7 7m-7-7v18"
+						/>
 					</svg>
 				</button>
 			)}

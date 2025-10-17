@@ -5,9 +5,9 @@ export interface ImageGenerationRequest {
 	negative_prompt?: string;
 	model: string;
 	size: string;
-	quality: 'standard' | 'hd';
-	style: 'vivid' | 'natural';
-	response_format: 'url' | 'b64_json';
+	quality: "standard" | "hd";
+	style: "vivid" | "natural";
+	response_format: "url" | "b64_json";
 	n?: number;
 }
 
@@ -62,7 +62,7 @@ export interface MidjourneyRequest {
 export interface MidjourneyResponse {
 	id: string;
 	prompt: string;
-	status: 'pending' | 'processing' | 'completed' | 'failed';
+	status: "pending" | "processing" | "completed" | "failed";
 	image_url?: string;
 	created_at: string;
 	error?: string;
@@ -105,7 +105,7 @@ export interface ModelConfig {
 	supportedSizes: string[];
 	supportedQualities?: string[];
 	supportedStyles?: string[];
-	provider: 'openai' | 'stability' | 'midjourney';
+	provider: "openai" | "stability" | "midjourney";
 	apiEndpoint: string;
 }
 

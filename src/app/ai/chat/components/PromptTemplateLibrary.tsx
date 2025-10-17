@@ -303,10 +303,11 @@ export default function PromptTemplateLibrary({
 						</select>
 						<button
 							onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-							className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${showFavoritesOnly
+							className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
+								showFavoritesOnly
 									? "bg-yellow-100 text-yellow-700 border border-yellow-300"
 									: "bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200"
-								}`}
+							}`}
 						>
 							<Heart
 								className={`w-4 h-4 ${showFavoritesOnly ? "fill-current" : ""}`}

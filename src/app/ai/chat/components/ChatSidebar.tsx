@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { MessageSquare, Plus, Trash2, Download, ChevronLeft } from "lucide-react";
+import {
+	MessageSquare,
+	Plus,
+	Trash2,
+	Download,
+	ChevronLeft,
+} from "lucide-react";
 import { useChatHistory } from "../hooks/useChatHistory";
 
 interface ChatSidebarProps {
@@ -59,11 +65,13 @@ export default function ChatSidebar({ isOpen, onClose }: ChatSidebarProps) {
 			)}
 
 			{/* 侧边栏 */}
-			<div className={`
+			<div
+				className={`
 				fixed top-0 left-0 h-full bg-white border-r border-gray-200 z-50 transition-transform duration-300 ease-in-out
 				${isOpen ? "translate-x-0" : "-translate-x-full"}
 				w-80 lg:translate-x-0 lg:static lg:z-0
-			`}>
+			`}
+			>
 				<div className="flex flex-col h-full">
 					{/* 头部 */}
 					<div className="flex items-center justify-between p-4 border-b border-gray-200">
@@ -100,15 +108,16 @@ export default function ChatSidebar({ isOpen, onClose }: ChatSidebarProps) {
 							</div>
 						) : (
 							<div className="space-y-2">
-								{histories.map(history => (
+								{histories.map((history) => (
 									<div
 										key={history.id}
 										onClick={() => handleSelectHistory(history.id)}
 										className={`
 											p-3 rounded-lg cursor-pointer transition-colors group
-											${currentHistoryId === history.id
-												? "bg-blue-50 border border-blue-200"
-												: "hover:bg-gray-50 border border-transparent"
+											${
+												currentHistoryId === history.id
+													? "bg-blue-50 border border-blue-200"
+													: "hover:bg-gray-50 border border-transparent"
 											}
 										`}
 									>
@@ -164,7 +173,9 @@ export default function ChatSidebar({ isOpen, onClose }: ChatSidebarProps) {
 								</button>
 							) : (
 								<div className="space-y-2">
-									<p className="text-sm text-gray-600">确定要清空所有对话记录吗？</p>
+									<p className="text-sm text-gray-600">
+										确定要清空所有对话记录吗？
+									</p>
 									<div className="flex gap-2">
 										<button
 											onClick={handleClearAll}

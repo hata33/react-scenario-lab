@@ -45,17 +45,62 @@ export interface PromptSearchFilters {
 
 // 默认分类
 export const DEFAULT_CATEGORIES: PromptCategory[] = [
-	{ id: "general", name: "通用", description: "通用提示词模板", color: "#3B82F6", icon: "💬" },
-	{ id: "coding", name: "编程", description: "代码相关提示词", color: "#10B981", icon: "💻" },
-	{ id: "writing", name: "写作", description: "写作辅助提示词", color: "#8B5CF6", icon: "✍️" },
-	{ id: "analysis", name: "分析", description: "数据分析提示词", color: "#F59E0B", icon: "📊" },
-	{ id: "creative", name: "创意", description: "创意生成提示词", color: "#EC4899", icon: "🎨" },
-	{ id: "business", name: "商务", description: "商务办公提示词", color: "#6366F1", icon: "💼" },
-	{ id: "learning", name: "学习", description: "教育学习提示词", color: "#14B8A6", icon: "📚" },
+	{
+		id: "general",
+		name: "通用",
+		description: "通用提示词模板",
+		color: "#3B82F6",
+		icon: "💬",
+	},
+	{
+		id: "coding",
+		name: "编程",
+		description: "代码相关提示词",
+		color: "#10B981",
+		icon: "💻",
+	},
+	{
+		id: "writing",
+		name: "写作",
+		description: "写作辅助提示词",
+		color: "#8B5CF6",
+		icon: "✍️",
+	},
+	{
+		id: "analysis",
+		name: "分析",
+		description: "数据分析提示词",
+		color: "#F59E0B",
+		icon: "📊",
+	},
+	{
+		id: "creative",
+		name: "创意",
+		description: "创意生成提示词",
+		color: "#EC4899",
+		icon: "🎨",
+	},
+	{
+		id: "business",
+		name: "商务",
+		description: "商务办公提示词",
+		color: "#6366F1",
+		icon: "💼",
+	},
+	{
+		id: "learning",
+		name: "学习",
+		description: "教育学习提示词",
+		color: "#14B8A6",
+		icon: "📚",
+	},
 ];
 
 // 默认模板
-export const DEFAULT_TEMPLATES: Omit<PromptTemplate, "id" | "createdAt" | "updatedAt" | "usageCount">[] = [
+export const DEFAULT_TEMPLATES: Omit<
+	PromptTemplate,
+	"id" | "createdAt" | "updatedAt" | "usageCount"
+>[] = [
 	{
 		title: "代码解释器",
 		content: `请解释以下代码的功能和工作原理：
@@ -75,7 +120,7 @@ export const DEFAULT_TEMPLATES: Omit<PromptTemplate, "id" | "createdAt" | "updat
 		tags: ["代码", "解释", "分析"],
 		variables: [
 			{ name: "language", description: "编程语言", required: true },
-			{ name: "code", description: "要解释的代码", required: true }
+			{ name: "code", description: "要解释的代码", required: true },
 		],
 		isFavorite: true,
 	},
@@ -99,7 +144,7 @@ export const DEFAULT_TEMPLATES: Omit<PromptTemplate, "id" | "createdAt" | "updat
 		tags: ["总结", "文章", "提炼"],
 		variables: [
 			{ name: "title", description: "文章标题", required: false },
-			{ name: "content", description: "文章内容", required: true }
+			{ name: "content", description: "文章内容", required: true },
 		],
 		isFavorite: false,
 	},
@@ -127,7 +172,7 @@ export const DEFAULT_TEMPLATES: Omit<PromptTemplate, "id" | "createdAt" | "updat
 			{ name: "topic", description: "学习主题", required: true },
 			{ name: "goal", description: "学习目标", required: true },
 			{ name: "timeAvailable", description: "可用时间", required: true },
-			{ name: "currentLevel", description: "当前水平", required: false }
+			{ name: "currentLevel", description: "当前水平", required: false },
 		],
 		isFavorite: true,
 	},
@@ -154,7 +199,7 @@ export const DEFAULT_TEMPLATES: Omit<PromptTemplate, "id" | "createdAt" | "updat
 			{ name: "recipient", description: "收件人", required: true },
 			{ name: "subject", description: "邮件主题", required: true },
 			{ name: "purpose", description: "邮件目的", required: true },
-			{ name: "content", description: "核心内容", required: true }
+			{ name: "content", description: "核心内容", required: true },
 		],
 		isFavorite: false,
 	},
@@ -187,7 +232,7 @@ export const DEFAULT_TEMPLATES: Omit<PromptTemplate, "id" | "createdAt" | "updat
 			{ name: "topic", description: "创意主题", required: true },
 			{ name: "background", description: "背景信息", required: false },
 			{ name: "audience", description: "目标受众", required: false },
-			{ name: "outcome", description: "期望结果", required: true }
+			{ name: "outcome", description: "期望结果", required: true },
 		],
 		isFavorite: false,
 	},
@@ -218,8 +263,8 @@ export const DEFAULT_TEMPLATES: Omit<PromptTemplate, "id" | "createdAt" | "updat
 		variables: [
 			{ name: "dataType", description: "数据类型", required: true },
 			{ name: "dataDescription", description: "数据描述", required: true },
-			{ name: "analysisGoal", description: "分析目标", required: true }
+			{ name: "analysisGoal", description: "分析目标", required: true },
 		],
 		isFavorite: false,
-	}
+	},
 ];

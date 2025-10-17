@@ -49,9 +49,9 @@ export default function AIImagePage() {
 			setSelectedImage((prev) =>
 				prev
 					? {
-						...prev,
-						isFavorite: !prev.isFavorite,
-					}
+							...prev,
+							isFavorite: !prev.isFavorite,
+						}
 					: null,
 			);
 		}
@@ -76,20 +76,22 @@ export default function AIImagePage() {
 					<div className="flex items-center gap-2">
 						<button
 							onClick={() => setActiveTab("generate")}
-							className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${activeTab === "generate"
+							className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
+								activeTab === "generate"
 									? "bg-purple-500 text-white"
 									: "bg-gray-100 text-gray-700 hover:bg-gray-200"
-								}`}
+							}`}
 						>
 							<Image className="w-4 h-4" />
 							生成图片
 						</button>
 						<button
 							onClick={() => setActiveTab("gallery")}
-							className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 relative ${activeTab === "gallery"
+							className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 relative ${
+								activeTab === "gallery"
 									? "bg-purple-500 text-white"
 									: "bg-gray-100 text-gray-700 hover:bg-gray-200"
-								}`}
+							}`}
 						>
 							<History className="w-4 h-4" />
 							历史记录

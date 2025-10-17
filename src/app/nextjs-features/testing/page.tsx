@@ -8,7 +8,7 @@ import {
 	Code,
 	Shield,
 	Bug,
-	Zap
+	Zap,
 } from "lucide-react";
 import Link from "next/link";
 import Layout from "@/components/Layout";
@@ -17,7 +17,13 @@ interface TestingExample {
 	id: string;
 	title: string;
 	description: string;
-	category: "Unit" | "Integration" | "E2E" | "Visual" | "Performance" | "Accessibility";
+	category:
+		| "Unit"
+		| "Integration"
+		| "E2E"
+		| "Visual"
+		| "Performance"
+		| "Accessibility";
 	difficulty: "初级" | "中级" | "高级";
 	status: "completed" | "in-progress" | "planned";
 	codeSnippet: string;
@@ -264,8 +270,8 @@ module.exports = {
 		performance: {
 			executionTime: "秒级",
 			coverage: "80%+",
-			maintenance: "简单"
-		}
+			maintenance: "简单",
+		},
 	},
 	{
 		id: "cypress-e2e",
@@ -496,8 +502,8 @@ export default defineConfig({
 		performance: {
 			executionTime: "分钟级",
 			coverage: "端到端",
-			maintenance: "中等"
-		}
+			maintenance: "中等",
+		},
 	},
 	{
 		id: "storybook-visual",
@@ -735,8 +741,8 @@ module.exports = {
 		performance: {
 			executionTime: "分钟级",
 			coverage: "组件级",
-			maintenance: "中等"
-		}
+			maintenance: "中等",
+		},
 	},
 	{
 		id: "playwright-testing",
@@ -823,8 +829,8 @@ test.describe('Authentication', () => {
 		performance: {
 			executionTime: "分钟级",
 			coverage: "端到端",
-			maintenance: "简单"
-		}
+			maintenance: "简单",
+		},
 	},
 	{
 		id: "performance-testing",
@@ -894,8 +900,8 @@ test.describe('Performance Tests', () => {
 		performance: {
 			executionTime: "分钟级",
 			coverage: "性能指标",
-			maintenance: "复杂"
-		}
+			maintenance: "复杂",
+		},
 	},
 	{
 		id: "testing-library-component",
@@ -1104,13 +1110,15 @@ describe('UserProfile Component', () => {
 		performance: {
 			executionTime: "秒级",
 			coverage: "组件级",
-			maintenance: "简单"
-		}
-	}
+			maintenance: "简单",
+		},
+	},
 ];
 
 export default function TestingFeaturePage() {
-	const [selectedExample, setSelectedExample] = useState<TestingExample | null>(null);
+	const [selectedExample, setSelectedExample] = useState<TestingExample | null>(
+		null,
+	);
 
 	const getCategoryColor = (category: TestingExample["category"]) => {
 		switch (category) {
@@ -1307,21 +1315,21 @@ export default function TestingFeaturePage() {
 												<div className="flex items-center space-x-2 mb-2">
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(
-															example.category
+															example.category,
 														)}`}
 													>
 														{example.category}
 													</span>
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
-															example.difficulty
+															example.difficulty,
 														)}`}
 													>
 														{example.difficulty}
 													</span>
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-															example.status
+															example.status,
 														)}`}
 													>
 														{getStatusText(example.status)}
@@ -1354,7 +1362,7 @@ export default function TestingFeaturePage() {
 											<div className="flex items-center space-x-2">
 												<span
 													className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(
-														selectedExample.category
+														selectedExample.category,
 													)}`}
 												>
 													{selectedExample.category}
@@ -1439,7 +1447,9 @@ export default function TestingFeaturePage() {
 										<div className="p-6 bg-green-50 border-t border-green-200">
 											<div className="flex items-center space-x-2 text-green-800">
 												<CheckCircle className="w-5 h-5" />
-												<span className="font-medium">该测试方案已完成并可用</span>
+												<span className="font-medium">
+													该测试方案已完成并可用
+												</span>
 											</div>
 										</div>
 									)}

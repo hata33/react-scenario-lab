@@ -21,7 +21,8 @@ export default function AIChatPage() {
 
 					<div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
 						<p className="text-sm text-blue-800">
-							<strong>提示：</strong>试试输入"代码"、"表格"、"列表"来体验不同的 Markdown 渲染效果，支持流式输出显示。
+							<strong>提示：</strong>试试输入"代码"、"表格"、"列表"来体验不同的
+							Markdown 渲染效果，支持流式输出显示。
 						</p>
 					</div>
 

@@ -15,7 +15,7 @@ import {
 	X,
 	ZoomIn,
 	Share2,
-	Edit3
+	Edit3,
 } from "lucide-react";
 import type { GeneratedImage } from "./ImageGenerator";
 import { useImageHistory } from "../hooks/useImageHistory";
@@ -26,28 +26,33 @@ interface ImageGalleryProps {
 	onImageUpdate: () => void;
 }
 
-export default function ImageGallery({ images, onImageSelect, onImageUpdate }: ImageGalleryProps) {
+export default function ImageGallery({
+	images,
+	onImageSelect,
+	onImageUpdate,
+}: ImageGalleryProps) {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 	const [selectedModel, setSelectedModel] = useState("");
 	const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-	const [selectedImage, setSelectedImage] = useState<GeneratedImage | null>(null);
+	const [selectedImage, setSelectedImage] = useState<GeneratedImage | null>(
+		null,
+	);
 	const [showFilters, setShowFilters] = useState(false);
 
-	const {
-		deleteImage,
-		toggleFavorite,
-		exportHistory,
-		getStats
-	} = useImageHistory();
+	const { deleteImage, toggleFavorite, exportHistory, getStats } =
+		useImageHistory();
 
 	// 获取所有可用的模型
-	const availableModels = Array.from(new Set(images.map(img => img.model)));
+	const availableModels = Array.from(new Set(images.map((img) => img.model)));
 
 	// 过滤图片
-	const filteredImages = images.filter(image => {
+	const filteredImages = images.filter((image) => {
 		// 搜索过滤
-		if (searchQuery && !image.prompt.toLowerCase().includes(searchQuery.toLowerCase())) {
+		if (
+			searchQuery &&
+			!image.prompt.toLowerCase().includes(searchQuery.toLowerCase())
+		) {
 			return false;
 		}
 
@@ -76,7 +81,7 @@ export default function ImageGallery({ images, onImageSelect, onImageUpdate }: I
 	// 下载图片
 	const handleDownloadImage = (image: GeneratedImage, e: React.MouseEvent) => {
 		e.stopPropagation();
-		const link = document.createElement('a');
+		const link = document.createElement("a");
 		link.href = image.url;
 		link.download = `ai-image-${image.id}.jpg`;
 		document.body.appendChild(link);
@@ -98,7 +103,7 @@ export default function ImageGallery({ images, onImageSelect, onImageUpdate }: I
 			month: "short",
 			day: "numeric",
 			hour: "2-digit",
-			minute: "2-digit"
+			minute: "2-digit",
 		});
 	};
 
@@ -131,8 +136,14 @@ export default function ImageGallery({ images, onImageSelect, onImageUpdate }: I
 									: "bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100"
 							}`}
 						>
-							{showFavoritesOnly ? <Heart className="w-4 h-4 fill-current" /> : <HeartOff className="w-4 h-4" />}
-							<span className="hidden sm:inline">{showFavoritesOnly ? "已收藏" : "收藏"}</span>
+							{showFavoritesOnly ? (
+								<Heart className="w-4 h-4 fill-current" />
+							) : (
+								<HeartOff className="w-4 h-4" />
+							)}
+							<span className="hidden sm:inline">
+								{showFavoritesOnly ? "已收藏" : "收藏"}
+							</span>
 						</button>
 
 						<button
@@ -184,8 +195,10 @@ export default function ImageGallery({ images, onImageSelect, onImageUpdate }: I
 								className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
 							>
 								<option value="">全部模型</option>
-								{availableModels.map(model => (
-									<option key={model} value={model}>{model}</option>
+								{availableModels.map((model) => (
+									<option key={model} value={model}>
+										{model}
+									</option>
 								))}
 							</select>
 
@@ -208,11 +221,15 @@ export default function ImageGallery({ images, onImageSelect, onImageUpdate }: I
 					<div className="flex items-center gap-6">
 						<div className="text-sm">
 							<span className="text-gray-500">总计:</span>
-							<span className="ml-2 font-semibold text-gray-900">{stats.total} 张</span>
+							<span className="ml-2 font-semibold text-gray-900">
+								{stats.total} 张
+							</span>
 						</div>
 						<div className="text-sm">
 							<span className="text-gray-500">收藏:</span>
-							<span className="ml-2 font-semibold text-red-600">{stats.favorites} 张</span>
+							<span className="ml-2 font-semibold text-red-600">
+								{stats.favorites} 张
+							</span>
 						</div>
 					</div>
 					{filteredImages.length !== images.length && (
@@ -233,16 +250,17 @@ export default function ImageGallery({ images, onImageSelect, onImageUpdate }: I
 					<p className="text-gray-500">
 						{images.length === 0
 							? "开始生成你的第一张 AI 图片吧！"
-							: "尝试调整搜索条件或筛选器"
-						}
+							: "尝试调整搜索条件或筛选器"}
 					</p>
 				</div>
 			) : (
-				<div className={
-					viewMode === "grid"
-						? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-						: "space-y-4"
-				}>
+				<div
+					className={
+						viewMode === "grid"
+							? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+							: "space-y-4"
+					}
+				>
 					{filteredImages.map((image) => (
 						<div
 							key={image.id}
@@ -317,10 +335,14 @@ export default function ImageGallery({ images, onImageSelect, onImageUpdate }: I
 											<button
 												onClick={(e) => handleToggleFavorite(image.id, e)}
 												className={`p-1 rounded transition-colors ${
-													image.isFavorite ? "text-red-500" : "text-gray-400 hover:text-red-500"
+													image.isFavorite
+														? "text-red-500"
+														: "text-gray-400 hover:text-red-500"
 												}`}
 											>
-												<Heart className={`w-4 h-4 ${image.isFavorite ? "fill-current" : ""}`} />
+												<Heart
+													className={`w-4 h-4 ${image.isFavorite ? "fill-current" : ""}`}
+												/>
 											</button>
 											<button
 												onClick={(e) => handleDownloadImage(image, e)}

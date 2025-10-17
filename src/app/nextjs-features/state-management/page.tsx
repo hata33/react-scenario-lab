@@ -8,7 +8,7 @@ import {
 	Zap,
 	Cloud,
 	Share2,
-	HardDrive
+	HardDrive,
 } from "lucide-react";
 import Link from "next/link";
 import Layout from "@/components/Layout";
@@ -17,7 +17,13 @@ interface StateManagementExample {
 	id: string;
 	title: string;
 	description: string;
-	library: "React State" | "Context API" | "Zustand" | "Redux Toolkit" | "Recoil" | "Jotai";
+	library:
+		| "React State"
+		| "Context API"
+		| "Zustand"
+		| "Redux Toolkit"
+		| "Recoil"
+		| "Jotai";
 	difficulty: "初级" | "中级" | "高级";
 	status: "completed" | "in-progress" | "planned";
 	codeSnippet: string;
@@ -118,8 +124,8 @@ function TodoAppWithReducer() {
 		performance: {
 			bundleSize: "0KB",
 			rerenders: "最少",
-			devExperience: "优秀"
-		}
+			devExperience: "优秀",
+		},
 	},
 	{
 		id: "context-api",
@@ -222,8 +228,8 @@ function createOptimizedContext(defaultValue) {
 		performance: {
 			bundleSize: "0KB",
 			rerenders: "可能过多",
-			devExperience: "良好"
-		}
+			devExperience: "良好",
+		},
 	},
 	{
 		id: "zustand",
@@ -352,8 +358,8 @@ function TodoComponent() {
 		performance: {
 			bundleSize: "2.5KB",
 			rerenders: "精准",
-			devExperience: "优秀"
-		}
+			devExperience: "优秀",
+		},
 	},
 	{
 		id: "redux-toolkit",
@@ -518,8 +524,8 @@ function TodoList() {
 		performance: {
 			bundleSize: "47KB",
 			rerenders: "可优化",
-			devExperience: "优秀"
-		}
+			devExperience: "优秀",
+		},
 	},
 	{
 		id: "recoil",
@@ -632,8 +638,8 @@ function TodoList() {
 		performance: {
 			bundleSize: "38KB",
 			rerenders: "精确",
-			devExperience: "良好"
-		}
+			devExperience: "良好",
+		},
 	},
 	{
 		id: "jotai",
@@ -745,13 +751,14 @@ function TodoApp() {
 		performance: {
 			bundleSize: "5KB",
 			rerenders: "精确",
-			devExperience: "优秀"
-		}
-	}
+			devExperience: "优秀",
+		},
+	},
 ];
 
 export default function StateManagementFeaturePage() {
-	const [selectedExample, setSelectedExample] = useState<StateManagementExample | null>(null);
+	const [selectedExample, setSelectedExample] =
+		useState<StateManagementExample | null>(null);
 
 	const getLibraryColor = (library: StateManagementExample["library"]) => {
 		switch (library) {
@@ -772,7 +779,9 @@ export default function StateManagementFeaturePage() {
 		}
 	};
 
-	const getDifficultyColor = (difficulty: StateManagementExample["difficulty"]) => {
+	const getDifficultyColor = (
+		difficulty: StateManagementExample["difficulty"],
+	) => {
 		switch (difficulty) {
 			case "初级":
 				return "text-green-600 bg-green-100";
@@ -832,7 +841,8 @@ export default function StateManagementFeaturePage() {
 										状态管理特性
 									</h1>
 									<p className="text-gray-600">
-										Next.js 完整状态管理方案：React State、Context、Zustand、Redux
+										Next.js 完整状态管理方案：React
+										State、Context、Zustand、Redux
 									</p>
 								</div>
 							</div>
@@ -851,7 +861,9 @@ export default function StateManagementFeaturePage() {
 								<div className="flex items-center justify-center mb-2">
 									<Database className="w-6 h-6 text-blue-600" />
 								</div>
-								<h3 className="font-semibold text-blue-900 mb-2">React State</h3>
+								<h3 className="font-semibold text-blue-900 mb-2">
+									React State
+								</h3>
 								<p className="text-sm text-blue-700">内置状态</p>
 								<div className="mt-2 text-xs text-blue-600">
 									<div>⚡ 零依赖</div>
@@ -863,7 +875,9 @@ export default function StateManagementFeaturePage() {
 								<div className="flex items-center justify-center mb-2">
 									<Share2 className="w-6 h-6 text-green-600" />
 								</div>
-								<h3 className="font-semibold text-green-900 mb-2">Context API</h3>
+								<h3 className="font-semibold text-green-900 mb-2">
+									Context API
+								</h3>
 								<p className="text-sm text-green-700">跨组件共享</p>
 								<div className="mt-2 text-xs text-green-600">
 									<div>🔄 状态共享</div>
@@ -948,21 +962,21 @@ export default function StateManagementFeaturePage() {
 												<div className="flex items-center space-x-2 mb-2">
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getLibraryColor(
-															example.library
+															example.library,
 														)}`}
 													>
 														{example.library}
 													</span>
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
-															example.difficulty
+															example.difficulty,
 														)}`}
 													>
 														{example.difficulty}
 													</span>
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-															example.status
+															example.status,
 														)}`}
 													>
 														{getStatusText(example.status)}
@@ -995,7 +1009,7 @@ export default function StateManagementFeaturePage() {
 											<div className="flex items-center space-x-2">
 												<span
 													className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getLibraryColor(
-														selectedExample.library
+														selectedExample.library,
 													)}`}
 												>
 													{selectedExample.library}
@@ -1007,17 +1021,13 @@ export default function StateManagementFeaturePage() {
 										</p>
 										<div className="grid grid-cols-3 gap-4 text-sm">
 											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													包体积
-												</div>
+												<div className="font-medium text-gray-900">包体积</div>
 												<div className="text-gray-600">
 													{selectedExample.performance.bundleSize}
 												</div>
 											</div>
 											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													重渲染
-												</div>
+												<div className="font-medium text-gray-900">重渲染</div>
 												<div className="text-gray-600">
 													{selectedExample.performance.rerenders}
 												</div>
@@ -1080,7 +1090,9 @@ export default function StateManagementFeaturePage() {
 										<div className="p-6 bg-green-50 border-t border-green-200">
 											<div className="flex items-center space-x-2 text-green-800">
 												<CheckCircle className="w-5 h-5" />
-												<span className="font-medium">该状态管理方案已完成并可用</span>
+												<span className="font-medium">
+													该状态管理方案已完成并可用
+												</span>
 											</div>
 										</div>
 									)}

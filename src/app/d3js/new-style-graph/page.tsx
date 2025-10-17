@@ -127,17 +127,86 @@ const STYLES = {
 
 // 动态数据生成函数
 const generateDynamicData = (config: DataGenerationConfig): GraphData => {
-	const { nodeCount, levels, connectionsPerNode, connectionDensity, branchingFactor } = config;
+	const {
+		nodeCount,
+		levels,
+		connectionsPerNode,
+		connectionDensity,
+		branchingFactor,
+	} = config;
 
 	// 中文节点名称库
 	const nodeNames = [
-		"核心", "中心", "总部", "主体", "根基", "枢纽", "引擎", "核心", "大脑", "心脏",
-		"节点", "分部", "单元", "模块", "部门", "组件", "部分", "区域", "站点", "端口",
-		"终端", "接口", "入口", "出口", "通道", "连接", "桥梁", "纽带", "链接", "关联",
-		"处理器", "分析器", "控制器", "管理器", "监控器", "执行器", "计算器", "存储器", "缓存器", "传输器",
-		"服务", "系统", "平台", "应用", "工具", "框架", "库", "接口", "协议", "标准",
-		"数据", "信息", "内容", "资源", "文件", "文档", "记录", "日志", "报告", "统计",
-		"用户", "客户", "管理者", "开发者", "使用者", "访问者", "操作员", "管理员", "维护者", "设计者"
+		"核心",
+		"中心",
+		"总部",
+		"主体",
+		"根基",
+		"枢纽",
+		"引擎",
+		"核心",
+		"大脑",
+		"心脏",
+		"节点",
+		"分部",
+		"单元",
+		"模块",
+		"部门",
+		"组件",
+		"部分",
+		"区域",
+		"站点",
+		"端口",
+		"终端",
+		"接口",
+		"入口",
+		"出口",
+		"通道",
+		"连接",
+		"桥梁",
+		"纽带",
+		"链接",
+		"关联",
+		"处理器",
+		"分析器",
+		"控制器",
+		"管理器",
+		"监控器",
+		"执行器",
+		"计算器",
+		"存储器",
+		"缓存器",
+		"传输器",
+		"服务",
+		"系统",
+		"平台",
+		"应用",
+		"工具",
+		"框架",
+		"库",
+		"接口",
+		"协议",
+		"标准",
+		"数据",
+		"信息",
+		"内容",
+		"资源",
+		"文件",
+		"文档",
+		"记录",
+		"日志",
+		"报告",
+		"统计",
+		"用户",
+		"客户",
+		"管理者",
+		"开发者",
+		"使用者",
+		"访问者",
+		"操作员",
+		"管理员",
+		"维护者",
+		"设计者",
 	];
 
 	const descriptions = [
@@ -150,7 +219,7 @@ const generateDynamicData = (config: DataGenerationConfig): GraphData => {
 		"优化性能表现",
 		"保障安全运行",
 		"监控状态变化",
-		"协调各模块工作"
+		"协调各模块工作",
 	];
 
 	const relationshipTypes = [
@@ -161,7 +230,7 @@ const generateDynamicData = (config: DataGenerationConfig): GraphData => {
 		{ label: "协作", value: "协作关系" },
 		{ label: "通信", value: "通信关系" },
 		{ label: "同步", value: "同步关系" },
-		{ label: "控制", value: "控制关系" }
+		{ label: "控制", value: "控制关系" },
 	];
 
 	// 生成节点
@@ -174,7 +243,7 @@ const generateDynamicData = (config: DataGenerationConfig): GraphData => {
 		value: 100,
 		description: "整个系统的主要根节点",
 		type: "root",
-		size: THEME.sizes.mainNode
+		size: THEME.sizes.mainNode,
 	});
 
 	// 按层级生成其他节点
@@ -195,7 +264,7 @@ const generateDynamicData = (config: DataGenerationConfig): GraphData => {
 				value: Math.max(20, 100 - level * 15 + Math.random() * 20),
 				description: descriptions[descIndex],
 				type: `level_${level}`,
-				size: Math.max(15, THEME.sizes.normalNode - level * 2)
+				size: Math.max(15, THEME.sizes.normalNode - level * 2),
 			});
 			currentNodeIndex++;
 		}
@@ -208,34 +277,40 @@ const generateDynamicData = (config: DataGenerationConfig): GraphData => {
 
 	// 确保连通性：为每个非根节点至少创建一个连接
 	for (let i = 1; i < Math.min(nodes.length, branchingFactor + 1); i++) {
-		const relationship = relationshipTypes[Math.floor(Math.random() * relationshipTypes.length)];
+		const relationship =
+			relationshipTypes[Math.floor(Math.random() * relationshipTypes.length)];
 		edges.push({
 			source: "root",
 			target: nodes[i].id,
 			label: relationship.label,
-			value: relationship.value
+			value: relationship.value,
 		});
 	}
 
 	// 按层级创建连接
 	for (let level = 1; level < levels; level++) {
-		const currentLevelNodes = nodes.filter(n => n.type === `level_${level}`);
-		const nextLevelNodes = nodes.filter(n => n.type === `level_${level + 1}`);
+		const currentLevelNodes = nodes.filter((n) => n.type === `level_${level}`);
+		const nextLevelNodes = nodes.filter((n) => n.type === `level_${level + 1}`);
 
-		currentLevelNodes.forEach(currentNode => {
+		currentLevelNodes.forEach((currentNode) => {
 			const connectionsToMake = Math.min(
 				Math.ceil(branchingFactor * 0.7),
-				nextLevelNodes.length
+				nextLevelNodes.length,
 			);
 
 			for (let i = 0; i < connectionsToMake; i++) {
-				const targetNode = nextLevelNodes[Math.floor(Math.random() * nextLevelNodes.length)];
-				const relationship = relationshipTypes[Math.floor(Math.random() * relationshipTypes.length)];
+				const targetNode =
+					nextLevelNodes[Math.floor(Math.random() * nextLevelNodes.length)];
+				const relationship =
+					relationshipTypes[
+						Math.floor(Math.random() * relationshipTypes.length)
+					];
 
 				// 避免重复边
-				const exists = edges.some(e =>
-					(e.source === currentNode.id && e.target === targetNode.id) ||
-					(e.source === targetNode.id && e.target === currentNode.id)
+				const exists = edges.some(
+					(e) =>
+						(e.source === currentNode.id && e.target === targetNode.id) ||
+						(e.source === targetNode.id && e.target === currentNode.id),
 				);
 
 				if (!exists) {
@@ -243,7 +318,7 @@ const generateDynamicData = (config: DataGenerationConfig): GraphData => {
 						source: currentNode.id,
 						target: targetNode.id,
 						label: relationship.label,
-						value: relationship.value
+						value: relationship.value,
 					});
 				}
 			}
@@ -261,18 +336,22 @@ const generateDynamicData = (config: DataGenerationConfig): GraphData => {
 			const target = nodes[targetIndex];
 
 			// 避免重复边和自连接
-			const exists = edges.some(e =>
-				(e.source === source.id && e.target === target.id) ||
-				(e.source === target.id && e.target === source.id)
+			const exists = edges.some(
+				(e) =>
+					(e.source === source.id && e.target === target.id) ||
+					(e.source === target.id && e.target === source.id),
 			);
 
 			if (!exists) {
-				const relationship = relationshipTypes[Math.floor(Math.random() * relationshipTypes.length)];
+				const relationship =
+					relationshipTypes[
+						Math.floor(Math.random() * relationshipTypes.length)
+					];
 				edges.push({
 					source: source.id,
 					target: target.id,
 					label: relationship.label,
-					value: relationship.value
+					value: relationship.value,
 				});
 			}
 		}
@@ -366,7 +445,7 @@ export default function NewStyleGraphPage() {
 		levels: 3,
 		connectionsPerNode: 3,
 		connectionDensity: 0.3,
-		branchingFactor: 3
+		branchingFactor: 3,
 	});
 
 	// D3 相关引用
@@ -927,7 +1006,9 @@ export default function NewStyleGraphPage() {
 					<div className="bg-white rounded-lg shadow-lg p-4">
 						<div className="mb-6">
 							<div className="flex items-center justify-between mb-4">
-								<h2 className="text-lg font-semibold text-gray-800">动态数据控制</h2>
+								<h2 className="text-lg font-semibold text-gray-800">
+									动态数据控制
+								</h2>
 								<label className="flex items-center cursor-pointer">
 									<input
 										type="checkbox"
@@ -950,7 +1031,12 @@ export default function NewStyleGraphPage() {
 											min="5"
 											max="100"
 											value={config.nodeCount}
-											onChange={(e) => setConfig({ ...config, nodeCount: parseInt(e.target.value) })}
+											onChange={(e) =>
+												setConfig({
+													...config,
+													nodeCount: parseInt(e.target.value),
+												})
+											}
 											className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
 										/>
 									</div>
@@ -964,7 +1050,12 @@ export default function NewStyleGraphPage() {
 											min="1"
 											max="10"
 											value={config.levels}
-											onChange={(e) => setConfig({ ...config, levels: parseInt(e.target.value) })}
+											onChange={(e) =>
+												setConfig({
+													...config,
+													levels: parseInt(e.target.value),
+												})
+											}
 											className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
 										/>
 									</div>
@@ -979,7 +1070,12 @@ export default function NewStyleGraphPage() {
 											max="0.8"
 											step="0.1"
 											value={config.connectionDensity}
-											onChange={(e) => setConfig({ ...config, connectionDensity: parseFloat(e.target.value) })}
+											onChange={(e) =>
+												setConfig({
+													...config,
+													connectionDensity: parseFloat(e.target.value),
+												})
+											}
 											className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
 										/>
 									</div>
@@ -993,7 +1089,12 @@ export default function NewStyleGraphPage() {
 											min="1"
 											max="10"
 											value={config.branchingFactor}
-											onChange={(e) => setConfig({ ...config, branchingFactor: parseInt(e.target.value) })}
+											onChange={(e) =>
+												setConfig({
+													...config,
+													branchingFactor: parseInt(e.target.value),
+												})
+											}
 											className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
 										/>
 									</div>

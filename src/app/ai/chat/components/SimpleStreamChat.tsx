@@ -210,7 +210,7 @@ export default WelcomeMessage;
 		}
 
 		// 开始流式输出
-		const finalContent = await streamText(aiResponse, () => { });
+		const finalContent = await streamText(aiResponse, () => {});
 
 		// 添加最终的 AI 消息
 		addMessage({
@@ -373,16 +373,18 @@ export default WelcomeMessage;
 								className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
 							>
 								<div
-									className={`flex items-start gap-3 max-w-[80%] ${message.type === "user" ? "flex-row-reverse" : ""
-										}`}
+									className={`flex items-start gap-3 max-w-[80%] ${
+										message.type === "user" ? "flex-row-reverse" : ""
+									}`}
 								>
 									<div
 										className={`
 										w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
-										${message.type === "user"
+										${
+											message.type === "user"
 												? "bg-blue-500 text-white ml-2"
 												: "bg-gray-200 text-gray-600 mr-2"
-											}
+										}
 									`}
 									>
 										{message.type === "user" ? (
@@ -393,10 +395,11 @@ export default WelcomeMessage;
 									</div>
 									<div
 										className={`
-										rounded-lg px-4 py-2 ${message.type === "user"
+										rounded-lg px-4 py-2 ${
+											message.type === "user"
 												? "bg-blue-500 text-white"
 												: "bg-gray-50 border border-gray-200"
-											}
+										}
 									`}
 									>
 										{message.type === "assistant" ? (
@@ -497,10 +500,11 @@ export default WelcomeMessage;
 									<button
 										onClick={handleSendMessage}
 										disabled={!inputValue.trim() || isTyping}
-										className={`w-8 h-8 rounded-xl transition-all duration-200 flex items-center justify-center group ${inputValue.trim()
+										className={`w-8 h-8 rounded-xl transition-all duration-200 flex items-center justify-center group ${
+											inputValue.trim()
 												? "bg-blue-500 hover:bg-blue-600 text-white hover:scale-105 shadow-sm"
 												: "bg-gray-100 text-gray-400 cursor-not-allowed"
-											}`}
+										}`}
 										title="发送消息 (Enter)"
 									>
 										<Send className="w-4 h-4 group-hover:scale-110 transition-transform" />

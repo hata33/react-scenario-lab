@@ -63,7 +63,7 @@ export function useChatHistory() {
 			updatedAt: new Date(),
 		};
 
-		setHistories(prev => [newHistory, ...prev]);
+		setHistories((prev) => [newHistory, ...prev]);
 		setCurrentHistoryId(newHistory.id);
 		return newHistory;
 	};
@@ -81,28 +81,32 @@ export function useChatHistory() {
 			timestamp: new Date(),
 		};
 
-		setHistories(prev => prev.map(history => {
-			if (history.id === currentHistoryId) {
-				const updatedHistory = {
-					...history,
-					messages: [...history.messages, newMessage],
-					updatedAt: new Date(),
-				};
+		setHistories((prev) =>
+			prev.map((history) => {
+				if (history.id === currentHistoryId) {
+					const updatedHistory = {
+						...history,
+						messages: [...history.messages, newMessage],
+						updatedAt: new Date(),
+					};
 
-				// 如果是第一条用户消息，更新标题
-				if (history.messages.length === 0 && message.type === "user") {
-					updatedHistory.title = message.content.slice(0, 20) + (message.content.length > 20 ? "..." : "");
+					// 如果是第一条用户消息，更新标题
+					if (history.messages.length === 0 && message.type === "user") {
+						updatedHistory.title =
+							message.content.slice(0, 20) +
+							(message.content.length > 20 ? "..." : "");
+					}
+
+					return updatedHistory;
 				}
-
-				return updatedHistory;
-			}
-			return history;
-		}));
+				return history;
+			}),
+		);
 	};
 
 	// 删除对话历史
 	const deleteHistory = (id: string) => {
-		setHistories(prev => prev.filter(history => history.id !== id));
+		setHistories((prev) => prev.filter((history) => history.id !== id));
 		if (currentHistoryId === id) {
 			setCurrentHistoryId(null);
 		}
@@ -122,13 +126,13 @@ export function useChatHistory() {
 
 	// 获取当前对话历史
 	const getCurrentHistory = () => {
-		return histories.find(history => history.id === currentHistoryId);
+		return histories.find((history) => history.id === currentHistoryId);
 	};
 
 	// 导出对话历史
 	const exportHistory = (id?: string) => {
 		const historyToExport = id
-			? histories.find(h => h.id === id)
+			? histories.find((h) => h.id === id)
 			: getCurrentHistory();
 
 		if (!historyToExport) return null;
@@ -136,14 +140,16 @@ export function useChatHistory() {
 		const exportData = {
 			title: historyToExport.title,
 			createdAt: historyToExport.createdAt.toISOString(),
-			messages: historyToExport.messages.map(msg => ({
+			messages: historyToExport.messages.map((msg) => ({
 				type: msg.type,
 				content: msg.content,
 				timestamp: msg.timestamp.toISOString(),
 			})),
 		};
 
-		const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
+		const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+			type: "application/json",
+		});
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement("a");
 		a.href = url;

@@ -340,7 +340,7 @@ export const generateImageWithSiliconFlow = async (
 	// 获取模型默认参数
 	const modelConfig =
 		API_CONFIG.siliconflow.models[
-		request.model as keyof typeof API_CONFIG.siliconflow.models
+			request.model as keyof typeof API_CONFIG.siliconflow.models
 		];
 	const defaultParams = modelConfig?.defaultParams || {};
 

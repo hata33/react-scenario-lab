@@ -26,43 +26,43 @@ export default function FeatureCards() {
 			description: "多层次视差效果，营造深度感和立体空间",
 			icon: "🎯",
 			details: ["背景元素移动速度差异", "前景元素独立运动", "深度层次感营造"],
-			tech: ["scrollTrigger", "scrub", "multi-layer"]
+			tech: ["scrollTrigger", "scrub", "multi-layer"],
 		},
 		{
 			title: "固定元素",
 			description: "滚动时固定特定元素，创造独特视觉体验",
 			icon: "📌",
 			details: ["元素固定定位", "滚动触发动画", "时间轴控制"],
-			tech: ["pin", "timeline", "trigger"]
+			tech: ["pin", "timeline", "trigger"],
 		},
 		{
 			title: "进度指示",
 			description: "实时显示滚动进度，增强用户交互体验",
 			icon: "📊",
 			details: ["滚动条动画", "百分比显示", "平滑过渡效果"],
-			tech: ["progress", "onUpdate", "scrub"]
+			tech: ["progress", "onUpdate", "scrub"],
 		},
 		{
 			title: "时间轴动画",
 			description: "基于时间轴的序列动画，精确控制每个细节",
 			icon: "⏱️",
 			details: ["关键帧控制", "序列动画", "标签管理"],
-			tech: ["timeline", "labels", "stagger"]
+			tech: ["timeline", "labels", "stagger"],
 		},
 		{
 			title: "响应式适配",
 			description: "完美适配各种设备，确保最佳观看体验",
 			icon: "📱",
 			details: ["断点优化", "触控支持", "性能调优"],
-			tech: ["responsive", "mediaQuery", "performance"]
+			tech: ["responsive", "mediaQuery", "performance"],
 		},
 		{
 			title: "交互增强",
 			description: "丰富的交互效果，让网页生动有趣",
 			icon: "✨",
 			details: ["鼠标悬停", "点击反馈", "状态变化"],
-			tech: ["hover", "click", "state"]
-		}
+			tech: ["hover", "click", "state"],
+		},
 	];
 
 	const setCardRef = (idx: number) => (el: HTMLDivElement | null) => {
@@ -73,11 +73,12 @@ export default function FeatureCards() {
 		const section = sectionRef.current;
 		if (!section) return;
 
-		const scroller = document.querySelector('#scroll-container') || window;
+		const scroller = document.querySelector("#scroll-container") || window;
 
 		// 标题动画
 		if (titleRef.current) {
-			gsap.fromTo(titleRef.current,
+			gsap.fromTo(
+				titleRef.current,
 				{ y: 80, opacity: 0, rotationX: 45 },
 				{
 					y: 0,
@@ -90,15 +91,16 @@ export default function FeatureCards() {
 						trigger: titleRef.current,
 						start: "top 85%",
 						end: "top 15%",
-						toggleActions: "play none none reverse"
-					}
-				}
+						toggleActions: "play none none reverse",
+					},
+				},
 			);
 		}
 
 		// 副标题动画
 		if (subtitleRef.current) {
-			gsap.fromTo(subtitleRef.current,
+			gsap.fromTo(
+				subtitleRef.current,
 				{ y: 60, opacity: 0 },
 				{
 					y: 0,
@@ -111,9 +113,9 @@ export default function FeatureCards() {
 						trigger: subtitleRef.current,
 						start: "top 85%",
 						end: "top 15%",
-						toggleActions: "play none none reverse"
-					}
-				}
+						toggleActions: "play none none reverse",
+					},
+				},
 			);
 		}
 
@@ -128,17 +130,18 @@ export default function FeatureCards() {
 					trigger: card,
 					start: "top 85%",
 					end: "top 15%",
-					toggleActions: "play none none reverse"
-				}
+					toggleActions: "play none none reverse",
+				},
 			});
 
 			// 卡片主体动画
-			tl.fromTo(card,
+			tl.fromTo(
+				card,
 				{
 					y: 120,
 					opacity: 0,
 					scale: 0.8,
-					rotationY: i % 2 === 0 ? -15 : 15
+					rotationY: i % 2 === 0 ? -15 : 15,
 				},
 				{
 					y: 0,
@@ -146,57 +149,62 @@ export default function FeatureCards() {
 					scale: 1,
 					rotationY: 0,
 					duration: 0.8,
-					ease: "back.out(1.2)"
-				}
+					ease: "back.out(1.2)",
+				},
 			);
 
 			// 图标动画
-			const icon = card.querySelector('.card-icon');
+			const icon = card.querySelector(".card-icon");
 			if (icon) {
-				tl.fromTo(icon,
+				tl.fromTo(
+					icon,
 					{ scale: 0, rotation: -180 },
 					{ scale: 1, rotation: 0, duration: 0.6, ease: "back.out(1.5)" },
-					"-=0.4"
+					"-=0.4",
 				);
 			}
 
 			// 标题动画
-			const title = card.querySelector('.card-title');
+			const title = card.querySelector(".card-title");
 			if (title) {
-				tl.fromTo(title,
+				tl.fromTo(
+					title,
 					{ x: -30, opacity: 0 },
 					{ x: 0, opacity: 1, duration: 0.5, ease: "power2.out" },
-					"-=0.2"
+					"-=0.2",
 				);
 			}
 
 			// 描述动画
-			const description = card.querySelector('.card-description');
+			const description = card.querySelector(".card-description");
 			if (description) {
-				tl.fromTo(description,
+				tl.fromTo(
+					description,
 					{ x: -30, opacity: 0 },
 					{ x: 0, opacity: 1, duration: 0.5, ease: "power2.out" },
-					"-=0.3"
+					"-=0.3",
 				);
 			}
 
 			// 细节列表动画
-			const details = card.querySelectorAll('.card-detail');
+			const details = card.querySelectorAll(".card-detail");
 			details.forEach((detail, idx) => {
-				tl.fromTo(detail,
+				tl.fromTo(
+					detail,
 					{ x: -20, opacity: 0 },
 					{ x: 0, opacity: 1, duration: 0.3, ease: "power2.out" },
-					`-=${0.2 + idx * 0.1}`
+					`-=${0.2 + idx * 0.1}`,
 				);
 			});
 
 			// 技术标签动画
-			const techTags = card.querySelectorAll('.tech-tag');
+			const techTags = card.querySelectorAll(".tech-tag");
 			techTags.forEach((tag, idx) => {
-				tl.fromTo(tag,
+				tl.fromTo(
+					tag,
 					{ scale: 0, opacity: 0 },
 					{ scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.2)" },
-					`-=0.1`
+					`-=0.1`,
 				);
 			});
 
@@ -209,8 +217,8 @@ export default function FeatureCards() {
 					trigger: card,
 					start: "top 60%",
 					end: "bottom 40%",
-					scrub: 1
-				}
+					scrub: 1,
+				},
 			});
 
 			// 鼠标悬停效果
@@ -220,7 +228,7 @@ export default function FeatureCards() {
 					scale: 1.02,
 					rotationY: 5,
 					duration: 0.4,
-					ease: "power2.out"
+					ease: "power2.out",
 				});
 
 				// 图标弹跳
@@ -231,7 +239,7 @@ export default function FeatureCards() {
 						duration: 0.3,
 						ease: "back.out(2)",
 						yoyo: true,
-						repeat: 1
+						repeat: 1,
 					});
 				}
 			};
@@ -242,26 +250,32 @@ export default function FeatureCards() {
 					scale: 1,
 					rotationY: 0,
 					duration: 0.4,
-					ease: "power2.out"
+					ease: "power2.out",
 				});
 			};
 
-			card.addEventListener('mouseenter', handleMouseEnter);
-			card.addEventListener('mouseleave', handleMouseLeave);
+			card.addEventListener("mouseenter", handleMouseEnter);
+			card.addEventListener("mouseleave", handleMouseLeave);
 
 			return () => {
-				card.removeEventListener('mouseenter', handleMouseEnter);
-				card.removeEventListener('mouseleave', handleMouseLeave);
+				card.removeEventListener("mouseenter", handleMouseEnter);
+				card.removeEventListener("mouseleave", handleMouseLeave);
 			};
 		});
 
 		return () => {
-			ScrollTrigger.getAll().forEach(st => st.kill());
+			ScrollTrigger.getAll().forEach((st) => st.kill());
 		};
 	}, []);
 
 	return (
-		<div ref={sectionRef} style={{ padding: "120px 0", background: "linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%" }}>
+		<div
+			ref={sectionRef}
+			style={{
+				padding: "120px 0",
+				background: "linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%",
+			}}
+		>
 			<div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 40px" }}>
 				{/* 标题区域 */}
 				<div style={{ textAlign: "center", marginBottom: 80 }}>
@@ -275,7 +289,7 @@ export default function FeatureCards() {
 							WebkitBackgroundClip: "text",
 							WebkitTextFillColor: "transparent",
 							backgroundClip: "text",
-							letterSpacing: "-0.02em"
+							letterSpacing: "-0.02em",
 						}}
 					>
 						精彩功能展示
@@ -287,20 +301,23 @@ export default function FeatureCards() {
 							color: "#64748b",
 							maxWidth: 700,
 							margin: "0 auto",
-							lineHeight: 1.6
+							lineHeight: 1.6,
 						}}
 					>
-						探索 GSAP ScrollTrigger 的强大功能，每个组件都经过精心设计，带来流畅自然的动画体验
+						探索 GSAP ScrollTrigger
+						的强大功能，每个组件都经过精心设计，带来流畅自然的动画体验
 					</p>
 				</div>
 
 				{/* 卡片网格 */}
-				<div style={{
-					display: "grid",
-					gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))",
-					gap: 40,
-					alignItems: "stretch"
-				}}>
+				<div
+					style={{
+						display: "grid",
+						gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))",
+						gap: 40,
+						alignItems: "stretch",
+					}}
+				>
 					{features.map((feature, i) => (
 						<div
 							key={i}
@@ -315,35 +332,42 @@ export default function FeatureCards() {
 								overflow: "hidden",
 								cursor: "pointer",
 								transition: "box-shadow 0.3s ease",
-								border: "1px solid rgba(148, 163, 184, 0.1)"
+								border: "1px solid rgba(148, 163, 184, 0.1)",
 							}}
 							onMouseEnter={(e) => {
-								e.currentTarget.style.boxShadow = "0 30px 80px rgba(0,0,0,0.12)";
+								e.currentTarget.style.boxShadow =
+									"0 30px 80px rgba(0,0,0,0.12)";
 							}}
 							onMouseLeave={(e) => {
-								e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.08)";
+								e.currentTarget.style.boxShadow =
+									"0 20px 60px rgba(0,0,0,0.08)";
 							}}
 						>
 							{/* 背景装饰 */}
-							<div style={{
-								position: "absolute",
-								top: -50,
-								right: -50,
-								width: 150,
-								height: 150,
-								background: `linear-gradient(135deg, hsl(${i * 60}, 70%, 95%), hsl(${i * 60 + 30}, 70%, 98%))`,
-								borderRadius: "50%",
-								opacity: 0.6
-							}} />
+							<div
+								style={{
+									position: "absolute",
+									top: -50,
+									right: -50,
+									width: 150,
+									height: 150,
+									background: `linear-gradient(135deg, hsl(${i * 60}, 70%, 95%), hsl(${i * 60 + 30}, 70%, 98%))`,
+									borderRadius: "50%",
+									opacity: 0.6,
+								}}
+							/>
 
 							{/* 图标 */}
-							<div className="card-icon" style={{
-								fontSize: 56,
-								marginBottom: 24,
-								textAlign: "center",
-								position: "relative",
-								zIndex: 1
-							}}>
+							<div
+								className="card-icon"
+								style={{
+									fontSize: 56,
+									marginBottom: 24,
+									textAlign: "center",
+									position: "relative",
+									zIndex: 1,
+								}}
+							>
 								{feature.icon}
 							</div>
 
@@ -357,7 +381,7 @@ export default function FeatureCards() {
 									color: "#1e293b",
 									textAlign: "center",
 									position: "relative",
-									zIndex: 1
+									zIndex: 1,
 								}}
 							>
 								{feature.title}
@@ -373,14 +397,16 @@ export default function FeatureCards() {
 									marginBottom: 24,
 									textAlign: "center",
 									position: "relative",
-									zIndex: 1
+									zIndex: 1,
 								}}
 							>
 								{feature.description}
 							</p>
 
 							{/* 详细特性 */}
-							<div style={{ marginBottom: 24, position: "relative", zIndex: 1 }}>
+							<div
+								style={{ marginBottom: 24, position: "relative", zIndex: 1 }}
+							>
 								{feature.details.map((detail, idx) => (
 									<div
 										key={idx}
@@ -391,16 +417,18 @@ export default function FeatureCards() {
 											gap: 8,
 											marginBottom: 8,
 											fontSize: 14,
-											color: "#475569"
+											color: "#475569",
 										}}
 									>
-										<span style={{
-											width: 6,
-											height: 6,
-											background: `hsl(${i * 60}, 70%, 60%)`,
-											borderRadius: "50%",
-											flexShrink: 0
-										}} />
+										<span
+											style={{
+												width: 6,
+												height: 6,
+												background: `hsl(${i * 60}, 70%, 60%)`,
+												borderRadius: "50%",
+												flexShrink: 0,
+											}}
+										/>
 										{detail}
 									</div>
 								))}
@@ -408,14 +436,16 @@ export default function FeatureCards() {
 
 							{/* 技术标签 */}
 							{feature.tech && (
-								<div style={{
-									display: "flex",
-									flexWrap: "wrap",
-									gap: 8,
-									justifyContent: "center",
-									position: "relative",
-									zIndex: 1
-								}}>
+								<div
+									style={{
+										display: "flex",
+										flexWrap: "wrap",
+										gap: 8,
+										justifyContent: "center",
+										position: "relative",
+										zIndex: 1,
+									}}
+								>
 									{feature.tech.map((tech, idx) => (
 										<span
 											key={idx}
@@ -427,7 +457,7 @@ export default function FeatureCards() {
 												borderRadius: 20,
 												fontSize: 12,
 												fontWeight: 600,
-												border: `1px solid hsla(${i * 60}, 70%, 60%, 0.2)`
+												border: `1px solid hsla(${i * 60}, 70%, 60%, 0.2)`,
 											}}
 										>
 											{tech}

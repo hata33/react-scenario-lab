@@ -11,7 +11,10 @@
 	},
 	"formatter": {
 		"enabled": true,
-		"indentStyle": "tab"
+		"indentStyle": "tab",
+		"trailingCommas": true,
+		"semicolons": true,
+		"lineLength": 150
 	},
 	"linter": {
 		"enabled": false,

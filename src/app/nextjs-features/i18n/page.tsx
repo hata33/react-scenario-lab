@@ -8,7 +8,7 @@ import {
 	Languages,
 	Settings,
 	BookOpen,
-	Code
+	Code,
 } from "lucide-react";
 import Link from "next/link";
 import Layout from "@/components/Layout";
@@ -17,7 +17,12 @@ interface I18nExample {
 	id: string;
 	title: string;
 	description: string;
-	framework: "next-intl" | "react-i18next" | "next-i18next" | "Custom" | "FormatJS";
+	framework:
+		| "next-intl"
+		| "react-i18next"
+		| "next-i18next"
+		| "Custom"
+		| "FormatJS";
 	difficulty: "初级" | "中级" | "高级";
 	status: "completed" | "in-progress" | "planned";
 	codeSnippet: string;
@@ -222,13 +227,18 @@ function UserProfile({ name, messageCount }: {
     </div>
   );
 }`,
-		benefits: ["App Router 原生支持", "TypeScript 优秀", "SEO 友好", "性能优秀"],
+		benefits: [
+			"App Router 原生支持",
+			"TypeScript 优秀",
+			"SEO 友好",
+			"性能优秀",
+		],
 		features: ["自动路由本地化", "复数形式支持", "动态导入", "服务端渲染"],
 		performance: {
 			bundleSize: "15KB",
 			runtime: "优秀",
-			seoSupport: "完美"
-		}
+			seoSupport: "完美",
+		},
 	},
 	{
 		id: "react-i18next",
@@ -484,8 +494,8 @@ export function UserStats({
 		performance: {
 			bundleSize: "20KB",
 			runtime: "良好",
-			seoSupport: "良好"
-		}
+			seoSupport: "良好",
+		},
 	},
 	{
 		id: "custom-i18n",
@@ -771,8 +781,8 @@ export function I18nProvider({ children, locale }: I18nProviderProps) {
 		performance: {
 			bundleSize: "< 5KB",
 			runtime: "优秀",
-			seoSupport: "自定义"
-		}
+			seoSupport: "自定义",
+		},
 	},
 	{
 		id: "next-i18next",
@@ -833,8 +843,8 @@ export default function HomePage() {
 		performance: {
 			bundleSize: "25KB",
 			runtime: "优秀",
-			seoSupport: "完美"
-		}
+			seoSupport: "完美",
+		},
 	},
 	{
 		id: "formatjs",
@@ -896,13 +906,15 @@ function WelcomeMessage({ name, count }: { name: string; count: number }) {
 		performance: {
 			bundleSize: "35KB",
 			runtime: "良好",
-			seoSupport: "良好"
-		}
-	}
+			seoSupport: "良好",
+		},
+	},
 ];
 
 export default function I18nFeaturePage() {
-	const [selectedExample, setSelectedExample] = useState<I18nExample | null>(null);
+	const [selectedExample, setSelectedExample] = useState<I18nExample | null>(
+		null,
+	);
 
 	const getFrameworkColor = (framework: I18nExample["framework"]) => {
 		switch (framework) {
@@ -981,7 +993,8 @@ export default function I18nFeaturePage() {
 										国际化特性
 									</h1>
 									<p className="text-gray-600">
-										Next.js 完整国际化方案：next-intl、react-i18next、自定义解决方案
+										Next.js
+										完整国际化方案：next-intl、react-i18next、自定义解决方案
 									</p>
 								</div>
 							</div>
@@ -1012,7 +1025,9 @@ export default function I18nFeaturePage() {
 								<div className="flex items-center justify-center mb-2">
 									<BookOpen className="w-6 h-6 text-green-600" />
 								</div>
-								<h3 className="font-semibold text-green-900 mb-2">react-i18next</h3>
+								<h3 className="font-semibold text-green-900 mb-2">
+									react-i18next
+								</h3>
 								<p className="text-sm text-green-700">通用方案</p>
 								<div className="mt-2 text-xs text-green-600">
 									<div>🛠️ 功能丰富</div>
@@ -1024,7 +1039,9 @@ export default function I18nFeaturePage() {
 								<div className="flex items-center justify-center mb-2">
 									<Settings className="w-6 h-6 text-purple-600" />
 								</div>
-								<h3 className="font-semibold text-purple-900 mb-2">next-i18next</h3>
+								<h3 className="font-semibold text-purple-900 mb-2">
+									next-i18next
+								</h3>
 								<p className="text-sm text-purple-700">Pages Router</p>
 								<div className="mt-2 text-xs text-purple-600">
 									<div>📄 SSR 友好</div>
@@ -1085,21 +1102,21 @@ export default function I18nFeaturePage() {
 												<div className="flex items-center space-x-2 mb-2">
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getFrameworkColor(
-															example.framework
+															example.framework,
 														)}`}
 													>
 														{example.framework}
 													</span>
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
-															example.difficulty
+															example.difficulty,
 														)}`}
 													>
 														{example.difficulty}
 													</span>
 													<span
 														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-															example.status
+															example.status,
 														)}`}
 													>
 														{getStatusText(example.status)}
@@ -1132,7 +1149,7 @@ export default function I18nFeaturePage() {
 											<div className="flex items-center space-x-2">
 												<span
 													className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getFrameworkColor(
-														selectedExample.framework
+														selectedExample.framework,
 													)}`}
 												>
 													{selectedExample.framework}
@@ -1144,17 +1161,13 @@ export default function I18nFeaturePage() {
 										</p>
 										<div className="grid grid-cols-3 gap-4 text-sm">
 											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													包体积
-												</div>
+												<div className="font-medium text-gray-900">包体积</div>
 												<div className="text-gray-600">
 													{selectedExample.performance.bundleSize}
 												</div>
 											</div>
 											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													运行时
-												</div>
+												<div className="font-medium text-gray-900">运行时</div>
 												<div className="text-gray-600">
 													{selectedExample.performance.runtime}
 												</div>
@@ -1217,7 +1230,9 @@ export default function I18nFeaturePage() {
 										<div className="p-6 bg-green-50 border-t border-green-200">
 											<div className="flex items-center space-x-2 text-green-800">
 												<CheckCircle className="w-5 h-5" />
-												<span className="font-medium">该国际化方案已完成并可用</span>
+												<span className="font-medium">
+													该国际化方案已完成并可用
+												</span>
 											</div>
 										</div>
 									)}

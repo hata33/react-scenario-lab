@@ -42,7 +42,7 @@ export function useChat() {
 			timestamp: new Date(),
 		};
 
-		setState(prev => ({
+		setState((prev) => ({
 			...prev,
 			messages: [...prev.messages, userMessage],
 			isLoading: true,
@@ -51,7 +51,7 @@ export function useChat() {
 
 		try {
 			// 模拟 API 调用
-			await new Promise(resolve => setTimeout(resolve, 1000));
+			await new Promise((resolve) => setTimeout(resolve, 1000));
 
 			const assistantMessage: Message = {
 				id: state.messages.length + 2,
@@ -60,13 +60,13 @@ export function useChat() {
 				timestamp: new Date(),
 			};
 
-			setState(prev => ({
+			setState((prev) => ({
 				...prev,
 				messages: [...prev.messages, assistantMessage],
 				isLoading: false,
 			}));
 		} catch (error) {
-			setState(prev => ({
+			setState((prev) => ({
 				...prev,
 				isLoading: false,
 				error: "发送消息失败，请稍后重试",
@@ -75,7 +75,7 @@ export function useChat() {
 	};
 
 	const clearMessages = () => {
-		setState(prev => ({
+		setState((prev) => ({
 			...prev,
 			messages: [],
 			error: null,

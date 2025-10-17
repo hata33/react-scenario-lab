@@ -13,7 +13,7 @@ import {
 	Image as ImageIcon,
 	Settings,
 	ZoomIn,
-	ZoomOut
+	ZoomOut,
 } from "lucide-react";
 import type { GeneratedImage } from "./ImageGenerator";
 
@@ -30,7 +30,7 @@ export default function ImageDetailModal({
 	onClose,
 	onImageUpdate,
 	onDeleteImage,
-	onToggleFavorite
+	onToggleFavorite,
 }: ImageDetailModalProps) {
 	const [zoomLevel, setZoomLevel] = useState(1);
 
@@ -38,7 +38,7 @@ export default function ImageDetailModal({
 
 	// 下载图片
 	const handleDownload = () => {
-		const link = document.createElement('a');
+		const link = document.createElement("a");
 		link.href = image.url;
 		link.download = `ai-image-${image.id}.jpg`;
 		document.body.appendChild(link);
@@ -58,11 +58,11 @@ export default function ImageDetailModal({
 
 	// 缩放控制
 	const handleZoomIn = () => {
-		setZoomLevel(prev => Math.min(prev + 0.25, 3));
+		setZoomLevel((prev) => Math.min(prev + 0.25, 3));
 	};
 
 	const handleZoomOut = () => {
-		setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
+		setZoomLevel((prev) => Math.max(prev - 0.25, 0.5));
 	};
 
 	const handleResetZoom = () => {
@@ -76,7 +76,7 @@ export default function ImageDetailModal({
 			month: "long",
 			day: "numeric",
 			hour: "2-digit",
-			minute: "2-digit"
+			minute: "2-digit",
 		});
 	};
 
@@ -86,7 +86,7 @@ export default function ImageDetailModal({
 			"dall-e-3": "DALL-E 3",
 			"dall-e-2": "DALL-E 2",
 			"stable-diffusion": "Stable Diffusion",
-			"midjourney": "Midjourney"
+			midjourney: "Midjourney",
 		};
 		return modelNames[model] || model;
 	};
@@ -94,8 +94,8 @@ export default function ImageDetailModal({
 	// 获取质量显示名称
 	const getQualityDisplayName = (quality: string) => {
 		const qualityNames: Record<string, string> = {
-			"standard": "标准",
-			"hd": "高清"
+			standard: "标准",
+			hd: "高清",
 		};
 		return qualityNames[quality] || quality;
 	};
@@ -103,8 +103,8 @@ export default function ImageDetailModal({
 	// 获取风格显示名称
 	const getStyleDisplayName = (style: string) => {
 		const styleNames: Record<string, string> = {
-			"vivid": "生动",
-			"natural": "自然"
+			vivid: "生动",
+			natural: "自然",
 		};
 		return styleNames[style] || style;
 	};
@@ -128,7 +128,10 @@ export default function ImageDetailModal({
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
 						{/* 左侧：图片展示 */}
 						<div className="space-y-4">
-							<div className="relative bg-gray-100 rounded-lg overflow-hidden" style={{ minHeight: '400px' }}>
+							<div
+								className="relative bg-gray-100 rounded-lg overflow-hidden"
+								style={{ minHeight: "400px" }}
+							>
 								<img
 									src={image.url}
 									alt={image.prompt}
@@ -230,15 +233,21 @@ export default function ImageDetailModal({
 								</h3>
 								<div className="space-y-3">
 									<div>
-										<label className="text-sm font-medium text-gray-700">创建时间</label>
+										<label className="text-sm font-medium text-gray-700">
+											创建时间
+										</label>
 										<div className="flex items-center gap-2 text-sm text-gray-600">
 											<Calendar className="w-4 h-4" />
 											{formatDate(image.createdAt)}
 										</div>
 									</div>
 									<div>
-										<label className="text-sm font-medium text-gray-700">图片 ID</label>
-										<div className="text-sm text-gray-600 font-mono">{image.id}</div>
+										<label className="text-sm font-medium text-gray-700">
+											图片 ID
+										</label>
+										<div className="text-sm text-gray-600 font-mono">
+											{image.id}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -251,31 +260,49 @@ export default function ImageDetailModal({
 								</h3>
 								<div className="space-y-3">
 									<div>
-										<label className="text-sm font-medium text-gray-700">模型</label>
-										<div className="text-sm text-gray-600">{getModelDisplayName(image.model)}</div>
+										<label className="text-sm font-medium text-gray-700">
+											模型
+										</label>
+										<div className="text-sm text-gray-600">
+											{getModelDisplayName(image.model)}
+										</div>
 									</div>
 									<div>
-										<label className="text-sm font-medium text-gray-700">尺寸</label>
+										<label className="text-sm font-medium text-gray-700">
+											尺寸
+										</label>
 										<div className="text-sm text-gray-600">{image.size}</div>
 									</div>
 									<div>
-										<label className="text-sm font-medium text-gray-700">质量</label>
-										<div className="text-sm text-gray-600">{getQualityDisplayName(image.quality)}</div>
+										<label className="text-sm font-medium text-gray-700">
+											质量
+										</label>
+										<div className="text-sm text-gray-600">
+											{getQualityDisplayName(image.quality)}
+										</div>
 									</div>
 									<div>
-										<label className="text-sm font-medium text-gray-700">风格</label>
-										<div className="text-sm text-gray-600">{getStyleDisplayName(image.style)}</div>
+										<label className="text-sm font-medium text-gray-700">
+											风格
+										</label>
+										<div className="text-sm text-gray-600">
+											{getStyleDisplayName(image.style)}
+										</div>
 									</div>
 								</div>
 							</div>
 
 							{/* 提示词 */}
 							<div>
-								<h3 className="text-lg font-semibold text-gray-900 mb-4">提示词</h3>
+								<h3 className="text-lg font-semibold text-gray-900 mb-4">
+									提示词
+								</h3>
 								<div className="space-y-3">
 									<div>
 										<div className="flex items-center justify-between mb-2">
-											<label className="text-sm font-medium text-gray-700">正面提示词</label>
+											<label className="text-sm font-medium text-gray-700">
+												正面提示词
+											</label>
 											<button
 												onClick={handleCopyPrompt}
 												className="text-sm text-purple-600 hover:text-purple-700 flex items-center gap-1"
@@ -290,7 +317,9 @@ export default function ImageDetailModal({
 									</div>
 									{image.negativePrompt && (
 										<div>
-											<label className="text-sm font-medium text-gray-700">负面提示词</label>
+											<label className="text-sm font-medium text-gray-700">
+												负面提示词
+											</label>
 											<div className="p-3 bg-red-50 rounded-lg text-sm text-gray-700">
 												{image.negativePrompt}
 											</div>
@@ -301,7 +330,9 @@ export default function ImageDetailModal({
 
 							{/* 操作记录 */}
 							<div>
-								<h3 className="text-lg font-semibold text-gray-900 mb-4">操作记录</h3>
+								<h3 className="text-lg font-semibold text-gray-900 mb-4">
+									操作记录
+								</h3>
 								<div className="text-sm text-gray-600">
 									<div className="flex items-center gap-2 mb-1">
 										<div className="w-2 h-2 bg-green-500 rounded-full"></div>

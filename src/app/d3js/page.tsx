@@ -54,10 +54,11 @@ export default function D3jsPage() {
 												{item.title}
 											</h3>
 											<span
-												className={`px-2 py-1 text-xs font-medium rounded-full ${item.status === "completed"
+												className={`px-2 py-1 text-xs font-medium rounded-full ${
+													item.status === "completed"
 														? "bg-green-100 text-green-800"
 														: "bg-yellow-100 text-yellow-800"
-													}`}
+												}`}
 											>
 												{item.status === "completed" ? "已完成" : "计划中"}
 											</span>

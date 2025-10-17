@@ -11,16 +11,15 @@ export default function ChatInterface() {
 	const [inputValue, setInputValue] = useState("");
 	const [isTyping, setIsTyping] = useState(false);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
-	const [currentStreamingId, setCurrentStreamingId] = useState<string | null>(null);
+	const [currentStreamingId, setCurrentStreamingId] = useState<string | null>(
+		null,
+	);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
-	const {
-		currentHistory,
-		createHistory,
-		addMessage,
-	} = useChatHistory();
+	const { currentHistory, createHistory, addMessage } = useChatHistory();
 
-	const { streamingMessage, isStreaming, startStream, stopStream } = useStreamResponse();
+	const { streamingMessage, isStreaming, startStream, stopStream } =
+		useStreamResponse();
 
 	// 自动滚动到底部
 	useEffect(() => {
@@ -151,7 +150,7 @@ export default WelcomeMessage;
 		}
 
 		// 先添加一个空的助手消息，然后开始流式更新
-	 const messageId = Date.now().toString();
+		const messageId = Date.now().toString();
 		setCurrentStreamingId(messageId);
 
 		addMessage({
@@ -230,9 +229,7 @@ export default WelcomeMessage;
 							<h3 className="text-lg font-medium text-gray-600 mb-2">
 								开始新的对话
 							</h3>
-							<p className="text-gray-500">
-								输入消息开始与 AI 助手对话
-							</p>
+							<p className="text-gray-500">输入消息开始与 AI 助手对话</p>
 							<div className="mt-6 text-sm text-gray-400">
 								<p>试试输入：</p>
 								<div className="flex flex-wrap gap-2 justify-center mt-2">
@@ -244,37 +241,49 @@ export default WelcomeMessage;
 						</div>
 					) : (
 						currentHistory?.messages.map((message) => (
-							<div key={message.id} className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}>
-								<div className={`flex items-start gap-3 max-w-[80%] ${
-									message.type === "user" ? "flex-row-reverse" : ""
-								}`}>
-									<div className={`
+							<div
+								key={message.id}
+								className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
+							>
+								<div
+									className={`flex items-start gap-3 max-w-[80%] ${
+										message.type === "user" ? "flex-row-reverse" : ""
+									}`}
+								>
+									<div
+										className={`
 										w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
-										${message.type === "user"
-											? "bg-blue-500 text-white ml-2"
-											: "bg-gray-200 text-gray-600 mr-2"
+										${
+											message.type === "user"
+												? "bg-blue-500 text-white ml-2"
+												: "bg-gray-200 text-gray-600 mr-2"
 										}
-									`}>
+									`}
+									>
 										{message.type === "user" ? (
 											<User className="w-4 h-4" />
 										) : (
 											<Bot className="w-4 h-4" />
 										)}
 									</div>
-									<div className={`
+									<div
+										className={`
 										rounded-lg px-4 py-2 ${
 											message.type === "user"
 												? "bg-blue-500 text-white"
 												: "bg-gray-50 border border-gray-200"
 										}
-									`}>
+									`}
+									>
 										{message.type === "assistant" ? (
 											<MarkdownMessage
 												content={message.content}
 												className="text-gray-800"
 											/>
 										) : (
-											<p className="text-sm whitespace-pre-wrap">{message.content}</p>
+											<p className="text-sm whitespace-pre-wrap">
+												{message.content}
+											</p>
 										)}
 									</div>
 								</div>
@@ -295,9 +304,18 @@ export default WelcomeMessage;
 										className="text-gray-800"
 									/>
 									<div className="flex space-x-1 mt-2">
-										<div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
-										<div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-										<div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+										<div
+											className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+											style={{ animationDelay: "0ms" }}
+										></div>
+										<div
+											className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+											style={{ animationDelay: "150ms" }}
+										></div>
+										<div
+											className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+											style={{ animationDelay: "300ms" }}
+										></div>
 									</div>
 								</div>
 								{isStreaming && (
@@ -322,9 +340,18 @@ export default WelcomeMessage;
 								</div>
 								<div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2">
 									<div className="flex space-x-1">
-										<div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
-										<div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-										<div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+										<div
+											className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+											style={{ animationDelay: "0ms" }}
+										></div>
+										<div
+											className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+											style={{ animationDelay: "150ms" }}
+										></div>
+										<div
+											className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+											style={{ animationDelay: "300ms" }}
+										></div>
 									</div>
 								</div>
 							</div>
@@ -342,7 +369,11 @@ export default WelcomeMessage;
 							value={inputValue}
 							onChange={(e) => setInputValue(e.target.value)}
 							onKeyPress={handleKeyPress}
-							placeholder={isStreaming ? "AI 正在回复中..." : "输入您的问题... (Shift+Enter 换行)"}
+							placeholder={
+								isStreaming
+									? "AI 正在回复中..."
+									: "输入您的问题... (Shift+Enter 换行)"
+							}
 							disabled={isTyping || isStreaming}
 							className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
 						/>
