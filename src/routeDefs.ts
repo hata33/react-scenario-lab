@@ -161,4 +161,13 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "stagger", title: "错位动画" },
 		],
 	},
+	{
+		path: "supabase",
+		title: "Supabase 数据库",
+		children: [
+			{ path: "auth", title: "用户认证" },
+			{ path: "todo", title: "Todo 应用" },
+			{ path: "dashboard", title: "控制面板" },
+		],
+	},
 ];

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-这是一个基于 Next.js 15 + React 19 的组件实验室，用于展示各种 React 开发场景和功能组件。项目已从 Vite + React Router 迁移到 Next.js App Router 架构。
+这是一个基于 Next.js 15 + React 19 的组件实验室，用于展示各种 React 开发场景和功能组件。项目已从 Vite + React Router 迁移到 Next.js App Router 架构。使用 pnpm 作为包管理器。
 
 ## 开发命令
 
