@@ -8,6 +8,7 @@
 - **React 19** - 用户界面库
 - **TypeScript** - 类型安全
 - **Tailwind CSS** - 样式框架
+- **Supabase** - 后端服务和数据库
 - **Canvas Confetti** - 特效库
 
 ## 功能特性
@@ -86,13 +87,25 @@ src/
 │   ├── map/               # 地图页面
 │   ├── animation/         # 动画页面
 │   ├── chat/              # 聊天页面
-│   ├── auth/              # 认证页面
+│   ├── supabase/          # Supabase 集成页面
+│   │   ├── auth/          # 认证页面
+│   │   ├── todo/          # Todo 管理页面
+│   │   └── dashboard/     # 控制面板页面
 │   ├── other/             # 其他功能页面
 │   └── performance/       # 性能优化页面
 ├── components/            # 共享组件
 │   ├── Layout.tsx         # 布局组件
 │   ├── Sidebar.tsx        # 侧边栏组件
-│   └── FirstVisitConfetti.tsx # 首次访问特效
+│   ├── FirstVisitConfetti.tsx # 首次访问特效
+│   ├── auth/              # 认证组件
+│   └── todos/             # Todo 组件
+├── lib/                   # 工具库
+│   ├── supabase-client.ts # Supabase 客户端
+│   └── supabase.ts        # Supabase 服务端
+├── hooks/                 # 自定义 Hooks
+│   └── useTodos.ts        # Todo 状态管理
+├── types/                 # TypeScript 类型
+│   └── todo.ts            # Todo 类型定义
 ├── pages/                 # 页面组件
 │   ├── Basic/             # 基础组件
 │   ├── Forms/             # 表单组件
@@ -106,6 +119,12 @@ src/
 │   ├── Other/             # 其他组件
 │   └── Performance/       # 性能组件
 └── routeDefs.ts           # 路由定义
+
+docs/                      # 项目文档
+└── database/              # 数据库文档
+    ├── README.md          # 数据库文档概览
+    ├── setup.sql          # 数据库设置脚本
+    └── supabase-setup.md  # 详细设置指南
 ```
 
 ## 快捷键
@@ -120,6 +139,24 @@ src/
 2. **构建工具** - 从 Vite 迁移到 Next.js 内置构建系统
 3. **文件结构** - 采用 Next.js 13+ 的 app 目录结构
 4. **组件架构** - 保持原有的组件结构，适配 Next.js 路由
+
+## Supabase 数据库设置
+
+项目使用 Supabase 作为后端服务，需要先设置数据库：
+
+### 快速设置
+
+1. 在 Supabase 控制台中打开 SQL 编辑器
+2. 复制 [`docs/database/setup.sql`](./docs/database/setup.sql) 中的脚本并执行
+3. 配置环境变量：
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+### 详细说明
+
+参考 [数据库设置指南](./docs/database/supabase-setup.md) 了解详细的配置步骤、安全策略和故障排除。
 
 ## 贡献
 
