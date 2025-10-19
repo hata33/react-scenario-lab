@@ -1,4 +1,5 @@
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import { Database } from '@/types/database'
 
 // 检查环境变量
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -11,7 +12,7 @@ console.log('Supabase 配置检查:', {
 })
 
 // 单例模式 - 确保只有一个 Supabase 客户端实例
-let supabaseInstance: ReturnType<typeof createSupabaseClient> | null = null
+let supabaseInstance: ReturnType<typeof createSupabaseClient<Database>> | null = null
 
 export function createClient() {
   if (!supabaseInstance) {
@@ -19,7 +20,7 @@ export function createClient() {
       throw new Error('缺少 Supabase 环境变量配置')
     }
 
-    supabaseInstance = createSupabaseClient(supabaseUrl, supabaseAnonKey)
+    supabaseInstance = createSupabaseClient<Database>(supabaseUrl, supabaseAnonKey)
     console.log('Supabase 客户端已创建')
   }
   return supabaseInstance

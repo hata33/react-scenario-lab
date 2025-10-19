@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase-client'
 import { Todo, TodoFormData, TodoFilters } from '@/types/todo'
+import { Database } from '@/types/database'
 
 export function useTodos() {
 	const [todos, setTodos] = useState<Todo[]>([])
@@ -58,7 +59,7 @@ export function useTodos() {
 				.insert({
 					...todoData,
 					user_id: userData.user.id,
-				})
+				} as any)
 				.select()
 				.single()
 
@@ -74,7 +75,7 @@ export function useTodos() {
 	// 更新 Todo
 	const updateTodo = async (id: number, updates: Partial<Todo>) => {
 		try {
-			const { data, error } = await supabase
+			const { data, error } = await (supabase as any)
 				.from('todos')
 				.update({ ...updates, updated_at: new Date().toISOString() })
 				.eq('id', id)
@@ -133,7 +134,9 @@ export function useTodos() {
 			)
 			.subscribe()
 
-		return () => supabase.removeChannel(channel)
+		return () => {
+			supabase.removeChannel(channel)
+		}
 	}, [])
 
 	return {
