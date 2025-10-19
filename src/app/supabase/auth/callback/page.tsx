@@ -1,14 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase-client'
+import { supabase } from '@/lib/supabase-client'
 import { useRouter } from 'next/navigation'
 import Layout from '@/components/Layout'
 
 export default function AuthCallbackPage() {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState<string | null>(null)
-	const supabase = createClient()
 	const router = useRouter()
 
 	useEffect(() => {
@@ -83,7 +82,7 @@ export default function AuthCallbackPage() {
 		}
 
 		handleAuthCallback()
-	}, [supabase, router])
+	}, [router])
 
 	return (
 		<Layout>

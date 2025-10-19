@@ -2,11 +2,10 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase-client'
+import { supabase } from '@/lib/supabase-client'
 
 export default function AuthButton() {
 	const router = useRouter()
-	const supabase = createClient()
 	const [loading, setLoading] = useState(false)
 
 	const handleSignOut = async () => {

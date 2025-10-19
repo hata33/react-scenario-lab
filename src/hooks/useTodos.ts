@@ -1,11 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase-client'
+import { supabase } from '@/lib/supabase-client'
 import { Todo, TodoFormData, TodoFilters } from '@/types/todo'
 
 export function useTodos() {
-	const supabase = createClient()
 	const [todos, setTodos] = useState<Todo[]>([])
 	const [loading, setLoading] = useState(true)
 	const [filters, setFilters] = useState<TodoFilters>({})

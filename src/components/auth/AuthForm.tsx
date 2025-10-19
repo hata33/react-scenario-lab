@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase-client'
+import { supabase } from '@/lib/supabase-client'
 
 export default function AuthForm() {
 	const [email, setEmail] = useState('')
@@ -12,7 +12,6 @@ export default function AuthForm() {
 	const [error, setError] = useState<string | null>(null)
 
 	const router = useRouter()
-	const supabase = createClient()
 
 	const handleAuth = async (e: React.FormEvent) => {
 		e.preventDefault()

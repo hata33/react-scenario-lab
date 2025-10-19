@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase-client'
+import { supabase } from '@/lib/supabase-client'
 import { useRouter } from 'next/navigation'
 import AuthButton from '@/components/auth/AuthButton'
 import Layout from '@/components/Layout'
@@ -12,7 +12,6 @@ export default function DashboardPage() {
 	const [loading, setLoading] = useState(true)
 	const [todos, setTodos] = useState<Todo[]>([])
 	const [statsLoading, setStatsLoading] = useState(true)
-	const supabase = createClient()
 	const router = useRouter()
 
 	// 获取 todos 数据用于统计
@@ -64,7 +63,7 @@ export default function DashboardPage() {
 		)
 
 		return () => subscription.unsubscribe()
-	}, [supabase, router])
+	}, [router])
 
 	// 计算统计数据
 	const stats = {
@@ -187,11 +186,10 @@ export default function DashboardPage() {
 										<div className="flex items-center gap-2">
 											<div className="w-32 bg-gray-200 rounded-full h-2">
 												<div
-													className={`h-2 rounded-full ${
-														priority <= 2 ? 'bg-green-500' :
+													className={`h-2 rounded-full ${priority <= 2 ? 'bg-green-500' :
 														priority === 3 ? 'bg-yellow-500' :
-														'bg-red-500'
-													}`}
+															'bg-red-500'
+														}`}
 													style={{
 														width: `${stats.active > 0 ? (count / stats.active) * 100 : 0}%`
 													}}
@@ -221,13 +219,12 @@ export default function DashboardPage() {
 													{new Date(todo.created_at).toLocaleDateString('zh-CN')}
 												</p>
 											</div>
-											<span className={`px-2 py-1 rounded-full text-xs ${
-												todo.is_complete ? 'bg-green-100 text-green-800' :
+											<span className={`px-2 py-1 rounded-full text-xs ${todo.is_complete ? 'bg-green-100 text-green-800' :
 												todo.priority >= 4 ? 'bg-red-100 text-red-800' :
-												'bg-blue-100 text-blue-800'
-											}`}>
+													'bg-blue-100 text-blue-800'
+												}`}>
 												{todo.is_complete ? '已完成' :
-												 ['低', '中', '高', '紧急', '非常紧急'][todo.priority - 1]}
+													['低', '中', '高', '紧急', '非常紧急'][todo.priority - 1]}
 											</span>
 										</div>
 									))}

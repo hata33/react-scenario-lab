@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase-client'
-import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabase-client'
 import TodoList from '@/components/todos/TodoList'
 import AuthButton from '@/components/auth/AuthButton'
 import Layout from '@/components/Layout'
@@ -10,36 +9,18 @@ import Layout from '@/components/Layout'
 export default function TodoPage() {
 	const [session, setSession] = useState<any>(null)
 	const [loading, setLoading] = useState(true)
-	const supabase = createClient()
-	const router = useRouter()
 
 	useEffect(() => {
-		// 检查会话状态
+		console.log('TodoPage mounted')
+		// 检查用户的登录状态
 		const checkSession = async () => {
 			const { data: { session } } = await supabase.auth.getSession()
 			setSession(session)
 			setLoading(false)
-
-			// 如果未登录，重定向到认证页面
-			if (!session) {
-				router.push('/supabase/auth')
-			}
 		}
 
 		checkSession()
-
-		// 监听认证状态变化
-		const { data: { subscription } } = supabase.auth.onAuthStateChange(
-			(_event, session) => {
-				setSession(session)
-				if (!session) {
-					router.push('/supabase/auth')
-				}
-			}
-		)
-
-		return () => subscription.unsubscribe()
-	}, [supabase, router])
+	}, [])
 
 	if (loading) {
 		return (
@@ -54,24 +35,36 @@ export default function TodoPage() {
 		)
 	}
 
+	// 如果未登录，显示登录提示
 	if (!session) {
 		return (
 			<Layout>
-				<div className="min-h-screen flex items-center justify-center">
-					<div className="text-center">
-						<p className="text-red-600 mb-4">请先登录</p>
-						<button
-							onClick={() => router.push('/supabase/auth')}
-							className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-						>
-							去登录
-						</button>
+				<div className="min-h-screen bg-gray-50 py-12">
+					<div className="max-w-md mx-auto">
+						<div className="text-center">
+							<div className="mb-8">
+								<div className="inline-block rounded-full h-16 w-16 bg-red-100 flex items-center justify-center mb-4">
+									<svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+									</svg>
+								</div>
+								<h1 className="text-3xl font-bold text-gray-900 mb-2">需要登录</h1>
+								<p className="text-gray-600 mb-6">请先登录以访问 Todo 管理功能</p>
+								<a
+									href="/supabase/auth"
+									className="inline-block px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+								>
+									前往登录
+								</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</Layout>
 		)
 	}
 
+	// 已登录，显示 Todo 管理界面
 	return (
 		<Layout>
 			<div className="min-h-screen bg-gray-50">
