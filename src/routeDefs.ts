@@ -108,7 +108,7 @@ export const routeGroups: RouteGroup[] = [
 	{
 		path: "performance",
 		title: "性能",
-		children: [{ path: "virtual-list", title: "虚拟列表" }],
+		children: [{ path: "virtual-list", title: "虚拟列表" }, { path: "frontend-cache", title: "前端缓存系统" }],
 	},
 	{
 		path: "d3js",
