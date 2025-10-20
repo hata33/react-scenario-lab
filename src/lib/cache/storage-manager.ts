@@ -131,7 +131,7 @@ export class LocalStorageAdapter implements StorageAdapter {
     }
   }
 
-  private async cleanup(): Promise<void> {
+  async cleanup(): Promise<void> {
     if (!isClient) {
       return;
     }
@@ -294,7 +294,7 @@ export class SessionStorageAdapter implements StorageAdapter {
     }
   }
 
-  private async cleanup(): Promise<void> {
+  async cleanup(): Promise<void> {
     if (!isSessionClient) {
       return;
     }

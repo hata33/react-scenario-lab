@@ -96,7 +96,8 @@ export default function PerformancePage() {
     const navEntries = performance.getEntriesByType('navigation');
     if (navEntries.length > 0) {
       const navEntry = navEntries[0] as PerformanceNavigationTiming;
-      const tti = navEntry.domInteractive - navEntry.navigationStart;
+      // 使用 domInteractive 和 fetchStart 计算 TTI
+      const tti = navEntry.domInteractive - navEntry.fetchStart;
       newMetrics.push({
         name: 'TTI',
         value: Math.round(tti),

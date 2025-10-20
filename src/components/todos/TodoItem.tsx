@@ -16,7 +16,7 @@ export default function TodoItem({ todo, onUpdate, onDelete, onToggleComplete }:
 	const [editDescription, setEditDescription] = useState(todo.description || '')
 	const [loading, setLoading] = useState(false)
 
-	const priorityColors = {
+	const priorityColors: Record<number, string> = {
 		1: 'bg-green-100 text-green-800',
 		2: 'bg-blue-100 text-blue-800',
 		3: 'bg-yellow-100 text-yellow-800',
@@ -24,7 +24,7 @@ export default function TodoItem({ todo, onUpdate, onDelete, onToggleComplete }:
 		5: 'bg-red-100 text-red-800',
 	}
 
-	const priorityLabels = {
+	const priorityLabels: Record<number, string> = {
 		1: '低',
 		2: '中',
 		3: '高',
@@ -114,8 +114,8 @@ export default function TodoItem({ todo, onUpdate, onDelete, onToggleComplete }:
 							)}
 
 							<div className="flex flex-wrap items-center gap-2 mt-3">
-								<span className={`px-2 py-1 rounded-full text-xs font-medium ${priorityColors[todo.priority]}`}>
-									{priorityLabels[todo.priority]}
+								<span className={`px-2 py-1 rounded-full text-xs font-medium ${priorityColors[todo.priority] || 'bg-gray-100 text-gray-800'}`}>
+									{priorityLabels[todo.priority] || '未知'}
 								</span>
 
 								{todo.due_date && (

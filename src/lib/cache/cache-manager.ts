@@ -98,7 +98,7 @@ export class UnifiedCacheManager {
   }
 
   async forceGetHttp(url: string, options?: RequestInit): Promise<any> {
-    return this.httpCache.forceGetHttp(url, options as any);
+    return this.httpCache.forceGet(url, options as any);
   }
 
   clearHttpCache(): void {
@@ -225,8 +225,13 @@ export class UnifiedCacheManager {
   // === 清理操作 ===
   cleanup(): void {
     this.memoryCache.cleanup();
-    this.localStorage.cleanup();
-    this.sessionStorage.cleanup();
+    // 异步清理存储，但不等待完成以保持同步接口
+    this.localStorage.cleanup().catch(error => {
+      console.warn('LocalStorage cleanup failed:', error);
+    });
+    this.sessionStorage.cleanup().catch(error => {
+      console.warn('SessionStorage cleanup failed:', error);
+    });
   }
 
   async clearAll(): Promise<void> {

@@ -41,8 +41,8 @@ export class MemoryCache {
     }
 
     // 更新访问信息
-    node.value.accessCount++;
-    node.value.lastAccess = Date.now();
+    node.accessCount++;
+    node.lastAccess = Date.now();
     this.moveToHead(node);
 
     this.metrics.hits++;
@@ -60,8 +60,8 @@ export class MemoryCache {
       existingNode.value.data = data;
       existingNode.value.timestamp = Date.now();
       existingNode.value.ttl = ttl || this.defaultTTL;
-      existingNode.value.accessCount = 1;
-      existingNode.value.lastAccess = Date.now();
+      existingNode.accessCount = 1;
+      existingNode.lastAccess = Date.now();
       this.moveToHead(existingNode);
     } else {
       // 创建新条目
