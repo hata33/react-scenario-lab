@@ -26,6 +26,7 @@
 		"@bpmn-io/properties-panel": "^3.33.0",
 		"@emotion/react": "^11.14.0",
 		"@hookform/resolvers": "^5.2.2",
+		"@sentry/nextjs": "^10.20.0",
 		"@storybook/react": "^9.1.12",
 		"@supabase/supabase-js": "^2.75.0",
 		"@tailwindcss/postcss": "^4.1.12",

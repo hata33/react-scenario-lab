@@ -170,4 +170,14 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "dashboard", title: "控制面板" },
 		],
 	},
+	{
+		path: "sentry",
+		title: "Sentry 错误监控",
+		children: [
+			{ path: "error-boundary", title: "错误边界" },
+			{ path: "performance", title: "性能监控" },
+			{ path: "breadcrumbs", title: "面包屑追踪" },
+			{ path: "releases", title: "版本追踪" },
+		],
+	},
 ];
