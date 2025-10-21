@@ -3,7 +3,7 @@ import { routeGroups } from "@/routeDefs";
 
 export default function HomePage() {
 	return (
-		<Layout>
+		<Layout showBackButton={false}>
 			<div className="mx-auto max-w-4xl">
 				<h1 className="mb-6 font-bold text-3xl text-gray-900">
 					React Scenario Lab

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { routeGroups } from "@/routeDefs";
 import FirstVisitConfetti from "./FirstVisitConfetti";
 import Sidebar, { type MenuItem } from "./Sidebar";
+import BackButton from "./BackButton";
 
 function flattenRoutesForMenu(routesInput: any[], basePath = ""): MenuItem[] {
 	return routesInput.filter(Boolean).map((route) => {
@@ -40,9 +41,10 @@ const menuTree: MenuItem[] = routeGroups.map((group) => ({
 
 type LayoutProps = {
 	children: React.ReactNode;
+	showBackButton?: boolean;
 };
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children, showBackButton = true }: LayoutProps) {
 	const pathname = usePathname();
 	const activePath = pathname || "/";
 	// 关键修复：初始状态设为false，避免服务端/客户端差异
@@ -137,7 +139,11 @@ export default function Layout({ children }: LayoutProps) {
 			</div>
 
 			<main id="scroll-container" className="h-full overflow-y-auto bg-gray-50">
-				<div className="relative min-h-full p-4 md:p-6 lg:p-8">{children}</div>
+				<div className="relative min-h-full p-4 md:p-6 lg:p-8">
+					{/* 返回按钮 */}
+					<BackButton show={showBackButton} className="mb-4" />
+					{children}
+				</div>
 			</main>
 		</div>
 	);

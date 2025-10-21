@@ -4,17 +4,24 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 
 interface BackButtonProps {
+	show?: boolean;
 	className?: string;
 	text?: string;
 	onClick?: () => void;
 }
 
 export default function BackButton({
+	show = true,
 	className = "",
 	text = "返回",
 	onClick,
 }: BackButtonProps) {
 	const router = useRouter();
+
+	// 如果show为false，不渲染组件
+	if (!show) {
+		return null;
+	}
 
 	const handleClick = () => {
 		if (onClick) {
