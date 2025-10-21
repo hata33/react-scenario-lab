@@ -15,6 +15,15 @@ export const routeGroups: RouteGroup[] = [
 		],
 	},
 	{
+		path: "mobile",
+		title: "移动端",
+		children: [
+			{ path: "responsive-design", title: "响应式设计" },
+			{ path: "device-api", title: "设备API" },
+			{ path: "pwa", title: "PWA功能" },
+		],
+	},
+	{
 		path: "special-effects",
 		title: "特效",
 		children: [
