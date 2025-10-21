@@ -1,11 +1,19 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import type {
-  CacheStatusMessage,
-  NotificationPermissionStatus,
-  BeforeInstallPromptEvent
-} from "@/types/mobile";
+
+// 类型定义
+type CacheStatusMessage = string;
+type NotificationPermissionStatus = NotificationPermission;
+
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed';
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
 
 export default function PWAContent() {
   const [isOnline, setIsOnline] = useState<boolean>(true);

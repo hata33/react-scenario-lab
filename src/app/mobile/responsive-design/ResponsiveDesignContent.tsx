@@ -1,7 +1,16 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import type { Breakpoint, DemoType, DemoConfig } from "@/types/mobile";
+
+// 类型定义
+type Breakpoint = "sm" | "md" | "lg" | "xl" | "2xl";
+type DemoType = "grid" | "navigation" | "touch" | "typography";
+
+interface DemoConfig {
+  title: string;
+  description: string;
+  component: React.ReactNode;
+}
 
 export default function ResponsiveDesignContent() {
   const [screenSize, setScreenSize] = useState<string>("");

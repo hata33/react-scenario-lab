@@ -1,13 +1,24 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import type {
-  Location,
-  DeviceOrientation,
-  PermissionName,
-  PermissionStatusMap,
-  VibrationPattern
-} from "@/types/mobile";
+
+// 类型定义
+type Location = {
+  lat: number;
+  lng: number;
+};
+
+type DeviceOrientation = {
+  alpha: number;
+  beta: number;
+  gamma: number;
+};
+
+type PermissionName = 'geolocation' | 'camera' | 'microphone';
+
+type PermissionStatusMap = Record<PermissionName, PermissionState>;
+
+type VibrationPattern = number | number[];
 
 export default function DeviceAPIContent() {
   const [location, setLocation] = useState<Location | null>(null);
