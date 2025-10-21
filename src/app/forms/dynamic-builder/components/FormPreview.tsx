@@ -8,9 +8,10 @@ interface FormPreviewProps {
 	formConfig: FormConfig;
 	formData: Record<string, any>;
 	onFieldChange: (fieldName: string, value: any) => void;
-	onSubmit: (e: React.FormEvent) => void;
+	onSubmit: (e?: React.FormEvent) => void | Promise<boolean>;
 	onReset: () => void;
 	errors: Record<string, string>;
+	validationResults?: Record<string, any>;
 }
 
 const FormPreview: React.FC<FormPreviewProps> = ({
@@ -20,6 +21,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({
 	onSubmit,
 	onReset,
 	errors,
+	validationResults,
 }) => {
 	const calculateProgress = () => {
 		const allFields = formConfig.sections.flatMap((section) => section.fields);
@@ -50,7 +52,10 @@ const FormPreview: React.FC<FormPreviewProps> = ({
 					)}
 				</div>
 
-				<form onSubmit={onSubmit} className="p-6">
+				<form onSubmit={(e) => {
+					e.preventDefault();
+					onSubmit?.(e);
+				}} className="p-6">
 					{formConfig.settings.showProgressBar && (
 						<div className="mb-6">
 							<div className="flex justify-between text-sm text-gray-600 mb-2">

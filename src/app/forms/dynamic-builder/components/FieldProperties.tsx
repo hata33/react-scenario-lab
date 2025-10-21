@@ -7,11 +7,13 @@ import { Trash2, Settings } from "lucide-react";
 interface FieldPropertiesProps {
 	selectedField: FormField | null;
 	onFieldUpdate: (fieldId: string, updates: Partial<FormField>) => void;
+	validationResults?: Record<string, any>;
 }
 
 const FieldProperties: React.FC<FieldPropertiesProps> = ({
 	selectedField,
 	onFieldUpdate,
+	validationResults,
 }) => {
 	if (!selectedField) {
 		return (

@@ -11,6 +11,9 @@ interface FormHeaderProps {
 	onExport: () => void;
 	onImport: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	fileInputRef: React.RefObject<HTMLInputElement | null>;
+	performanceMetrics?: Record<string, any>;
+	isVirtualMode?: boolean;
+	onToggleVirtualMode?: () => void;
 }
 
 const FormHeader: React.FC<FormHeaderProps> = ({
@@ -19,6 +22,9 @@ const FormHeader: React.FC<FormHeaderProps> = ({
 	onExport,
 	onImport,
 	fileInputRef,
+	performanceMetrics,
+	isVirtualMode,
+	onToggleVirtualMode,
 }) => {
 	return (
 		<header className="bg-white shadow-sm border-b">
@@ -69,6 +75,26 @@ const FormHeader: React.FC<FormHeaderProps> = ({
 								className="hidden"
 							/>
 						</label>
+
+						{onToggleVirtualMode && (
+							<button
+								onClick={onToggleVirtualMode}
+								className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+									isVirtualMode
+										? "bg-purple-600 text-white"
+										: "bg-gray-200 text-gray-700 hover:bg-gray-300"
+								}`}
+							>
+								{isVirtualMode ? "虚拟渲染" : "标准渲染"}
+							</button>
+						)}
+
+						{performanceMetrics && (
+							<div className="text-xs text-gray-500 px-2 py-1">
+								字段: {performanceMetrics.totalFields} |
+								复杂度: {performanceMetrics.isComplex ? '高' : '低'}
+							</div>
+						)}
 					</div>
 				</div>
 			</div>

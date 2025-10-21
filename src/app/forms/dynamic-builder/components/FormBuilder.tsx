@@ -16,6 +16,8 @@ interface FormBuilderProps {
 	formData: Record<string, any>;
 	onFieldChange: (fieldName: string, value: any) => void;
 	errors: Record<string, string>;
+	onDrop?: (item: any, position: { x: number; y: number }) => void;
+	validationResults?: Record<string, any>;
 }
 
 const FormBuilder: React.FC<FormBuilderProps> = ({
@@ -27,6 +29,8 @@ const FormBuilder: React.FC<FormBuilderProps> = ({
 	formData,
 	onFieldChange,
 	errors,
+	onDrop,
+	validationResults,
 }) => {
 	const handleTitleChange = (title: string) => {
 		onConfigChange({ ...formConfig, title });
