@@ -109,9 +109,17 @@ export const routeGroups: RouteGroup[] = [
 		children: [
 			{ path: "i18n", title: "国际化" },
 			{ path: "theme", title: "主题切换" },
-			{ path: "richtext", title: "富文本" },
 			{ path: "notifications", title: "通知" },
 			{ path: "payment", title: "支付" },
+		],
+	},
+	{
+		path: "rich-text",
+		title: "富文本编辑器",
+		children: [
+			{ path: "basic", title: "基础编辑器" },
+			{ path: "advanced", title: "高级编辑器" },
+			{ path: "collaboration", title: "协作编辑器" },
 		],
 	},
 	{
