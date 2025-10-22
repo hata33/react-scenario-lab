@@ -123,6 +123,14 @@ export const routeGroups: RouteGroup[] = [
 		],
 	},
 	{
+		path: "markdown",
+		title: "Markdown编辑器",
+		children: [
+			{ path: "editor", title: "编辑器" },
+			{ path: "milkdown", title: "Milkdown编辑器" },
+		],
+	},
+	{
 		path: "performance",
 		title: "性能",
 		children: [{ path: "virtual-list", title: "虚拟列表" }, { path: "frontend-cache", title: "前端缓存系统" }],

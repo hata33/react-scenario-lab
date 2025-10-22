@@ -8,17 +8,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 开发命令
 
-### 常用命令
-```bash
-# 开发服务器（端口 3002）
-pnpm dev
-
-# 构建生产版本
-pnpm build
-
-# 启动生产服务器
-pnpm start 
-```
 
 ### 包管理
 项目使用 pnpm 作为包管理器，所有命令都应该使用 pnpm。
@@ -141,3 +130,6 @@ src/
 - **修复 BPMN 编辑器功能**：更新 bpmn-js 导入路径，添加必要的 CSS 样式文件，完善编辑器配置
 - **统一页面布局**：为所有缺少 Layout 包裹的页面添加 Layout 组件，确保界面一致性
 - **新增布局规范**：在 CLAUDE.md 中添加页面布局规范，要求所有新建页面必须使用 Layout 组件
+
+### 要求
+禁止执行 build 命令
