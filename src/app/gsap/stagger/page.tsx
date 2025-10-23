@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import Layout from "@/components/Layout";
 
 export default function Page() {
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -33,10 +34,11 @@ export default function Page() {
 	const toggleGrid = () => setGrid((g) => (g ? null : [3, 4]));
 
 	return (
-		<div style={{ padding: 24 }}>
-			<h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 12 }}>
-				Stagger 错位动画
-			</h1>
+		<Layout>
+			<div style={{ padding: 24 }}>
+				<h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 12 }}>
+					Stagger 错位动画
+				</h1>
 			<p style={{ color: "#666", marginBottom: 16 }}>
 				切换 from 与 grid 观察入场顺序变化。
 			</p>
@@ -96,5 +98,6 @@ export default function Page() {
 				))}
 			</div>
 		</div>
-	);
+	</Layout>
+);
 }

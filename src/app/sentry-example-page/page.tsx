@@ -3,6 +3,7 @@
 import Head from "next/head";
 import * as Sentry from "@sentry/nextjs";
 import { useState, useEffect } from "react";
+import Layout from "@/components/Layout";
 
 class SentryExampleFrontendError extends Error {
   constructor(message: string | undefined) {
@@ -24,8 +25,9 @@ export default function Page() {
   }, []);
 
   return (
-    <div>
-      <Head>
+    <Layout>
+      <div>
+        <Head>
         <title>sentry-example-page</title>
         <meta name="description" content="Test Sentry for your Next.js app!" />
       </Head>
@@ -204,6 +206,7 @@ export default function Page() {
           text-decoration: underline;
         }
       `}</style>
-    </div>
+      </div>
+    </Layout>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
+import Layout from "@/components/Layout";
 
 export default function Page() {
 	const itemsRef = useRef<HTMLDivElement[]>([]);
@@ -33,10 +34,11 @@ export default function Page() {
 	};
 
 	return (
-		<div style={{ padding: 24 }}>
-			<h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 12 }}>
-				Timeline 时间轴
-			</h1>
+		<Layout>
+			<div style={{ padding: 24 }}>
+				<h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 12 }}>
+					Timeline 时间轴
+				</h1>
 			<p style={{ color: "#666", marginBottom: 16 }}>
 				演示 label、错峰入场、控制（暂停位置）。
 			</p>
@@ -80,5 +82,6 @@ export default function Page() {
 			</div>
 			<style>{`.btn{padding:6px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer}`}</style>
 		</div>
-	);
+	</Layout>
+);
 }

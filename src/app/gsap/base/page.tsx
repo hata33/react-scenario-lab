@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import Layout from "@/components/Layout";
 
 export default function Page() {
 	const boxRef = useRef<HTMLDivElement>(null);
@@ -23,10 +24,11 @@ export default function Page() {
 	}, []);
 
 	return (
-		<div style={{ padding: 24 }}>
-			<h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 12 }}>
-				GSAP 基础入门
-			</h1>
+		<Layout>
+			<div style={{ padding: 24 }}>
+				<h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 12 }}>
+					GSAP 基础入门
+				</h1>
 			<p style={{ color: "#666", marginBottom: 16 }}>
 				演示 gsap.set / gsap.to / gsap.fromTo 的基本用法。
 			</p>
@@ -48,5 +50,6 @@ export default function Page() {
 				GSAP
 			</div>
 		</div>
-	);
+	</Layout>
+);
 }

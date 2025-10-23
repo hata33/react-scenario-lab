@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import Layout from "@/components/Layout";
 
 const EASES = [
 	"power1.inOut",
@@ -28,10 +29,11 @@ export default function Page() {
 	}, [ease]);
 
 	return (
-		<div style={{ padding: 24 }}>
-			<h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 12 }}>
-				Eases 缓动函数
-			</h1>
+		<Layout>
+			<div style={{ padding: 24 }}>
+				<h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 12 }}>
+					Eases 缓动函数
+				</h1>
 			<p style={{ color: "#666", marginBottom: 16 }}>
 				选择不同缓动并观察运动差异（包含 steps 示例）。
 			</p>
@@ -77,5 +79,6 @@ export default function Page() {
 				/>
 			</div>
 		</div>
-	);
+	</Layout>
+);
 }

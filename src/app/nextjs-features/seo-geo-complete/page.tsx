@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
+import Layout from "@/components/Layout";
 
 // 1. 完整的元数据配置 - 针对SEO优化
 export const metadata: Metadata = {
@@ -644,7 +645,8 @@ const howToSteps = [
 
 export default function SEOGeoCompletePage() {
 	return (
-		<>
+		<Layout>
+			<>
 			{/* 结构化数据 */}
 			<script
 				type="application/ld+json"
@@ -1096,5 +1098,6 @@ export default function SEOGeoCompletePage() {
 				</main>
 			</div>
 		</>
+	</Layout>
 	);
 }
