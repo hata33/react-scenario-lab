@@ -212,11 +212,10 @@ function ClosureTrapDemo() {
 			<div className="flex gap-4">
 				<button
 					onClick={() => setUseEffectEventMode(!useEffectEventMode)}
-					className={`rounded-lg px-4 py-2 transition-colors ${
-						useEffectEventMode
+					className={`rounded-lg px-4 py-2 transition-colors ${useEffectEventMode
 							? "bg-orange-600 text-white hover:bg-orange-700"
 							: "bg-gray-600 text-white hover:bg-gray-700"
-					}`}
+						}`}
 				>
 					{useEffectEventMode ? "useEffectEvent 模式" : "传统模式"}
 				</button>
@@ -335,9 +334,8 @@ function RealWorldDemo() {
 				<div className="flex gap-4">
 					<button
 						onClick={() => setActive(!active)}
-						className={`rounded-lg px-4 py-2 transition-colors ${
-							active ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-600 text-white hover:bg-gray-700"
-						}`}
+						className={`rounded-lg px-4 py-2 transition-colors ${active ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-600 text-white hover:bg-gray-700"
+							}`}
 					>
 						{active ? "停止" : "开始"} 计时器
 					</button>
@@ -417,9 +415,8 @@ function RealWorldDemo() {
 				<div className="flex gap-4">
 					<button
 						onClick={() => setActive(!active)}
-						className={`rounded-lg px-4 py-2 transition-colors ${
-							active ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-600 text-white hover:bg-gray-700"
-						}`}
+						className={`rounded-lg px-4 py-2 transition-colors ${active ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-600 text-white hover:bg-gray-700"
+							}`}
 					>
 						{active ? "停止" : "开始"} 追踪
 					</button>
@@ -503,9 +500,8 @@ function RealWorldDemo() {
 				<div className="flex gap-4">
 					<button
 						onClick={() => setActive(!active)}
-						className={`rounded-lg px-4 py-2 transition-colors ${
-							active ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-600 text-white hover:bg-gray-700"
-						}`}
+						className={`rounded-lg px-4 py-2 transition-colors ${active ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-600 text-white hover:bg-gray-700"
+							}`}
 					>
 						{active ? "停止" : "开始"} 请求
 					</button>
@@ -571,11 +567,10 @@ function RealWorldDemo() {
 								setDemoType(key as any);
 								setActive(false);
 							}}
-							className={`rounded-lg px-4 py-2 transition-colors ${
-								demoType === key
+							className={`rounded-lg px-4 py-2 transition-colors ${demoType === key
 									? "bg-orange-600 text-white"
 									: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-							}`}
+								}`}
 						>
 							{icon} {label}
 						</button>
@@ -608,7 +603,7 @@ function PerformanceComparison() {
 	// 追踪渲染次数
 	useEffect(() => {
 		setRenderCount((prev) => prev + 1);
-	});
+	}, []);
 
 	// 传统方式 - 每次依赖变化都会重新运行 effect
 	useEffect(() => {
@@ -667,11 +662,10 @@ function PerformanceComparison() {
 				<div className="mb-4 flex gap-4">
 					<button
 						onClick={() => setTestMode(testMode === "traditional" ? "useEffectEvent" : "traditional")}
-						className={`rounded-lg px-4 py-2 transition-colors ${
-							testMode === "useEffectEvent"
+						className={`rounded-lg px-4 py-2 transition-colors ${testMode === "useEffectEvent"
 								? "bg-green-600 text-white hover:bg-green-700"
 								: "bg-orange-600 text-white hover:bg-orange-700"
-						}`}
+							}`}
 					>
 						{testMode === "traditional" ? "传统模式" : "useEffectEvent 模式"}
 					</button>
@@ -700,11 +694,10 @@ function PerformanceComparison() {
 					<div className="rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-700">
 						<p className="mb-1 text-gray-600 text-sm dark:text-gray-400">Effect 运行次数</p>
 						<p
-							className={`font-bold text-2xl ${
-								testMode === "traditional" && effectRuns > 1
+							className={`font-bold text-2xl ${testMode === "traditional" && effectRuns > 1
 									? "text-red-600 dark:text-red-400"
 									: "text-green-600 dark:text-green-400"
-							}`}
+								}`}
 						>
 							{effectRuns}
 						</p>
@@ -956,11 +949,10 @@ function AdvancedPatterns() {
 						<button
 							key={key}
 							onClick={() => setPattern(key as any)}
-							className={`rounded-lg px-4 py-2 transition-colors ${
-								pattern === key
+							className={`rounded-lg px-4 py-2 transition-colors ${pattern === key
 									? "bg-orange-600 text-white"
 									: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-							}`}
+								}`}
 						>
 							{icon} {label}
 						</button>

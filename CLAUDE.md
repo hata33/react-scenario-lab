@@ -133,3 +133,4 @@ src/
 
 ### 要求
 禁止执行 build 命令
+使用 tailwindcss 4 实现页面样式
