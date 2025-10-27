@@ -1,16 +1,12 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
-import { generateImage, checkApiConfiguration } from "../api/imageApiService";
+import { useCallback, useRef, useState } from "react";
 import { APIError } from "../api/config";
+import { checkApiConfiguration, generateImage } from "../api/imageApiService";
 import type { ImageGenerationRequest } from "../api/types";
 
 export interface UseImageGenerationOptions {
-	onSuccess?: (result: {
-		url: string;
-		prompt: string;
-		revisedPrompt?: string;
-	}) => void;
+	onSuccess?: (result: { url: string; prompt: string; revisedPrompt?: string }) => void;
 	onError?: (error: Error) => void;
 	onProgress?: (progress: number, status: string) => void;
 	enableRetry?: boolean;
@@ -55,14 +51,11 @@ export function useImageGeneration(options: UseImageGenerationOptions = {}) {
 			abortControllerRef.current = new AbortController();
 
 			try {
-				const result = await generateImage(
-					request,
-					(progressValue, statusText) => {
-						setProgress(progressValue);
-						setStatus(statusText);
-						options.onProgress?.(progressValue, statusText);
-					},
-				);
+				const result = await generateImage(request, (progressValue, statusText) => {
+					setProgress(progressValue);
+					setStatus(statusText);
+					options.onProgress?.(progressValue, statusText);
+				});
 
 				setProgress(100);
 				setStatus("生成完成");

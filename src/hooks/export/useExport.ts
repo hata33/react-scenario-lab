@@ -1,14 +1,8 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
-import {
-	ExportConfig,
-	ExportFormat,
-	ExportProgress,
-	ExportHistory,
-	ExportOptions,
-} from "@/types/export";
+import { useCallback, useEffect, useState } from "react";
 import { ExportManager } from "@/services/export/exportManager";
+import type { ExportConfig, ExportFormat, ExportHistory, ExportOptions, ExportProgress } from "@/types/export";
 
 export interface UseExportOptions {
 	defaultFilename?: string;
@@ -40,11 +34,7 @@ export interface UseExportReturn {
 	preview: (data: any, format: ExportFormat) => Promise<string>;
 
 	// 快速导出
-	quickExport: (
-		data: any,
-		filename?: string,
-		format?: ExportFormat,
-	) => Promise<void>;
+	quickExport: (data: any, filename?: string, format?: ExportFormat) => Promise<void>;
 }
 
 export function useExport(options: UseExportOptions = {}): UseExportReturn {
@@ -158,57 +148,50 @@ export function useExport(options: UseExportOptions = {}): UseExportReturn {
 	}, [loadHistory]);
 
 	// 预览功能
-	const previewData = useCallback(
-		async (data: any, previewFormat: ExportFormat): Promise<string> => {
-			try {
-				switch (previewFormat) {
-					case "txt":
-						return JSON.stringify(data, null, 2).substring(0, 1000);
-					case "csv":
-						if (Array.isArray(data) && data.length > 0) {
-							const headers = Object.keys(data[0]);
-							const sampleRow = data[0];
-							return (
-								headers.join(",") +
-								"\n" +
-								headers.map((h) => sampleRow[h]).join(",")
-							);
-						}
-						return "No data available";
-					case "json":
-						return JSON.stringify(data, null, 2).substring(0, 1000);
-					case "xml":
+	const previewData = useCallback(async (data: any, previewFormat: ExportFormat): Promise<string> => {
+		try {
+			switch (previewFormat) {
+				case "txt":
+					return JSON.stringify(data, null, 2).substring(0, 1000);
+				case "csv":
+					if (Array.isArray(data) && data.length > 0) {
+						const headers = Object.keys(data[0]);
+						const sampleRow = data[0];
+						return headers.join(",") + "\n" + headers.map((h) => sampleRow[h]).join(",");
+					}
+					return "No data available";
+				case "json":
+					return JSON.stringify(data, null, 2).substring(0, 1000);
+				case "xml":
+					return (
+						'<?xml version="1.0" encoding="UTF-8"?>\n<data>\n  ' +
+						JSON.stringify(data, null, 2).substring(0, 800) +
+						"\n</data>"
+					);
+				case "markdown":
+					if (Array.isArray(data) && data.length > 0) {
+						const headers = Object.keys(data[0]);
 						return (
-							'<?xml version="1.0" encoding="UTF-8"?>\n<data>\n  ' +
-							JSON.stringify(data, null, 2).substring(0, 800) +
-							"\n</data>"
+							"| " +
+							headers.join(" | ") +
+							" |\n" +
+							"|" +
+							headers.map(() => "---").join("|") +
+							"|\n" +
+							"| " +
+							headers.map((h) => data[0][h]).join(" | ") +
+							" |"
 						);
-					case "markdown":
-						if (Array.isArray(data) && data.length > 0) {
-							const headers = Object.keys(data[0]);
-							return (
-								"| " +
-								headers.join(" | ") +
-								" |\n" +
-								"|" +
-								headers.map(() => "---").join("|") +
-								"|\n" +
-								"| " +
-								headers.map((h) => data[0][h]).join(" | ") +
-								" |"
-							);
-						}
-						return "# Preview\n\nNo data available";
-					default:
-						return "Preview not available for this format";
-				}
-			} catch (error) {
-				console.error("生成预览失败:", error);
-				return "Preview generation failed";
+					}
+					return "# Preview\n\nNo data available";
+				default:
+					return "Preview not available for this format";
 			}
-		},
-		[],
-	);
+		} catch (error) {
+			console.error("生成预览失败:", error);
+			return "Preview generation failed";
+		}
+	}, []);
 
 	// 快速导出方法
 	const quickExport = useCallback(
@@ -277,9 +260,7 @@ export function useBatchExport(options?: UseExportOptions) {
 	const exportHook = useExport(options);
 
 	const exportBatch = useCallback(
-		(
-			datasets: Array<{ data: any; filename: string; format?: ExportFormat }>,
-		) => {
+		(datasets: Array<{ data: any; filename: string; format?: ExportFormat }>) => {
 			const configs: ExportConfig[] = datasets.map((dataset) => ({
 				filename: dataset.filename,
 				format: dataset.format || options?.defaultFormat || "txt",

@@ -1,24 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-	FileText,
-	FileSpreadsheet,
-	File,
-	Image,
-	Download,
-	Settings,
-	Eye,
-	X,
-	Loader2,
-} from "lucide-react";
-import {
-	ExportConfig,
-	ExportFormat,
-	ExportOptions,
-	ExportProgress,
-} from "@/types/export";
+import { Download, Eye, File, FileSpreadsheet, FileText, Image, Loader2, Settings, X } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
 import { ExportManager } from "@/services/export/exportManager";
+import type { ExportConfig, ExportFormat, ExportOptions, ExportProgress } from "@/types/export";
 
 export interface ExportButtonProps {
 	data: any;
@@ -42,9 +28,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
 	onExportError,
 }) => {
 	const [visible, setVisible] = useState(false);
-	const [selectedFormat, setSelectedFormat] = useState<ExportFormat>(
-		availableFormats[0],
-	);
+	const [selectedFormat, setSelectedFormat] = useState<ExportFormat>(availableFormats[0]);
 	const [customFilename, setCustomFilename] = useState(filename);
 	const [exporting, setExporting] = useState(false);
 	const [progress, setProgress] = useState<ExportProgress | null>(null);
@@ -183,64 +167,52 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
 		}
 	};
 
-	const IconComponent =
-		formatOptions.find((opt) => opt.value === selectedFormat)?.icon || FileText;
+	const IconComponent = formatOptions.find((opt) => opt.value === selectedFormat)?.icon || FileText;
 
 	return (
 		<>
 			<button
 				onClick={() => setVisible(true)}
-				className={`inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ${className}`}
+				className={`inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700 ${className}`}
 			>
-				<Download className="w-4 h-4 mr-2" />
+				<Download className="mr-2 h-4 w-4" />
 				{children || "导出"}
 			</button>
 
 			{/* 导出设置模态框 */}
 			{visible && (
-				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-					<div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-						<div className="flex justify-between items-center mb-6">
-							<h2 className="text-xl font-semibold">导出设置</h2>
-							<button
-								onClick={() => setVisible(false)}
-								className="p-1 hover:bg-gray-100 rounded"
-							>
-								<X className="w-5 h-5" />
+				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+					<div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-white p-6">
+						<div className="mb-6 flex items-center justify-between">
+							<h2 className="font-semibold text-xl">导出设置</h2>
+							<button onClick={() => setVisible(false)} className="rounded p-1 hover:bg-gray-100">
+								<X className="h-5 w-5" />
 							</button>
 						</div>
 
 						<div className="space-y-6">
 							{/* 文件名设置 */}
 							<div>
-								<label className="block text-sm font-medium text-gray-700 mb-2">
-									文件名
-								</label>
+								<label className="mb-2 block font-medium text-gray-700 text-sm">文件名</label>
 								<input
 									type="text"
 									value={customFilename}
 									onChange={(e) => setCustomFilename(e.target.value)}
 									placeholder="请输入文件名"
-									className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+									className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
 								/>
 							</div>
 
 							{/* 格式选择 */}
 							<div>
-								<label className="block text-sm font-medium text-gray-700 mb-2">
-									导出格式
-								</label>
+								<label className="mb-2 block font-medium text-gray-700 text-sm">导出格式</label>
 								<select
 									value={selectedFormat}
-									onChange={(e) =>
-										setSelectedFormat(e.target.value as ExportFormat)
-									}
-									className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+									onChange={(e) => setSelectedFormat(e.target.value as ExportFormat)}
+									className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
 								>
 									{formatOptions
-										.filter((option) =>
-											availableFormats.includes(option.value as ExportFormat),
-										)
+										.filter((option) => availableFormats.includes(option.value as ExportFormat))
 										.map((option) => (
 											<option key={option.value} value={option.value}>
 												{option.label}
@@ -253,33 +225,27 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
 							<button
 								onClick={handlePreview}
 								disabled={!data}
-								className="flex items-center px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+								className="flex items-center rounded-lg bg-gray-100 px-4 py-2 text-gray-700 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50"
 							>
-								<Eye className="w-4 h-4 mr-2" />
+								<Eye className="mr-2 h-4 w-4" />
 								预览
 							</button>
 
 							{/* 进度显示 */}
 							{progress && (
-								<div className="bg-gray-50 p-4 rounded-lg">
-									<div className="flex justify-between items-center mb-2">
-										<span className="text-sm font-medium">
-											导出进度: {progress.progress}%
-										</span>
-										{progress.message && (
-											<span className="text-sm text-gray-600">
-												({progress.message})
-											</span>
-										)}
+								<div className="rounded-lg bg-gray-50 p-4">
+									<div className="mb-2 flex items-center justify-between">
+										<span className="font-medium text-sm">导出进度: {progress.progress}%</span>
+										{progress.message && <span className="text-gray-600 text-sm">({progress.message})</span>}
 									</div>
-									<div className="w-full bg-gray-200 rounded-full h-2">
+									<div className="h-2 w-full rounded-full bg-gray-200">
 										<div
 											className={`h-2 rounded-full transition-all duration-300 ${getStatusColor(progress.status)}`}
 											style={{ width: `${progress.progress}%` }}
 										/>
 									</div>
 									{progress.status === "error" && (
-										<div className="mt-2 p-2 bg-red-100 border border-red-300 rounded text-red-700 text-sm">
+										<div className="mt-2 rounded border border-red-300 bg-red-100 p-2 text-red-700 text-sm">
 											<strong>导出失败:</strong> {progress.message}
 										</div>
 									)}
@@ -290,23 +256,23 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
 							<div className="flex justify-end space-x-3">
 								<button
 									onClick={() => setVisible(false)}
-									className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+									className="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 hover:bg-gray-200"
 								>
 									取消
 								</button>
 								<button
 									onClick={handleExport}
 									disabled={exporting || !data}
-									className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+									className="flex items-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
 								>
 									{exporting ? (
 										<>
-											<Loader2 className="w-4 h-4 mr-2 animate-spin" />
+											<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 											导出中...
 										</>
 									) : (
 										<>
-											<Download className="w-4 h-4 mr-2" />
+											<Download className="mr-2 h-4 w-4" />
 											开始导出
 										</>
 									)}
@@ -319,22 +285,19 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
 
 			{/* 预览模态框 */}
 			{previewVisible && (
-				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-					<div className="bg-white rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-						<div className="flex justify-between items-center mb-4">
-							<h3 className="text-lg font-semibold">导出预览</h3>
-							<button
-								onClick={() => setPreviewVisible(false)}
-								className="p-1 hover:bg-gray-100 rounded"
-							>
-								<X className="w-5 h-5" />
+				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+					<div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-lg bg-white p-6">
+						<div className="mb-4 flex items-center justify-between">
+							<h3 className="font-semibold text-lg">导出预览</h3>
+							<button onClick={() => setPreviewVisible(false)} className="rounded p-1 hover:bg-gray-100">
+								<X className="h-5 w-5" />
 							</button>
 						</div>
 						<textarea
 							value={previewData}
 							readOnly
 							rows={10}
-							className="w-full px-3 py-2 border border-gray-300 rounded-md font-mono text-sm bg-gray-50"
+							className="w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 font-mono text-sm"
 						/>
 					</div>
 				</div>

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,11 +26,7 @@ export default function PinSection() {
 			title: "第一步：初始化 ScrollTrigger",
 			description: "注册插件并配置基础参数",
 			icon: "⚙️",
-			details: [
-				"gsap.registerPlugin(ScrollTrigger)",
-				"设置 scroller 和 trigger",
-				"配置 start 和 end 位置",
-			],
+			details: ["gsap.registerPlugin(ScrollTrigger)", "设置 scroller 和 trigger", "配置 start 和 end 位置"],
 			code: `gsap.registerPlugin(ScrollTrigger);\ngsap.to(element, {
   scrollTrigger: {
     trigger: element,
@@ -43,11 +39,7 @@ export default function PinSection() {
 			title: "第二步：配置触发器和动画",
 			description: "定义动画属性和触发条件",
 			icon: "🎬",
-			details: [
-				"定义动画属性 (x, y, opacity, scale)",
-				"设置缓动函数 ease",
-				"配置持续时间 duration",
-			],
+			details: ["定义动画属性 (x, y, opacity, scale)", "设置缓动函数 ease", "配置持续时间 duration"],
 			code: `gsap.to(element, {
   x: 100,
   opacity: 1,
@@ -63,11 +55,7 @@ export default function PinSection() {
 			title: "第三步：添加 scrub 和 pin 效果",
 			description: "实现平滑滚动和固定定位",
 			icon: "📌",
-			details: [
-				"scrub: true 实现滚动联动",
-				"pin: true 固定元素",
-				"toggleActions 控制播放行为",
-			],
+			details: ["scrub: true 实现滚动联动", "pin: true 固定元素", "toggleActions 控制播放行为"],
 			code: `gsap.to(element, {
   x: 200,
   scrollTrigger: {
@@ -83,11 +71,7 @@ export default function PinSection() {
 			title: "第四步：优化性能和用户体验",
 			description: "添加高级功能和性能调优",
 			icon: "🚀",
-			details: [
-				"使用 invalidateOnRefresh",
-				"添加 markers 调试",
-				"处理响应式和移动端",
-			],
+			details: ["使用 invalidateOnRefresh", "添加 markers 调试", "处理响应式和移动端"],
 			code: `ScrollTrigger.refresh();
 ScrollTrigger.addEventListener("refreshInit", () => {
   // 清理和重置逻辑

@@ -3,18 +3,14 @@ import { type NextRequest, NextResponse } from "next/server";
 import { join } from "path";
 
 // 配置上传目录
-const UPLOAD_BASE_DIR =
-	process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
+const UPLOAD_BASE_DIR = process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
 
 export async function POST(request: NextRequest) {
 	try {
 		const { fileHash, fileName } = await request.json();
 
 		if (!fileHash || !fileName) {
-			return NextResponse.json(
-				{ success: false, message: "缺少必要参数" },
-				{ status: 400 },
-			);
+			return NextResponse.json({ success: false, message: "缺少必要参数" }, { status: 400 });
 		}
 
 		// 检查文件是否已存在于uploads目录
@@ -38,9 +34,6 @@ export async function POST(request: NextRequest) {
 		}
 	} catch (error) {
 		console.error("检查文件失败:", error);
-		return NextResponse.json(
-			{ success: false, message: "检查文件失败" },
-			{ status: 500 },
-		);
+		return NextResponse.json({ success: false, message: "检查文件失败" }, { status: 500 });
 	}
 }

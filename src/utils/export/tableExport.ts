@@ -2,7 +2,7 @@
  * 表格数据导出功能
  */
 
-import { ExportConfig, ExportOptions } from "@/types/export";
+import { ExportConfig, type ExportOptions } from "@/types/export";
 
 // 动态导入xlsx库（仅在客户端使用）
 const importXlsx = async () => {
@@ -14,10 +14,7 @@ export class TableExporter {
 	/**
 	 * 导出为Excel格式
 	 */
-	static async exportToExcel(
-		data: any[],
-		options?: ExportOptions,
-	): Promise<Blob> {
+	static async exportToExcel(data: any[], options?: ExportOptions): Promise<Blob> {
 		try {
 			const XLSX = await importXlsx();
 
@@ -29,14 +26,14 @@ export class TableExporter {
 
 			// 设置单元格样式
 			if (options?.quality) {
-				this.applyCellStyles(worksheet, options);
+				TableExporter.applyCellStyles(worksheet, options);
 			}
 
 			(XLSX as any).utils.book_append_sheet(workbook, worksheet, sheetName);
 
 			// 如果有密码保护
 			if (options?.password) {
-				return this.createProtectedExcel(workbook, options.password);
+				return TableExporter.createProtectedExcel(workbook, options.password);
 			}
 
 			// 生成Excel文件
@@ -55,10 +52,7 @@ export class TableExporter {
 	/**
 	 * 导出多工作表Excel
 	 */
-	static async exportToMultiSheetExcel(
-		data: Record<string, any[]>,
-		options?: ExportOptions,
-	): Promise<Blob> {
+	static async exportToMultiSheetExcel(data: Record<string, any[]>, options?: ExportOptions): Promise<Blob> {
 		try {
 			const XLSX = await importXlsx();
 
@@ -105,16 +99,14 @@ export class TableExporter {
 			if (i === 0 && includeHeaders) {
 				// 添加表头
 				const headers = Object.keys(chunk[0] || {});
-				csv +=
-					headers.map((header) => this.escapeCsvValue(header)).join(delimiter) +
-					"\n";
+				csv += headers.map((header) => TableExporter.escapeCsvValue(header)).join(delimiter) + "\n";
 			}
 
 			// 处理数据行
 			chunk.forEach((row) => {
 				const values = Object.keys(row).map((key) => {
 					const value = row[key];
-					return this.formatCsvValue(value, options);
+					return TableExporter.formatCsvValue(value, options);
 				});
 				csv += values.join(delimiter) + "\n";
 			});
@@ -126,11 +118,7 @@ export class TableExporter {
 	/**
 	 * 创建数据透视表
 	 */
-	static async exportPivotTable(
-		data: any[],
-		pivotConfig: any,
-		options?: ExportOptions,
-	): Promise<Blob> {
+	static async exportPivotTable(data: any[], pivotConfig: any, options?: ExportOptions): Promise<Blob> {
 		try {
 			const XLSX = await importXlsx();
 
@@ -140,7 +128,7 @@ export class TableExporter {
 			(XLSX as any).utils.book_append_sheet(workbook, dataSheet, "Data");
 
 			// 创建透视表
-			const pivotSheet = this.createPivotSheet(data, pivotConfig);
+			const pivotSheet = TableExporter.createPivotSheet(data, pivotConfig);
 			(XLSX as any).utils.book_append_sheet(workbook, pivotSheet, "Pivot");
 
 			const excelBuffer = (XLSX as any).write(workbook, {
@@ -197,7 +185,7 @@ export class TableExporter {
 	 */
 	private static createPivotSheet(data: any[], config: any): any {
 		// 简化的透视表实现
-		const pivotData = this.processPivotData(data, config);
+		const pivotData = TableExporter.processPivotData(data, config);
 		return { ...pivotData };
 	}
 
@@ -251,7 +239,7 @@ export class TableExporter {
 			return value ? "TRUE" : "FALSE";
 		}
 
-		return this.escapeCsvValue(String(value));
+		return TableExporter.escapeCsvValue(String(value));
 	}
 
 	/**

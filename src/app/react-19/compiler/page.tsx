@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Layout from "@/components/Layout";
 
 export default function ReactCompilerPage() {
@@ -9,34 +9,26 @@ export default function ReactCompilerPage() {
 			<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
 				<div className="container mx-auto px-4 py-8">
 					<div className="mb-8">
-						<h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+						<h1 className="mb-4 font-bold text-4xl text-gray-900 dark:text-white">
 							React Compiler - React 19 革命性特性
 						</h1>
-						<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-							<h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
-								⚡ 3W 法则解析
-							</h2>
-							<div className="grid md:grid-cols-3 gap-6">
-								<div className="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg">
-									<h3 className="font-bold text-lg mb-2 text-indigo-800 dark:text-indigo-300">
-										What - 它是什么？
-									</h3>
+						<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+							<h2 className="mb-4 font-semibold text-2xl text-gray-800 dark:text-white">⚡ 3W 法则解析</h2>
+							<div className="grid gap-6 md:grid-cols-3">
+								<div className="rounded-lg bg-indigo-50 p-4 dark:bg-indigo-900/20">
+									<h3 className="mb-2 font-bold text-indigo-800 text-lg dark:text-indigo-300">What - 它是什么？</h3>
 									<p className="text-gray-700 dark:text-gray-300">
 										React Compiler 是 React 19 中的革命性编译器，能够自动优化组件性能，无需手动优化即可获得最佳性能。
 									</p>
 								</div>
-								<div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
-									<h3 className="font-bold text-lg mb-2 text-purple-800 dark:text-purple-300">
-										Why - 为什么需要？
-									</h3>
+								<div className="rounded-lg bg-purple-50 p-4 dark:bg-purple-900/20">
+									<h3 className="mb-2 font-bold text-lg text-purple-800 dark:text-purple-300">Why - 为什么需要？</h3>
 									<p className="text-gray-700 dark:text-gray-300">
 										解决手动性能优化的复杂性，减少开发者的心智负担，自动应用最佳实践，提升应用性能。
 									</p>
 								</div>
-								<div className="bg-pink-50 dark:bg-pink-900/20 p-4 rounded-lg">
-									<h3 className="font-bold text-lg mb-2 text-pink-800 dark:text-pink-300">
-										When - 何时使用？
-									</h3>
+								<div className="rounded-lg bg-pink-50 p-4 dark:bg-pink-900/20">
+									<h3 className="mb-2 font-bold text-lg text-pink-800 dark:text-pink-300">When - 何时使用？</h3>
 									<p className="text-gray-700 dark:text-gray-300">
 										所有 React 应用都可以使用，特别适合大型复杂应用、性能敏感场景和需要自动优化的项目。
 									</p>
@@ -47,31 +39,23 @@ export default function ReactCompilerPage() {
 
 					{/* Compiler 基础演示 */}
 					<div className="mb-8">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-							自动优化原理演示
-						</h2>
-						<div className="grid lg:grid-cols-2 gap-6">
-							<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-								<h3 className="text-xl font-semibold mb-4 text-red-600 dark:text-red-400">
-									🚫 手动优化的复杂性
-								</h3>
+						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">自动优化原理演示</h2>
+						<div className="grid gap-6 lg:grid-cols-2">
+							<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+								<h3 className="mb-4 font-semibold text-red-600 text-xl dark:text-red-400">🚫 手动优化的复杂性</h3>
 								<div className="space-y-4">
-									<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-										<p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
-											传统性能优化挑战：
-										</p>
-										<ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+									<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+										<p className="mb-2 text-gray-600 text-sm dark:text-gray-300">传统性能优化挑战：</p>
+										<ul className="space-y-2 text-gray-700 text-sm dark:text-gray-300">
 											<li>• 需要手动使用 React.memo</li>
 											<li>• 复杂的 useCallback/useMemo</li>
 											<li>• 依赖项管理困难</li>
 											<li>• 过度优化或优化不足</li>
 										</ul>
 									</div>
-									<div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
-										<p className="text-sm font-medium text-red-800 dark:text-red-300">
-											❌ 常见问题：
-										</p>
-										<ul className="text-sm text-red-700 dark:text-red-400 mt-2">
+									<div className="rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
+										<p className="font-medium text-red-800 text-sm dark:text-red-300">❌ 常见问题：</p>
+										<ul className="mt-2 text-red-700 text-sm dark:text-red-400">
 											<li>• 遗忘优化导致性能问题</li>
 											<li>• 过度优化增加复杂性</li>
 											<li>• 依赖项错误导致bug</li>
@@ -81,8 +65,8 @@ export default function ReactCompilerPage() {
 								</div>
 							</div>
 
-							<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-								<h3 className="text-xl font-semibold mb-4 text-green-600 dark:text-green-400">
+							<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+								<h3 className="mb-4 font-semibold text-green-600 text-xl dark:text-green-400">
 									✅ React Compiler 的优势
 								</h3>
 								<div className="space-y-4">
@@ -94,94 +78,66 @@ export default function ReactCompilerPage() {
 
 					{/* 智能优化演示 */}
 					<div className="mb-8">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-							智能优化策略
-						</h2>
+						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">智能优化策略</h2>
 						<SmartOptimizationDemo />
 					</div>
 
 					{/* 性能对比演示 */}
 					<div className="mb-8">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-							性能提升对比
-						</h2>
+						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">性能提升对比</h2>
 						<PerformanceComparison />
 					</div>
 
 					{/* 实际应用演示 */}
 					<div className="mb-8">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-							实际应用场景
-						</h2>
+						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">实际应用场景</h2>
 						<RealWorldApplications />
 					</div>
 
 					{/* 最佳实践 */}
 					<div className="mb-8">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-							React Compiler 最佳实践
-						</h2>
-						<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-							<div className="grid md:grid-cols-2 gap-6">
+						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">React Compiler 最佳实践</h2>
+						<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+							<div className="grid gap-6 md:grid-cols-2">
 								<div>
-									<h3 className="text-xl font-semibold mb-4 text-green-600 dark:text-green-400">
-										✅ 推荐做法
-									</h3>
+									<h3 className="mb-4 font-semibold text-green-600 text-xl dark:text-green-400">✅ 推荐做法</h3>
 									<ul className="space-y-3">
 										<li className="flex items-start">
-											<span className="text-green-500 mr-2">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												相信编译器的自动优化
-											</span>
+											<span className="mr-2 text-green-500">✓</span>
+											<span className="text-gray-700 dark:text-gray-300">相信编译器的自动优化</span>
 										</li>
 										<li className="flex items-start">
-											<span className="text-green-500 mr-2">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												编写简洁的组件代码
-											</span>
+											<span className="mr-2 text-green-500">✓</span>
+											<span className="text-gray-700 dark:text-gray-300">编写简洁的组件代码</span>
 										</li>
 										<li className="flex items-start">
-											<span className="text-green-500 mr-2">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												遵循 React 最佳实践
-											</span>
+											<span className="mr-2 text-green-500">✓</span>
+											<span className="text-gray-700 dark:text-gray-300">遵循 React 最佳实践</span>
 										</li>
 										<li className="flex items-start">
-											<span className="text-green-500 mr-2">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												监控编译器输出和建议
-											</span>
+											<span className="mr-2 text-green-500">✓</span>
+											<span className="text-gray-700 dark:text-gray-300">监控编译器输出和建议</span>
 										</li>
 									</ul>
 								</div>
 								<div>
-									<h3 className="text-xl font-semibold mb-4 text-red-600 dark:text-red-400">
-										❌ 避免做法
-									</h3>
+									<h3 className="mb-4 font-semibold text-red-600 text-xl dark:text-red-400">❌ 避免做法</h3>
 									<ul className="space-y-3">
 										<li className="flex items-start">
-											<span className="text-red-500 mr-2">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												过度干预编译器优化
-											</span>
+											<span className="mr-2 text-red-500">✗</span>
+											<span className="text-gray-700 dark:text-gray-300">过度干预编译器优化</span>
 										</li>
 										<li className="flex items-start">
-											<span className="text-red-500 mr-2">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												忽略编译器警告
-											</span>
+											<span className="mr-2 text-red-500">✗</span>
+											<span className="text-gray-700 dark:text-gray-300">忽略编译器警告</span>
 										</li>
 										<li className="flex items-start">
-											<span className="text-red-500 mr-2">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												编写过于复杂的代码
-											</span>
+											<span className="mr-2 text-red-500">✗</span>
+											<span className="text-gray-700 dark:text-gray-300">编写过于复杂的代码</span>
 										</li>
 										<li className="flex items-start">
-											<span className="text-red-500 mr-2">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												依赖编译器解决所有问题
-											</span>
+											<span className="mr-2 text-red-500">✗</span>
+											<span className="text-gray-700 dark:text-gray-300">依赖编译器解决所有问题</span>
 										</li>
 									</ul>
 								</div>
@@ -204,15 +160,18 @@ function CompilerBasicDemo() {
 
 	// 追踪渲染次数
 	useEffect(() => {
-		setRenderCount(prev => prev + 1);
+		setRenderCount((prev) => prev + 1);
 	});
 
 	// 模拟 React Compiler 的自动优化
-	const addOptimizationLog = useCallback((optimization: string) => {
-		if (compilerEnabled) {
-			setOptimizations(prev => [...prev.slice(-4), `${new Date().toLocaleTimeString()}: ${optimization}`]);
-		}
-	}, [compilerEnabled]);
+	const addOptimizationLog = useCallback(
+		(optimization: string) => {
+			if (compilerEnabled) {
+				setOptimizations((prev) => [...prev.slice(-4), `${new Date().toLocaleTimeString()}: ${optimization}`]);
+			}
+		},
+		[compilerEnabled],
+	);
 
 	// 模拟编译器自动应用 React.memo
 	const MemoizedComponent = useMemo(() => {
@@ -241,7 +200,7 @@ function CompilerBasicDemo() {
 		if (compilerEnabled) {
 			addOptimizationLog("自动优化事件处理器");
 		}
-		setCount(prev => prev + 1);
+		setCount((prev) => prev + 1);
 	}, [compilerEnabled, addOptimizationLog]);
 
 	const clearOptimizations = () => {
@@ -253,7 +212,7 @@ function CompilerBasicDemo() {
 			<div className="flex gap-4">
 				<button
 					onClick={() => setCompilerEnabled(!compilerEnabled)}
-					className={`px-4 py-2 rounded-lg transition-colors ${
+					className={`rounded-lg px-4 py-2 transition-colors ${
 						compilerEnabled
 							? "bg-indigo-600 text-white hover:bg-indigo-700"
 							: "bg-gray-600 text-white hover:bg-gray-700"
@@ -264,21 +223,21 @@ function CompilerBasicDemo() {
 
 				<button
 					onClick={clearOptimizations}
-					className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+					className="rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
 				>
 					清除日志
 				</button>
 			</div>
 
-			<div className="grid md:grid-cols-2 gap-4">
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<h4 className="font-medium text-gray-800 dark:text-white mb-3">组件状态</h4>
+			<div className="grid gap-4 md:grid-cols-2">
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-3 font-medium text-gray-800 dark:text-white">组件状态</h4>
 					<div className="space-y-2 text-sm">
 						<div className="flex justify-between">
 							<span>渲染次数:</span>
-							<span className={`font-medium ${
-								compilerEnabled && renderCount > 3 ? "text-orange-600" : "text-green-600"
-							}`}>
+							<span
+								className={`font-medium ${compilerEnabled && renderCount > 3 ? "text-orange-600" : "text-green-600"}`}
+							>
 								{renderCount}
 							</span>
 						</div>
@@ -297,13 +256,13 @@ function CompilerBasicDemo() {
 					</div>
 				</div>
 
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<h4 className="font-medium text-gray-800 dark:text-white mb-3">操作面板</h4>
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-3 font-medium text-gray-800 dark:text-white">操作面板</h4>
 					<div className="space-y-3">
 						<div className="flex gap-2">
 							<button
 								onClick={optimizedHandler}
-								className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+								className="rounded bg-blue-600 px-3 py-1 text-sm text-white transition-colors hover:bg-blue-700"
 							>
 								增加 Count
 							</button>
@@ -312,7 +271,7 @@ function CompilerBasicDemo() {
 								value={name}
 								onChange={(e) => setName(e.target.value)}
 								placeholder="输入名称..."
-								className="flex-1 px-3 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800"
+								className="flex-1 rounded border border-gray-300 bg-white px-3 py-1 text-sm dark:border-gray-600 dark:bg-gray-800"
 							/>
 						</div>
 					</div>
@@ -320,10 +279,8 @@ function CompilerBasicDemo() {
 			</div>
 
 			{compilerEnabled && optimizations.length > 0 && (
-				<div className="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg">
-					<h4 className="font-medium text-indigo-800 dark:text-indigo-300 mb-2">
-						🤖 编译器优化日志:
-					</h4>
+				<div className="rounded-lg bg-indigo-50 p-4 dark:bg-indigo-900/20">
+					<h4 className="mb-2 font-medium text-indigo-800 dark:text-indigo-300">🤖 编译器优化日志:</h4>
 					<div className="space-y-1 font-mono text-xs">
 						{optimizations.map((log, index) => (
 							<div key={index} className="text-indigo-700 dark:text-indigo-400">
@@ -334,11 +291,9 @@ function CompilerBasicDemo() {
 				</div>
 			)}
 
-			<div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 p-4 rounded-lg">
-				<p className="text-sm font-medium text-indigo-800 dark:text-indigo-300 mb-2">
-					🎯 React Compiler 的优势：
-				</p>
-				<ul className="text-sm text-indigo-700 dark:text-indigo-400 space-y-1">
+			<div className="rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 p-4 dark:from-indigo-900/20 dark:to-purple-900/20">
+				<p className="mb-2 font-medium text-indigo-800 text-sm dark:text-indigo-300">🎯 React Compiler 的优势：</p>
+				<ul className="space-y-1 text-indigo-700 text-sm dark:text-indigo-400">
 					<li>• 自动检测优化机会</li>
 					<li>• 无需手动记忆化</li>
 					<li>• 智能依赖分析</li>
@@ -369,19 +324,17 @@ function SmartOptimizationDemo() {
 		}, [props]);
 
 		const updateProps = () => {
-			setProps(prev => ({ ...prev, value: prev.value + 10 }));
+			setProps((prev) => ({ ...prev, value: prev.value + 10 }));
 		};
 
 		const updateParentState = () => {
-			setParentState(prev => prev + 1);
+			setParentState((prev) => prev + 1);
 		};
 
 		return (
 			<div className="space-y-4">
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<h4 className="font-medium text-gray-800 dark:text-white mb-3">
-						组件优化分析
-					</h4>
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-3 font-medium text-gray-800 dark:text-white">组件优化分析</h4>
 					<div className="space-y-2 text-sm">
 						<div className="flex justify-between">
 							<span>需要 React.memo:</span>
@@ -407,21 +360,21 @@ function SmartOptimizationDemo() {
 				<div className="flex gap-2">
 					<button
 						onClick={updateProps}
-						className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+						className="rounded bg-blue-600 px-3 py-1 text-sm text-white transition-colors hover:bg-blue-700"
 					>
 						更新 Props
 					</button>
 					<button
 						onClick={updateParentState}
-						className="px-3 py-1 bg-purple-600 text-white text-sm rounded hover:bg-purple-700 transition-colors"
+						className="rounded bg-purple-600 px-3 py-1 text-sm text-white transition-colors hover:bg-purple-700"
 					>
 						更新父状态
 					</button>
 				</div>
 
 				{shouldMemo && (
-					<div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
-						<p className="text-sm text-green-800 dark:text-green-300">
+					<div className="rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
+						<p className="text-green-800 text-sm dark:text-green-300">
 							✅ 编译器建议：此组件适合使用 React.memo 优化，因为 props 变化不频繁但组件渲染较复杂。
 						</p>
 					</div>
@@ -438,7 +391,7 @@ function SmartOptimizationDemo() {
 		// 模拟编译器分析事件处理器
 		const handleItemClick = useCallback((itemId: number) => {
 			console.log(`Item ${itemId} clicked`);
-			setItems(prev => prev.filter(id => id !== itemId));
+			setItems((prev) => prev.filter((id) => id !== itemId));
 		}, []);
 
 		const analyzeCallback = useCallback(() => {
@@ -449,7 +402,7 @@ function SmartOptimizationDemo() {
 
 			return {
 				shouldOptimize: passedToChild && stableDependencies && performanceCritical,
-				reason: performanceCritical ? "性能关键路径" : "普通优化"
+				reason: performanceCritical ? "性能关键路径" : "普通优化",
 			};
 		}, []);
 
@@ -457,10 +410,8 @@ function SmartOptimizationDemo() {
 
 		return (
 			<div className="space-y-4">
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<h4 className="font-medium text-gray-800 dark:text-white mb-3">
-						事件处理器分析
-					</h4>
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-3 font-medium text-gray-800 dark:text-white">事件处理器分析</h4>
 					<div className="space-y-2 text-sm">
 						<div className="flex justify-between">
 							<span>需要 useCallback:</span>
@@ -485,16 +436,16 @@ function SmartOptimizationDemo() {
 						value={filter}
 						onChange={(e) => setFilter(e.target.value)}
 						placeholder="过滤项目..."
-						className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800"
+						className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800"
 					/>
 					<div className="flex flex-wrap gap-2">
 						{items
-							.filter(item => !filter || item.toString().includes(filter))
-							.map(item => (
+							.filter((item) => !filter || item.toString().includes(filter))
+							.map((item) => (
 								<button
 									key={item}
 									onClick={() => handleItemClick(item)}
-									className="px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 rounded text-sm hover:bg-blue-200 dark:hover:bg-blue-900/70 transition-colors"
+									className="rounded bg-blue-100 px-3 py-1 text-blue-800 text-sm transition-colors hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-200 dark:hover:bg-blue-900/70"
 								>
 									项目 {item}
 								</button>
@@ -503,8 +454,8 @@ function SmartOptimizationDemo() {
 				</div>
 
 				{analysis.shouldOptimize && (
-					<div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
-						<p className="text-sm text-green-800 dark:text-green-300">
+					<div className="rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
+						<p className="text-green-800 text-sm dark:text-green-300">
 							✅ 编译器建议：此事件处理器传递给子组件，使用 useCallback 可以避免不必要的重渲染。
 						</p>
 					</div>
@@ -522,10 +473,10 @@ function SmartOptimizationDemo() {
 		// 模拟编译器分析依赖项
 		const analyzeDependencies = useCallback(() => {
 			// 模拟复杂的数据依赖关系
-			const userPosts = posts.filter(post => post.userId === user.id);
-			const processedPosts = userPosts.map(post => ({
+			const userPosts = posts.filter((post) => post.userId === user.id);
+			const processedPosts = userPosts.map((post) => ({
 				...post,
-				displayName: `${settings.theme === "dark" ? "🌙" : "☀️"} ${post.title}`
+				displayName: `${settings.theme === "dark" ? "🌙" : "☀️"} ${post.title}`,
 			}));
 
 			return {
@@ -534,8 +485,8 @@ function SmartOptimizationDemo() {
 				dependencies: {
 					user: true,
 					posts: true,
-					settings: true
-				}
+					settings: true,
+				},
 			};
 		}, [user.id, posts, settings.theme]);
 
@@ -545,17 +496,15 @@ function SmartOptimizationDemo() {
 			const newPosts = [
 				{ id: 1, userId: user.id, title: "文章1" },
 				{ id: 2, userId: user.id, title: "文章2" },
-				{ id: 3, userId: 2, title: "其他文章" }
+				{ id: 3, userId: 2, title: "其他文章" },
 			];
 			setPosts(newPosts);
 		};
 
 		return (
 			<div className="space-y-4">
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<h4 className="font-medium text-gray-800 dark:text-white mb-3">
-						依赖项分析
-					</h4>
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-3 font-medium text-gray-800 dark:text-white">依赖项分析</h4>
 					<div className="space-y-2 text-sm">
 						<div className="flex justify-between">
 							<span>用户相关文章:</span>
@@ -575,26 +524,26 @@ function SmartOptimizationDemo() {
 				<div className="flex gap-2">
 					<button
 						onClick={loadPosts}
-						className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+						className="rounded bg-blue-600 px-3 py-1 text-sm text-white transition-colors hover:bg-blue-700"
 					>
 						加载文章
 					</button>
 					<button
-						onClick={() => setUser(prev => ({ ...prev, name: prev.name === "张三" ? "李四" : "张三" }))}
-						className="px-3 py-1 bg-purple-600 text-white text-sm rounded hover:bg-purple-700 transition-colors"
+						onClick={() => setUser((prev) => ({ ...prev, name: prev.name === "张三" ? "李四" : "张三" }))}
+						className="rounded bg-purple-600 px-3 py-1 text-sm text-white transition-colors hover:bg-purple-700"
 					>
 						切换用户
 					</button>
 					<button
-						onClick={() => setSettings(prev => ({ ...prev, theme: prev.theme === "light" ? "dark" : "light" }))}
-						className="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition-colors"
+						onClick={() => setSettings((prev) => ({ ...prev, theme: prev.theme === "light" ? "dark" : "light" }))}
+						className="rounded bg-indigo-600 px-3 py-1 text-sm text-white transition-colors hover:bg-indigo-700"
 					>
 						切换主题
 					</button>
 				</div>
 
-				<div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
-					<p className="text-sm text-blue-800 dark:text-blue-300">
+				<div className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+					<p className="text-blue-800 text-sm dark:text-blue-300">
 						🔍 编译器分析：检测到 3 个依赖项，建议使用 useMemo 缓存计算结果，避免重复处理。
 					</p>
 				</div>
@@ -603,10 +552,8 @@ function SmartOptimizationDemo() {
 	};
 
 	return (
-		<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-			<h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
-				🧠 智能优化策略
-			</h3>
+		<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+			<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">🧠 智能优化策略</h3>
 
 			<div className="mb-6">
 				<div className="flex gap-2">
@@ -618,10 +565,10 @@ function SmartOptimizationDemo() {
 						<button
 							key={key}
 							onClick={() => setStrategy(key as any)}
-							className={`px-4 py-2 rounded-lg transition-colors ${
+							className={`rounded-lg px-4 py-2 transition-colors ${
 								strategy === key
 									? "bg-indigo-600 text-white"
-									: "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+									: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
 							}`}
 						>
 							{icon} {label}
@@ -634,8 +581,8 @@ function SmartOptimizationDemo() {
 			{strategy === "callback" && <CallbackDemo />}
 			{strategy === "dependency" && <DependencyDemo />}
 
-			<div className="mt-6 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 p-4 rounded-lg">
-				<p className="text-sm text-purple-800 dark:text-purple-300">
+			<div className="mt-6 rounded-lg bg-gradient-to-r from-purple-50 to-indigo-50 p-4 dark:from-purple-900/20 dark:to-indigo-900/20">
+				<p className="text-purple-800 text-sm dark:text-purple-300">
 					🤖 <strong>智能优化策略：</strong>
 					React Compiler 能够智能分析代码模式，自动应用最合适的优化策略，无需开发者手动干预。
 				</p>
@@ -658,20 +605,20 @@ function PerformanceComparison() {
 
 		// 模拟渲染性能测试
 		const renderCounts = complexity === "simple" ? 100 : complexity === "medium" ? 500 : 1000;
-	 const optimizationLevels = comparisonMode === "compiler" ? 0.9 : 0.3; // 编译器优化90%，手动30%
+		const optimizationLevels = comparisonMode === "compiler" ? 0.9 : 0.3; // 编译器优化90%，手动30%
 
 		// 模拟渲染过程
 		for (let i = 0; i < renderCounts; i++) {
 			// 模拟渲染工作
-			await new Promise(resolve => setTimeout(resolve, 1));
+			await new Promise((resolve) => setTimeout(resolve, 1));
 
 			// 应用优化
 			if (Math.random() < optimizationLevels) {
 				// 优化路径 - 更快
-				await new Promise(resolve => setTimeout(resolve, 0.5));
+				await new Promise((resolve) => setTimeout(resolve, 0.5));
 			} else {
 				// 非优化路径 - 更慢
-				await new Promise(resolve => setTimeout(resolve, 2));
+				await new Promise((resolve) => setTimeout(resolve, 2));
 			}
 		}
 
@@ -683,7 +630,7 @@ function PerformanceComparison() {
 			renderCounts,
 			optimizationRate: optimizationLevels * 100,
 			averageRenderTime: totalTime / renderCounts,
-			mode: comparisonMode
+			mode: comparisonMode,
 		});
 
 		setIsRunning(false);
@@ -694,34 +641,30 @@ function PerformanceComparison() {
 	};
 
 	return (
-		<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-			<h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
-				⚡ 性能提升对比
-			</h3>
+		<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+			<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">⚡ 性能提升对比</h3>
 
 			<div className="mb-6">
-				<div className="grid md:grid-cols-2 gap-4 mb-4">
+				<div className="mb-4 grid gap-4 md:grid-cols-2">
 					<div>
-						<label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-							优化模式
-						</label>
+						<label className="mb-2 block font-medium text-gray-700 text-sm dark:text-gray-300">优化模式</label>
 						<div className="flex gap-2">
 							<button
 								onClick={() => setComparisonMode("manual")}
-								className={`px-4 py-2 rounded-lg transition-colors ${
+								className={`rounded-lg px-4 py-2 transition-colors ${
 									comparisonMode === "manual"
 										? "bg-orange-600 text-white"
-										: "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+										: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
 								}`}
 							>
 								🔧 手动优化
 							</button>
 							<button
 								onClick={() => setComparisonMode("compiler")}
-								className={`px-4 py-2 rounded-lg transition-colors ${
+								className={`rounded-lg px-4 py-2 transition-colors ${
 									comparisonMode === "compiler"
 										? "bg-indigo-600 text-white"
-										: "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+										: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
 								}`}
 							>
 								🤖 编译器优化
@@ -730,9 +673,7 @@ function PerformanceComparison() {
 					</div>
 
 					<div>
-						<label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-							测试复杂度
-						</label>
+						<label className="mb-2 block font-medium text-gray-700 text-sm dark:text-gray-300">测试复杂度</label>
 						<div className="flex gap-2">
 							{[
 								{ key: "simple", label: "简单" },
@@ -742,10 +683,10 @@ function PerformanceComparison() {
 								<button
 									key={key}
 									onClick={() => setComplexity(key as any)}
-									className={`px-3 py-2 rounded-lg transition-colors ${
+									className={`rounded-lg px-3 py-2 transition-colors ${
 										complexity === key
 											? "bg-purple-600 text-white"
-											: "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+											: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
 									}`}
 								>
 									{label}
@@ -759,14 +700,14 @@ function PerformanceComparison() {
 					<button
 						onClick={runPerformanceTest}
 						disabled={isRunning}
-						className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+						className="rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-gray-400"
 					>
 						{isRunning ? "运行中..." : "开始测试"}
 					</button>
 
 					<button
 						onClick={resetTest}
-						className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+						className="rounded-lg bg-red-600 px-6 py-2 text-white transition-colors hover:bg-red-700"
 					>
 						重置
 					</button>
@@ -775,50 +716,48 @@ function PerformanceComparison() {
 
 			{performanceMetrics.totalTime && (
 				<div className="space-y-4">
-					<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-						<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-center">
-							<p className="text-sm text-gray-600 dark:text-gray-400 mb-1">总耗时</p>
-							<p className="text-2xl font-bold text-gray-800 dark:text-white">
-								{performanceMetrics.totalTime}ms
-							</p>
+					<div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+						<div className="rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-700">
+							<p className="mb-1 text-gray-600 text-sm dark:text-gray-400">总耗时</p>
+							<p className="font-bold text-2xl text-gray-800 dark:text-white">{performanceMetrics.totalTime}ms</p>
 						</div>
-						<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-center">
-							<p className="text-sm text-gray-600 dark:text-gray-400 mb-1">渲染次数</p>
-							<p className="text-2xl font-bold text-gray-800 dark:text-white">
-								{performanceMetrics.renderCounts}
-							</p>
+						<div className="rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-700">
+							<p className="mb-1 text-gray-600 text-sm dark:text-gray-400">渲染次数</p>
+							<p className="font-bold text-2xl text-gray-800 dark:text-white">{performanceMetrics.renderCounts}</p>
 						</div>
-						<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-center">
-							<p className="text-sm text-gray-600 dark:text-gray-400 mb-1">优化率</p>
-							<p className="text-2xl font-bold text-gray-800 dark:text-white">
+						<div className="rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-700">
+							<p className="mb-1 text-gray-600 text-sm dark:text-gray-400">优化率</p>
+							<p className="font-bold text-2xl text-gray-800 dark:text-white">
 								{performanceMetrics.optimizationRate.toFixed(0)}%
 							</p>
 						</div>
-						<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg text-center">
-							<p className="text-sm text-gray-600 dark:text-gray-400 mb-1">平均耗时</p>
-							<p className="text-2xl font-bold text-gray-800 dark:text-white">
+						<div className="rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-700">
+							<p className="mb-1 text-gray-600 text-sm dark:text-gray-400">平均耗时</p>
+							<p className="font-bold text-2xl text-gray-800 dark:text-white">
 								{performanceMetrics.averageRenderTime.toFixed(1)}ms
 							</p>
 						</div>
 					</div>
 
-					<div className={`p-4 rounded-lg ${
-						comparisonMode === "compiler"
-							? "bg-green-50 dark:bg-green-900/20"
-							: "bg-orange-50 dark:bg-orange-900/20"
-					}`}>
-						<p className={`text-sm font-medium ${
-							comparisonMode === "compiler"
-								? "text-green-800 dark:text-green-300"
-								: "text-orange-800 dark:text-orange-300"
-						}`}>
+					<div
+						className={`rounded-lg p-4 ${comparisonMode === "compiler" ? "bg-green-50 dark:bg-green-900/20" : "bg-orange-50 dark:bg-orange-900/20"}`}
+					>
+						<p
+							className={`font-medium text-sm ${
+								comparisonMode === "compiler"
+									? "text-green-800 dark:text-green-300"
+									: "text-orange-800 dark:text-orange-300"
+							}`}
+						>
 							{comparisonMode === "compiler" ? "🚀 编译器优化结果：" : "🔧 手动优化结果："}
 						</p>
-						<p className={`text-sm mt-1 ${
-							comparisonMode === "compiler"
-								? "text-green-700 dark:text-green-400"
-								: "text-orange-700 dark:text-orange-400"
-						}`}>
+						<p
+							className={`mt-1 text-sm ${
+								comparisonMode === "compiler"
+									? "text-green-700 dark:text-green-400"
+									: "text-orange-700 dark:text-orange-400"
+							}`}
+						>
 							{comparisonMode === "compiler"
 								? `React Compiler 自动应用了 ${performanceMetrics.optimizationRate.toFixed(0)}% 的优化，显著提升了渲染性能。`
 								: `手动优化达到了 ${performanceMetrics.optimizationRate.toFixed(0)}% 的优化率，但需要开发者投入大量精力。`}
@@ -827,12 +766,10 @@ function PerformanceComparison() {
 				</div>
 			)}
 
-			<div className="mt-6 grid md:grid-cols-2 gap-6">
-				<div className="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg">
-					<h4 className="font-medium text-indigo-800 dark:text-indigo-300 mb-2">
-						🤖 编译器优化优势：
-					</h4>
-					<ul className="text-sm text-indigo-700 dark:text-indigo-400 space-y-1">
+			<div className="mt-6 grid gap-6 md:grid-cols-2">
+				<div className="rounded-lg bg-indigo-50 p-4 dark:bg-indigo-900/20">
+					<h4 className="mb-2 font-medium text-indigo-800 dark:text-indigo-300">🤖 编译器优化优势：</h4>
+					<ul className="space-y-1 text-indigo-700 text-sm dark:text-indigo-400">
 						<li>• 自动检测优化机会</li>
 						<li>• 零配置高性能</li>
 						<li>• 智能依赖分析</li>
@@ -840,11 +777,9 @@ function PerformanceComparison() {
 					</ul>
 				</div>
 
-				<div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg">
-					<h4 className="font-medium text-orange-800 dark:text-orange-300 mb-2">
-						🔧 手动优化挑战：
-					</h4>
-					<ul className="text-sm text-orange-700 dark:text-orange-400 space-y-1">
+				<div className="rounded-lg bg-orange-50 p-4 dark:bg-orange-900/20">
+					<h4 className="mb-2 font-medium text-orange-800 dark:text-orange-300">🔧 手动优化挑战：</h4>
+					<ul className="space-y-1 text-orange-700 text-sm dark:text-orange-400">
 						<li>• 需要深度理解原理</li>
 						<li>• 容易遗漏优化点</li>
 						<li>• 维护成本高</li>
@@ -870,7 +805,7 @@ function RealWorldApplications() {
 		const optimizedProductList = useMemo(() => {
 			// 编译器会自动优化这个复杂的产品列表计算
 			return products
-				.filter(product => {
+				.filter((product) => {
 					if (filters.category && product.category !== filters.category) return false;
 					if (filters.priceRange) {
 						const [min, max] = filters.priceRange.split("-").map(Number);
@@ -878,10 +813,10 @@ function RealWorldApplications() {
 					}
 					return true;
 				})
-				.map(product => ({
+				.map((product) => ({
 					...product,
 					discountPrice: product.price * 0.9,
-					inStock: product.stock > 0
+					inStock: product.stock > 0,
 				}));
 		}, [products, filters]);
 
@@ -891,7 +826,7 @@ function RealWorldApplications() {
 				name: `商品 ${i + 1}`,
 				price: Math.random() * 1000 + 50,
 				category: ["电子产品", "服装", "图书", "家居"][i % 4],
-				stock: Math.floor(Math.random() * 100)
+				stock: Math.floor(Math.random() * 100),
 			}));
 			setProducts(mockProducts);
 		};
@@ -901,14 +836,14 @@ function RealWorldApplications() {
 				<div className="flex gap-4">
 					<button
 						onClick={loadProducts}
-						className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+						className="rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
 					>
 						加载商品
 					</button>
 					<select
 						value={filters.category}
-						onChange={(e) => setFilters(prev => ({ ...prev, category: e.target.value }))}
-						className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800"
+						onChange={(e) => setFilters((prev) => ({ ...prev, category: e.target.value }))}
+						className="rounded border border-gray-300 bg-white px-4 py-2 dark:border-gray-600 dark:bg-gray-800"
 					>
 						<option value="">所有分类</option>
 						<option value="电子产品">电子产品</option>
@@ -918,14 +853,14 @@ function RealWorldApplications() {
 					</select>
 				</div>
 
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<h4 className="font-medium text-gray-800 dark:text-white mb-2">
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-2 font-medium text-gray-800 dark:text-white">
 						优化结果 ({optimizedProductList.length} 件商品)
 					</h4>
 					<div className="grid grid-cols-3 gap-2">
 						{optimizedProductList.slice(0, 6).map((product) => (
-							<div key={product.id} className="bg-white dark:bg-gray-800 p-2 rounded text-xs">
-								<p className="font-medium truncate">{product.name}</p>
+							<div key={product.id} className="rounded bg-white p-2 text-xs dark:bg-gray-800">
+								<p className="truncate font-medium">{product.name}</p>
 								<p className="text-gray-600 dark:text-gray-400">
 									¥{product.price.toFixed(0)} → ¥{product.discountPrice.toFixed(0)}
 								</p>
@@ -934,8 +869,8 @@ function RealWorldApplications() {
 					</div>
 				</div>
 
-				<div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
-					<p className="text-sm text-green-800 dark:text-green-300">
+				<div className="rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
+					<p className="text-green-800 text-sm dark:text-green-300">
 						🛒 编译器优化：自动优化了产品列表的过滤、排序和价格计算，提升了页面响应速度。
 					</p>
 				</div>
@@ -953,13 +888,14 @@ function RealWorldApplications() {
 			// 编译器会自动优化这些复杂的数据聚合计算
 			return {
 				totalRevenue: metrics.revenue?.reduce((sum: number, item: any) => sum + item.amount, 0) || 0,
-				averageOrderValue: metrics.orders?.length > 0
-					? metrics.orders.reduce((sum: number, order: any) => sum + order.total, 0) / metrics.orders.length
-					: 0,
-				conversionRate: metrics.visitors && metrics.conversions
-					? (metrics.conversions / metrics.visitors * 100).toFixed(2)
-					: 0,
-				activeUsers: metrics.users?.filter((user: any) => user.lastActive > Date.now() - 24 * 60 * 60 * 1000).length || 0
+				averageOrderValue:
+					metrics.orders?.length > 0
+						? metrics.orders.reduce((sum: number, order: any) => sum + order.total, 0) / metrics.orders.length
+						: 0,
+				conversionRate:
+					metrics.visitors && metrics.conversions ? ((metrics.conversions / metrics.visitors) * 100).toFixed(2) : 0,
+				activeUsers:
+					metrics.users?.filter((user: any) => user.lastActive > Date.now() - 24 * 60 * 60 * 1000).length || 0,
 			};
 		}, [metrics]);
 
@@ -970,8 +906,8 @@ function RealWorldApplications() {
 				visitors: 10000,
 				conversions: 250,
 				users: Array.from({ length: 100 }, (_, i) => ({
-					lastActive: Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000
-				}))
+					lastActive: Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000,
+				})),
 			};
 			setMetrics(mockMetrics);
 		};
@@ -981,14 +917,14 @@ function RealWorldApplications() {
 				<div className="flex gap-4">
 					<button
 						onClick={loadMetrics}
-						className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+						className="rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
 					>
 						加载指标
 					</button>
 					<select
 						value={timeRange}
 						onChange={(e) => setTimeRange(e.target.value)}
-						className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800"
+						className="rounded border border-gray-300 bg-white px-4 py-2 dark:border-gray-600 dark:bg-gray-800"
 					>
 						<option value="7d">7天</option>
 						<option value="30d">30天</option>
@@ -996,35 +932,31 @@ function RealWorldApplications() {
 					</select>
 				</div>
 
-				<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-					<div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-center">
-						<p className="text-sm text-gray-600 dark:text-gray-400">总收入</p>
-						<p className="text-lg font-bold text-gray-800 dark:text-white">
+				<div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+					<div className="rounded-lg bg-gray-50 p-3 text-center dark:bg-gray-700">
+						<p className="text-gray-600 text-sm dark:text-gray-400">总收入</p>
+						<p className="font-bold text-gray-800 text-lg dark:text-white">
 							¥{optimizedMetrics.totalRevenue.toFixed(0)}
 						</p>
 					</div>
-					<div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-center">
-						<p className="text-sm text-gray-600 dark:text-gray-400">平均订单</p>
-						<p className="text-lg font-bold text-gray-800 dark:text-white">
+					<div className="rounded-lg bg-gray-50 p-3 text-center dark:bg-gray-700">
+						<p className="text-gray-600 text-sm dark:text-gray-400">平均订单</p>
+						<p className="font-bold text-gray-800 text-lg dark:text-white">
 							¥{optimizedMetrics.averageOrderValue.toFixed(0)}
 						</p>
 					</div>
-					<div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-center">
-						<p className="text-sm text-gray-600 dark:text-gray-400">转化率</p>
-						<p className="text-lg font-bold text-gray-800 dark:text-white">
-							{optimizedMetrics.conversionRate}%
-						</p>
+					<div className="rounded-lg bg-gray-50 p-3 text-center dark:bg-gray-700">
+						<p className="text-gray-600 text-sm dark:text-gray-400">转化率</p>
+						<p className="font-bold text-gray-800 text-lg dark:text-white">{optimizedMetrics.conversionRate}%</p>
 					</div>
-					<div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-center">
-						<p className="text-sm text-gray-600 dark:text-gray-400">活跃用户</p>
-						<p className="text-lg font-bold text-gray-800 dark:text-white">
-							{optimizedMetrics.activeUsers}
-						</p>
+					<div className="rounded-lg bg-gray-50 p-3 text-center dark:bg-gray-700">
+						<p className="text-gray-600 text-sm dark:text-gray-400">活跃用户</p>
+						<p className="font-bold text-gray-800 text-lg dark:text-white">{optimizedMetrics.activeUsers}</p>
 					</div>
 				</div>
 
-				<div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
-					<p className="text-sm text-blue-800 dark:text-blue-300">
+				<div className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+					<p className="text-blue-800 text-sm dark:text-blue-300">
 						📊 编译器优化：自动缓存了复杂的数据聚合计算，确保仪表板快速响应。
 					</p>
 				</div>
@@ -1041,15 +973,17 @@ function RealWorldApplications() {
 		const optimizedFeed = useMemo(() => {
 			// 编译器会自动优化这个复杂的社交动态排序算法
 			return posts
-				.map(post => ({
+				.map((post) => ({
 					...post,
 					engagementScore: post.likes + post.comments * 2 + post.shares * 3,
-					trendingScore: post.engagementScore / (Date.now() - post.timestamp) * 100000,
+					trendingScore: (post.engagementScore / (Date.now() - post.timestamp)) * 100000,
 					personalizedScore: userInteractions.interests
-						? post.tags.some((tag: string) => userInteractions.interests.includes(tag)) ? 1.5 : 1
-						: 1
+						? post.tags.some((tag: string) => userInteractions.interests.includes(tag))
+							? 1.5
+							: 1
+						: 1,
 				}))
-				.sort((a, b) => (b.trendingScore * b.personalizedScore) - (a.trendingScore * a.personalizedScore));
+				.sort((a, b) => b.trendingScore * b.personalizedScore - a.trendingScore * a.personalizedScore);
 		}, [posts, userInteractions]);
 
 		const loadPosts = () => {
@@ -1060,7 +994,7 @@ function RealWorldApplications() {
 				comments: Math.floor(Math.random() * 100),
 				shares: Math.floor(Math.random() * 50),
 				timestamp: Date.now() - Math.random() * 24 * 60 * 60 * 1000,
-				tags: ["科技", "生活", "娱乐", "体育"].slice(0, Math.floor(Math.random() * 3) + 1)
+				tags: ["科技", "生活", "娱乐", "体育"].slice(0, Math.floor(Math.random() * 3) + 1),
 			}));
 			setPosts(mockPosts);
 			setUserInteractions({ interests: ["科技", "生活"] });
@@ -1071,21 +1005,19 @@ function RealWorldApplications() {
 				<div className="flex gap-4">
 					<button
 						onClick={loadPosts}
-						className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+						className="rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
 					>
 						加载动态
 					</button>
 				</div>
 
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<h4 className="font-medium text-gray-800 dark:text-white mb-2">
-						个性化推荐 (前5条)
-					</h4>
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-2 font-medium text-gray-800 dark:text-white">个性化推荐 (前5条)</h4>
 					<div className="space-y-2">
 						{optimizedFeed.slice(0, 5).map((post) => (
-							<div key={post.id} className="bg-white dark:bg-gray-800 p-3 rounded">
-								<p className="text-sm font-medium">{post.content}</p>
-								<p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+							<div key={post.id} className="rounded bg-white p-3 dark:bg-gray-800">
+								<p className="font-medium text-sm">{post.content}</p>
+								<p className="mt-1 text-gray-600 text-xs dark:text-gray-400">
 									互动: {post.engagementScore} | 趋势: {post.trendingScore.toFixed(1)}
 									{post.personalizedScore > 1 && " | 🎯 个性化推荐"}
 								</p>
@@ -1094,8 +1026,8 @@ function RealWorldApplications() {
 					</div>
 				</div>
 
-				<div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
-					<p className="text-sm text-purple-800 dark:text-purple-300">
+				<div className="rounded-lg bg-purple-50 p-3 dark:bg-purple-900/20">
+					<p className="text-purple-800 text-sm dark:text-purple-300">
 						💬 编译器优化：自动优化了复杂的推荐算法和个性化计算，提升了用户体验。
 					</p>
 				</div>
@@ -1104,10 +1036,8 @@ function RealWorldApplications() {
 	};
 
 	return (
-		<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-			<h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
-				🌍 实际应用场景
-			</h3>
+		<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+			<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">🌍 实际应用场景</h3>
 
 			<div className="mb-6">
 				<div className="flex gap-2">
@@ -1119,10 +1049,10 @@ function RealWorldApplications() {
 						<button
 							key={key}
 							onClick={() => setApplication(key as any)}
-							className={`px-4 py-2 rounded-lg transition-colors ${
+							className={`rounded-lg px-4 py-2 transition-colors ${
 								application === key
 									? "bg-indigo-600 text-white"
-									: "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+									: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
 							}`}
 						>
 							{icon} {label}
@@ -1135,8 +1065,8 @@ function RealWorldApplications() {
 			{application === "dashboard" && <DashboardDemo />}
 			{application === "social" && <SocialDemo />}
 
-			<div className="mt-6 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-900/20 dark:via-purple-900/20 dark:to-pink-900/20 p-4 rounded-lg">
-				<p className="text-sm text-indigo-800 dark:text-indigo-300">
+			<div className="mt-6 rounded-lg bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 p-4 dark:from-indigo-900/20 dark:via-purple-900/20 dark:to-pink-900/20">
+				<p className="text-indigo-800 text-sm dark:text-indigo-300">
 					🚀 <strong>React Compiler 革命性影响：</strong>
 					通过自动优化，React Compiler 让开发者专注于业务逻辑，而将性能优化交给编译器处理，
 					大大提升了开发效率和应用性能。

@@ -7,12 +7,8 @@ export const metadata: Metadata = {
 	description: "Next.js 15 + React 19 + Tailwind CSS",
 };
 
-export default function RootLayout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
-	const isDevelopment = process.env.NODE_ENV === 'development';
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+	const isDevelopment = process.env.NODE_ENV === "development";
 
 	return (
 		<html lang="zh-CN">
@@ -32,9 +28,7 @@ export default function RootLayout({
 					</Script>
 				)}
 			</head>
-			<body className="font-sans antialiased">
-				{children}
-			</body>
+			<body className="font-sans antialiased">{children}</body>
 		</html>
 	);
 }

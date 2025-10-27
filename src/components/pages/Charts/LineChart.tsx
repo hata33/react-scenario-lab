@@ -2,11 +2,7 @@ export default function LineChart() {
 	return (
 		<div>
 			<h2 className="mb-4 font-semibold text-2xl">折线图</h2>
-			<svg
-				className="h-48 w-full rounded border bg-white"
-				viewBox="0 0 100 40"
-				preserveAspectRatio="none"
-			>
+			<svg className="h-48 w-full rounded border bg-white" viewBox="0 0 100 40" preserveAspectRatio="none">
 				<polyline
 					fill="none"
 					stroke="#111827"

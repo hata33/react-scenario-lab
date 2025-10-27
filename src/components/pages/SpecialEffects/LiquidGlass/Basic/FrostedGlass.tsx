@@ -8,18 +8,13 @@ export default function FrostedGlass() {
 	const frostedStyle = {
 		backdropFilter: `blur(${blur}px) saturate(${saturation}%) brightness(${brightness}%)`,
 		WebkitBackdropFilter: `blur(${blur}px) saturate(${saturation}%) brightness(${brightness}%)`,
-		background:
-			"linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1))",
+		background: "linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1))",
 		border: "1px solid rgba(255,255,255,0.4)",
-		boxShadow:
-			"0 12px 40px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2)",
+		boxShadow: "0 12px 40px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2)",
 	} as React.CSSProperties;
 
 	return (
-		<div
-			className="w-[28rem] rounded-3xl p-8 text-gray-800"
-			style={frostedStyle}
-		>
+		<div className="w-[28rem] rounded-3xl p-8 text-gray-800" style={frostedStyle}>
 			<h2 className="font-semibold text-2xl">磨砂玻璃</h2>
 			<div className="mt-4 grid gap-4 md:grid-cols-3">
 				<label className="block">
@@ -59,9 +54,7 @@ export default function FrostedGlass() {
 					/>
 				</label>
 			</div>
-			<p className="mt-4 text-gray-700 text-sm">
-				模拟真实磨砂玻璃的质感和深度。
-			</p>
+			<p className="mt-4 text-gray-700 text-sm">模拟真实磨砂玻璃的质感和深度。</p>
 		</div>
 	);
 }

@@ -18,10 +18,7 @@ export default function StepForm() {
 				<button className="rounded bg-gray-100 px-3 py-2" onClick={prev}>
 					上一步
 				</button>
-				<button
-					className="rounded bg-gray-900 px-3 py-2 text-white"
-					onClick={next}
-				>
+				<button className="rounded bg-gray-900 px-3 py-2 text-white" onClick={next}>
 					下一步
 				</button>
 			</div>

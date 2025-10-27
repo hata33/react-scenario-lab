@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,11 +35,7 @@ export default function TimelineSection() {
 			year: "2021",
 			title: "基础掌握",
 			description: "熟练使用基础动画 API，能够创建流畅的交互动效",
-			achievements: [
-				"掌握 Timeline 时间轴",
-				"实现复杂动画序列",
-				"性能优化技巧",
-			],
+			achievements: ["掌握 Timeline 时间轴", "实现复杂动画序列", "性能优化技巧"],
 			technologies: ["Timeline", "Stagger", "Eases"],
 			color: "#8b5cf6",
 		},
@@ -47,11 +43,7 @@ export default function TimelineSection() {
 			year: "2022",
 			title: "进阶提升",
 			description: "掌握 ScrollTrigger 和高级功能，创建专业级滚动动画",
-			achievements: [
-				"精通 ScrollTrigger",
-				"实现视差滚动效果",
-				"开发完整动画库",
-			],
+			achievements: ["精通 ScrollTrigger", "实现视差滚动效果", "开发完整动画库"],
 			technologies: ["ScrollTrigger", "Parallax", "Plugin"],
 			color: "#ec4899",
 		},
@@ -438,8 +430,7 @@ export default function TimelineSection() {
 			ref={sectionRef}
 			style={{
 				padding: "120px 0",
-				background:
-					"linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%)",
+				background: "linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%)",
 				position: "relative",
 				overflow: "hidden",
 			}}
@@ -509,8 +500,7 @@ export default function TimelineSection() {
 						top: 280,
 						bottom: 100,
 						width: 6,
-						background:
-							"linear-gradient(180deg, #3b82f6, #8b5cf6, #ec4899, #f59e0b, #10b981, #ef4444)",
+						background: "linear-gradient(180deg, #3b82f6, #8b5cf6, #ec4899, #f59e0b, #10b981, #ef4444)",
 						transform: "translateX(-50%)",
 						transformOrigin: "top",
 						borderRadius: 3,
@@ -562,8 +552,7 @@ export default function TimelineSection() {
 								}}
 								onMouseLeave={(e) => {
 									e.currentTarget.style.borderColor = "transparent";
-									e.currentTarget.style.boxShadow =
-										"0 15px 40px rgba(0,0,0,0.08)";
+									e.currentTarget.style.boxShadow = "0 15px 40px rgba(0,0,0,0.08)";
 								}}
 							>
 								{/* 年份标签 */}

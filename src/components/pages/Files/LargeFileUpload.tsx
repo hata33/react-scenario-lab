@@ -49,12 +49,9 @@ export default function LargeFileUpload() {
 			"application/zip": [".zip", ".rar", ".7z"],
 			"text/*": [".txt", ".md", ".csv"],
 			"application/msword": [".doc"],
-			"application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-				[".docx"],
+			"application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
 			"application/vnd.ms-excel": [".xls"],
-			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
-				".xlsx",
-			],
+			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
 		},
 		maxSize: 2 * 1024 * 1024 * 1024, // 2GB
 	});
@@ -134,11 +131,7 @@ export default function LargeFileUpload() {
 	};
 
 	const uploadFile = async (uploadFile: UploadFile) => {
-		setFiles((prev) =>
-			prev.map((f) =>
-				f.id === uploadFile.id ? { ...f, status: "uploading" as const } : f,
-			),
-		);
+		setFiles((prev) => prev.map((f) => (f.id === uploadFile.id ? { ...f, status: "uploading" as const } : f)));
 
 		try {
 			const fileHash = await calculateFileHash(uploadFile.file);
@@ -155,11 +148,7 @@ export default function LargeFileUpload() {
 				const checkResult = await checkResponse.json();
 				if (checkResult.exists) {
 					setFiles((prev) =>
-						prev.map((f) =>
-							f.id === uploadFile.id
-								? { ...f, status: "completed" as const, progress: 100 }
-								: f,
-						),
+						prev.map((f) => (f.id === uploadFile.id ? { ...f, status: "completed" as const, progress: 100 } : f)),
 					);
 					return;
 				}
@@ -174,21 +163,14 @@ export default function LargeFileUpload() {
 
 				const uploadPromises = batchChunks.map(async (chunk) => {
 					try {
-						await uploadChunk(
-							chunk,
-							uploadFile.id,
-							fileHash,
-							chunks.length,
-							uploadFile.file.name,
-						);
+						await uploadChunk(chunk, uploadFile.id, fileHash, chunks.length, uploadFile.file.name);
 						uploadedChunks.add(chunk.index);
 
 						// 更新进度
 						const progress = (uploadedChunks.size / chunks.length) * 100;
 						const elapsed = Date.now() - startTime;
 						const speed = (uploadedChunks.size * CHUNK_SIZE) / (elapsed / 1000);
-						const remainingBytes =
-							(chunks.length - uploadedChunks.size) * CHUNK_SIZE;
+						const remainingBytes = (chunks.length - uploadedChunks.size) * CHUNK_SIZE;
 						const remainingTime = remainingBytes / speed;
 
 						setFiles((prev) =>
@@ -223,11 +205,7 @@ export default function LargeFileUpload() {
 			});
 
 			setFiles((prev) =>
-				prev.map((f) =>
-					f.id === uploadFile.id
-						? { ...f, status: "completed" as const, progress: 100 }
-						: f,
-				),
+				prev.map((f) => (f.id === uploadFile.id ? { ...f, status: "completed" as const, progress: 100 } : f)),
 			);
 		} catch (error) {
 			setFiles((prev) =>
@@ -236,8 +214,7 @@ export default function LargeFileUpload() {
 						? {
 								...f,
 								status: "error" as const,
-								errorMessage:
-									error instanceof Error ? error.message : "上传失败",
+								errorMessage: error instanceof Error ? error.message : "上传失败",
 							}
 						: f,
 				),
@@ -272,8 +249,7 @@ export default function LargeFileUpload() {
 	const formatFileSize = (bytes: number): string => {
 		if (bytes < 1024) return `${bytes} B`;
 		if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-		if (bytes < 1024 * 1024 * 1024)
-			return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+		if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 		return `${(bytes / (1024 * 1024 * 1024)).toFixed(1)} GB`;
 	};
 
@@ -283,20 +259,13 @@ export default function LargeFileUpload() {
 			<div
 				{...getRootProps()}
 				className={`cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
-					isDragActive || isDragging
-						? "border-blue-500 bg-blue-50"
-						: "border-gray-300 hover:border-gray-400"
+					isDragActive || isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300 hover:border-gray-400"
 				}`}
 			>
 				<input {...getInputProps()} />
 				<div className="space-y-2">
 					<div className="text-gray-400">
-						<svg
-							className="mx-auto h-12 w-12"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
+						<svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path
 								strokeLinecap="round"
 								strokeLinejoin="round"
@@ -305,13 +274,9 @@ export default function LargeFileUpload() {
 							/>
 						</svg>
 					</div>
-					<p className="font-medium text-gray-700 text-lg">
-						{isDragActive ? "释放文件以上传" : "拖拽文件到此处上传"}
-					</p>
+					<p className="font-medium text-gray-700 text-lg">{isDragActive ? "释放文件以上传" : "拖拽文件到此处上传"}</p>
 					<p className="text-gray-500 text-sm">或者点击选择文件</p>
-					<p className="mt-2 text-gray-400 text-xs">
-						支持最大2GB文件，支持图片、视频、音频、文档等格式
-					</p>
+					<p className="mt-2 text-gray-400 text-xs">支持最大2GB文件，支持图片、视频、音频、文档等格式</p>
 				</div>
 			</div>
 
@@ -320,18 +285,11 @@ export default function LargeFileUpload() {
 				<div className="space-y-4">
 					<h3 className="font-semibold text-gray-800 text-lg">上传队列</h3>
 					{files.map((uploadFile) => (
-						<div
-							key={uploadFile.id}
-							className="rounded-lg border bg-gray-50 p-4"
-						>
+						<div key={uploadFile.id} className="rounded-lg border bg-gray-50 p-4">
 							<div className="mb-2 flex items-center justify-between">
 								<div className="min-w-0 flex-1">
-									<p className="truncate font-medium text-gray-800">
-										{uploadFile.file.name}
-									</p>
-									<p className="text-gray-500 text-sm">
-										{formatFileSize(uploadFile.file.size)}
-									</p>
+									<p className="truncate font-medium text-gray-800">{uploadFile.file.name}</p>
+									<p className="text-gray-500 text-sm">{formatFileSize(uploadFile.file.size)}</p>
 								</div>
 								<div className="ml-4 flex items-center space-x-2">
 									{uploadFile.status === "pending" && (
@@ -343,15 +301,9 @@ export default function LargeFileUpload() {
 											上传
 										</button>
 									)}
-									{uploadFile.status === "uploading" && (
-										<span className="text-blue-500 text-sm">上传中...</span>
-									)}
-									{uploadFile.status === "completed" && (
-										<span className="text-green-500 text-sm">✓ 完成</span>
-									)}
-									{uploadFile.status === "error" && (
-										<span className="text-red-500 text-sm">✗ 失败</span>
-									)}
+									{uploadFile.status === "uploading" && <span className="text-blue-500 text-sm">上传中...</span>}
+									{uploadFile.status === "completed" && <span className="text-green-500 text-sm">✓ 完成</span>}
+									{uploadFile.status === "error" && <span className="text-red-500 text-sm">✗ 失败</span>}
 									<button
 										type="button"
 										onClick={() => handleRemove(uploadFile.id)}
@@ -379,9 +331,7 @@ export default function LargeFileUpload() {
 							)}
 
 							{uploadFile.status === "error" && uploadFile.errorMessage && (
-								<p className="mt-1 text-red-500 text-sm">
-									{uploadFile.errorMessage}
-								</p>
+								<p className="mt-1 text-red-500 text-sm">{uploadFile.errorMessage}</p>
 							)}
 						</div>
 					))}

@@ -11,19 +11,13 @@ import ImageGenerator from "./components/ImageGenerator";
 import { useImageHistory } from "./hooks/useImageHistory";
 
 export default function AIImagePage() {
-	const [activeTab, setActiveTab] = useState<"generate" | "gallery">(
-		"generate",
-	);
-	const [selectedImage, setSelectedImage] = useState<GeneratedImage | null>(
-		null,
-	);
+	const [activeTab, setActiveTab] = useState<"generate" | "gallery">("generate");
+	const [selectedImage, setSelectedImage] = useState<GeneratedImage | null>(null);
 	const [galleryUpdateTrigger, setGalleryUpdateTrigger] = useState(0);
 
 	const { images, addImage, deleteImage, toggleFavorite } = useImageHistory();
 
-	const handleImageGenerated = (
-		imageData: Omit<GeneratedImage, "id" | "createdAt">,
-	) => {
+	const handleImageGenerated = (imageData: Omit<GeneratedImage, "id" | "createdAt">) => {
 		addImage(imageData);
 		setGalleryUpdateTrigger((prev) => prev + 1);
 	};
@@ -59,44 +53,40 @@ export default function AIImagePage() {
 
 	return (
 		<Layout>
-			<div className="container mx-auto px-4 py-6 h-screen flex flex-col">
+			<div className="container mx-auto flex h-screen flex-col px-4 py-6">
 				<div className="mb-6">
 					<BackButton />
 				</div>
 
 				{/* 页面头部 */}
-				<div className="flex items-center justify-between mb-6">
+				<div className="mb-6 flex items-center justify-between">
 					<div className="flex items-center gap-3">
-						<h1 className="text-3xl font-bold">AI 文生图</h1>
-						<div className="flex items-center gap-2 text-sm text-gray-500">
-							<Sparkles className="w-4 h-4" />
+						<h1 className="font-bold text-3xl">AI 文生图</h1>
+						<div className="flex items-center gap-2 text-gray-500 text-sm">
+							<Sparkles className="h-4 w-4" />
 							<span>使用 AI 创造精美图片</span>
 						</div>
 					</div>
 					<div className="flex items-center gap-2">
 						<button
 							onClick={() => setActiveTab("generate")}
-							className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
-								activeTab === "generate"
-									? "bg-purple-500 text-white"
-									: "bg-gray-100 text-gray-700 hover:bg-gray-200"
+							className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-colors ${
+								activeTab === "generate" ? "bg-purple-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
 							}`}
 						>
-							<Image className="w-4 h-4" />
+							<Image className="h-4 w-4" />
 							生成图片
 						</button>
 						<button
 							onClick={() => setActiveTab("gallery")}
-							className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 relative ${
-								activeTab === "gallery"
-									? "bg-purple-500 text-white"
-									: "bg-gray-100 text-gray-700 hover:bg-gray-200"
+							className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-colors ${
+								activeTab === "gallery" ? "bg-purple-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
 							}`}
 						>
-							<History className="w-4 h-4" />
+							<History className="h-4 w-4" />
 							历史记录
 							{images.length > 0 && (
-								<span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+								<span className="-top-1 -right-1 absolute flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white text-xs">
 									{images.length}
 								</span>
 							)}
@@ -105,18 +95,11 @@ export default function AIImagePage() {
 				</div>
 
 				{/* 主要内容区域 */}
-				<div className="flex-1 min-h-0 overflow-hidden">
+				<div className="min-h-0 flex-1 overflow-hidden">
 					{activeTab === "generate" ? (
-						<ImageGenerator
-							onImageGenerated={handleImageGenerated}
-							onImageSelect={handleImageSelect}
-						/>
+						<ImageGenerator onImageGenerated={handleImageGenerated} onImageSelect={handleImageSelect} />
 					) : (
-						<ImageGallery
-							images={images}
-							onImageSelect={handleImageSelect}
-							onImageUpdate={handleImageUpdate}
-						/>
+						<ImageGallery images={images} onImageSelect={handleImageSelect} onImageUpdate={handleImageUpdate} />
 					)}
 				</div>
 

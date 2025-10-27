@@ -19,9 +19,6 @@ export async function POST(request: NextRequest) {
 		});
 	} catch (error) {
 		console.error("生成二维码失败:", error);
-		return NextResponse.json(
-			{ success: false, message: "生成二维码失败" },
-			{ status: 500 },
-		);
+		return NextResponse.json({ success: false, message: "生成二维码失败" }, { status: 500 });
 	}
 }

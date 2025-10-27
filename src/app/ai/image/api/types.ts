@@ -110,6 +110,4 @@ export interface ModelConfig {
 }
 
 // 生成进度回调类型
-export interface ProgressCallback {
-	(progress: number, status: string): void;
-}
+export type ProgressCallback = (progress: number, status: string) => void;

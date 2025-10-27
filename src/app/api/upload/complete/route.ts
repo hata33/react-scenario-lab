@@ -3,20 +3,15 @@ import { type NextRequest, NextResponse } from "next/server";
 import { join } from "path";
 
 // 配置上传目录
-const UPLOAD_BASE_DIR =
-	process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
-const TEMP_BASE_DIR =
-	process.env.TEMP_BASE_DIR || join(process.cwd(), "..", "temp");
+const UPLOAD_BASE_DIR = process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
+const TEMP_BASE_DIR = process.env.TEMP_BASE_DIR || join(process.cwd(), "..", "temp");
 
 export async function POST(request: NextRequest) {
 	try {
 		const { fileHash, fileName, fileSize } = await request.json();
 
 		if (!fileHash || !fileName || !fileSize) {
-			return NextResponse.json(
-				{ success: false, message: "缺少必要参数" },
-				{ status: 400 },
-			);
+			return NextResponse.json({ success: false, message: "缺少必要参数" }, { status: 400 });
 		}
 
 		const tempDir = join(TEMP_BASE_DIR, fileHash);
@@ -76,9 +71,6 @@ export async function POST(request: NextRequest) {
 		});
 	} catch (error) {
 		console.error("完成上传失败:", error);
-		return NextResponse.json(
-			{ success: false, message: "完成上传失败" },
-			{ status: 500 },
-		);
+		return NextResponse.json({ success: false, message: "完成上传失败" }, { status: 500 });
 	}
 }

@@ -1,25 +1,22 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { Menu, Send, Bot, User, Square } from "lucide-react";
-import MarkdownMessage from "./MarkdownMessage";
-import ChatSidebar from "./ChatSidebar";
+import { Bot, Menu, Send, Square, User } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useChatHistory } from "../hooks/useChatHistory";
 import { useStreamResponse } from "../hooks/useStreamResponse";
+import ChatSidebar from "./ChatSidebar";
+import MarkdownMessage from "./MarkdownMessage";
 
 export default function ChatInterface() {
 	const [inputValue, setInputValue] = useState("");
 	const [isTyping, setIsTyping] = useState(false);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
-	const [currentStreamingId, setCurrentStreamingId] = useState<string | null>(
-		null,
-	);
+	const [currentStreamingId, setCurrentStreamingId] = useState<string | null>(null);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
 	const { currentHistory, createHistory, addMessage } = useChatHistory();
 
-	const { streamingMessage, isStreaming, startStream, stopStream } =
-		useStreamResponse();
+	const { streamingMessage, isStreaming, startStream, stopStream } = useStreamResponse();
 
 	// 自动滚动到底部
 	useEffect(() => {
@@ -189,101 +186,70 @@ export default WelcomeMessage;
 	};
 
 	return (
-		<div className="flex h-full bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+		<div className="flex h-full overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md">
 			{/* 侧边栏 */}
 			<ChatSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
 			{/* 主聊天区域 */}
-			<div className="flex-1 flex flex-col">
+			<div className="flex flex-1 flex-col">
 				{/* 头部 */}
-				<div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
+				<div className="flex items-center justify-between border-gray-200 border-b bg-gray-50 p-4">
 					<div className="flex items-center gap-3">
 						<button
 							onClick={() => setSidebarOpen(true)}
-							className="p-2 hover:bg-gray-200 rounded-lg transition-colors lg:hidden"
+							className="rounded-lg p-2 transition-colors hover:bg-gray-200 lg:hidden"
 						>
-							<Menu className="w-5 h-5" />
+							<Menu className="h-5 w-5" />
 						</button>
 						<div>
-							<h2 className="font-semibold text-gray-800">
-								{currentHistory?.title || "AI 对话"}
-							</h2>
-							<p className="text-sm text-gray-500">
-								{currentHistory?.messages.length || 0} 条消息
-							</p>
+							<h2 className="font-semibold text-gray-800">{currentHistory?.title || "AI 对话"}</h2>
+							<p className="text-gray-500 text-sm">{currentHistory?.messages.length || 0} 条消息</p>
 						</div>
 					</div>
 					<button
 						onClick={() => createHistory()}
-						className="px-3 py-1.5 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-colors"
+						className="rounded-lg bg-blue-500 px-3 py-1.5 text-sm text-white transition-colors hover:bg-blue-600"
 					>
 						新建对话
 					</button>
 				</div>
 
 				{/* 消息列表 */}
-				<div className="flex-1 overflow-y-auto p-4 space-y-4">
+				<div className="flex-1 space-y-4 overflow-y-auto p-4">
 					{currentHistory?.messages.length === 0 ? (
-						<div className="text-center py-12">
-							<Bot className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-							<h3 className="text-lg font-medium text-gray-600 mb-2">
-								开始新的对话
-							</h3>
+						<div className="py-12 text-center">
+							<Bot className="mx-auto mb-4 h-16 w-16 text-gray-300" />
+							<h3 className="mb-2 font-medium text-gray-600 text-lg">开始新的对话</h3>
 							<p className="text-gray-500">输入消息开始与 AI 助手对话</p>
-							<div className="mt-6 text-sm text-gray-400">
+							<div className="mt-6 text-gray-400 text-sm">
 								<p>试试输入：</p>
-								<div className="flex flex-wrap gap-2 justify-center mt-2">
-									<span className="px-2 py-1 bg-gray-100 rounded">"代码"</span>
-									<span className="px-2 py-1 bg-gray-100 rounded">"表格"</span>
-									<span className="px-2 py-1 bg-gray-100 rounded">"列表"</span>
+								<div className="mt-2 flex flex-wrap justify-center gap-2">
+									<span className="rounded bg-gray-100 px-2 py-1">"代码"</span>
+									<span className="rounded bg-gray-100 px-2 py-1">"表格"</span>
+									<span className="rounded bg-gray-100 px-2 py-1">"列表"</span>
 								</div>
 							</div>
 						</div>
 					) : (
 						currentHistory?.messages.map((message) => (
-							<div
-								key={message.id}
-								className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
-							>
+							<div key={message.id} className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}>
 								<div
-									className={`flex items-start gap-3 max-w-[80%] ${
-										message.type === "user" ? "flex-row-reverse" : ""
-									}`}
+									className={`flex max-w-[80%] items-start gap-3 ${message.type === "user" ? "flex-row-reverse" : ""}`}
 								>
 									<div
-										className={`
-										w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
-										${
-											message.type === "user"
-												? "bg-blue-500 text-white ml-2"
-												: "bg-gray-200 text-gray-600 mr-2"
-										}
+										className={`flex h-8 w-8 items-center justify-center rounded-full flex-shrink-0${message.type === "user" ? "ml-2 bg-blue-500 text-white" : "mr-2 bg-gray-200 text-gray-600"}
 									`}
 									>
-										{message.type === "user" ? (
-											<User className="w-4 h-4" />
-										) : (
-											<Bot className="w-4 h-4" />
-										)}
+										{message.type === "user" ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
 									</div>
 									<div
-										className={`
-										rounded-lg px-4 py-2 ${
-											message.type === "user"
-												? "bg-blue-500 text-white"
-												: "bg-gray-50 border border-gray-200"
-										}
+										className={`rounded-lg px-4 py-2 ${message.type === "user" ? "bg-blue-500 text-white" : "border border-gray-200 bg-gray-50"}
 									`}
 									>
 										{message.type === "assistant" ? (
-											<MarkdownMessage
-												content={message.content}
-												className="text-gray-800"
-											/>
+											<MarkdownMessage content={message.content} className="text-gray-800" />
 										) : (
-											<p className="text-sm whitespace-pre-wrap">
-												{message.content}
-											</p>
+											<p className="whitespace-pre-wrap text-sm">{message.content}</p>
 										)}
 									</div>
 								</div>
@@ -294,26 +260,23 @@ export default WelcomeMessage;
 					{/* 流式输出消息 */}
 					{isStreaming && (
 						<div className="flex justify-start">
-							<div className="flex items-start gap-3 max-w-[80%]">
-								<div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 mr-2 flex items-center justify-center">
-									<Bot className="w-4 h-4" />
+							<div className="flex max-w-[80%] items-start gap-3">
+								<div className="mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-600">
+									<Bot className="h-4 w-4" />
 								</div>
-								<div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 max-w-[80%]">
-									<MarkdownMessage
-										content={streamingMessage}
-										className="text-gray-800"
-									/>
-									<div className="flex space-x-1 mt-2">
+								<div className="max-w-[80%] rounded-lg border border-gray-200 bg-gray-50 px-4 py-2">
+									<MarkdownMessage content={streamingMessage} className="text-gray-800" />
+									<div className="mt-2 flex space-x-1">
 										<div
-											className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+											className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
 											style={{ animationDelay: "0ms" }}
 										></div>
 										<div
-											className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+											className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
 											style={{ animationDelay: "150ms" }}
 										></div>
 										<div
-											className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+											className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
 											style={{ animationDelay: "300ms" }}
 										></div>
 									</div>
@@ -321,10 +284,10 @@ export default WelcomeMessage;
 								{isStreaming && (
 									<button
 										onClick={handleStopStream}
-										className="p-1 hover:bg-red-100 text-red-600 rounded transition-colors"
+										className="rounded p-1 text-red-600 transition-colors hover:bg-red-100"
 										title="停止生成"
 									>
-										<Square className="w-4 h-4" />
+										<Square className="h-4 w-4" />
 									</button>
 								)}
 							</div>
@@ -334,22 +297,22 @@ export default WelcomeMessage;
 					{/* 正在输入指示器（非流式时） */}
 					{isTyping && !isStreaming && (
 						<div className="flex justify-start">
-							<div className="flex items-start gap-3 max-w-[80%]">
-								<div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 mr-2 flex items-center justify-center">
-									<Bot className="w-4 h-4" />
+							<div className="flex max-w-[80%] items-start gap-3">
+								<div className="mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-600">
+									<Bot className="h-4 w-4" />
 								</div>
-								<div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2">
+								<div className="rounded-lg border border-gray-200 bg-gray-50 px-4 py-2">
 									<div className="flex space-x-1">
 										<div
-											className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+											className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
 											style={{ animationDelay: "0ms" }}
 										></div>
 										<div
-											className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+											className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
 											style={{ animationDelay: "150ms" }}
 										></div>
 										<div
-											className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+											className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
 											style={{ animationDelay: "300ms" }}
 										></div>
 									</div>
@@ -362,41 +325,37 @@ export default WelcomeMessage;
 				</div>
 
 				{/* 输入区域 */}
-				<div className="border-t border-gray-200 p-4 bg-gray-50">
+				<div className="border-gray-200 border-t bg-gray-50 p-4">
 					<div className="flex gap-2">
 						<input
 							type="text"
 							value={inputValue}
 							onChange={(e) => setInputValue(e.target.value)}
 							onKeyPress={handleKeyPress}
-							placeholder={
-								isStreaming
-									? "AI 正在回复中..."
-									: "输入您的问题... (Shift+Enter 换行)"
-							}
+							placeholder={isStreaming ? "AI 正在回复中..." : "输入您的问题... (Shift+Enter 换行)"}
 							disabled={isTyping || isStreaming}
-							className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+							className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:cursor-not-allowed disabled:bg-gray-100"
 						/>
 						{isStreaming ? (
 							<button
 								onClick={handleStopStream}
-								className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 flex items-center gap-2"
+								className="flex items-center gap-2 rounded-lg bg-red-500 px-4 py-2 text-white transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
 							>
-								<Square className="w-4 h-4" />
+								<Square className="h-4 w-4" />
 								停止
 							</button>
 						) : (
 							<button
 								onClick={handleSendMessage}
 								disabled={!inputValue.trim() || isTyping}
-								className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center gap-2"
+								className="flex items-center gap-2 rounded-lg bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-300"
 							>
-								<Send className="w-4 h-4" />
+								<Send className="h-4 w-4" />
 								发送
 							</button>
 						)}
 					</div>
-					<div className="mt-2 text-xs text-gray-500 text-center">
+					<div className="mt-2 text-center text-gray-500 text-xs">
 						支持 Markdown 格式 • 代码高亮显示 • 流式输出 • 历史记录自动保存
 						{isStreaming && " • 正在流式生成中..."}
 					</div>

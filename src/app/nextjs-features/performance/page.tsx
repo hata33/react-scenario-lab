@@ -1,18 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-	ArrowLeft,
-	Zap,
-	Image as ImageIcon,
-	Type,
-	Code,
-	Monitor,
-	CheckCircle,
-} from "lucide-react";
-import Layout from "@/components/Layout";
-import Link from "next/link";
+import { ArrowLeft, CheckCircle, Code, Image as ImageIcon, Monitor, Type, Zap } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import type React from "react";
+import { useState } from "react";
+import Layout from "@/components/Layout";
 
 interface PerformanceExample {
 	id: string;
@@ -65,7 +58,7 @@ function OptimizedImage() {
 			bundle: "减少 20%",
 		},
 		demo: (
-			<div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
+			<div className="relative h-48 w-full overflow-hidden rounded-lg bg-gray-100">
 				<Image
 					src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
 					alt="Performance demo"
@@ -309,8 +302,7 @@ function usePerformanceMonitoring() {
 ];
 
 export default function PerformanceFeaturePage() {
-	const [selectedExample, setSelectedExample] =
-		useState<PerformanceExample | null>(null);
+	const [selectedExample, setSelectedExample] = useState<PerformanceExample | null>(null);
 
 	const getCategoryColor = (category: PerformanceExample["category"]) => {
 		switch (category) {
@@ -373,24 +365,20 @@ export default function PerformanceFeaturePage() {
 			<div className="min-h-screen bg-gray-50">
 				{/* 头部 */}
 				<div className="bg-white shadow-sm">
-					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 						<div className="flex items-center space-x-4">
 							<Link
 								href="/nextjs-features"
-								className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+								className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
 							>
-								<ArrowLeft className="w-5 h-5 mr-2" />
+								<ArrowLeft className="mr-2 h-5 w-5" />
 								返回特性列表
 							</Link>
 							<div className="flex items-center space-x-3">
-								<Zap className="w-8 h-8 text-blue-600" />
+								<Zap className="h-8 w-8 text-blue-600" />
 								<div>
-									<h1 className="text-3xl font-bold text-gray-900">
-										性能优化特性
-									</h1>
-									<p className="text-gray-600">
-										Next.js 内置性能优化工具和最佳实践
-									</p>
+									<h1 className="font-bold text-3xl text-gray-900">性能优化特性</h1>
+									<p className="text-gray-600">Next.js 内置性能优化工具和最佳实践</p>
 								</div>
 							</div>
 						</div>
@@ -398,102 +386,94 @@ export default function PerformanceFeaturePage() {
 				</div>
 
 				{/* 性能指标概览 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-						<h2 className="text-xl font-semibold text-gray-900 mb-6">
-							核心 Web Vitals
-						</h2>
-						<div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-							<div className="text-center p-4 bg-blue-50 rounded-lg">
-								<Monitor className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-blue-900 mb-1">LCP</h3>
-								<p className="text-sm text-blue-700 mb-2">最大内容绘制</p>
-								<p className="text-xs text-blue-600">目标: &lt; 2.5s</p>
-								<p className="text-lg font-bold text-blue-900">优化 40%</p>
+				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+						<h2 className="mb-6 font-semibold text-gray-900 text-xl">核心 Web Vitals</h2>
+						<div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+							<div className="rounded-lg bg-blue-50 p-4 text-center">
+								<Monitor className="mx-auto mb-2 h-8 w-8 text-blue-600" />
+								<h3 className="mb-1 font-semibold text-blue-900">LCP</h3>
+								<p className="mb-2 text-blue-700 text-sm">最大内容绘制</p>
+								<p className="text-blue-600 text-xs">目标: &lt; 2.5s</p>
+								<p className="font-bold text-blue-900 text-lg">优化 40%</p>
 							</div>
-							<div className="text-center p-4 bg-green-50 rounded-lg">
-								<Zap className="w-8 h-8 text-green-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-green-900 mb-1">FID</h3>
-								<p className="text-sm text-green-700 mb-2">首次输入延迟</p>
-								<p className="text-xs text-green-600">目标: &lt; 100ms</p>
-								<p className="text-lg font-bold text-green-900">优化 35%</p>
+							<div className="rounded-lg bg-green-50 p-4 text-center">
+								<Zap className="mx-auto mb-2 h-8 w-8 text-green-600" />
+								<h3 className="mb-1 font-semibold text-green-900">FID</h3>
+								<p className="mb-2 text-green-700 text-sm">首次输入延迟</p>
+								<p className="text-green-600 text-xs">目标: &lt; 100ms</p>
+								<p className="font-bold text-green-900 text-lg">优化 35%</p>
 							</div>
-							<div className="text-center p-4 bg-yellow-50 rounded-lg">
-								<ImageIcon className="w-8 h-8 text-yellow-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-yellow-900 mb-1">CLS</h3>
-								<p className="text-sm text-yellow-700 mb-2">累积布局偏移</p>
+							<div className="rounded-lg bg-yellow-50 p-4 text-center">
+								<ImageIcon className="mx-auto mb-2 h-8 w-8 text-yellow-600" />
+								<h3 className="mb-1 font-semibold text-yellow-900">CLS</h3>
+								<p className="mb-2 text-sm text-yellow-700">累积布局偏移</p>
 								<p className="text-xs text-yellow-600">目标: &lt; 0.1</p>
-								<p className="text-lg font-bold text-yellow-900">减少 60%</p>
+								<p className="font-bold text-lg text-yellow-900">减少 60%</p>
 							</div>
-							<div className="text-center p-4 bg-purple-50 rounded-lg">
-								<Code className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-purple-900 mb-1">
-									Bundle Size
-								</h3>
-								<p className="text-sm text-purple-700 mb-2">包大小</p>
-								<p className="text-xs text-purple-600">目标: 最小化</p>
-								<p className="text-lg font-bold text-purple-900">减少 45%</p>
+							<div className="rounded-lg bg-purple-50 p-4 text-center">
+								<Code className="mx-auto mb-2 h-8 w-8 text-purple-600" />
+								<h3 className="mb-1 font-semibold text-purple-900">Bundle Size</h3>
+								<p className="mb-2 text-purple-700 text-sm">包大小</p>
+								<p className="text-purple-600 text-xs">目标: 最小化</p>
+								<p className="font-bold text-lg text-purple-900">减少 45%</p>
 							</div>
 						</div>
 					</div>
 				</div>
 
 				{/* 优化示例 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-					<h2 className="text-2xl font-bold text-gray-900 mb-6">优化示例</h2>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+					<h2 className="mb-6 font-bold text-2xl text-gray-900">优化示例</h2>
+					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 						{/* 左侧：示例列表 */}
 						<div className="space-y-4">
 							{performanceExamples.map((example) => (
 								<div
 									key={example.id}
-									className={`bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all cursor-pointer ${
-										selectedExample?.id === example.id
-											? "ring-2 ring-blue-500"
-											: ""
+									className={`cursor-pointer rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md ${
+										selectedExample?.id === example.id ? "ring-2 ring-blue-500" : ""
 									}`}
 									onClick={() => setSelectedExample(example)}
 								>
 									<div className="p-6">
-										<div className="flex items-start justify-between mb-3">
+										<div className="mb-3 flex items-start justify-between">
 											<div>
-												<h3 className="text-lg font-semibold text-gray-900 mb-1">
-													{example.title}
-												</h3>
-												<div className="flex items-center space-x-2 mb-2">
+												<h3 className="mb-1 font-semibold text-gray-900 text-lg">{example.title}</h3>
+												<div className="mb-2 flex items-center space-x-2">
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(example.category)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getCategoryColor(example.category)}`}
 													>
 														{example.category}
 													</span>
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(example.difficulty)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getDifficultyColor(example.difficulty)}`}
 													>
 														{example.difficulty}
 													</span>
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(example.status)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getStatusColor(example.status)}`}
 													>
 														{getStatusText(example.status)}
 													</span>
 												</div>
 											</div>
 										</div>
-										<p className="text-gray-600 mb-4">{example.description}</p>
-										<div className="grid grid-cols-4 gap-2 text-xs text-gray-500">
-											<div className="text-center p-1 bg-gray-50 rounded">
+										<p className="mb-4 text-gray-600">{example.description}</p>
+										<div className="grid grid-cols-4 gap-2 text-gray-500 text-xs">
+											<div className="rounded bg-gray-50 p-1 text-center">
 												<div className="font-medium">LCP</div>
 												<div>{example.metrics.lcp}</div>
 											</div>
-											<div className="text-center p-1 bg-gray-50 rounded">
+											<div className="rounded bg-gray-50 p-1 text-center">
 												<div className="font-medium">FID</div>
 												<div>{example.metrics.fid}</div>
 											</div>
-											<div className="text-center p-1 bg-gray-50 rounded">
+											<div className="rounded bg-gray-50 p-1 text-center">
 												<div className="font-medium">CLS</div>
 												<div>{example.metrics.cls}</div>
 											</div>
-											<div className="text-center p-1 bg-gray-50 rounded">
+											<div className="rounded bg-gray-50 p-1 text-center">
 												<div className="font-medium">Bundle</div>
 												<div>{example.metrics.bundle}</div>
 											</div>
@@ -506,90 +486,64 @@ export default function PerformanceFeaturePage() {
 						{/* 右侧：示例详情 */}
 						<div className="lg:sticky lg:top-6">
 							{selectedExample ? (
-								<div className="bg-white rounded-lg shadow-sm border border-gray-200">
-									<div className="p-6 border-b border-gray-200">
-										<div className="flex items-center justify-between mb-4">
-											<h3 className="text-xl font-semibold text-gray-900">
-												{selectedExample.title}
-											</h3>
+								<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+									<div className="border-gray-200 border-b p-6">
+										<div className="mb-4 flex items-center justify-between">
+											<h3 className="font-semibold text-gray-900 text-xl">{selectedExample.title}</h3>
 											<div className="flex items-center space-x-2">
 												<span
-													className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(selectedExample.category)}`}
+													className={`inline-flex items-center rounded-full px-3 py-1 font-medium text-sm ${getCategoryColor(selectedExample.category)}`}
 												>
 													{selectedExample.category}
 												</span>
 											</div>
 										</div>
-										<p className="text-gray-600 mb-4">
-											{selectedExample.description}
-										</p>
+										<p className="mb-4 text-gray-600">{selectedExample.description}</p>
 
 										{/* 性能提升指标 */}
-										<div className="grid grid-cols-4 gap-2 mb-4">
-											<div className="text-center p-2 bg-blue-50 rounded">
-												<div className="text-xs text-blue-600 font-medium">
-													LCP
-												</div>
-												<div className="text-sm font-bold text-blue-900">
-													{selectedExample.metrics.lcp}
-												</div>
+										<div className="mb-4 grid grid-cols-4 gap-2">
+											<div className="rounded bg-blue-50 p-2 text-center">
+												<div className="font-medium text-blue-600 text-xs">LCP</div>
+												<div className="font-bold text-blue-900 text-sm">{selectedExample.metrics.lcp}</div>
 											</div>
-											<div className="text-center p-2 bg-green-50 rounded">
-												<div className="text-xs text-green-600 font-medium">
-													FID
-												</div>
-												<div className="text-sm font-bold text-green-900">
-													{selectedExample.metrics.fid}
-												</div>
+											<div className="rounded bg-green-50 p-2 text-center">
+												<div className="font-medium text-green-600 text-xs">FID</div>
+												<div className="font-bold text-green-900 text-sm">{selectedExample.metrics.fid}</div>
 											</div>
-											<div className="text-center p-2 bg-yellow-50 rounded">
-												<div className="text-xs text-yellow-600 font-medium">
-													CLS
-												</div>
-												<div className="text-sm font-bold text-yellow-900">
-													{selectedExample.metrics.cls}
-												</div>
+											<div className="rounded bg-yellow-50 p-2 text-center">
+												<div className="font-medium text-xs text-yellow-600">CLS</div>
+												<div className="font-bold text-sm text-yellow-900">{selectedExample.metrics.cls}</div>
 											</div>
-											<div className="text-center p-2 bg-purple-50 rounded">
-												<div className="text-xs text-purple-600 font-medium">
-													Bundle
-												</div>
-												<div className="text-sm font-bold text-purple-900">
-													{selectedExample.metrics.bundle}
-												</div>
+											<div className="rounded bg-purple-50 p-2 text-center">
+												<div className="font-medium text-purple-600 text-xs">Bundle</div>
+												<div className="font-bold text-purple-900 text-sm">{selectedExample.metrics.bundle}</div>
 											</div>
 										</div>
 
 										{/* 演示区域 */}
 										{selectedExample.demo && (
 											<div className="mb-4">
-												<h4 className="text-sm font-medium text-gray-900 mb-2">
-													演示
-												</h4>
+												<h4 className="mb-2 font-medium text-gray-900 text-sm">演示</h4>
 												{selectedExample.demo}
 											</div>
 										)}
 									</div>
 
 									<div className="p-6">
-										<h4 className="font-semibold text-gray-900 mb-3">
-											代码示例
-										</h4>
-										<div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+										<h4 className="mb-3 font-semibold text-gray-900">代码示例</h4>
+										<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
 											<pre className="text-sm">
 												<code>{selectedExample.codeSnippet}</code>
 											</pre>
 										</div>
 
 										<div className="mt-6">
-											<h5 className="font-medium text-gray-900 mb-2">
-												主要优势
-											</h5>
+											<h5 className="mb-2 font-medium text-gray-900">主要优势</h5>
 											<div className="flex flex-wrap gap-2">
 												{selectedExample.benefits.map((benefit, index) => (
 													<span
 														key={index}
-														className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-700"
+														className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm"
 													>
 														{benefit}
 													</span>
@@ -599,23 +553,19 @@ export default function PerformanceFeaturePage() {
 									</div>
 
 									{selectedExample.status === "completed" && (
-										<div className="p-6 bg-green-50 border-t border-green-200">
+										<div className="border-green-200 border-t bg-green-50 p-6">
 											<div className="flex items-center space-x-2 text-green-800">
-												<CheckCircle className="w-5 h-5" />
+												<CheckCircle className="h-5 w-5" />
 												<span className="font-medium">该优化已完成并可用</span>
 											</div>
 										</div>
 									)}
 								</div>
 							) : (
-								<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-									<Zap className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-									<h3 className="text-lg font-semibold text-gray-900 mb-2">
-										选择一个优化方案
-									</h3>
-									<p className="text-gray-600">
-										点击左侧的优化示例查看详细信息和代码示例
-									</p>
+								<div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow-sm">
+									<Zap className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+									<h3 className="mb-2 font-semibold text-gray-900 text-lg">选择一个优化方案</h3>
+									<p className="text-gray-600">点击左侧的优化示例查看详细信息和代码示例</p>
 								</div>
 							)}
 						</div>

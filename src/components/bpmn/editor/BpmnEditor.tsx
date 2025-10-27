@@ -170,12 +170,9 @@ export default function BpmnEditor({
 				}
 			`}</style>
 			<div className={`bpmn-editor relative ${className}`} style={style}>
-				<div
-					ref={containerRef}
-					style={{ width: "100%", height: "100%", minHeight: "600px" }}
-				/>
+				<div ref={containerRef} style={{ width: "100%", height: "100%", minHeight: "600px" }} />
 				{!isLoaded && (
-					<div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 z-10">
+					<div className="absolute inset-0 z-10 flex items-center justify-center bg-white bg-opacity-90">
 						<div className="text-gray-500 text-lg">正在加载 BPMN 编辑器...</div>
 					</div>
 				)}

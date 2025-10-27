@@ -18,9 +18,7 @@ interface QRCodeData {
 
 export default function QRCodeLogin() {
 	const [qrCodeData, setQrCodeData] = useState<QRCodeData | null>(null);
-	const [status, setStatus] = useState<
-		"waiting" | "scanned" | "confirmed" | "expired"
-	>("waiting");
+	const [status, setStatus] = useState<"waiting" | "scanned" | "confirmed" | "expired">("waiting");
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [timeLeft, setTimeLeft] = useState<number>(0);
@@ -221,11 +219,7 @@ export default function QRCodeLogin() {
 					</div>
 				) : qrCodeData ? (
 					<div className="relative">
-						<img
-							src={qrCodeData.qrCodeUrl}
-							alt="登录二维码"
-							className="h-48 w-48 rounded border border-gray-200"
-						/>
+						<img src={qrCodeData.qrCodeUrl} alt="登录二维码" className="h-48 w-48 rounded border border-gray-200" />
 						{status === "scanned" && (
 							<div className="absolute inset-0 flex items-center justify-center rounded bg-black bg-opacity-50">
 								<div className="text-center text-white">
@@ -255,9 +249,7 @@ export default function QRCodeLogin() {
 					</div>
 
 					{status === "waiting" && timeLeft > 0 && (
-						<div className="text-gray-500 text-xs">
-							二维码有效期: {formatTime(timeLeft)}
-						</div>
+						<div className="text-gray-500 text-xs">二维码有效期: {formatTime(timeLeft)}</div>
 					)}
 				</div>
 
@@ -265,10 +257,7 @@ export default function QRCodeLogin() {
 				{error && (
 					<div className="text-center text-red-500 text-sm">
 						{error}
-						<button
-							onClick={refreshQRCode}
-							className="ml-2 text-blue-500 underline hover:text-blue-700"
-						>
+						<button onClick={refreshQRCode} className="ml-2 text-blue-500 underline hover:text-blue-700">
 							重试
 						</button>
 					</div>

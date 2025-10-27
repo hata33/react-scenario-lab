@@ -101,11 +101,7 @@ export async function POST(request: NextRequest) {
 }
 
 // 生成简单签名（实际应用中应该使用HMAC）
-const generateSignature = (
-	sceneId: string,
-	timestamp: string,
-	nonce: string,
-): string => {
+const generateSignature = (sceneId: string, timestamp: string, nonce: string): string => {
 	const data = `${sceneId}:${timestamp}:${nonce}`;
 	const crypto = require("crypto");
 	return crypto

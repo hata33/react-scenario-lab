@@ -15,9 +15,7 @@ export default function PieChart() {
 						strokeDasharray="25 75"
 					></circle>
 				</svg>
-				<div className="absolute inset-0 flex items-center justify-center text-lg">
-					25%
-				</div>
+				<div className="absolute inset-0 flex items-center justify-center text-lg">25%</div>
 			</div>
 		</div>
 	);

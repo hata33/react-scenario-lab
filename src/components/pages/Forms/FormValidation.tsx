@@ -20,10 +20,7 @@ export default function FormValidation() {
 					onChange={(e) => setEmail(e.target.value)}
 				/>
 				{error && <div className="mt-1 text-red-600 text-sm">{error}</div>}
-				<button
-					className="mt-3 rounded bg-gray-900 px-3 py-2 text-white"
-					onClick={submit}
-				>
+				<button className="mt-3 rounded bg-gray-900 px-3 py-2 text-white" onClick={submit}>
 					提交
 				</button>
 			</div>

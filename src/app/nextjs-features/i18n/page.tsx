@@ -1,28 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-	ArrowLeft,
-	Globe,
-	CheckCircle,
-	Languages,
-	Settings,
-	BookOpen,
-	Code,
-} from "lucide-react";
+import { ArrowLeft, BookOpen, CheckCircle, Code, Globe, Languages, Settings } from "lucide-react";
 import Link from "next/link";
+import React, { useState } from "react";
 import Layout from "@/components/Layout";
 
 interface I18nExample {
 	id: string;
 	title: string;
 	description: string;
-	framework:
-		| "next-intl"
-		| "react-i18next"
-		| "next-i18next"
-		| "Custom"
-		| "FormatJS";
+	framework: "next-intl" | "react-i18next" | "next-i18next" | "Custom" | "FormatJS";
 	difficulty: "初级" | "中级" | "高级";
 	status: "completed" | "in-progress" | "planned";
 	codeSnippet: string;
@@ -227,12 +214,7 @@ function UserProfile({ name, messageCount }: {
     </div>
   );
 }`,
-		benefits: [
-			"App Router 原生支持",
-			"TypeScript 优秀",
-			"SEO 友好",
-			"性能优秀",
-		],
+		benefits: ["App Router 原生支持", "TypeScript 优秀", "SEO 友好", "性能优秀"],
 		features: ["自动路由本地化", "复数形式支持", "动态导入", "服务端渲染"],
 		performance: {
 			bundleSize: "15KB",
@@ -912,9 +894,7 @@ function WelcomeMessage({ name, count }: { name: string; count: number }) {
 ];
 
 export default function I18nFeaturePage() {
-	const [selectedExample, setSelectedExample] = useState<I18nExample | null>(
-		null,
-	);
+	const [selectedExample, setSelectedExample] = useState<I18nExample | null>(null);
 
 	const getFrameworkColor = (framework: I18nExample["framework"]) => {
 		switch (framework) {
@@ -977,25 +957,20 @@ export default function I18nFeaturePage() {
 			<div className="min-h-screen bg-gray-50">
 				{/* 头部 */}
 				<div className="bg-white shadow-sm">
-					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 						<div className="flex items-center space-x-4">
 							<Link
 								href="/nextjs-features"
-								className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+								className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
 							>
-								<ArrowLeft className="w-5 h-5 mr-2" />
+								<ArrowLeft className="mr-2 h-5 w-5" />
 								返回特性列表
 							</Link>
 							<div className="flex items-center space-x-3">
-								<Globe className="w-8 h-8 text-blue-600" />
+								<Globe className="h-8 w-8 text-blue-600" />
 								<div>
-									<h1 className="text-3xl font-bold text-gray-900">
-										国际化特性
-									</h1>
-									<p className="text-gray-600">
-										Next.js
-										完整国际化方案：next-intl、react-i18next、自定义解决方案
-									</p>
+									<h1 className="font-bold text-3xl text-gray-900">国际化特性</h1>
+									<p className="text-gray-600">Next.js 完整国际化方案：next-intl、react-i18next、自定义解决方案</p>
 								</div>
 							</div>
 						</div>
@@ -1003,71 +978,65 @@ export default function I18nFeaturePage() {
 				</div>
 
 				{/* 国际化方案对比 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-						<h2 className="text-xl font-semibold text-gray-900 mb-6">
-							国际化方案对比
-						</h2>
-						<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-							<div className="text-center p-4 bg-blue-50 rounded-lg">
-								<div className="flex items-center justify-center mb-2">
-									<Languages className="w-6 h-6 text-blue-600" />
+				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+						<h2 className="mb-6 font-semibold text-gray-900 text-xl">国际化方案对比</h2>
+						<div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
+							<div className="rounded-lg bg-blue-50 p-4 text-center">
+								<div className="mb-2 flex items-center justify-center">
+									<Languages className="h-6 w-6 text-blue-600" />
 								</div>
-								<h3 className="font-semibold text-blue-900 mb-2">next-intl</h3>
-								<p className="text-sm text-blue-700">App Router</p>
-								<div className="mt-2 text-xs text-blue-600">
+								<h3 className="mb-2 font-semibold text-blue-900">next-intl</h3>
+								<p className="text-blue-700 text-sm">App Router</p>
+								<div className="mt-2 text-blue-600 text-xs">
 									<div>🚀 原生支持</div>
 									<div>📱 SEO 优秀</div>
 									<div>⚡ 性能最佳</div>
 								</div>
 							</div>
-							<div className="text-center p-4 bg-green-50 rounded-lg">
-								<div className="flex items-center justify-center mb-2">
-									<BookOpen className="w-6 h-6 text-green-600" />
+							<div className="rounded-lg bg-green-50 p-4 text-center">
+								<div className="mb-2 flex items-center justify-center">
+									<BookOpen className="h-6 w-6 text-green-600" />
 								</div>
-								<h3 className="font-semibold text-green-900 mb-2">
-									react-i18next
-								</h3>
-								<p className="text-sm text-green-700">通用方案</p>
-								<div className="mt-2 text-xs text-green-600">
+								<h3 className="mb-2 font-semibold text-green-900">react-i18next</h3>
+								<p className="text-green-700 text-sm">通用方案</p>
+								<div className="mt-2 text-green-600 text-xs">
 									<div>🛠️ 功能丰富</div>
 									<div>🌐 社区成熟</div>
 									<div>🔧 灵活配置</div>
 								</div>
 							</div>
-							<div className="text-center p-4 bg-purple-50 rounded-lg">
-								<div className="flex items-center justify-center mb-2">
-									<Settings className="w-6 h-6 text-purple-600" />
+							<div className="rounded-lg bg-purple-50 p-4 text-center">
+								<div className="mb-2 flex items-center justify-center">
+									<Settings className="h-6 w-6 text-purple-600" />
 								</div>
-								<h3 className="font-semibold text-purple-900 mb-2">
-									next-i18next
-								</h3>
-								<p className="text-sm text-purple-700">Pages Router</p>
-								<div className="mt-2 text-xs text-purple-600">
+								<h3 className="mb-2 font-semibold text-purple-900">next-i18next</h3>
+								<p className="text-purple-700 text-sm">Pages Router</p>
+								<div className="mt-2 text-purple-600 text-xs">
 									<div>📄 SSR 友好</div>
 									<div>🔄 自动路由</div>
 									<div>📊 SEO 优秀</div>
 								</div>
 							</div>
-							<div className="text-center p-4 bg-orange-50 rounded-lg">
-								<div className="flex items-center justify-center mb-2">
-									<Code className="w-6 h-6 text-orange-600" />
+							<div className="rounded-lg bg-orange-50 p-4 text-center">
+								<div className="mb-2 flex items-center justify-center">
+									<Code className="h-6 w-6 text-orange-600" />
 								</div>
-								<h3 className="font-semibold text-orange-900 mb-2">自定义</h3>
-								<p className="text-sm text-orange-700">轻量级</p>
-								<div className="mt-2 text-xs text-orange-600">
+								<h3 className="mb-2 font-semibold text-orange-900">自定义</h3>
+								<p className="text-orange-700 text-sm">轻量级</p>
+								<div className="mt-2 text-orange-600 text-xs">
 									<div>📦 零依赖</div>
 									<div>🎯 完全可控</div>
 									<div>⚡ 性能优秀</div>
 								</div>
 							</div>
-							<div className="text-center p-4 bg-cyan-50 rounded-lg">
-								<div className="flex items-center justify-center mb-2">
-									<Globe className="w-6 h-6 text-cyan-600" />
+							<div className="rounded-lg bg-cyan-50 p-4 text-center">
+								<div className="mb-2 flex items-center justify-center">
+									<Globe className="h-6 w-6 text-cyan-600" />
 								</div>
-								<h3 className="font-semibold text-cyan-900 mb-2">FormatJS</h3>
-								<p className="text-sm text-cyan-700">ICU 标准</p>
-								<div className="mt-2 text-xs text-cyan-600">
+								<h3 className="mb-2 font-semibold text-cyan-900">FormatJS</h3>
+								<p className="text-cyan-700 text-sm">ICU 标准</p>
+								<div className="mt-2 text-cyan-600 text-xs">
 									<div>📐 ICU 标准</div>
 									<div>🎨 强大格式化</div>
 									<div>🔢 复数规则</div>
@@ -1078,54 +1047,46 @@ export default function I18nFeaturePage() {
 				</div>
 
 				{/* 国际化示例 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-					<h2 className="text-2xl font-bold text-gray-900 mb-6">实现示例</h2>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+					<h2 className="mb-6 font-bold text-2xl text-gray-900">实现示例</h2>
+					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 						{/* 左侧：示例列表 */}
 						<div className="space-y-4">
 							{i18nExamples.map((example) => (
 								<div
 									key={example.id}
-									className={`bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all cursor-pointer ${
-										selectedExample?.id === example.id
-											? "ring-2 ring-blue-500"
-											: ""
+									className={`cursor-pointer rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md ${
+										selectedExample?.id === example.id ? "ring-2 ring-blue-500" : ""
 									}`}
 									onClick={() => setSelectedExample(example)}
 								>
 									<div className="p-6">
-										<div className="flex items-start justify-between mb-3">
+										<div className="mb-3 flex items-start justify-between">
 											<div>
-												<h3 className="text-lg font-semibold text-gray-900 mb-1">
-													{example.title}
-												</h3>
-												<div className="flex items-center space-x-2 mb-2">
+												<h3 className="mb-1 font-semibold text-gray-900 text-lg">{example.title}</h3>
+												<div className="mb-2 flex items-center space-x-2">
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getFrameworkColor(
-															example.framework,
-														)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getFrameworkColor(example.framework)}`}
 													>
 														{example.framework}
 													</span>
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getDifficultyColor(
 															example.difficulty,
 														)}`}
 													>
 														{example.difficulty}
 													</span>
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-															example.status,
-														)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getStatusColor(example.status)}`}
 													>
 														{getStatusText(example.status)}
 													</span>
 												</div>
 											</div>
 										</div>
-										<p className="text-gray-600 mb-4">{example.description}</p>
-										<div className="flex items-center justify-between text-sm text-gray-500">
+										<p className="mb-4 text-gray-600">{example.description}</p>
+										<div className="flex items-center justify-between text-gray-500 text-sm">
 											<div className="flex space-x-4">
 												<span>📦 {example.performance.bundleSize}</span>
 												<span>⚡ {example.performance.runtime}</span>
@@ -1140,15 +1101,13 @@ export default function I18nFeaturePage() {
 						{/* 右侧：示例详情 */}
 						<div className="lg:sticky lg:top-6">
 							{selectedExample ? (
-								<div className="bg-white rounded-lg shadow-sm border border-gray-200">
-									<div className="p-6 border-b border-gray-200">
-										<div className="flex items-center justify-between mb-4">
-											<h3 className="text-xl font-semibold text-gray-900">
-												{selectedExample.title}
-											</h3>
+								<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+									<div className="border-gray-200 border-b p-6">
+										<div className="mb-4 flex items-center justify-between">
+											<h3 className="font-semibold text-gray-900 text-xl">{selectedExample.title}</h3>
 											<div className="flex items-center space-x-2">
 												<span
-													className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getFrameworkColor(
+													className={`inline-flex items-center rounded-full px-3 py-1 font-medium text-sm ${getFrameworkColor(
 														selectedExample.framework,
 													)}`}
 												>
@@ -1156,52 +1115,38 @@ export default function I18nFeaturePage() {
 												</span>
 											</div>
 										</div>
-										<p className="text-gray-600 mb-4">
-											{selectedExample.description}
-										</p>
+										<p className="mb-4 text-gray-600">{selectedExample.description}</p>
 										<div className="grid grid-cols-3 gap-4 text-sm">
-											<div className="text-center p-2 bg-gray-50 rounded">
+											<div className="rounded bg-gray-50 p-2 text-center">
 												<div className="font-medium text-gray-900">包体积</div>
-												<div className="text-gray-600">
-													{selectedExample.performance.bundleSize}
-												</div>
+												<div className="text-gray-600">{selectedExample.performance.bundleSize}</div>
 											</div>
-											<div className="text-center p-2 bg-gray-50 rounded">
+											<div className="rounded bg-gray-50 p-2 text-center">
 												<div className="font-medium text-gray-900">运行时</div>
-												<div className="text-gray-600">
-													{selectedExample.performance.runtime}
-												</div>
+												<div className="text-gray-600">{selectedExample.performance.runtime}</div>
 											</div>
-											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													SEO 支持
-												</div>
-												<div className="text-gray-600">
-													{selectedExample.performance.seoSupport}
-												</div>
+											<div className="rounded bg-gray-50 p-2 text-center">
+												<div className="font-medium text-gray-900">SEO 支持</div>
+												<div className="text-gray-600">{selectedExample.performance.seoSupport}</div>
 											</div>
 										</div>
 									</div>
 
 									<div className="p-6">
-										<h4 className="font-semibold text-gray-900 mb-3">
-											代码示例
-										</h4>
-										<div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+										<h4 className="mb-3 font-semibold text-gray-900">代码示例</h4>
+										<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
 											<pre className="text-sm">
 												<code>{selectedExample.codeSnippet}</code>
 											</pre>
 										</div>
 
 										<div className="mt-6">
-											<h5 className="font-medium text-gray-900 mb-2">
-												主要优势
-											</h5>
+											<h5 className="mb-2 font-medium text-gray-900">主要优势</h5>
 											<div className="flex flex-wrap gap-2">
 												{selectedExample.benefits.map((benefit, index) => (
 													<span
 														key={index}
-														className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-700"
+														className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm"
 													>
 														{benefit}
 													</span>
@@ -1210,14 +1155,12 @@ export default function I18nFeaturePage() {
 										</div>
 
 										<div className="mt-4">
-											<h5 className="font-medium text-gray-900 mb-2">
-												核心功能
-											</h5>
+											<h5 className="mb-2 font-medium text-gray-900">核心功能</h5>
 											<div className="flex flex-wrap gap-2">
 												{selectedExample.features.map((feature, index) => (
 													<span
 														key={index}
-														className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700"
+														className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-blue-700 text-sm"
 													>
 														{feature}
 													</span>
@@ -1227,25 +1170,19 @@ export default function I18nFeaturePage() {
 									</div>
 
 									{selectedExample.status === "completed" && (
-										<div className="p-6 bg-green-50 border-t border-green-200">
+										<div className="border-green-200 border-t bg-green-50 p-6">
 											<div className="flex items-center space-x-2 text-green-800">
-												<CheckCircle className="w-5 h-5" />
-												<span className="font-medium">
-													该国际化方案已完成并可用
-												</span>
+												<CheckCircle className="h-5 w-5" />
+												<span className="font-medium">该国际化方案已完成并可用</span>
 											</div>
 										</div>
 									)}
 								</div>
 							) : (
-								<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-									<Globe className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-									<h3 className="text-lg font-semibold text-gray-900 mb-2">
-										选择一个国际化方案
-									</h3>
-									<p className="text-gray-600">
-										点击左侧的国际化方案查看详细信息和代码示例
-									</p>
+								<div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow-sm">
+									<Globe className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+									<h3 className="mb-2 font-semibold text-gray-900 text-lg">选择一个国际化方案</h3>
+									<p className="text-gray-600">点击左侧的国际化方案查看详细信息和代码示例</p>
 								</div>
 							)}
 						</div>

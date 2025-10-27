@@ -1,6 +1,6 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
 	title: "Markdown 编辑器",
-	description: "实用的 Markdown 编辑器集合，支持实时预览、语法高亮等功能"
+	description: "实用的 Markdown 编辑器集合，支持实时预览、语法高亮等功能",
 };

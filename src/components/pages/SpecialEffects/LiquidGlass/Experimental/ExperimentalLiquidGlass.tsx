@@ -22,9 +22,7 @@ export default function Home() {
 	const [elasticity, setElasticity] = useState(0);
 	const [cornerRadius, setCornerRadius] = useState(32);
 	const [userInfoOverLight, setUserInfoOverLight] = useState(false);
-	const [userInfoMode, setUserInfoMode] = useState<
-		"standard" | "polar" | "prominent" | "shader"
-	>("standard");
+	const [userInfoMode, setUserInfoMode] = useState<"standard" | "polar" | "prominent" | "shader">("standard");
 
 	// Log Out Button Controls
 	const [logoutDisplacementScale, setLogoutDisplacementScale] = useState(64);
@@ -34,9 +32,7 @@ export default function Home() {
 	const [logoutElasticity, setLogoutElasticity] = useState(0.35);
 	const [logoutCornerRadius, setLogoutCornerRadius] = useState(100);
 	const [logoutOverLight, setLogoutOverLight] = useState(false);
-	const [logoutMode, setLogoutMode] = useState<
-		"standard" | "polar" | "prominent" | "shader"
-	>("standard");
+	const [logoutMode, setLogoutMode] = useState<"standard" | "polar" | "prominent" | "shader">("standard");
 
 	// Shared state
 	const [activeTab, setActiveTab] = useState<"userInfo" | "logOut">("userInfo");
@@ -65,18 +61,10 @@ export default function Home() {
 			>
 				<div className="absolute top-0 left-0 w-full">
 					<div className="relative h-96 w-full">
-						<Image
-							src={img1}
-							alt="液态玻璃背景 1"
-							fill
-							className="object-cover"
-							priority
-						/>
+						<Image src={img1} alt="液态玻璃背景 1" fill className="object-cover" priority />
 					</div>
 					<div className="flex flex-col gap-2">
-						<h2 className="my-5 text-center font-semibold text-2xl">
-							示例标题
-						</h2>
+						<h2 className="my-5 text-center font-semibold text-2xl">示例标题</h2>
 						<p className="px-10">
 							这里是示例文本，用于占位展示效果。
 							<br />
@@ -92,28 +80,13 @@ export default function Home() {
 						</p>
 					</div>
 					<div className="relative my-10 h-80 w-full">
-						<Image
-							src={img2}
-							alt="液态玻璃背景 2"
-							fill
-							className="object-cover"
-						/>
+						<Image src={img2} alt="液态玻璃背景 2" fill className="object-cover" />
 					</div>
 					<div className="relative my-10 h-72 w-full">
-						<Image
-							src={img3}
-							alt="液态玻璃背景 3"
-							fill
-							className="object-cover"
-						/>
+						<Image src={img3} alt="液态玻璃背景 3" fill className="object-cover" />
 					</div>
 					<div className="relative my-10 h-96 w-full">
-						<Image
-							src={img1}
-							alt="液态玻璃背景 4"
-							fill
-							className="object-cover"
-						/>
+						<Image src={img1} alt="液态玻璃背景 4" fill className="object-cover" />
 					</div>
 				</div>
 
@@ -198,9 +171,7 @@ export default function Home() {
 			<div className="row-start-2 flex h-full flex-col overflow-y-auto rounded-t-3xl border-white/10 border-l bg-gray-900/80 p-8 backdrop-blur-md md:col-start-3 md:rounded-none">
 				<div className="mb-8">
 					<div className="mb-4 flex items-center justify-between">
-						<h2 className="font-bold text-2xl text-white">
-							液态玻璃演示与控制台
-						</h2>
+						<h2 className="font-bold text-2xl text-white">液态玻璃演示与控制台</h2>
 						<a
 							href="https://github.com/rdev/liquid-glass-react"
 							target="_blank"
@@ -211,13 +182,10 @@ export default function Home() {
 							<Github className="h-6 w-6" />
 						</a>
 					</div>
-					<p className="text-sm text-white/60">
-						用于 React 的液态玻璃容器效果，包含多种设置与视觉效果示例。
-					</p>
+					<p className="text-sm text-white/60">用于 React 的液态玻璃容器效果，包含多种设置与视觉效果示例。</p>
 
 					<p className="mt-2 font-semibold text-xs text-yellow-300 leading-snug">
-						⚠️ 在 Safari 与 Firefox 中支持不完整，非 Chromium
-						内核浏览器无法看到边缘折射效果。
+						⚠️ 在 Safari 与 Firefox 中支持不完整，非 Chromium 内核浏览器无法看到边缘折射效果。
 					</p>
 				</div>
 
@@ -243,9 +211,7 @@ export default function Home() {
 					{activeTab === "userInfo" && (
 						<>
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									折射模式
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">折射模式</span>
 								<div className="space-y-2">
 									<div className="flex items-center space-x-3">
 										<input
@@ -254,21 +220,10 @@ export default function Home() {
 											name="userInfoMode"
 											value="standard"
 											checked={userInfoMode === "standard"}
-											onChange={(e) =>
-												setUserInfoMode(
-													e.target.value as
-														| "standard"
-														| "polar"
-														| "prominent"
-														| "shader",
-												)
-											}
+											onChange={(e) => setUserInfoMode(e.target.value as "standard" | "polar" | "prominent" | "shader")}
 											className="h-4 w-4 accent-blue-500"
 										/>
-										<label
-											htmlFor={`${uid}-userInfoModeStandard`}
-											className="text-sm text-white/90"
-										>
+										<label htmlFor={`${uid}-userInfoModeStandard`} className="text-sm text-white/90">
 											标准
 										</label>
 									</div>
@@ -279,21 +234,10 @@ export default function Home() {
 											name="userInfoMode"
 											value="polar"
 											checked={userInfoMode === "polar"}
-											onChange={(e) =>
-												setUserInfoMode(
-													e.target.value as
-														| "standard"
-														| "polar"
-														| "prominent"
-														| "shader",
-												)
-											}
+											onChange={(e) => setUserInfoMode(e.target.value as "standard" | "polar" | "prominent" | "shader")}
 											className="h-4 w-4 accent-blue-500"
 										/>
-										<label
-											htmlFor={`${uid}-userInfoModePolar`}
-											className="text-sm text-white/90"
-										>
+										<label htmlFor={`${uid}-userInfoModePolar`} className="text-sm text-white/90">
 											极化
 										</label>
 									</div>
@@ -304,21 +248,10 @@ export default function Home() {
 											name="userInfoMode"
 											value="prominent"
 											checked={userInfoMode === "prominent"}
-											onChange={(e) =>
-												setUserInfoMode(
-													e.target.value as
-														| "standard"
-														| "polar"
-														| "prominent"
-														| "shader",
-												)
-											}
+											onChange={(e) => setUserInfoMode(e.target.value as "standard" | "polar" | "prominent" | "shader")}
 											className="h-4 w-4 accent-blue-500"
 										/>
-										<label
-											htmlFor={`${uid}-userInfoModeProminent`}
-											className="text-sm text-white/90"
-										>
+										<label htmlFor={`${uid}-userInfoModeProminent`} className="text-sm text-white/90">
 											增强
 										</label>
 									</div>
@@ -329,21 +262,10 @@ export default function Home() {
 											name="userInfoMode"
 											value="shader"
 											checked={userInfoMode === "shader"}
-											onChange={(e) =>
-												setUserInfoMode(
-													e.target.value as
-														| "standard"
-														| "polar"
-														| "prominent"
-														| "shader",
-												)
-											}
+											onChange={(e) => setUserInfoMode(e.target.value as "standard" | "polar" | "prominent" | "shader")}
 											className="h-4 w-4 accent-blue-500"
 										/>
-										<label
-											htmlFor={`${uid}-userInfoModeShader`}
-											className="text-sm text-white/90"
-										>
+										<label htmlFor={`${uid}-userInfoModeShader`} className="text-sm text-white/90">
 											着色（实验性）
 										</label>
 									</div>
@@ -352,13 +274,9 @@ export default function Home() {
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									位移强度
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">位移强度</span>
 								<div className="mb-2">
-									<span className="font-mono text-blue-300 text-xl">
-										{displacementScale}
-									</span>
+									<span className="font-mono text-blue-300 text-xl">{displacementScale}</span>
 								</div>
 								<input
 									type="range"
@@ -373,13 +291,9 @@ export default function Home() {
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									模糊强度
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">模糊强度</span>
 								<div className="mb-2">
-									<span className="font-mono text-green-300 text-xl">
-										{blurAmount.toFixed(1)}
-									</span>
+									<span className="font-mono text-green-300 text-xl">{blurAmount.toFixed(1)}</span>
 								</div>
 								<input
 									type="range"
@@ -394,13 +308,9 @@ export default function Home() {
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									饱和度
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">饱和度</span>
 								<div className="mb-2">
-									<span className="font-mono text-purple-300 text-xl">
-										{saturation}%
-									</span>
+									<span className="font-mono text-purple-300 text-xl">{saturation}%</span>
 								</div>
 								<input
 									type="range"
@@ -411,19 +321,13 @@ export default function Home() {
 									onChange={(e) => setSaturation(Number(e.target.value))}
 									className="w-full"
 								/>
-								<p className="mt-2 text-white/50 text-xs">
-									控制背景的颜色饱和度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制背景的颜色饱和度</p>
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									色差
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">色差</span>
 								<div className="mb-2">
-									<span className="font-mono text-cyan-300 text-xl">
-										{aberrationIntensity}
-									</span>
+									<span className="font-mono text-cyan-300 text-xl">{aberrationIntensity}</span>
 								</div>
 								<input
 									type="range"
@@ -431,24 +335,16 @@ export default function Home() {
 									max="20"
 									step="1"
 									value={aberrationIntensity}
-									onChange={(e) =>
-										setAberrationIntensity(Number(e.target.value))
-									}
+									onChange={(e) => setAberrationIntensity(Number(e.target.value))}
 									className="w-full"
 								/>
-								<p className="mt-2 text-white/50 text-xs">
-									控制 RGB 通道分离的强度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制 RGB 通道分离的强度</p>
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									弹性
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">弹性</span>
 								<div className="mb-2">
-									<span className="font-mono text-orange-300 text-xl">
-										{elasticity.toFixed(2)}
-									</span>
+									<span className="font-mono text-orange-300 text-xl">{elasticity.toFixed(2)}</span>
 								</div>
 								<input
 									type="range"
@@ -459,15 +355,11 @@ export default function Home() {
 									onChange={(e) => setElasticity(Number(e.target.value))}
 									className="w-full"
 								/>
-								<p className="mt-2 text-white/50 text-xs">
-									控制玻璃向光标“伸展”的程度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制玻璃向光标“伸展”的程度</p>
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									圆角半径
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">圆角半径</span>
 								<div className="mb-2">
 									<span className="font-mono text-pink-300 text-xl">
 										{cornerRadius === 999 ? "Full" : `${cornerRadius}px`}
@@ -482,15 +374,11 @@ export default function Home() {
 									onChange={(e) => setCornerRadius(Number(e.target.value))}
 									className="w-full"
 								/>
-								<p className="mt-2 text-white/50 text-xs">
-									控制玻璃卡片圆角的圆润程度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制玻璃卡片圆角的圆润程度</p>
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									高亮环境优化
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">高亮环境优化</span>
 								<div className="flex items-center space-x-3">
 									<input
 										type="checkbox"
@@ -499,16 +387,11 @@ export default function Home() {
 										onChange={(e) => setUserInfoOverLight(e.target.checked)}
 										className="h-5 w-5 accent-blue-500"
 									/>
-									<label
-										htmlFor={`${uid}-userInfoOverLight`}
-										className="text-sm text-white/90"
-									>
+									<label htmlFor={`${uid}-userInfoOverLight`} className="text-sm text-white/90">
 										在明亮背景时使玻璃稍微变暗以提升可读性
 									</label>
 								</div>
-								<p className="mt-2 text-white/50 text-xs">
-									在浅色背景上提升可见度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">在浅色背景上提升可见度</p>
 							</div>
 						</>
 					)}
@@ -516,9 +399,7 @@ export default function Home() {
 					{activeTab === "logOut" && (
 						<>
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									折射模式
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">折射模式</span>
 								<div className="space-y-2">
 									<div className="flex items-center space-x-3">
 										<input
@@ -527,21 +408,10 @@ export default function Home() {
 											name="logoutMode"
 											value="standard"
 											checked={logoutMode === "standard"}
-											onChange={(e) =>
-												setLogoutMode(
-													e.target.value as
-														| "standard"
-														| "polar"
-														| "prominent"
-														| "shader",
-												)
-											}
+											onChange={(e) => setLogoutMode(e.target.value as "standard" | "polar" | "prominent" | "shader")}
 											className="h-4 w-4 accent-blue-500"
 										/>
-										<label
-											htmlFor={`${uid}-logoutModeStandard`}
-											className="text-sm text-white/90"
-										>
+										<label htmlFor={`${uid}-logoutModeStandard`} className="text-sm text-white/90">
 											标准
 										</label>
 									</div>
@@ -552,21 +422,10 @@ export default function Home() {
 											name="logoutMode"
 											value="polar"
 											checked={logoutMode === "polar"}
-											onChange={(e) =>
-												setLogoutMode(
-													e.target.value as
-														| "standard"
-														| "polar"
-														| "prominent"
-														| "shader",
-												)
-											}
+											onChange={(e) => setLogoutMode(e.target.value as "standard" | "polar" | "prominent" | "shader")}
 											className="h-4 w-4 accent-blue-500"
 										/>
-										<label
-											htmlFor={`${uid}-logoutModePolar`}
-											className="text-sm text-white/90"
-										>
+										<label htmlFor={`${uid}-logoutModePolar`} className="text-sm text-white/90">
 											极化
 										</label>
 									</div>
@@ -577,21 +436,10 @@ export default function Home() {
 											name="logoutMode"
 											value="prominent"
 											checked={logoutMode === "prominent"}
-											onChange={(e) =>
-												setLogoutMode(
-													e.target.value as
-														| "standard"
-														| "polar"
-														| "prominent"
-														| "shader",
-												)
-											}
+											onChange={(e) => setLogoutMode(e.target.value as "standard" | "polar" | "prominent" | "shader")}
 											className="h-4 w-4 accent-blue-500"
 										/>
-										<label
-											htmlFor={`${uid}-logoutModeProminent`}
-											className="text-sm text-white/90"
-										>
+										<label htmlFor={`${uid}-logoutModeProminent`} className="text-sm text-white/90">
 											增强
 										</label>
 									</div>
@@ -602,21 +450,10 @@ export default function Home() {
 											name="logoutMode"
 											value="shader"
 											checked={logoutMode === "shader"}
-											onChange={(e) =>
-												setLogoutMode(
-													e.target.value as
-														| "standard"
-														| "polar"
-														| "prominent"
-														| "shader",
-												)
-											}
+											onChange={(e) => setLogoutMode(e.target.value as "standard" | "polar" | "prominent" | "shader")}
 											className="h-4 w-4 accent-blue-500"
 										/>
-										<label
-											htmlFor={`${uid}-logoutModeShader`}
-											className="text-sm text-white/90"
-										>
+										<label htmlFor={`${uid}-logoutModeShader`} className="text-sm text-white/90">
 											着色
 										</label>
 									</div>
@@ -625,13 +462,9 @@ export default function Home() {
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									位移强度
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">位移强度</span>
 								<div className="mb-2">
-									<span className="font-mono text-blue-300 text-xl">
-										{logoutDisplacementScale}
-									</span>
+									<span className="font-mono text-blue-300 text-xl">{logoutDisplacementScale}</span>
 								</div>
 								<input
 									type="range"
@@ -639,22 +472,16 @@ export default function Home() {
 									max="200"
 									step="1"
 									value={logoutDisplacementScale}
-									onChange={(e) =>
-										setLogoutDisplacementScale(Number(e.target.value))
-									}
+									onChange={(e) => setLogoutDisplacementScale(Number(e.target.value))}
 									className="w-full"
 								/>
 								<p className="mt-2 text-white/50 text-xs">控制边缘扭曲的强度</p>
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									模糊强度
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">模糊强度</span>
 								<div className="mb-2">
-									<span className="font-mono text-green-300 text-xl">
-										{logoutBlurAmount.toFixed(1)}
-									</span>
+									<span className="font-mono text-green-300 text-xl">{logoutBlurAmount.toFixed(1)}</span>
 								</div>
 								<input
 									type="range"
@@ -669,13 +496,9 @@ export default function Home() {
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									饱和度
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">饱和度</span>
 								<div className="mb-2">
-									<span className="font-mono text-purple-300 text-xl">
-										{logoutSaturation}%
-									</span>
+									<span className="font-mono text-purple-300 text-xl">{logoutSaturation}%</span>
 								</div>
 								<input
 									type="range"
@@ -686,19 +509,13 @@ export default function Home() {
 									onChange={(e) => setLogoutSaturation(Number(e.target.value))}
 									className="w-full"
 								/>
-								<p className="mt-2 text-white/50 text-xs">
-									控制背景的颜色饱和度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制背景的颜色饱和度</p>
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									色差
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">色差</span>
 								<div className="mb-2">
-									<span className="font-mono text-cyan-300 text-xl">
-										{logoutAberrationIntensity}
-									</span>
+									<span className="font-mono text-cyan-300 text-xl">{logoutAberrationIntensity}</span>
 								</div>
 								<input
 									type="range"
@@ -706,24 +523,16 @@ export default function Home() {
 									max="20"
 									step="1"
 									value={logoutAberrationIntensity}
-									onChange={(e) =>
-										setLogoutAberrationIntensity(Number(e.target.value))
-									}
+									onChange={(e) => setLogoutAberrationIntensity(Number(e.target.value))}
 									className="w-full"
 								/>
-								<p className="mt-2 text-white/50 text-xs">
-									控制 RGB 通道分离的强度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制 RGB 通道分离的强度</p>
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									弹性
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">弹性</span>
 								<div className="mb-2">
-									<span className="font-mono text-orange-300 text-xl">
-										{logoutElasticity.toFixed(2)}
-									</span>
+									<span className="font-mono text-orange-300 text-xl">{logoutElasticity.toFixed(2)}</span>
 								</div>
 								<input
 									type="range"
@@ -734,20 +543,14 @@ export default function Home() {
 									onChange={(e) => setLogoutElasticity(Number(e.target.value))}
 									className="w-full"
 								/>
-								<p className="mt-2 text-white/50 text-xs">
-									控制玻璃向光标“伸展”的程度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制玻璃向光标“伸展”的程度</p>
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									圆角半径
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">圆角半径</span>
 								<div className="mb-2">
 									<span className="font-mono text-pink-300 text-xl">
-										{logoutCornerRadius === 999
-											? "Full"
-											: `${logoutCornerRadius}px`}
+										{logoutCornerRadius === 999 ? "Full" : `${logoutCornerRadius}px`}
 									</span>
 								</div>
 								<input
@@ -756,20 +559,14 @@ export default function Home() {
 									max="100"
 									step="1"
 									value={logoutCornerRadius}
-									onChange={(e) =>
-										setLogoutCornerRadius(Number(e.target.value))
-									}
+									onChange={(e) => setLogoutCornerRadius(Number(e.target.value))}
 									className="w-full"
 								/>
-								<p className="mt-2 text-white/50 text-xs">
-									控制玻璃卡片圆角的圆润程度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">控制玻璃卡片圆角的圆润程度</p>
 							</div>
 
 							<div>
-								<span className="mb-3 block font-semibold text-sm text-white/90">
-									高亮环境优化
-								</span>
+								<span className="mb-3 block font-semibold text-sm text-white/90">高亮环境优化</span>
 								<div className="flex items-center space-x-3">
 									<input
 										type="checkbox"
@@ -778,16 +575,11 @@ export default function Home() {
 										onChange={(e) => setLogoutOverLight(e.target.checked)}
 										className="h-5 w-5 accent-blue-500"
 									/>
-									<label
-										htmlFor={`${uid}-logoutOverLight`}
-										className="text-sm text-white/90"
-									>
+									<label htmlFor={`${uid}-logoutOverLight`} className="text-sm text-white/90">
 										在明亮背景时使玻璃稍微变暗以提升可读性
 									</label>
 								</div>
-								<p className="mt-2 text-white/50 text-xs">
-									在浅色背景上提升可见度
-								</p>
+								<p className="mt-2 text-white/50 text-xs">在浅色背景上提升可见度</p>
 							</div>
 						</>
 					)}

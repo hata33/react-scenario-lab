@@ -19,8 +19,7 @@ export default function LiquidGlass() {
 			({
 				backdropFilter: `blur(${intensity}px) saturate(140%)`,
 				WebkitBackdropFilter: `blur(${intensity}px) saturate(140%)`,
-				background:
-					"linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.05))",
+				background: "linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.05))",
 				border: "1px solid rgba(255,255,255,.3)",
 				boxShadow: "0 10px 30px rgba(0,0,0,.12)",
 			}) as React.CSSProperties,
@@ -37,8 +36,7 @@ export default function LiquidGlass() {
 				borderRadius: "9999px",
 				backdropFilter: `blur(${intensity}px) saturate(140%)`,
 				WebkitBackdropFilter: `blur(${intensity}px) saturate(140%)`,
-				background:
-					"linear-gradient(135deg, rgba(255,255,255,.35), rgba(255,255,255,.08))",
+				background: "linear-gradient(135deg, rgba(255,255,255,.35), rgba(255,255,255,.08))",
 				border: "1px solid rgba(255,255,255,.4)",
 				boxShadow: "0 10px 30px rgba(0,0,0,.15)",
 				position: "fixed",
@@ -58,44 +56,24 @@ export default function LiquidGlass() {
 		>
 			{/* 三张背景图纵向平铺，每张占满一屏高度，无边距 */}
 			<section className="relative h-screen w-full">
-				<Image
-					src={images[0]}
-					alt="liquid-glass-bg-1"
-					fill
-					priority
-					className="object-cover"
-				/>
+				<Image src={images[0]} alt="liquid-glass-bg-1" fill priority className="object-cover" />
 			</section>
 
 			<section className="relative h-screen w-full">
-				<Image
-					src={images[1]}
-					alt="liquid-glass-bg-2"
-					fill
-					className="object-cover"
-				/>
+				<Image src={images[1]} alt="liquid-glass-bg-2" fill className="object-cover" />
 			</section>
 
 			<section className="relative h-screen w-full">
-				<Image
-					src={images[2]}
-					alt="liquid-glass-bg-3"
-					fill
-					className="object-cover"
-				/>
+				<Image src={images[2]} alt="liquid-glass-bg-3" fill className="object-cover" />
 			</section>
 
 			{/* 固定在屏幕中心的玻璃卡片 - 使用 fixed 但不覆盖整个屏幕 */}
 			<div className="-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2 z-30 transform">
 				<div className="w-96 rounded-3xl p-8 text-gray-800" style={glassStyle}>
 					<h2 className="font-semibold text-2xl">Liquid Glass</h2>
-					<p className="mt-2 text-gray-700 text-sm">
-						固定的玻璃卡片，背景滚动时卡片保持居中位置。
-					</p>
+					<p className="mt-2 text-gray-700 text-sm">固定的玻璃卡片，背景滚动时卡片保持居中位置。</p>
 					<div className="mt-6">
-						<label className="text-gray-600 text-sm">
-							模糊强度：{intensity}px
-						</label>
+						<label className="text-gray-600 text-sm">模糊强度：{intensity}px</label>
 						<input
 							className="mt-2 block w-full"
 							type="range"

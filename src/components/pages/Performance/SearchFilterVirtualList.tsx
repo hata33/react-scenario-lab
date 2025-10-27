@@ -1,44 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 const generateRandomData = (count: number) => {
-	const names = [
-		"张三",
-		"李四",
-		"王五",
-		"赵六",
-		"钱七",
-		"孙八",
-		"周九",
-		"吴十",
-	];
-	const departments = [
-		"技术部",
-		"产品部",
-		"设计部",
-		"运营部",
-		"市场部",
-		"人事部",
-	];
-	const cities = [
-		"北京",
-		"上海",
-		"广州",
-		"深圳",
-		"杭州",
-		"成都",
-		"武汉",
-		"西安",
-	];
-	const skills = [
-		"React",
-		"Vue",
-		"Angular",
-		"Node.js",
-		"Python",
-		"Java",
-		"Go",
-		"Rust",
-	];
+	const names = ["张三", "李四", "王五", "赵六", "钱七", "孙八", "周九", "吴十"];
+	const departments = ["技术部", "产品部", "设计部", "运营部", "市场部", "人事部"];
+	const cities = ["北京", "上海", "广州", "深圳", "杭州", "成都", "武汉", "西安"];
+	const skills = ["React", "Vue", "Angular", "Node.js", "Python", "Java", "Go", "Rust"];
 
 	return Array.from({ length: count }, (_, i) => ({
 		id: i + 1,
@@ -65,10 +31,7 @@ export function SearchFilterVirtualList() {
 	const [maxSalary, setMaxSalary] = useState<number>(30000);
 
 	// 获取所有部门和城市
-	const departments = useMemo(
-		() => [...new Set(DATA.map((item) => item.department))],
-		[],
-	);
+	const departments = useMemo(() => [...new Set(DATA.map((item) => item.department))], []);
 	const cities = useMemo(() => [...new Set(DATA.map((item) => item.city))], []);
 
 	// 过滤数据
@@ -77,23 +40,14 @@ export function SearchFilterVirtualList() {
 			const matchesSearch =
 				searchTerm === "" ||
 				item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				item.skills.some((skill) =>
-					skill.toLowerCase().includes(searchTerm.toLowerCase()),
-				);
+				item.skills.some((skill) => skill.toLowerCase().includes(searchTerm.toLowerCase()));
 
-			const matchesDepartment =
-				selectedDepartment === "" || item.department === selectedDepartment;
+			const matchesDepartment = selectedDepartment === "" || item.department === selectedDepartment;
 			const matchesCity = selectedCity === "" || item.city === selectedCity;
 			const matchesExperience = item.experience >= minExperience;
 			const matchesSalary = item.salary <= maxSalary;
 
-			return (
-				matchesSearch &&
-				matchesDepartment &&
-				matchesCity &&
-				matchesExperience &&
-				matchesSalary
-			);
+			return matchesSearch && matchesDepartment && matchesCity && matchesExperience && matchesSalary;
 		});
 	}, [searchTerm, selectedDepartment, selectedCity, minExperience, maxSalary]);
 
@@ -106,10 +60,7 @@ export function SearchFilterVirtualList() {
 	const endIndex = Math.min(filteredData.length, startIndex + visibleCount);
 	const offsetY = startIndex * rowHeight;
 
-	const visibleData = useMemo(
-		() => filteredData.slice(startIndex, endIndex),
-		[startIndex, endIndex, filteredData],
-	);
+	const visibleData = useMemo(() => filteredData.slice(startIndex, endIndex), [startIndex, endIndex, filteredData]);
 
 	const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
 		setScrollTop(e.currentTarget.scrollTop);
@@ -129,15 +80,10 @@ export function SearchFilterVirtualList() {
 				<div>
 					<h3 className="font-semibold">搜索过滤虚拟列表</h3>
 					<p className="text-muted-foreground text-sm">
-						共 {filteredData.length.toLocaleString()} 条结果 (原始数据:{" "}
-						{DATA.length.toLocaleString()})
+						共 {filteredData.length.toLocaleString()} 条结果 (原始数据: {DATA.length.toLocaleString()})
 					</p>
 				</div>
-				<button
-					type="button"
-					onClick={clearFilters}
-					className="text-blue-600 text-sm hover:text-blue-800"
-				>
+				<button type="button" onClick={clearFilters} className="text-blue-600 text-sm hover:text-blue-800">
 					清除筛选
 				</button>
 			</div>
@@ -188,9 +134,7 @@ export function SearchFilterVirtualList() {
 				</div>
 
 				<div className="space-y-2">
-					<label className="font-medium text-sm">
-						工作经验 (≥ {minExperience}年)
-					</label>
+					<label className="font-medium text-sm">工作经验 (≥ {minExperience}年)</label>
 					<input
 						type="range"
 						min="0"
@@ -202,9 +146,7 @@ export function SearchFilterVirtualList() {
 				</div>
 
 				<div className="space-y-2">
-					<label className="font-medium text-sm">
-						薪资范围 (≤ {maxSalary.toLocaleString()})
-					</label>
+					<label className="font-medium text-sm">薪资范围 (≤ {maxSalary.toLocaleString()})</label>
 					<input
 						type="range"
 						min="8000"
@@ -224,9 +166,7 @@ export function SearchFilterVirtualList() {
 				className="relative h-[400px] overflow-auto rounded border bg-background"
 			>
 				{filteredData.length === 0 ? (
-					<div className="flex h-full items-center justify-center text-muted-foreground">
-						没有找到匹配的结果
-					</div>
+					<div className="flex h-full items-center justify-center text-muted-foreground">没有找到匹配的结果</div>
 				) : (
 					<div style={{ height: totalHeight }}>
 						<div style={{ transform: `translateY(${offsetY}px)` }}>
@@ -239,22 +179,15 @@ export function SearchFilterVirtualList() {
 									<div className="flex-1">
 										<div className="mb-1 flex items-center gap-2">
 											<span className="font-medium">{item.name}</span>
-											<span className="rounded bg-muted px-2 py-1 text-xs">
-												{item.department}
-											</span>
-											<span className="text-muted-foreground text-xs">
-												{item.city}
-											</span>
+											<span className="rounded bg-muted px-2 py-1 text-xs">{item.department}</span>
+											<span className="text-muted-foreground text-xs">{item.city}</span>
 										</div>
 										<div className="flex items-center gap-2 text-muted-foreground text-xs">
 											<span>经验: {item.experience}年</span>
 											<span>薪资: ¥{item.salary.toLocaleString()}</span>
 											<div className="flex gap-1">
 												{item.skills.map((skill) => (
-													<span
-														key={skill}
-														className="rounded bg-blue-100 px-1 py-0.5 text-blue-800"
-													>
+													<span key={skill} className="rounded bg-blue-100 px-1 py-0.5 text-blue-800">
 														{skill}
 													</span>
 												))}

@@ -1,20 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import {
-	X,
+	Calendar,
+	Copy,
 	Download,
-	Share2,
 	Heart,
 	HeartOff,
-	Trash2,
-	Copy,
-	Calendar,
 	Image as ImageIcon,
 	Settings,
+	Share2,
+	Trash2,
+	X,
 	ZoomIn,
 	ZoomOut,
 } from "lucide-react";
+import { useState } from "react";
 import type { GeneratedImage } from "./ImageGenerator";
 
 interface ImageDetailModalProps {
@@ -110,63 +110,57 @@ export default function ImageDetailModal({
 	};
 
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
-			<div className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
+			<div className="flex max-h-[90vh] w-full max-w-6xl flex-col overflow-hidden rounded-xl bg-white shadow-2xl">
 				{/* 头部 */}
-				<div className="flex items-center justify-between p-6 border-b border-gray-200">
-					<h2 className="text-xl font-bold text-gray-900">图片详情</h2>
-					<button
-						onClick={onClose}
-						className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-					>
-						<X className="w-5 h-5" />
+				<div className="flex items-center justify-between border-gray-200 border-b p-6">
+					<h2 className="font-bold text-gray-900 text-xl">图片详情</h2>
+					<button onClick={onClose} className="rounded-lg p-2 transition-colors hover:bg-gray-100">
+						<X className="h-5 w-5" />
 					</button>
 				</div>
 
 				{/* 内容区域 */}
 				<div className="flex-1 overflow-y-auto">
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+					<div className="grid grid-cols-1 gap-6 p-6 lg:grid-cols-2">
 						{/* 左侧：图片展示 */}
 						<div className="space-y-4">
-							<div
-								className="relative bg-gray-100 rounded-lg overflow-hidden"
-								style={{ minHeight: "400px" }}
-							>
+							<div className="relative overflow-hidden rounded-lg bg-gray-100" style={{ minHeight: "400px" }}>
 								<img
 									src={image.url}
 									alt={image.prompt}
-									className="w-full h-full object-contain transition-transform duration-200"
+									className="h-full w-full object-contain transition-transform duration-200"
 									style={{ transform: `scale(${zoomLevel})` }}
 								/>
 
 								{/* 缩放控制 */}
-								<div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-black bg-opacity-50 rounded-lg p-2">
+								<div className="-translate-x-1/2 absolute bottom-4 left-1/2 flex transform items-center gap-2 rounded-lg bg-black bg-opacity-50 p-2">
 									<button
 										onClick={handleZoomOut}
-										className="p-1 hover:bg-white hover:bg-opacity-20 rounded transition-colors"
+										className="rounded p-1 transition-colors hover:bg-white hover:bg-opacity-20"
 										title="缩小"
 									>
-										<ZoomOut className="w-4 h-4 text-white" />
+										<ZoomOut className="h-4 w-4 text-white" />
 									</button>
 									<button
 										onClick={handleResetZoom}
-										className="px-2 hover:bg-white hover:bg-opacity-20 rounded transition-colors text-white text-sm"
+										className="rounded px-2 text-sm text-white transition-colors hover:bg-white hover:bg-opacity-20"
 									>
 										{Math.round(zoomLevel * 100)}%
 									</button>
 									<button
 										onClick={handleZoomIn}
-										className="p-1 hover:bg-white hover:bg-opacity-20 rounded transition-colors"
+										className="rounded p-1 transition-colors hover:bg-white hover:bg-opacity-20"
 										title="放大"
 									>
-										<ZoomIn className="w-4 h-4 text-white" />
+										<ZoomIn className="h-4 w-4 text-white" />
 									</button>
 								</div>
 
 								{/* 收藏标记 */}
 								{image.isFavorite && (
-									<div className="absolute top-4 right-4 p-2 bg-red-500 rounded-full">
-										<Heart className="w-4 h-4 text-white fill-current" />
+									<div className="absolute top-4 right-4 rounded-full bg-red-500 p-2">
+										<Heart className="h-4 w-4 fill-current text-white" />
 									</div>
 								)}
 							</div>
@@ -175,21 +169,21 @@ export default function ImageDetailModal({
 							<div className="flex flex-wrap gap-2">
 								<button
 									onClick={handleDownload}
-									className="flex-1 sm:flex-none px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
+									className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 sm:flex-none"
 								>
-									<Download className="w-4 h-4" />
+									<Download className="h-4 w-4" />
 									下载
 								</button>
 								<button
 									onClick={handleCopyLink}
-									className="flex-1 sm:flex-none px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
+									className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200 sm:flex-none"
 								>
-									<Copy className="w-4 h-4" />
+									<Copy className="h-4 w-4" />
 									复制链接
 								</button>
 								<button
 									onClick={() => onToggleFavorite(image.id)}
-									className={`flex-1 sm:flex-none px-4 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 ${
+									className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2 transition-colors sm:flex-none ${
 										image.isFavorite
 											? "bg-red-50 text-red-600 hover:bg-red-100"
 											: "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -197,12 +191,12 @@ export default function ImageDetailModal({
 								>
 									{image.isFavorite ? (
 										<>
-											<Heart className="w-4 h-4 fill-current" />
+											<Heart className="h-4 w-4 fill-current" />
 											取消收藏
 										</>
 									) : (
 										<>
-											<Heart className="w-4 h-4" />
+											<Heart className="h-4 w-4" />
 											收藏
 										</>
 									)}
@@ -215,9 +209,9 @@ export default function ImageDetailModal({
 											onImageUpdate();
 										}
 									}}
-									className="flex-1 sm:flex-none px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors flex items-center justify-center gap-2"
+									className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-red-50 px-4 py-2 text-red-600 transition-colors hover:bg-red-100 sm:flex-none"
 								>
-									<Trash2 className="w-4 h-4" />
+									<Trash2 className="h-4 w-4" />
 									删除
 								</button>
 							</div>
@@ -227,102 +221,72 @@ export default function ImageDetailModal({
 						<div className="space-y-6">
 							{/* 基本信息 */}
 							<div>
-								<h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-									<ImageIcon className="w-5 h-5" />
+								<h3 className="mb-4 flex items-center gap-2 font-semibold text-gray-900 text-lg">
+									<ImageIcon className="h-5 w-5" />
 									基本信息
 								</h3>
 								<div className="space-y-3">
 									<div>
-										<label className="text-sm font-medium text-gray-700">
-											创建时间
-										</label>
-										<div className="flex items-center gap-2 text-sm text-gray-600">
-											<Calendar className="w-4 h-4" />
+										<label className="font-medium text-gray-700 text-sm">创建时间</label>
+										<div className="flex items-center gap-2 text-gray-600 text-sm">
+											<Calendar className="h-4 w-4" />
 											{formatDate(image.createdAt)}
 										</div>
 									</div>
 									<div>
-										<label className="text-sm font-medium text-gray-700">
-											图片 ID
-										</label>
-										<div className="text-sm text-gray-600 font-mono">
-											{image.id}
-										</div>
+										<label className="font-medium text-gray-700 text-sm">图片 ID</label>
+										<div className="font-mono text-gray-600 text-sm">{image.id}</div>
 									</div>
 								</div>
 							</div>
 
 							{/* 生成参数 */}
 							<div>
-								<h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-									<Settings className="w-5 h-5" />
+								<h3 className="mb-4 flex items-center gap-2 font-semibold text-gray-900 text-lg">
+									<Settings className="h-5 w-5" />
 									生成参数
 								</h3>
 								<div className="space-y-3">
 									<div>
-										<label className="text-sm font-medium text-gray-700">
-											模型
-										</label>
-										<div className="text-sm text-gray-600">
-											{getModelDisplayName(image.model)}
-										</div>
+										<label className="font-medium text-gray-700 text-sm">模型</label>
+										<div className="text-gray-600 text-sm">{getModelDisplayName(image.model)}</div>
 									</div>
 									<div>
-										<label className="text-sm font-medium text-gray-700">
-											尺寸
-										</label>
-										<div className="text-sm text-gray-600">{image.size}</div>
+										<label className="font-medium text-gray-700 text-sm">尺寸</label>
+										<div className="text-gray-600 text-sm">{image.size}</div>
 									</div>
 									<div>
-										<label className="text-sm font-medium text-gray-700">
-											质量
-										</label>
-										<div className="text-sm text-gray-600">
-											{getQualityDisplayName(image.quality)}
-										</div>
+										<label className="font-medium text-gray-700 text-sm">质量</label>
+										<div className="text-gray-600 text-sm">{getQualityDisplayName(image.quality)}</div>
 									</div>
 									<div>
-										<label className="text-sm font-medium text-gray-700">
-											风格
-										</label>
-										<div className="text-sm text-gray-600">
-											{getStyleDisplayName(image.style)}
-										</div>
+										<label className="font-medium text-gray-700 text-sm">风格</label>
+										<div className="text-gray-600 text-sm">{getStyleDisplayName(image.style)}</div>
 									</div>
 								</div>
 							</div>
 
 							{/* 提示词 */}
 							<div>
-								<h3 className="text-lg font-semibold text-gray-900 mb-4">
-									提示词
-								</h3>
+								<h3 className="mb-4 font-semibold text-gray-900 text-lg">提示词</h3>
 								<div className="space-y-3">
 									<div>
-										<div className="flex items-center justify-between mb-2">
-											<label className="text-sm font-medium text-gray-700">
-												正面提示词
-											</label>
+										<div className="mb-2 flex items-center justify-between">
+											<label className="font-medium text-gray-700 text-sm">正面提示词</label>
 											<button
 												onClick={handleCopyPrompt}
-												className="text-sm text-purple-600 hover:text-purple-700 flex items-center gap-1"
+												className="flex items-center gap-1 text-purple-600 text-sm hover:text-purple-700"
 											>
-												<Copy className="w-3 h-3" />
+												<Copy className="h-3 w-3" />
 												复制
 											</button>
 										</div>
-										<div className="p-3 bg-gray-50 rounded-lg text-sm text-gray-700">
-											{image.prompt}
-										</div>
+										<div className="rounded-lg bg-gray-50 p-3 text-gray-700 text-sm">{image.prompt}</div>
 									</div>
 									{image.negativePrompt && (
 										<div>
-											<label className="text-sm font-medium text-gray-700">
-												负面提示词
-											</label>
-											<div className="p-3 bg-red-50 rounded-lg text-sm text-gray-700">
-												{image.negativePrompt}
-											</div>
+											<label className="font-medium text-gray-700 text-sm">负面提示词</label>
+											<div className="rounded-lg bg-red-50 p-3 text-gray-700 text-sm">{image.negativePrompt}</div>
 										</div>
 									)}
 								</div>
@@ -330,17 +294,15 @@ export default function ImageDetailModal({
 
 							{/* 操作记录 */}
 							<div>
-								<h3 className="text-lg font-semibold text-gray-900 mb-4">
-									操作记录
-								</h3>
-								<div className="text-sm text-gray-600">
-									<div className="flex items-center gap-2 mb-1">
-										<div className="w-2 h-2 bg-green-500 rounded-full"></div>
+								<h3 className="mb-4 font-semibold text-gray-900 text-lg">操作记录</h3>
+								<div className="text-gray-600 text-sm">
+									<div className="mb-1 flex items-center gap-2">
+										<div className="h-2 w-2 rounded-full bg-green-500"></div>
 										图片生成成功
 									</div>
 									{image.isFavorite && (
 										<div className="flex items-center gap-2">
-											<div className="w-2 h-2 bg-red-500 rounded-full"></div>
+											<div className="h-2 w-2 rounded-full bg-red-500"></div>
 											已添加到收藏
 										</div>
 									)}

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,10 +32,7 @@ export default function ProgressBar({
 		if (!progressBar) return;
 
 		// 确定滚动容器
-		const scroller =
-			scrollerRef?.current ||
-			document.querySelector("#scroll-container") ||
-			window;
+		const scroller = scrollerRef?.current || document.querySelector("#scroll-container") || window;
 
 		// 重置进度条
 		gsap.set(progressBar, { scaleX: 0 });
@@ -59,17 +56,13 @@ export default function ProgressBar({
 
 					// 根据进度改变颜色
 					if (self.progress > 0.8) {
-						progressBar.style.background =
-							"linear-gradient(90deg, #10b981, #3b82f6)";
+						progressBar.style.background = "linear-gradient(90deg, #10b981, #3b82f6)";
 					} else if (self.progress > 0.6) {
-						progressBar.style.background =
-							"linear-gradient(90deg, #8b5cf6, #ec4899)";
+						progressBar.style.background = "linear-gradient(90deg, #8b5cf6, #ec4899)";
 					} else if (self.progress > 0.4) {
-						progressBar.style.background =
-							"linear-gradient(90deg, #3b82f6, #8b5cf6)";
+						progressBar.style.background = "linear-gradient(90deg, #3b82f6, #8b5cf6)";
 					} else if (self.progress > 0.2) {
-						progressBar.style.background =
-							"linear-gradient(90deg, #06b6d4, #3b82f6)";
+						progressBar.style.background = "linear-gradient(90deg, #06b6d4, #3b82f6)";
 					}
 				},
 			},
@@ -122,8 +115,7 @@ export default function ProgressBar({
 					style={{
 						position: "fixed",
 						[position]: position === "top" ? height + 10 : "auto",
-						[position === "top" ? "left" : "bottom"]:
-							position === "top" ? 20 : height + 10,
+						[position === "top" ? "left" : "bottom"]: position === "top" ? 20 : height + 10,
 						background: "rgba(0, 0, 0, 0.8)",
 						color: "white",
 						padding: "6px 12px",

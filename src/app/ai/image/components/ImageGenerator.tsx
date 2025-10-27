@@ -17,10 +17,7 @@ import {
 	X,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import {
-	checkApiConfiguration,
-	getAvailableModels,
-} from "../api/imageApiService";
+import { checkApiConfiguration, getAvailableModels } from "../api/imageApiService";
 import { useImageGeneration } from "../hooks/useImageGeneration";
 
 export interface GeneratedImage {
@@ -41,10 +38,7 @@ interface ImageGeneratorProps {
 	onImageSelect: (image: GeneratedImage) => void;
 }
 
-export default function ImageGenerator({
-	onImageGenerated,
-	onImageSelect,
-}: ImageGeneratorProps) {
+export default function ImageGenerator({ onImageGenerated, onImageSelect }: ImageGeneratorProps) {
 	const [prompt, setPrompt] = useState("");
 	const [negativePrompt, setNegativePrompt] = useState("");
 	const [model, setModel] = useState("Kwai-Kolors/Kolors");
@@ -61,15 +55,7 @@ export default function ImageGenerator({
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	// 使用真实的 API 调用
-	const {
-		generate,
-		isGenerating,
-		error,
-		progress,
-		status,
-		stopGeneration,
-		reset,
-	} = useImageGeneration({
+	const { generate, isGenerating, error, progress, status, stopGeneration, reset } = useImageGeneration({
 		onSuccess: (result) => {
 			setGeneratedImage(result.url);
 			// 进度条跳到100%
@@ -102,9 +88,7 @@ export default function ImageGenerator({
 
 	// 检查 API 配置状态
 	const [apiConfig, setApiConfig] = useState(() => checkApiConfiguration());
-	const [availableModels, setAvailableModels] = useState<any>(() =>
-		getAvailableModels(),
-	);
+	const [availableModels, setAvailableModels] = useState<any>(() => getAvailableModels());
 
 	useEffect(() => {
 		setApiConfig(checkApiConfiguration());
@@ -339,7 +323,7 @@ export default function ImageGenerator({
 		<>
 			<div
 				ref={containerRef}
-				className="space-y-6 max-h-[calc(100vh-8rem)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-smooth"
+				className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 max-h-[calc(100vh-8rem)] space-y-6 overflow-y-auto scroll-smooth pr-2"
 			>
 				{/* 确保在移动设备上的滚动体验 */}
 				<style jsx>{`
@@ -355,14 +339,12 @@ export default function ImageGenerator({
 					!apiConfig.stability.configured &&
 					!apiConfig.midjourney.configured &&
 					!apiConfig.siliconflow.configured && (
-						<div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+						<div className="rounded-xl border border-yellow-200 bg-yellow-50 p-4">
 							<div className="flex items-center gap-3">
-								<AlertCircle className="w-5 h-5 text-yellow-600" />
+								<AlertCircle className="h-5 w-5 text-yellow-600" />
 								<div>
 									<h4 className="font-medium text-yellow-800">需要配置 API</h4>
-									<p className="text-sm text-yellow-700 mt-1">
-										请在环境变量中配置至少一个 AI 服务的 API 密钥
-									</p>
+									<p className="mt-1 text-sm text-yellow-700">请在环境变量中配置至少一个 AI 服务的 API 密钥</p>
 								</div>
 							</div>
 						</div>
@@ -370,24 +352,22 @@ export default function ImageGenerator({
 
 				{/* 错误提示 */}
 				{error && (
-					<div className="bg-red-50 border border-red-200 rounded-xl p-4">
+					<div className="rounded-xl border border-red-200 bg-red-50 p-4">
 						<div className="flex items-center gap-3">
-							<AlertCircle className="w-5 h-5 text-red-600" />
+							<AlertCircle className="h-5 w-5 text-red-600" />
 							<div>
 								<h4 className="font-medium text-red-800">生成失败</h4>
-								<p className="text-sm text-red-700 mt-1">{error}</p>
+								<p className="mt-1 text-red-700 text-sm">{error}</p>
 							</div>
 						</div>
 					</div>
 				)}
 
 				{/* 主输入区域 */}
-				<div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-					<div className="flex items-center gap-2 mb-4">
-						<Sparkles className="w-5 h-5 text-purple-500" />
-						<h3 className="text-lg font-semibold text-gray-900">
-							描述你想要生成的图片
-						</h3>
+				<div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+					<div className="mb-4 flex items-center gap-2">
+						<Sparkles className="h-5 w-5 text-purple-500" />
+						<h3 className="font-semibold text-gray-900 text-lg">描述你想要生成的图片</h3>
 					</div>
 
 					{/* 提示词输入 */}
@@ -396,17 +376,17 @@ export default function ImageGenerator({
 							value={prompt}
 							onChange={(e) => setPrompt(e.target.value)}
 							placeholder="详细描述你想要生成的图片，包括主体、风格、色彩、构图等..."
-							className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-y min-h-[8rem] max-h-[12rem] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
+							className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 max-h-[12rem] min-h-[8rem] w-full resize-y rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-500"
 						/>
 
 						{/* 示例提示词 */}
 						<div className="flex flex-wrap gap-2">
-							<span className="text-sm text-gray-500">试试这些：</span>
+							<span className="text-gray-500 text-sm">试试这些：</span>
 							{examplePrompts.map((example, index) => (
 								<button
 									key={index}
 									onClick={() => useExamplePrompt(example)}
-									className="text-sm px-2 py-1 bg-purple-50 text-purple-600 rounded-full hover:bg-purple-100 transition-colors"
+									className="rounded-full bg-purple-50 px-2 py-1 text-purple-600 text-sm transition-colors hover:bg-purple-100"
 								>
 									{example.substring(0, 30)}...
 								</button>
@@ -417,37 +397,33 @@ export default function ImageGenerator({
 					{/* 高级选项切换 */}
 					<button
 						onClick={() => setShowAdvanced(!showAdvanced)}
-						className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors mt-4"
+						className="mt-4 flex items-center gap-2 text-gray-600 text-sm transition-colors hover:text-gray-900"
 					>
-						<Settings className="w-4 h-4" />
+						<Settings className="h-4 w-4" />
 						{showAdvanced ? "隐藏高级选项" : "显示高级选项"}
 					</button>
 
 					{/* 高级选项 */}
 					{showAdvanced && (
-						<div className="mt-4 space-y-4 p-4 bg-gray-50 rounded-lg">
+						<div className="mt-4 space-y-4 rounded-lg bg-gray-50 p-4">
 							{/* 负面提示词 */}
 							<div>
-								<label className="block text-sm font-medium text-gray-700 mb-2">
-									负面提示词（不希望出现的内容）
-								</label>
+								<label className="mb-2 block font-medium text-gray-700 text-sm">负面提示词（不希望出现的内容）</label>
 								<textarea
 									value={negativePrompt}
 									onChange={(e) => setNegativePrompt(e.target.value)}
 									placeholder="描述不希望出现在图片中的内容，如：模糊、低质量、文字等..."
-									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-y min-h-[5rem] max-h-[8rem] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 text-sm"
+									className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 max-h-[8rem] min-h-[5rem] w-full resize-y rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-500"
 								/>
 							</div>
 
 							{/* 模型选择 */}
 							<div>
-								<label className="block text-sm font-medium text-gray-700 mb-2">
-									模型选择
-								</label>
+								<label className="mb-2 block font-medium text-gray-700 text-sm">模型选择</label>
 								<select
 									value={model}
 									onChange={(e) => setModel(e.target.value)}
-									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+									className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-500"
 								>
 									{models.map((m) => (
 										<option key={m.value} value={m.value}>
@@ -458,15 +434,13 @@ export default function ImageGenerator({
 							</div>
 
 							{/* 参数设置 */}
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+							<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-2">
-										尺寸
-									</label>
+									<label className="mb-2 block font-medium text-gray-700 text-sm">尺寸</label>
 									<select
 										value={size}
 										onChange={(e) => setSize(e.target.value)}
-										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+										className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-500"
 									>
 										{sizes.map((s) => {
 											const supported = isSizeSupported(s.value, model);
@@ -485,15 +459,11 @@ export default function ImageGenerator({
 								</div>
 
 								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-2">
-										质量
-									</label>
+									<label className="mb-2 block font-medium text-gray-700 text-sm">质量</label>
 									<select
 										value={quality}
-										onChange={(e) =>
-											setQuality(e.target.value as "standard" | "hd")
-										}
-										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+										onChange={(e) => setQuality(e.target.value as "standard" | "hd")}
+										className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-500"
 									>
 										{qualities.map((q) => {
 											const supported = isQualitySupported(q.value, model);
@@ -512,15 +482,11 @@ export default function ImageGenerator({
 								</div>
 
 								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-2">
-										风格
-									</label>
+									<label className="mb-2 block font-medium text-gray-700 text-sm">风格</label>
 									<select
 										value={style}
-										onChange={(e) =>
-											setStyle(e.target.value as "vivid" | "natural")
-										}
-										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+										onChange={(e) => setStyle(e.target.value as "vivid" | "natural")}
+										className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-500"
 									>
 										{styles.map((s) => {
 											const supported = isStyleSupported(s.value, model);
@@ -547,16 +513,16 @@ export default function ImageGenerator({
 							<>
 								<button
 									onClick={handleStopGeneration}
-									className="flex-1 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+									className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-red-500 py-3 font-medium text-white transition-all duration-200 hover:bg-red-600"
 								>
-									<X className="w-5 h-5" />
+									<X className="h-5 w-5" />
 									停止生成
 								</button>
 								<button
 									onClick={handleReset}
-									className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+									className="flex items-center justify-center gap-2 rounded-lg bg-gray-500 px-6 py-3 font-medium text-white transition-all duration-200 hover:bg-gray-600"
 								>
-									<RefreshCw className="w-5 h-5" />
+									<RefreshCw className="h-5 w-5" />
 									重置
 								</button>
 							</>
@@ -564,9 +530,9 @@ export default function ImageGenerator({
 							<button
 								onClick={generateImage}
 								disabled={!prompt.trim() || isGenerating}
-								className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium"
+								className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 py-3 font-medium text-white transition-all duration-200 hover:from-purple-600 hover:to-pink-600 disabled:cursor-not-allowed disabled:from-gray-300 disabled:to-gray-400"
 							>
-								<Wand2 className="w-5 h-5" />
+								<Wand2 className="h-5 w-5" />
 								生成图片
 							</button>
 						)}
@@ -575,56 +541,52 @@ export default function ImageGenerator({
 					{/* 进度条和状态 */}
 					{showProgress && (
 						<div className="mt-3 space-y-2">
-							<div className="w-full bg-gray-200 rounded-full h-2">
+							<div className="h-2 w-full rounded-full bg-gray-200">
 								<div
-									className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300"
+									className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300"
 									style={{ width: `${displayProgress}%` }}
 								></div>
 							</div>
-							{status && (
-								<p className="text-sm text-gray-600 text-center">{status}</p>
-							)}
+							{status && <p className="text-center text-gray-600 text-sm">{status}</p>}
 						</div>
 					)}
 				</div>
 
 				{/* 生成结果 */}
 				{generatedImage && (
-					<div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-						<div className="flex items-center justify-between mb-4">
+					<div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+						<div className="mb-4 flex items-center justify-between">
 							<div className="flex items-center gap-2">
-								<Image className="w-5 h-5 text-green-500" />
-								<h3 className="text-lg font-semibold text-gray-900">
-									生成结果
-								</h3>
+								<Image className="h-5 w-5 text-green-500" />
+								<h3 className="font-semibold text-gray-900 text-lg">生成结果</h3>
 							</div>
 							<div className="flex items-center gap-2">
 								<button
 									onClick={downloadImage}
-									className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+									className="rounded-lg p-2 transition-colors hover:bg-gray-100"
 									title="下载图片"
 								>
-									<Download className="w-4 h-4 text-gray-600" />
+									<Download className="h-4 w-4 text-gray-600" />
 								</button>
 								<button
 									onClick={copyImageUrl}
-									className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+									className="rounded-lg p-2 transition-colors hover:bg-gray-100"
 									title="复制链接"
 								>
-									<Copy className="w-4 h-4 text-gray-600" />
+									<Copy className="h-4 w-4 text-gray-600" />
 								</button>
 								<button
 									onClick={() => setGeneratedImage(null)}
-									className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+									className="rounded-lg p-2 transition-colors hover:bg-gray-100"
 									title="清除"
 								>
-									<X className="w-4 h-4 text-gray-600" />
+									<X className="h-4 w-4 text-gray-600" />
 								</button>
 							</div>
 						</div>
 
 						{/* 图片显示 */}
-						<div className="relative group">
+						<div className="group relative">
 							<img
 								src={generatedImage}
 								alt="Generated image"
@@ -650,14 +612,9 @@ export default function ImageGenerator({
 										isFavorite: false,
 									})
 								}
-								className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors duration-200 flex items-center gap-2"
+								className="flex items-center gap-2 rounded-lg bg-purple-500 px-6 py-2 text-white transition-colors duration-200 hover:bg-purple-600"
 							>
-								<svg
-									className="w-4 h-4"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-								>
+								<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path
 										strokeLinecap="round"
 										strokeLinejoin="round"
@@ -676,22 +633,19 @@ export default function ImageGenerator({
 						</div>
 
 						{/* 生成信息 */}
-						<div className="mt-4 p-3 bg-gray-50 rounded-lg">
-							<div className="text-sm text-gray-600 space-y-1">
+						<div className="mt-4 rounded-lg bg-gray-50 p-3">
+							<div className="space-y-1 text-gray-600 text-sm">
 								<p>
-									<strong>模型:</strong>{" "}
-									{models.find((m) => m.value === model)?.label}
+									<strong>模型:</strong> {models.find((m) => m.value === model)?.label}
 								</p>
 								<p>
 									<strong>尺寸:</strong> {size}
 								</p>
 								<p>
-									<strong>质量:</strong>{" "}
-									{qualities.find((q) => q.value === quality)?.label}
+									<strong>质量:</strong> {qualities.find((q) => q.value === quality)?.label}
 								</p>
 								<p>
-									<strong>风格:</strong>{" "}
-									{styles.find((s) => s.value === style)?.label}
+									<strong>风格:</strong> {styles.find((s) => s.value === style)?.label}
 								</p>
 							</div>
 						</div>
@@ -703,21 +657,11 @@ export default function ImageGenerator({
 			{showScrollTop && (
 				<button
 					onClick={scrollToTop}
-					className="fixed bottom-6 right-6 bg-purple-500 text-white p-3 rounded-full shadow-lg hover:bg-purple-600 transition-all duration-200 z-50 flex items-center justify-center"
+					className="fixed right-6 bottom-6 z-50 flex items-center justify-center rounded-full bg-purple-500 p-3 text-white shadow-lg transition-all duration-200 hover:bg-purple-600"
 					title="滚动到顶部"
 				>
-					<svg
-						className="w-5 h-5"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth={2}
-							d="M5 10l7-7m0 0l7 7m-7-7v18"
-						/>
+					<svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
 					</svg>
 				</button>
 			)}

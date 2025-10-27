@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { useEffect, useRef, useState } from "react";
 import Layout from "@/components/Layout";
 
 const EASES = [
@@ -31,54 +31,48 @@ export default function Page() {
 	return (
 		<Layout>
 			<div style={{ padding: 24 }}>
-				<h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 12 }}>
-					Eases 缓动函数
-				</h1>
-			<p style={{ color: "#666", marginBottom: 16 }}>
-				选择不同缓动并观察运动差异（包含 steps 示例）。
-			</p>
+				<h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 12 }}>Eases 缓动函数</h1>
+				<p style={{ color: "#666", marginBottom: 16 }}>选择不同缓动并观察运动差异（包含 steps 示例）。</p>
 
-			<div
-				style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}
-			>
-				{EASES.map((e) => (
-					<button
-						key={e}
-						onClick={() => setEase(e)}
-						style={{
-							padding: "6px 10px",
-							borderRadius: 6,
-							border: "1px solid #ddd",
-							background: ease === e ? "#111" : "#fff",
-							color: ease === e ? "#fff" : "#111",
-							cursor: "pointer",
-						}}
-					>
-						{e}
-					</button>
-				))}
-			</div>
+				<div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
+					{EASES.map((e) => (
+						<button
+							key={e}
+							onClick={() => setEase(e)}
+							style={{
+								padding: "6px 10px",
+								borderRadius: 6,
+								border: "1px solid #ddd",
+								background: ease === e ? "#111" : "#fff",
+								color: ease === e ? "#fff" : "#111",
+								cursor: "pointer",
+							}}
+						>
+							{e}
+						</button>
+					))}
+				</div>
 
-			<div
-				style={{
-					position: "relative",
-					height: 60,
-					background: "#f7f7f7",
-					borderRadius: 8,
-					padding: 10,
-				}}
-			>
 				<div
-					ref={ballRef}
 					style={{
-						width: 36,
-						height: 36,
-						borderRadius: 18,
-						background: "#3b82f6",
+						position: "relative",
+						height: 60,
+						background: "#f7f7f7",
+						borderRadius: 8,
+						padding: 10,
 					}}
-				/>
+				>
+					<div
+						ref={ballRef}
+						style={{
+							width: 36,
+							height: 36,
+							borderRadius: 18,
+							background: "#3b82f6",
+						}}
+					/>
+				</div>
 			</div>
-		</div>
-	</Layout>
-);
+		</Layout>
+	);
 }

@@ -10,11 +10,7 @@ export default function ChatRoom() {
 	useEffect(() => {
 		const ws = new WebSocket("wss://echo.websocket.events");
 		wsRef.current = ws;
-		ws.onmessage = (e) =>
-			setMessages((arr) => [
-				...arr,
-				{ id: Date.now() + Math.random(), text: String(e.data) },
-			]);
+		ws.onmessage = (e) => setMessages((arr) => [...arr, { id: Date.now() + Math.random(), text: String(e.data) }]);
 		return () => ws.close();
 	}, []);
 
@@ -35,15 +31,8 @@ export default function ChatRoom() {
 				))}
 			</div>
 			<div className="mt-3 flex gap-2">
-				<input
-					className="flex-1 rounded border px-3 py-2"
-					value={input}
-					onChange={(e) => setInput(e.target.value)}
-				/>
-				<button
-					className="rounded bg-gray-900 px-3 py-2 text-white"
-					onClick={send}
-				>
+				<input className="flex-1 rounded border px-3 py-2" value={input} onChange={(e) => setInput(e.target.value)} />
+				<button className="rounded bg-gray-900 px-3 py-2 text-white" onClick={send}>
 					发送
 				</button>
 			</div>

@@ -24,10 +24,7 @@ export function FixedHeightVirtualList() {
 	const endIndex = Math.min(DATA.length, startIndex + visibleCount);
 	const offsetY = startIndex * rowHeight;
 
-	const visibleData = useMemo(
-		() => DATA.slice(startIndex, endIndex),
-		[startIndex, endIndex],
-	);
+	const visibleData = useMemo(() => DATA.slice(startIndex, endIndex), [startIndex, endIndex]);
 
 	const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
 		const scrollTop = e.currentTarget.scrollTop;
@@ -56,13 +53,10 @@ export function FixedHeightVirtualList() {
 				<div>
 					<h3 className="font-semibold">固定高度虚拟列表</h3>
 					<p className="text-muted-foreground text-sm">
-						共 {DATA.length.toLocaleString()} 条数据，当前显示{" "}
-						{visibleData.length} 条
+						共 {DATA.length.toLocaleString()} 条数据，当前显示 {visibleData.length} 条
 					</p>
 				</div>
-				<div className="text-muted-foreground text-sm">
-					{scrolling ? "滚动中..." : "已停止"}
-				</div>
+				<div className="text-muted-foreground text-sm">{scrolling ? "滚动中..." : "已停止"}</div>
 			</div>
 
 			<div
@@ -72,28 +66,19 @@ export function FixedHeightVirtualList() {
 				style={{ height: `${containerHeight}px` }}
 			>
 				<div style={{ height: totalHeight }}>
-					<div
-						style={{ transform: `translateY(${offsetY}px)` }}
-						className="relative"
-					>
+					<div style={{ transform: `translateY(${offsetY}px)` }} className="relative">
 						{visibleData.map((item) => (
 							<div
 								key={item.id}
-								className={`flex items-center gap-4 border-b px-4 transition-all hover:bg-muted/50 ${
-									scrolling ? "opacity-90" : "opacity-100"
-								}`}
+								className={`flex items-center gap-4 border-b px-4 transition-all hover:bg-muted/50 ${scrolling ? "opacity-90" : "opacity-100"}`}
 								style={{ height: rowHeight }}
 							>
 								<div className="flex-1">
 									<div className="font-medium">{item.name}</div>
-									<div className="text-muted-foreground text-sm">
-										{item.email}
-									</div>
+									<div className="text-muted-foreground text-sm">{item.email}</div>
 								</div>
 								<div className="flex items-center gap-2">
-									<span className="rounded bg-muted px-2 py-1 text-sm">
-										{item.role}
-									</span>
+									<span className="rounded bg-muted px-2 py-1 text-sm">{item.role}</span>
 									<span
 										className={`rounded px-2 py-1 text-sm ${
 											item.status === "在线"

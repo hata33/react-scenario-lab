@@ -1,32 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
-import Layout from "@/components/Layout";
 import {
-	FileText,
-	Search,
-	Globe,
-	Image as ImageIcon,
-	Share2,
-	CheckCircle,
 	ArrowLeft,
+	CheckCircle,
+	Code,
 	Copy,
 	Eye,
-	Code,
+	FileText,
+	Globe,
+	Image as ImageIcon,
+	Search,
+	Share2,
 } from "lucide-react";
 import Link from "next/link";
+import React, { useState } from "react";
+import Layout from "@/components/Layout";
 
 interface MetadataExample {
 	id: string;
 	title: string;
 	description: string;
-	category:
-		| "Dynamic"
-		| "Static"
-		| "Structured"
-		| "Social"
-		| "Sitemap"
-		| "Robots";
+	category: "Dynamic" | "Static" | "Structured" | "Social" | "Sitemap" | "Robots";
 	difficulty: "初级" | "中级" | "高级";
 	status: "completed" | "in-progress" | "planned";
 	codeSnippet: string;
@@ -101,8 +95,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 		benefits: ["SEO 优化", "动态内容", "个性化设置", "自动生成"],
 		preview: {
 			title: "Next.js 15 元数据指南 - 深入理解 SEO 优化",
-			description:
-				"全面介绍 Next.js 15 的元数据功能，包括动态元数据、静态元数据、Open Graph 标签等...",
+			description: "全面介绍 Next.js 15 的元数据功能，包括动态元数据、静态元数据、Open Graph 标签等...",
 			image: "https://example.com/images/blog-nextjs-metadata.jpg",
 			url: "https://example.com/blog/nextjs-metadata-guide",
 		},
@@ -173,8 +166,7 @@ export default function AboutPage() {
 		benefits: ["简单易用", "性能优化", "缓存友好", "SEO 基础"],
 		preview: {
 			title: "关于我们 | Next.js 实验室",
-			description:
-				"了解 Next.js 实验室的团队、使命和愿景。我们致力于提供最好的 Next.js 学习资源。",
+			description: "了解 Next.js 实验室的团队、使命和愿景。我们致力于提供最好的 Next.js 学习资源。",
 			url: "https://nextjs-lab.example.com/about",
 		},
 	},
@@ -261,8 +253,7 @@ const articleStructuredData = {
 		benefits: ["搜索优化", "丰富摘要", "点击率提升", "用户体验"],
 		preview: {
 			title: "iPhone 15 Pro - 产品详情 | 电商网站",
-			description:
-				"iPhone 15 Pro 采用钛金属设计，搭载 A17 Pro 芯片，支持 USB-C 接口，配备专业级相机系统。",
+			description: "iPhone 15 Pro 采用钛金属设计，搭载 A17 Pro 芯片，支持 USB-C 接口，配备专业级相机系统。",
 			url: "https://example.com/products/iphone-15-pro",
 		},
 	},
@@ -546,8 +537,7 @@ export function dynamicRobots(): MetadataRoute.Robots {
 ];
 
 export default function MetadataFeaturePage() {
-	const [selectedExample, setSelectedExample] =
-		useState<MetadataExample | null>(null);
+	const [selectedExample, setSelectedExample] = useState<MetadataExample | null>(null);
 	const [copiedCode, setCopiedCode] = useState(false);
 
 	const copyToClipboard = async (text: string) => {
@@ -623,25 +613,20 @@ export default function MetadataFeaturePage() {
 			<div className="min-h-screen bg-gray-50">
 				{/* 头部 */}
 				<div className="bg-white shadow-sm">
-					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 						<div className="flex items-center space-x-4">
 							<Link
 								href="/nextjs-features"
-								className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+								className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
 							>
-								<ArrowLeft className="w-5 h-5 mr-2" />
+								<ArrowLeft className="mr-2 h-5 w-5" />
 								返回特性列表
 							</Link>
 							<div className="flex items-center space-x-3">
-								<FileText className="w-8 h-8 text-blue-600" />
+								<FileText className="h-8 w-8 text-blue-600" />
 								<div>
-									<h1 className="text-3xl font-bold text-gray-900">
-										元数据和 SEO 特性
-									</h1>
-									<p className="text-gray-600">
-										Next.js 完整的 SEO
-										解决方案：动态元数据、结构化数据、社交媒体优化
-									</p>
+									<h1 className="font-bold text-3xl text-gray-900">元数据和 SEO 特性</h1>
+									<p className="text-gray-600">Next.js 完整的 SEO 解决方案：动态元数据、结构化数据、社交媒体优化</p>
 								</div>
 							</div>
 						</div>
@@ -649,96 +634,88 @@ export default function MetadataFeaturePage() {
 				</div>
 
 				{/* SEO 概览 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-						<h2 className="text-xl font-semibold text-gray-900 mb-6">
-							SEO 特性概览
-						</h2>
-						<div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-							<div className="text-center p-4 bg-blue-50 rounded-lg">
-								<Search className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-blue-900 mb-1">搜索引擎</h3>
-								<p className="text-sm text-blue-700">优化排名</p>
+				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+						<h2 className="mb-6 font-semibold text-gray-900 text-xl">SEO 特性概览</h2>
+						<div className="grid grid-cols-1 gap-4 md:grid-cols-6">
+							<div className="rounded-lg bg-blue-50 p-4 text-center">
+								<Search className="mx-auto mb-2 h-6 w-6 text-blue-600" />
+								<h3 className="mb-1 font-semibold text-blue-900">搜索引擎</h3>
+								<p className="text-blue-700 text-sm">优化排名</p>
 							</div>
-							<div className="text-center p-4 bg-green-50 rounded-lg">
-								<FileText className="w-6 h-6 text-green-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-green-900 mb-1">元数据</h3>
-								<p className="text-sm text-green-700">动态生成</p>
+							<div className="rounded-lg bg-green-50 p-4 text-center">
+								<FileText className="mx-auto mb-2 h-6 w-6 text-green-600" />
+								<h3 className="mb-1 font-semibold text-green-900">元数据</h3>
+								<p className="text-green-700 text-sm">动态生成</p>
 							</div>
-							<div className="text-center p-4 bg-purple-50 rounded-lg">
-								<Globe className="w-6 h-6 text-purple-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-purple-900 mb-1">结构化</h3>
-								<p className="text-sm text-purple-700">数据标记</p>
+							<div className="rounded-lg bg-purple-50 p-4 text-center">
+								<Globe className="mx-auto mb-2 h-6 w-6 text-purple-600" />
+								<h3 className="mb-1 font-semibold text-purple-900">结构化</h3>
+								<p className="text-purple-700 text-sm">数据标记</p>
 							</div>
-							<div className="text-center p-4 bg-orange-50 rounded-lg">
-								<Share2 className="w-6 h-6 text-orange-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-orange-900 mb-1">社交媒体</h3>
-								<p className="text-sm text-orange-700">优化分享</p>
+							<div className="rounded-lg bg-orange-50 p-4 text-center">
+								<Share2 className="mx-auto mb-2 h-6 w-6 text-orange-600" />
+								<h3 className="mb-1 font-semibold text-orange-900">社交媒体</h3>
+								<p className="text-orange-700 text-sm">优化分享</p>
 							</div>
-							<div className="text-center p-4 bg-indigo-50 rounded-lg">
-								<ImageIcon className="w-6 h-6 text-indigo-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-indigo-900 mb-1">网站地图</h3>
-								<p className="text-sm text-indigo-700">自动生成</p>
+							<div className="rounded-lg bg-indigo-50 p-4 text-center">
+								<ImageIcon className="mx-auto mb-2 h-6 w-6 text-indigo-600" />
+								<h3 className="mb-1 font-semibold text-indigo-900">网站地图</h3>
+								<p className="text-indigo-700 text-sm">自动生成</p>
 							</div>
-							<div className="text-center p-4 bg-red-50 rounded-lg">
-								<Code className="w-6 h-6 text-red-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-red-900 mb-1">爬虫控制</h3>
-								<p className="text-sm text-red-700">权限管理</p>
+							<div className="rounded-lg bg-red-50 p-4 text-center">
+								<Code className="mx-auto mb-2 h-6 w-6 text-red-600" />
+								<h3 className="mb-1 font-semibold text-red-900">爬虫控制</h3>
+								<p className="text-red-700 text-sm">权限管理</p>
 							</div>
 						</div>
 					</div>
 				</div>
 
 				{/* 元数据示例 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-					<h2 className="text-2xl font-bold text-gray-900 mb-6">实现示例</h2>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+					<h2 className="mb-6 font-bold text-2xl text-gray-900">实现示例</h2>
+					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 						{/* 左侧：示例列表 */}
 						<div className="space-y-4">
 							{metadataExamples.map((example) => (
 								<div
 									key={example.id}
-									className={`bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all cursor-pointer ${
-										selectedExample?.id === example.id
-											? "ring-2 ring-blue-500"
-											: ""
+									className={`cursor-pointer rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md ${
+										selectedExample?.id === example.id ? "ring-2 ring-blue-500" : ""
 									}`}
 									onClick={() => setSelectedExample(example)}
 								>
 									<div className="p-6">
-										<div className="flex items-start justify-between mb-3">
+										<div className="mb-3 flex items-start justify-between">
 											<div>
-												<h3 className="text-lg font-semibold text-gray-900 mb-1">
-													{example.title}
-												</h3>
-												<div className="flex items-center space-x-2 mb-2">
+												<h3 className="mb-1 font-semibold text-gray-900 text-lg">{example.title}</h3>
+												<div className="mb-2 flex items-center space-x-2">
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(example.category)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getCategoryColor(example.category)}`}
 													>
 														{example.category}
 													</span>
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(example.difficulty)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getDifficultyColor(example.difficulty)}`}
 													>
 														{example.difficulty}
 													</span>
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(example.status)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getStatusColor(example.status)}`}
 													>
 														{getStatusText(example.status)}
 													</span>
 												</div>
 											</div>
 										</div>
-										<p className="text-gray-600 mb-4">{example.description}</p>
+										<p className="mb-4 text-gray-600">{example.description}</p>
 										<div className="flex items-center justify-between">
 											<div className="flex items-center space-x-2">
-												<Eye className="w-4 h-4 text-gray-400" />
-												<span className="text-sm text-gray-500">SEO 优化</span>
+												<Eye className="h-4 w-4 text-gray-400" />
+												<span className="text-gray-500 text-sm">SEO 优化</span>
 											</div>
-											{example.status === "completed" && (
-												<CheckCircle className="w-4 h-4 text-green-500" />
-											)}
+											{example.status === "completed" && <CheckCircle className="h-4 w-4 text-green-500" />}
 										</div>
 									</div>
 								</div>
@@ -748,41 +725,31 @@ export default function MetadataFeaturePage() {
 						{/* 右侧：示例详情 */}
 						<div className="lg:sticky lg:top-6">
 							{selectedExample ? (
-								<div className="bg-white rounded-lg shadow-sm border border-gray-200">
-									<div className="p-6 border-b border-gray-200">
-										<div className="flex items-center justify-between mb-4">
-											<h3 className="text-xl font-semibold text-gray-900">
-												{selectedExample.title}
-											</h3>
+								<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+									<div className="border-gray-200 border-b p-6">
+										<div className="mb-4 flex items-center justify-between">
+											<h3 className="font-semibold text-gray-900 text-xl">{selectedExample.title}</h3>
 											<div className="flex items-center space-x-2">
 												<span
-													className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(selectedExample.category)}`}
+													className={`inline-flex items-center rounded-full px-3 py-1 font-medium text-sm ${getCategoryColor(selectedExample.category)}`}
 												>
 													{selectedExample.category}
 												</span>
 											</div>
 										</div>
-										<p className="text-gray-600 mb-4">
-											{selectedExample.description}
-										</p>
+										<p className="mb-4 text-gray-600">{selectedExample.description}</p>
 
 										{/* 搜索结果预览 */}
 										{selectedExample.preview && (
 											<div className="mb-4">
-												<h4 className="text-sm font-medium text-gray-900 mb-2">
-													搜索结果预览
-												</h4>
-												<div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+												<h4 className="mb-2 font-medium text-gray-900 text-sm">搜索结果预览</h4>
+												<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
 													<div className="space-y-2">
-														<div className="text-blue-600 text-sm font-medium hover:underline cursor-pointer">
+														<div className="cursor-pointer font-medium text-blue-600 text-sm hover:underline">
 															{selectedExample.preview.title}
 														</div>
-														<div className="text-green-600 text-xs">
-															{selectedExample.preview.url}
-														</div>
-														<div className="text-gray-600 text-sm">
-															{selectedExample.preview.description}
-														</div>
+														<div className="text-green-600 text-xs">{selectedExample.preview.url}</div>
+														<div className="text-gray-600 text-sm">{selectedExample.preview.description}</div>
 													</div>
 												</div>
 											</div>
@@ -790,19 +757,17 @@ export default function MetadataFeaturePage() {
 									</div>
 
 									<div className="p-6">
-										<div className="flex items-center justify-between mb-3">
+										<div className="mb-3 flex items-center justify-between">
 											<h4 className="font-semibold text-gray-900">代码示例</h4>
 											<button
-												onClick={() =>
-													copyToClipboard(selectedExample.codeSnippet)
-												}
-												className="flex items-center space-x-1 text-sm text-gray-600 hover:text-gray-900"
+												onClick={() => copyToClipboard(selectedExample.codeSnippet)}
+												className="flex items-center space-x-1 text-gray-600 text-sm hover:text-gray-900"
 											>
-												<Copy className="w-4 h-4" />
+												<Copy className="h-4 w-4" />
 												<span>{copiedCode ? "已复制" : "复制"}</span>
 											</button>
 										</div>
-										<div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-6">
+										<div className="mb-6 overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
 											<pre className="text-sm">
 												<code>{selectedExample.codeSnippet}</code>
 											</pre>
@@ -810,14 +775,12 @@ export default function MetadataFeaturePage() {
 
 										{/* 主要优势 */}
 										<div className="mb-6">
-											<h5 className="font-medium text-gray-900 mb-2">
-												主要优势
-											</h5>
+											<h5 className="mb-2 font-medium text-gray-900">主要优势</h5>
 											<div className="flex flex-wrap gap-2">
 												{selectedExample.benefits.map((benefit, index) => (
 													<span
 														key={index}
-														className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-700"
+														className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm"
 													>
 														{benefit}
 													</span>
@@ -827,23 +790,19 @@ export default function MetadataFeaturePage() {
 									</div>
 
 									{selectedExample.status === "completed" && (
-										<div className="p-6 bg-green-50 border-t border-green-200">
+										<div className="border-green-200 border-t bg-green-50 p-6">
 											<div className="flex items-center space-x-2 text-green-800">
-												<CheckCircle className="w-5 h-5" />
+												<CheckCircle className="h-5 w-5" />
 												<span className="font-medium">该功能已完成并可用</span>
 											</div>
 										</div>
 									)}
 								</div>
 							) : (
-								<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-									<FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-									<h3 className="text-lg font-semibold text-gray-900 mb-2">
-										选择一个元数据示例
-									</h3>
-									<p className="text-gray-600">
-										点击左侧的示例查看详细信息和代码实现
-									</p>
+								<div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow-sm">
+									<FileText className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+									<h3 className="mb-2 font-semibold text-gray-900 text-lg">选择一个元数据示例</h3>
+									<p className="text-gray-600">点击左侧的示例查看详细信息和代码实现</p>
 								</div>
 							)}
 						</div>

@@ -1,6 +1,6 @@
-import { metadata } from "./metadata";
-import MilkdownEditorPage from "./MilkdownEditorPage";
 import Layout from "@/components/Layout";
+import MilkdownEditorPage from "./MilkdownEditorPage";
+import { metadata } from "./metadata";
 
 export { metadata };
 

@@ -127,13 +127,7 @@ const STYLES = {
 
 // 动态数据生成函数
 const generateDynamicData = (config: DataGenerationConfig): GraphData => {
-	const {
-		nodeCount,
-		levels,
-		connectionsPerNode,
-		connectionDensity,
-		branchingFactor,
-	} = config;
+	const { nodeCount, levels, connectionsPerNode, connectionDensity, branchingFactor } = config;
 
 	// 中文节点名称库
 	const nodeNames = [
@@ -277,8 +271,7 @@ const generateDynamicData = (config: DataGenerationConfig): GraphData => {
 
 	// 确保连通性：为每个非根节点至少创建一个连接
 	for (let i = 1; i < Math.min(nodes.length, branchingFactor + 1); i++) {
-		const relationship =
-			relationshipTypes[Math.floor(Math.random() * relationshipTypes.length)];
+		const relationship = relationshipTypes[Math.floor(Math.random() * relationshipTypes.length)];
 		edges.push({
 			source: "root",
 			target: nodes[i].id,
@@ -293,18 +286,11 @@ const generateDynamicData = (config: DataGenerationConfig): GraphData => {
 		const nextLevelNodes = nodes.filter((n) => n.type === `level_${level + 1}`);
 
 		currentLevelNodes.forEach((currentNode) => {
-			const connectionsToMake = Math.min(
-				Math.ceil(branchingFactor * 0.7),
-				nextLevelNodes.length,
-			);
+			const connectionsToMake = Math.min(Math.ceil(branchingFactor * 0.7), nextLevelNodes.length);
 
 			for (let i = 0; i < connectionsToMake; i++) {
-				const targetNode =
-					nextLevelNodes[Math.floor(Math.random() * nextLevelNodes.length)];
-				const relationship =
-					relationshipTypes[
-						Math.floor(Math.random() * relationshipTypes.length)
-					];
+				const targetNode = nextLevelNodes[Math.floor(Math.random() * nextLevelNodes.length)];
+				const relationship = relationshipTypes[Math.floor(Math.random() * relationshipTypes.length)];
 
 				// 避免重复边
 				const exists = edges.some(
@@ -337,16 +323,11 @@ const generateDynamicData = (config: DataGenerationConfig): GraphData => {
 
 			// 避免重复边和自连接
 			const exists = edges.some(
-				(e) =>
-					(e.source === source.id && e.target === target.id) ||
-					(e.source === target.id && e.target === source.id),
+				(e) => (e.source === source.id && e.target === target.id) || (e.source === target.id && e.target === source.id),
 			);
 
 			if (!exists) {
-				const relationship =
-					relationshipTypes[
-						Math.floor(Math.random() * relationshipTypes.length)
-					];
+				const relationship = relationshipTypes[Math.floor(Math.random() * relationshipTypes.length)];
 				edges.push({
 					source: source.id,
 					target: target.id,
@@ -449,40 +430,22 @@ export default function NewStyleGraphPage() {
 	});
 
 	// D3 相关引用
-	const svgRef = useRef<Selection<
-		SVGSVGElement,
-		unknown,
-		null,
-		undefined
-	> | null>(null);
+	const svgRef = useRef<Selection<SVGSVGElement, unknown, null, undefined> | null>(null);
 	const simulationRef = useRef<Simulation<Node, Edge> | null>(null);
-	const tooltipRef = useRef<Selection<
-		HTMLDivElement,
-		unknown,
-		null,
-		undefined
-	> | null>(null);
+	const tooltipRef = useRef<Selection<HTMLDivElement, unknown, null, undefined> | null>(null);
 
 	// 工具函数
 	const isMainNode = useCallback((d: Node) => d.name === "根节点", []);
 	const getNodeRadius = useCallback(
-		(d: Node) =>
-			isMainNode(d) ? THEME.sizes.mainNode : d.size || THEME.sizes.normalNode,
+		(d: Node) => (isMainNode(d) ? THEME.sizes.mainNode : d.size || THEME.sizes.normalNode),
 		[isMainNode],
 	);
 	const getNodeColor = useCallback(
-		(d: Node) =>
-			isMainNode(d) ? THEME.colors.highlight : THEME.colors.primary,
+		(d: Node) => (isMainNode(d) ? THEME.colors.highlight : THEME.colors.primary),
 		[isMainNode],
 	);
-	const getNodeStroke = useCallback(
-		(d: Node) => (d.isLinkNode ? THEME.colors.secondary : THEME.colors.stroke),
-		[],
-	);
-	const getNodeStrokeWidth = useCallback(
-		(d: Node) => (d.isLinkNode ? 1 : THEME.sizes.strokeWidth),
-		[],
-	);
+	const getNodeStroke = useCallback((d: Node) => (d.isLinkNode ? THEME.colors.secondary : THEME.colors.stroke), []);
+	const getNodeStrokeWidth = useCallback((d: Node) => (d.isLinkNode ? 1 : THEME.sizes.strokeWidth), []);
 
 	// 创建提示框内容
 	const createTooltipContent = useCallback((d: Node) => {
@@ -520,10 +483,8 @@ export default function NewStyleGraphPage() {
 
 				// 查找连接到当前节点的所有边
 				graphData.edges.forEach((edge) => {
-					const sourceId =
-						typeof edge.source === "string" ? edge.source : edge.source.id;
-					const targetId =
-						typeof edge.target === "string" ? edge.target : edge.target.id;
+					const sourceId = typeof edge.source === "string" ? edge.source : edge.source.id;
+					const targetId = typeof edge.target === "string" ? edge.target : edge.target.id;
 
 					if (targetId === currentId && !visited.has(sourceId)) {
 						queue.push([sourceId, [...path, sourceId]]);
@@ -585,47 +546,34 @@ export default function NewStyleGraphPage() {
 					.select("text")
 					.transition()
 					.duration(THEME.transitions.duration.normal)
-					.attr(
-						"opacity",
-						isRelated ? THEME.opacity.full : THEME.opacity.dimText,
-					);
+					.attr("opacity", isRelated ? THEME.opacity.full : THEME.opacity.dimText);
 			});
 
 			linkSelection
 				.transition()
 				.duration(THEME.transitions.duration.normal)
 				.attr("opacity", (l) => {
-					const sourceId =
-						typeof l.source === "string" ? l.source : l.source.id;
-					const targetId =
-						typeof l.target === "string" ? l.target : l.target.id;
-					return relatedNodeIds.has(sourceId) && relatedNodeIds.has(targetId)
-						? THEME.opacity.edge
-						: THEME.opacity.dim;
+					const sourceId = typeof l.source === "string" ? l.source : l.source.id;
+					const targetId = typeof l.target === "string" ? l.target : l.target.id;
+					return relatedNodeIds.has(sourceId) && relatedNodeIds.has(targetId) ? THEME.opacity.edge : THEME.opacity.dim;
 				})
 				.attr("stroke", (l) => {
-					const sourceId =
-						typeof l.source === "string" ? l.source : l.source.id;
-					const targetId =
-						typeof l.target === "string" ? l.target : l.target.id;
+					const sourceId = typeof l.source === "string" ? l.source : l.source.id;
+					const targetId = typeof l.target === "string" ? l.target : l.target.id;
 					return relatedNodeIds.has(sourceId) && relatedNodeIds.has(targetId)
 						? THEME.colors.highlight
 						: THEME.colors.secondary;
 				})
 				.attr("stroke-width", (l) => {
-					const sourceId =
-						typeof l.source === "string" ? l.source : l.source.id;
-					const targetId =
-						typeof l.target === "string" ? l.target : l.target.id;
+					const sourceId = typeof l.source === "string" ? l.source : l.source.id;
+					const targetId = typeof l.target === "string" ? l.target : l.target.id;
 					return relatedNodeIds.has(sourceId) && relatedNodeIds.has(targetId)
 						? THEME.sizes.edgeWidth * 2
 						: THEME.sizes.edgeWidth;
 				})
 				.attr("marker-end", (l) => {
-					const sourceId =
-						typeof l.source === "string" ? l.source : l.source.id;
-					const targetId =
-						typeof l.target === "string" ? l.target : l.target.id;
+					const sourceId = typeof l.source === "string" ? l.source : l.source.id;
+					const targetId = typeof l.target === "string" ? l.target : l.target.id;
 					return relatedNodeIds.has(sourceId) && relatedNodeIds.has(targetId)
 						? "url(#arrowhead-highlight)"
 						: "url(#arrowhead-normal)";
@@ -710,35 +658,26 @@ export default function NewStyleGraphPage() {
 	);
 
 	// 拖拽相关函数
-	const dragstarted = useCallback(
-		(event: d3.D3DragEvent<SVGGElement, Node, unknown>, d: Node) => {
-			if (!event.active && simulationRef.current) {
-				simulationRef.current.alphaTarget(0.3).restart();
-			}
-			d.fx = d.x;
-			d.fy = d.y;
-		},
-		[],
-	);
+	const dragstarted = useCallback((event: d3.D3DragEvent<SVGGElement, Node, unknown>, d: Node) => {
+		if (!event.active && simulationRef.current) {
+			simulationRef.current.alphaTarget(0.3).restart();
+		}
+		d.fx = d.x;
+		d.fy = d.y;
+	}, []);
 
-	const dragged = useCallback(
-		(event: d3.D3DragEvent<SVGGElement, Node, unknown>, d: Node) => {
-			d.fx = event.x;
-			d.fy = event.y;
-		},
-		[],
-	);
+	const dragged = useCallback((event: d3.D3DragEvent<SVGGElement, Node, unknown>, d: Node) => {
+		d.fx = event.x;
+		d.fy = event.y;
+	}, []);
 
-	const dragended = useCallback(
-		(event: d3.D3DragEvent<SVGGElement, Node, unknown>, d: Node) => {
-			if (!event.active && simulationRef.current) {
-				simulationRef.current.alphaTarget(0);
-			}
-			d.fx = null;
-			d.fy = null;
-		},
-		[],
-	);
+	const dragended = useCallback((event: d3.D3DragEvent<SVGGElement, Node, unknown>, d: Node) => {
+		if (!event.active && simulationRef.current) {
+			simulationRef.current.alphaTarget(0);
+		}
+		d.fx = null;
+		d.fy = null;
+	}, []);
 
 	// 初始化图形
 	const initGraph = useCallback(() => {
@@ -753,11 +692,7 @@ export default function NewStyleGraphPage() {
 		const height = containerRef.current.clientHeight;
 
 		// 创建SVG容器
-		const svg = d3
-			.select(containerRef.current)
-			.append("svg")
-			.attr("width", width)
-			.attr("height", height);
+		const svg = d3.select(containerRef.current).append("svg").attr("width", width).attr("height", height);
 
 		svgRef.current = svg;
 
@@ -814,11 +749,7 @@ export default function NewStyleGraphPage() {
 			.attr("markerUnits", "userSpaceOnUse")
 			.append("path")
 			.attr("d", "M 0,-5 L 10,0 L 0,5")
-			.attr("fill", (d) =>
-				d === "highlight"
-					? THEME.colors.arrow.highlight
-					: THEME.colors.arrow.normal,
-			)
+			.attr("fill", (d) => (d === "highlight" ? THEME.colors.arrow.highlight : THEME.colors.arrow.normal))
 			.attr("stroke-width", 0);
 
 		// 创建力导向图
@@ -860,13 +791,7 @@ export default function NewStyleGraphPage() {
 			.data(graphData.nodes)
 			.join("g")
 			.attr("class", "node")
-			.call(
-				d3
-					.drag<SVGGElement, Node>()
-					.on("start", dragstarted)
-					.on("drag", dragged)
-					.on("end", dragended) as any,
-			);
+			.call(d3.drag<SVGGElement, Node>().on("start", dragstarted).on("drag", dragged).on("end", dragended) as any);
 
 		// 添加节点圆圈
 		node
@@ -876,21 +801,17 @@ export default function NewStyleGraphPage() {
 			.attr("stroke", getNodeStroke)
 			.attr("stroke-width", getNodeStrokeWidth)
 			.style("cursor", "pointer")
-			.on("mouseover", function (event, d) {
+			.on("mouseover", (event, d) => {
 				if (tooltipRef.current) {
-					tooltipRef.current
-						.html(createTooltipContent(d))
-						.style("visibility", "visible");
+					tooltipRef.current.html(createTooltipContent(d)).style("visibility", "visible");
 				}
 			})
-			.on("mousemove", function (event) {
+			.on("mousemove", (event) => {
 				if (tooltipRef.current) {
-					tooltipRef.current
-						.style("top", event.pageY - 10 + "px")
-						.style("left", event.pageX + 10 + "px");
+					tooltipRef.current.style("top", event.pageY - 10 + "px").style("left", event.pageX + 10 + "px");
 				}
 			})
-			.on("mouseout", function () {
+			.on("mouseout", () => {
 				if (tooltipRef.current) {
 					tooltipRef.current.style("visibility", "hidden");
 				}
@@ -904,11 +825,7 @@ export default function NewStyleGraphPage() {
 		node
 			.append("text")
 			.text((d) => d.name)
-			.attr("font-size", (d) =>
-				isMainNode(d)
-					? THEME.sizes.fontSize.large
-					: THEME.sizes.fontSize.normal,
-			)
+			.attr("font-size", (d) => (isMainNode(d) ? THEME.sizes.fontSize.large : THEME.sizes.fontSize.normal))
 			.attr("text-anchor", "middle")
 			.attr("dy", (d) => getNodeRadius(d) + 15)
 			.attr("fill", THEME.colors.text)
@@ -995,37 +912,29 @@ export default function NewStyleGraphPage() {
 			<div className="min-h-screen bg-gray-50">
 				<div className="container mx-auto px-4 py-8">
 					<div className="mb-8">
-						<h1 className="text-3xl font-bold text-gray-900 mb-2">
-							交互式力导向图形
-						</h1>
-						<p className="text-gray-600">
-							点击节点高亮连接关系。拖拽重新定位。滚轮缩放视图。
-						</p>
+						<h1 className="mb-2 font-bold text-3xl text-gray-900">交互式力导向图形</h1>
+						<p className="text-gray-600">点击节点高亮连接关系。拖拽重新定位。滚轮缩放视图。</p>
 					</div>
 
-					<div className="bg-white rounded-lg shadow-lg p-4">
+					<div className="rounded-lg bg-white p-4 shadow-lg">
 						<div className="mb-6">
-							<div className="flex items-center justify-between mb-4">
-								<h2 className="text-lg font-semibold text-gray-800">
-									动态数据控制
-								</h2>
-								<label className="flex items-center cursor-pointer">
+							<div className="mb-4 flex items-center justify-between">
+								<h2 className="font-semibold text-gray-800 text-lg">动态数据控制</h2>
+								<label className="flex cursor-pointer items-center">
 									<input
 										type="checkbox"
 										checked={useDynamicData}
 										onChange={(e) => setUseDynamicData(e.target.checked)}
-										className="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+										className="mr-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
 									/>
-									<span className="text-sm text-gray-700">启用动态生成</span>
+									<span className="text-gray-700 text-sm">启用动态生成</span>
 								</label>
 							</div>
 
 							{useDynamicData && (
-								<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
+								<div className="grid grid-cols-1 gap-4 rounded-lg bg-gray-50 p-4 md:grid-cols-2 lg:grid-cols-3">
 									<div>
-										<label className="block text-sm font-medium text-gray-700 mb-2">
-											节点数量: {config.nodeCount}
-										</label>
+										<label className="mb-2 block font-medium text-gray-700 text-sm">节点数量: {config.nodeCount}</label>
 										<input
 											type="range"
 											min="5"
@@ -1037,14 +946,12 @@ export default function NewStyleGraphPage() {
 													nodeCount: parseInt(e.target.value),
 												})
 											}
-											className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+											className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
 										/>
 									</div>
 
 									<div>
-										<label className="block text-sm font-medium text-gray-700 mb-2">
-											层级数: {config.levels}
-										</label>
+										<label className="mb-2 block font-medium text-gray-700 text-sm">层级数: {config.levels}</label>
 										<input
 											type="range"
 											min="1"
@@ -1056,12 +963,12 @@ export default function NewStyleGraphPage() {
 													levels: parseInt(e.target.value),
 												})
 											}
-											className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+											className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
 										/>
 									</div>
 
 									<div>
-										<label className="block text-sm font-medium text-gray-700 mb-2">
+										<label className="mb-2 block font-medium text-gray-700 text-sm">
 											连接密度: {(config.connectionDensity * 100).toFixed(0)}%
 										</label>
 										<input
@@ -1076,12 +983,12 @@ export default function NewStyleGraphPage() {
 													connectionDensity: parseFloat(e.target.value),
 												})
 											}
-											className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+											className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
 										/>
 									</div>
 
 									<div>
-										<label className="block text-sm font-medium text-gray-700 mb-2">
+										<label className="mb-2 block font-medium text-gray-700 text-sm">
 											分支因子: {config.branchingFactor}
 										</label>
 										<input
@@ -1095,14 +1002,14 @@ export default function NewStyleGraphPage() {
 													branchingFactor: parseInt(e.target.value),
 												})
 											}
-											className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+											className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
 										/>
 									</div>
 
 									<div className="flex items-end">
 										<button
 											onClick={regenerateData}
-											className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors font-medium"
+											className="rounded bg-green-500 px-6 py-2 font-medium text-white transition-colors hover:bg-green-600"
 										>
 											重新生成数据
 										</button>
@@ -1114,19 +1021,19 @@ export default function NewStyleGraphPage() {
 						<div className="mb-4 flex flex-wrap gap-4">
 							<button
 								onClick={() => centerNode("root")}
-								className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+								className="rounded bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
 							>
 								居中根节点
 							</button>
 							<button
 								onClick={resetHighlight}
-								className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
+								className="rounded bg-gray-500 px-4 py-2 text-white transition-colors hover:bg-gray-600"
 							>
 								重置高亮
 							</button>
 							{loading && (
 								<div className="flex items-center">
-									<div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
+									<div className="h-5 w-5 animate-spin rounded-full border-blue-500 border-b-2"></div>
 									<span className="ml-2 text-gray-600">正在加载图形...</span>
 								</div>
 							)}
@@ -1134,7 +1041,7 @@ export default function NewStyleGraphPage() {
 
 						<div
 							ref={containerRef}
-							className="w-full h-[600px] border border-gray-200 rounded grid-background"
+							className="grid-background h-[600px] w-full rounded border border-gray-200"
 							style={{
 								backgroundImage: `
                 linear-gradient(rgba(200, 200, 200, 0.2) 1px, transparent 1px),
@@ -1145,32 +1052,26 @@ export default function NewStyleGraphPage() {
 						/>
 					</div>
 
-					<div className="mt-8 bg-white rounded-lg shadow-lg p-6">
-						<h2 className="text-xl font-semibold mb-4">图形信息</h2>
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-							<div className="bg-gray-50 p-4 rounded">
+					<div className="mt-8 rounded-lg bg-white p-6 shadow-lg">
+						<h2 className="mb-4 font-semibold text-xl">图形信息</h2>
+						<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+							<div className="rounded bg-gray-50 p-4">
 								<h3 className="font-medium text-gray-700">节点数量</h3>
-								<p className="text-2xl font-bold text-blue-600">
-									{graphData.nodes.length}
-								</p>
+								<p className="font-bold text-2xl text-blue-600">{graphData.nodes.length}</p>
 							</div>
-							<div className="bg-gray-50 p-4 rounded">
+							<div className="rounded bg-gray-50 p-4">
 								<h3 className="font-medium text-gray-700">连接数量</h3>
-								<p className="text-2xl font-bold text-green-600">
-									{graphData.edges.length}
-								</p>
+								<p className="font-bold text-2xl text-green-600">{graphData.edges.length}</p>
 							</div>
-							<div className="bg-gray-50 p-4 rounded">
+							<div className="rounded bg-gray-50 p-4">
 								<h3 className="font-medium text-gray-700">状态</h3>
-								<p className="text-lg font-semibold text-gray-600">
-									{loading ? "加载中..." : "就绪"}
-								</p>
+								<p className="font-semibold text-gray-600 text-lg">{loading ? "加载中..." : "就绪"}</p>
 							</div>
 						</div>
 					</div>
 
-					<div className="mt-8 bg-white rounded-lg shadow-lg p-6">
-						<h2 className="text-xl font-semibold mb-4">使用说明</h2>
+					<div className="mt-8 rounded-lg bg-white p-6 shadow-lg">
+						<h2 className="mb-4 font-semibold text-xl">使用说明</h2>
 						<div className="space-y-2 text-gray-600">
 							<p>
 								• <strong>点击节点</strong>：高亮显示该节点的所有连接关系

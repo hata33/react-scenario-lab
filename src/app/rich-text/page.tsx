@@ -1,6 +1,6 @@
+import Layout from "@/components/Layout";
 import { metadata } from "./metadata";
 import RichTextHomePage from "./RichTextHomePage";
-import Layout from "@/components/Layout";
 
 export { metadata };
 

@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import Layout from "@/components/Layout";
 
 const formsPageData = [
@@ -35,39 +35,32 @@ export default function FormsPage() {
 	return (
 		<Layout>
 			<div className="min-h-screen bg-gray-50 p-6">
-				<div className="max-w-7xl mx-auto">
+				<div className="mx-auto max-w-7xl">
 					<div className="mb-8">
-						<div className="flex items-center mb-4">
-							<Link
-								href="/"
-								className="flex items-center text-gray-600 hover:text-gray-900 transition-colors mr-4"
-							>
-								<ArrowLeft className="w-5 h-5 mr-2" />
+						<div className="mb-4 flex items-center">
+							<Link href="/" className="mr-4 flex items-center text-gray-600 transition-colors hover:text-gray-900">
+								<ArrowLeft className="mr-2 h-5 w-5" />
 								返回首页
 							</Link>
 						</div>
-						<h1 className="text-3xl font-bold text-gray-900 mb-2">
-							表单功能展示
-						</h1>
+						<h1 className="mb-2 font-bold text-3xl text-gray-900">表单功能展示</h1>
 						<p className="text-gray-600">探索各种表单处理技术和最佳实践</p>
 					</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
 						{formsPageData.map((item, index) => (
 							<Link key={index} href={item.href}>
-								<div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer p-6 h-full">
+								<div className="h-full cursor-pointer rounded-lg bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg">
 									<div className="mb-4">
-										<h3 className="text-xl font-semibold text-gray-900 mb-2">
-											{item.title}
-										</h3>
+										<h3 className="mb-2 font-semibold text-gray-900 text-xl">{item.title}</h3>
 										<p className="text-gray-600 text-sm">{item.description}</p>
 									</div>
 									<div className="space-y-3">
 										<h4 className="font-medium text-gray-900">主要功能：</h4>
-										<ul className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+										<ul className="grid grid-cols-2 gap-2 text-gray-600 text-sm">
 											{item.features.map((feature, featureIndex) => (
 												<li key={featureIndex} className="flex items-center">
-													<span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+													<span className="mr-2 h-2 w-2 rounded-full bg-blue-500"></span>
 													{feature}
 												</li>
 											))}
@@ -78,25 +71,19 @@ export default function FormsPage() {
 						))}
 					</div>
 
-					<div className="mt-12 p-6 bg-white rounded-lg shadow-sm">
-						<h2 className="text-2xl font-bold text-gray-900 mb-4">技术特性</h2>
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+					<div className="mt-12 rounded-lg bg-white p-6 shadow-sm">
+						<h2 className="mb-4 font-bold text-2xl text-gray-900">技术特性</h2>
+						<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 							<div className="text-center">
-								<div className="text-3xl font-bold text-blue-600 mb-2">
-									React 19
-								</div>
+								<div className="mb-2 font-bold text-3xl text-blue-600">React 19</div>
 								<p className="text-gray-600">基于最新的React版本构建</p>
 							</div>
 							<div className="text-center">
-								<div className="text-3xl font-bold text-green-600 mb-2">
-									TypeScript
-								</div>
+								<div className="mb-2 font-bold text-3xl text-green-600">TypeScript</div>
 								<p className="text-gray-600">完整的类型安全保障</p>
 							</div>
 							<div className="text-center">
-								<div className="text-3xl font-bold text-purple-600 mb-2">
-									Tailwind CSS
-								</div>
+								<div className="mb-2 font-bold text-3xl text-purple-600">Tailwind CSS</div>
 								<p className="text-gray-600">现代化的样式解决方案</p>
 							</div>
 						</div>

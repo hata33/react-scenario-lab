@@ -2,23 +2,16 @@
  * 导出管理器 - 统一的导出功能入口
  */
 
-import {
-	ExportConfig,
-	ExportFormat,
-	ExportOptions,
-	ExportProgress,
-	ExportHistory,
-} from "@/types/export";
-import { TextExporter } from "@/utils/export/textExport";
-import { TableExporter } from "@/utils/export/tableExport";
+import { saveAs } from "file-saver";
+import type { ExportConfig, ExportFormat, ExportHistory, ExportOptions, ExportProgress } from "@/types/export";
 import { DocumentExporter } from "@/utils/export/documentExport";
 import { ImageExporter } from "@/utils/export/imageExport";
-import { saveAs } from "file-saver";
+import { TableExporter } from "@/utils/export/tableExport";
+import { TextExporter } from "@/utils/export/textExport";
 
 export class ExportManager {
 	private static instance: ExportManager;
-	private progressCallbacks: Map<string, (progress: ExportProgress) => void> =
-		new Map();
+	private progressCallbacks: Map<string, (progress: ExportProgress) => void> = new Map();
 	private exportHistory: ExportHistory[] = [];
 
 	private constructor() {
@@ -69,30 +62,18 @@ export class ExportManager {
 				case "xlsx":
 				case "xls":
 					this.updateProgress(exportId, { status: "processing", progress: 20 });
-					content = await TableExporter.exportToExcel(
-						config.data,
-						config.options,
-					);
+					content = await TableExporter.exportToExcel(config.data, config.options);
 					break;
 				case "pdf":
 					this.updateProgress(exportId, { status: "processing", progress: 20 });
-					content = await DocumentExporter.exportToPdf(
-						config.data,
-						config.options,
-					);
+					content = await DocumentExporter.exportToPdf(config.data, config.options);
 					break;
 				case "docx":
 					this.updateProgress(exportId, { status: "processing", progress: 20 });
-					content = await DocumentExporter.exportToDocx(
-						config.data,
-						config.options,
-					);
+					content = await DocumentExporter.exportToDocx(config.data, config.options);
 					break;
 				case "markdown":
-					content = DocumentExporter.exportToMarkdown(
-						config.data,
-						config.options,
-					);
+					content = DocumentExporter.exportToMarkdown(config.data, config.options);
 					break;
 				case "png":
 				case "jpg":
@@ -102,11 +83,7 @@ export class ExportManager {
 							status: "processing",
 							progress: 20,
 						});
-						content = await this.exportImage(
-							config.data as HTMLElement,
-							config.format,
-							config.options,
-						);
+						content = await this.exportImage(config.data as HTMLElement, config.format, config.options);
 					} else {
 						throw new Error("图片导出需要HTMLElement作为数据源");
 					}
@@ -266,36 +243,22 @@ export class ExportManager {
 				break;
 			case "xlsx":
 			case "xls":
-				content = await TableExporter.exportToExcel(
-					config.data,
-					config.options,
-				);
+				content = await TableExporter.exportToExcel(config.data, config.options);
 				break;
 			case "pdf":
-				content = await DocumentExporter.exportToPdf(
-					config.data,
-					config.options,
-				);
+				content = await DocumentExporter.exportToPdf(config.data, config.options);
 				break;
 			case "docx":
-				content = await DocumentExporter.exportToDocx(
-					config.data,
-					config.options,
-				);
+				content = await DocumentExporter.exportToDocx(config.data, config.options);
 				break;
 			case "markdown":
-				content = DocumentExporter.exportToMarkdown(
-					config.data,
-					config.options,
-				);
+				content = DocumentExporter.exportToMarkdown(config.data, config.options);
 				break;
 			default:
 				throw new Error(`不支持的导出格式: ${config.format}`);
 		}
 
-		return typeof content === "string"
-			? new Blob([content], { type: this.getMimeType(config.format) })
-			: content;
+		return typeof content === "string" ? new Blob([content], { type: this.getMimeType(config.format) }) : content;
 	}
 
 	/**
@@ -311,9 +274,10 @@ export class ExportManager {
 				return ImageExporter.exportToPng(element, options);
 			case "jpg":
 				return ImageExporter.exportToJpg(element, options);
-			case "svg":
+			case "svg": {
 				const svgContent = ImageExporter.exportToSvg(element, options);
 				return new Blob([svgContent], { type: "image/svg+xml" });
+			}
 			default:
 				throw new Error(`不支持的图片格式: ${format}`);
 		}
@@ -322,10 +286,7 @@ export class ExportManager {
 	/**
 	 * 创建ZIP文件
 	 */
-	private async createZip(
-		blobs: Blob[],
-		configs: ExportConfig[],
-	): Promise<Blob> {
+	private async createZip(blobs: Blob[], configs: ExportConfig[]): Promise<Blob> {
 		// 这里需要使用JSZip库
 		const JSZip = await import("jszip");
 		const zip = new JSZip.default();
@@ -382,10 +343,7 @@ export class ExportManager {
 	/**
 	 * 更新进度
 	 */
-	private updateProgress(
-		exportId: string,
-		update: Partial<ExportProgress>,
-	): void {
+	private updateProgress(exportId: string, update: Partial<ExportProgress>): void {
 		const callback = this.progressCallbacks.get(exportId);
 		if (callback) {
 			callback({
@@ -423,10 +381,7 @@ export class ExportManager {
 	private saveHistoryToStorage(): void {
 		if (typeof localStorage !== "undefined") {
 			try {
-				localStorage.setItem(
-					"export_history",
-					JSON.stringify(this.exportHistory),
-				);
+				localStorage.setItem("export_history", JSON.stringify(this.exportHistory));
 			} catch (error) {
 				console.error("保存导出历史失败:", error);
 			}
@@ -469,10 +424,7 @@ export class ExportManager {
 	/**
 	 * 注册进度回调
 	 */
-	registerProgressCallback(
-		exportId: string,
-		callback: (progress: ExportProgress) => void,
-	): void {
+	registerProgressCallback(exportId: string, callback: (progress: ExportProgress) => void): void {
 		this.progressCallbacks.set(exportId, callback);
 	}
 

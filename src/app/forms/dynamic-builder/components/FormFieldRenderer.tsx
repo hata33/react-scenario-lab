@@ -1,24 +1,24 @@
 "use client";
 
-import React from "react";
-import { FormField } from "../types";
 import {
-	UploadIcon,
-	Star,
 	Calendar,
+	Check,
+	CheckCircle,
 	Clock,
-	MapPin,
-	Users,
 	CreditCard,
-	Trash2,
+	FileText,
 	Grid3x3,
 	List,
-	Type,
-	FileText,
+	MapPin,
+	Star,
 	Target,
-	CheckCircle,
-	Check,
+	Trash2,
+	Type,
+	UploadIcon,
+	Users,
 } from "lucide-react";
+import type React from "react";
+import type { FormField } from "../types";
 
 interface FormFieldRendererProps {
 	field: FormField;
@@ -27,12 +27,7 @@ interface FormFieldRendererProps {
 	error?: string;
 }
 
-const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
-	field,
-	value,
-	onChange,
-	error,
-}) => {
+const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({ field, value, onChange, error }) => {
 	const renderField = () => {
 		switch (field.type) {
 			case "text":
@@ -50,9 +45,9 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 						onChange={(e) => onChange(e.target.value)}
 						disabled={field.disabled}
 						required={field.required}
-						className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+						className={`w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 ${
 							error ? "border-red-500" : "border-gray-300"
-						} ${field.disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+						} ${field.disabled ? "cursor-not-allowed bg-gray-100" : ""}`}
 					/>
 				);
 
@@ -66,32 +61,23 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 						disabled={field.disabled}
 						required={field.required}
 						rows={4}
-						className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+						className={`w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 ${
 							error ? "border-red-500" : "border-gray-300"
-						} ${field.disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+						} ${field.disabled ? "cursor-not-allowed bg-gray-100" : ""}`}
 					/>
 				);
 
 			case "rich-text":
 				return (
-					<div className="border rounded-lg p-2">
-						<div className="border-b p-2 mb-2 flex gap-2">
-							<button
-								type="button"
-								className="px-2 py-1 text-sm border rounded hover:bg-gray-100"
-							>
+					<div className="rounded-lg border p-2">
+						<div className="mb-2 flex gap-2 border-b p-2">
+							<button type="button" className="rounded border px-2 py-1 text-sm hover:bg-gray-100">
 								B
 							</button>
-							<button
-								type="button"
-								className="px-2 py-1 text-sm border rounded hover:bg-gray-100"
-							>
+							<button type="button" className="rounded border px-2 py-1 text-sm hover:bg-gray-100">
 								I
 							</button>
-							<button
-								type="button"
-								className="px-2 py-1 text-sm border rounded hover:bg-gray-100"
-							>
+							<button type="button" className="rounded border px-2 py-1 text-sm hover:bg-gray-100">
 								U
 							</button>
 						</div>
@@ -112,17 +98,13 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 						onChange={(e) => onChange(e.target.value)}
 						disabled={field.disabled}
 						required={field.required}
-						className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+						className={`w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 ${
 							error ? "border-red-500" : "border-gray-300"
-						} ${field.disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+						} ${field.disabled ? "cursor-not-allowed bg-gray-100" : ""}`}
 					>
 						<option value="">{field.placeholder || "请选择"}</option>
 						{field.options?.map((option) => (
-							<option
-								key={option.value}
-								value={option.value}
-								disabled={option.disabled}
-							>
+							<option key={option.value} value={option.value} disabled={option.disabled}>
 								{option.label}
 							</option>
 						))}
@@ -148,9 +130,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 									disabled={field.disabled || option.disabled}
 									className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
 								/>
-								<span className={option.disabled ? "text-gray-400" : ""}>
-									{option.label}
-								</span>
+								<span className={option.disabled ? "text-gray-400" : ""}>{option.label}</span>
 							</label>
 						))}
 					</div>
@@ -170,9 +150,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 									disabled={field.disabled || option.disabled}
 									className="text-blue-600 focus:ring-blue-500"
 								/>
-								<span className={option.disabled ? "text-gray-400" : ""}>
-									{option.label}
-								</span>
+								<span className={option.disabled ? "text-gray-400" : ""}>{option.label}</span>
 							</label>
 						))}
 					</div>
@@ -200,12 +178,10 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 						disabled={field.disabled}
 						className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
 							value ? "bg-blue-600" : "bg-gray-200"
-						} ${field.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+						} ${field.disabled ? "cursor-not-allowed opacity-50" : ""}`}
 					>
 						<span
-							className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-								value ? "translate-x-6" : "translate-x-1"
-							}`}
+							className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${value ? "translate-x-6" : "translate-x-1"}`}
 						/>
 					</button>
 				);
@@ -219,9 +195,9 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 						onChange={(e) => onChange(e.target.value)}
 						disabled={field.disabled}
 						required={field.required}
-						className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+						className={`w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 ${
 							error ? "border-red-500" : "border-gray-300"
-						} ${field.disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+						} ${field.disabled ? "cursor-not-allowed bg-gray-100" : ""}`}
 					/>
 				);
 
@@ -234,9 +210,9 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 						onChange={(e) => onChange(e.target.value)}
 						disabled={field.disabled}
 						required={field.required}
-						className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+						className={`w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 ${
 							error ? "border-red-500" : "border-gray-300"
-						} ${field.disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+						} ${field.disabled ? "cursor-not-allowed bg-gray-100" : ""}`}
 					/>
 				);
 
@@ -249,9 +225,9 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 						onChange={(e) => onChange(e.target.value)}
 						disabled={field.disabled}
 						required={field.required}
-						className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+						className={`w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 ${
 							error ? "border-red-500" : "border-gray-300"
-						} ${field.disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+						} ${field.disabled ? "cursor-not-allowed bg-gray-100" : ""}`}
 					/>
 				);
 
@@ -264,9 +240,9 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 							value={value?.start || ""}
 							onChange={(e) => onChange({ ...value, start: e.target.value })}
 							disabled={field.disabled}
-							className={`flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+							className={`flex-1 rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 ${
 								error ? "border-red-500" : "border-gray-300"
-							} ${field.disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+							} ${field.disabled ? "cursor-not-allowed bg-gray-100" : ""}`}
 						/>
 						<input
 							type="date"
@@ -274,9 +250,9 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 							value={value?.end || ""}
 							onChange={(e) => onChange({ ...value, end: e.target.value })}
 							disabled={field.disabled}
-							className={`flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+							className={`flex-1 rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 ${
 								error ? "border-red-500" : "border-gray-300"
-							} ${field.disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+							} ${field.disabled ? "cursor-not-allowed bg-gray-100" : ""}`}
 						/>
 					</div>
 				);
@@ -286,13 +262,11 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 			case "video":
 			case "audio":
 				return (
-					<div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+					<div className="rounded-lg border-2 border-gray-300 border-dashed p-6 text-center">
 						<UploadIcon className="mx-auto h-12 w-12 text-gray-400" />
 						<div className="mt-2">
-							<p className="text-sm text-gray-600">
-								点击上传或拖拽文件到此区域
-							</p>
-							<p className="text-xs text-gray-500">
+							<p className="text-gray-600 text-sm">点击上传或拖拽文件到此区域</p>
+							<p className="text-gray-500 text-xs">
 								{field.type === "image" && "支持 PNG, JPG, GIF 格式"}
 								{field.type === "video" && "支持 MP4, AVI, MOV 格式"}
 								{field.type === "audio" && "支持 MP3, WAV, AAC 格式"}
@@ -317,17 +291,13 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 						/>
 						<label
 							htmlFor={`file-${field.id}`}
-							className={`mt-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 cursor-pointer ${
-								field.disabled ? "opacity-50 cursor-not-allowed" : ""
+							className={`mt-2 inline-flex cursor-pointer items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 font-medium text-sm text-white hover:bg-blue-700 ${
+								field.disabled ? "cursor-not-allowed opacity-50" : ""
 							}`}
 						>
 							选择文件
 						</label>
-						{value && (
-							<div className="mt-2 text-sm text-gray-600">
-								已选择: {value.name}
-							</div>
-						)}
+						{value && <div className="mt-2 text-gray-600 text-sm">已选择: {value.name}</div>}
 					</div>
 				);
 
@@ -343,9 +313,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 							disabled={field.disabled}
 							className="w-full"
 						/>
-						<div className="text-center text-sm text-gray-600">
-							{value || 0}
-						</div>
+						<div className="text-center text-gray-600 text-sm">{value || 0}</div>
 					</div>
 				);
 
@@ -361,11 +329,9 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 								className="focus:outline-none"
 							>
 								<Star
-									className={`w-6 h-6 ${
-										star <= (value || 0)
-											? "text-yellow-400 fill-current"
-											: "text-gray-300"
-									} ${field.disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:text-yellow-400"}`}
+									className={`h-6 w-6 ${
+										star <= (value || 0) ? "fill-current text-yellow-400" : "text-gray-300"
+									} ${field.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:text-yellow-400"}`}
 								/>
 							</button>
 						))}
@@ -379,7 +345,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 						value={value || "#000000"}
 						onChange={(e) => onChange(e.target.value)}
 						disabled={field.disabled}
-						className="h-10 w-20 border rounded cursor-pointer"
+						className="h-10 w-20 cursor-pointer rounded border"
 					/>
 				);
 
@@ -392,7 +358,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 							value={value?.street || ""}
 							onChange={(e) => onChange({ ...value, street: e.target.value })}
 							disabled={field.disabled}
-							className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+							className="w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 						/>
 						<div className="grid grid-cols-2 gap-3">
 							<input
@@ -401,7 +367,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 								value={value?.city || ""}
 								onChange={(e) => onChange({ ...value, city: e.target.value })}
 								disabled={field.disabled}
-								className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								className="rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 							/>
 							<input
 								type="text"
@@ -409,7 +375,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 								value={value?.state || ""}
 								onChange={(e) => onChange({ ...value, state: e.target.value })}
 								disabled={field.disabled}
-								className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								className="rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 							/>
 						</div>
 						<div className="grid grid-cols-2 gap-3">
@@ -417,21 +383,17 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 								type="text"
 								placeholder="邮政编码"
 								value={value?.zipCode || ""}
-								onChange={(e) =>
-									onChange({ ...value, zipCode: e.target.value })
-								}
+								onChange={(e) => onChange({ ...value, zipCode: e.target.value })}
 								disabled={field.disabled}
-								className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								className="rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 							/>
 							<input
 								type="text"
 								placeholder="国家"
 								value={value?.country || ""}
-								onChange={(e) =>
-									onChange({ ...value, country: e.target.value })
-								}
+								onChange={(e) => onChange({ ...value, country: e.target.value })}
 								disabled={field.disabled}
-								className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								className="rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 							/>
 						</div>
 					</div>
@@ -446,7 +408,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 							value={value?.name || ""}
 							onChange={(e) => onChange({ ...value, name: e.target.value })}
 							disabled={field.disabled}
-							className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+							className="w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 						/>
 						<input
 							type="email"
@@ -454,7 +416,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 							value={value?.email || ""}
 							onChange={(e) => onChange({ ...value, email: e.target.value })}
 							disabled={field.disabled}
-							className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+							className="w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 						/>
 						<input
 							type="tel"
@@ -462,7 +424,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 							value={value?.phone || ""}
 							onChange={(e) => onChange({ ...value, phone: e.target.value })}
 							disabled={field.disabled}
-							className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+							className="w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 						/>
 						<input
 							type="text"
@@ -470,7 +432,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 							value={value?.position || ""}
 							onChange={(e) => onChange({ ...value, position: e.target.value })}
 							disabled={field.disabled}
-							className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+							className="w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 						/>
 					</div>
 				);
@@ -482,22 +444,18 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 							type="text"
 							placeholder="持卡人姓名"
 							value={value?.cardholderName || ""}
-							onChange={(e) =>
-								onChange({ ...value, cardholderName: e.target.value })
-							}
+							onChange={(e) => onChange({ ...value, cardholderName: e.target.value })}
 							disabled={field.disabled}
-							className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+							className="w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 						/>
 						<input
 							type="text"
 							placeholder="卡号"
 							value={value?.cardNumber || ""}
-							onChange={(e) =>
-								onChange({ ...value, cardNumber: e.target.value })
-							}
+							onChange={(e) => onChange({ ...value, cardNumber: e.target.value })}
 							disabled={field.disabled}
 							maxLength={19}
-							className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+							className="w-full rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 						/>
 						<div className="grid grid-cols-2 gap-3">
 							<input
@@ -507,7 +465,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 								onChange={(e) => onChange({ ...value, expiry: e.target.value })}
 								disabled={field.disabled}
 								maxLength={5}
-								className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								className="rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 							/>
 							<input
 								type="text"
@@ -516,7 +474,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 								onChange={(e) => onChange({ ...value, cvv: e.target.value })}
 								disabled={field.disabled}
 								maxLength={4}
-								className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								className="rounded-lg border px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
 							/>
 						</div>
 					</div>
@@ -524,11 +482,11 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 
 			case "signature":
 				return (
-					<div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+					<div className="rounded-lg border-2 border-gray-300 border-dashed p-4">
 						<canvas
 							width={400}
 							height={200}
-							className="border border-gray-400 rounded cursor-crosshair bg-white"
+							className="cursor-crosshair rounded border border-gray-400 bg-white"
 							onClick={() => {
 								// 签名功能实现
 								const canvas = document.querySelector("canvas");
@@ -543,43 +501,38 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 								}
 							}}
 						/>
-						<p className="text-sm text-gray-500 mt-2 text-center">
-							请在上方区域签名
-						</p>
+						<p className="mt-2 text-center text-gray-500 text-sm">请在上方区域签名</p>
 					</div>
 				);
 
 			case "table":
 				return (
-					<div className="border rounded-lg overflow-hidden">
+					<div className="overflow-hidden rounded-lg border">
 						<table className="min-w-full divide-y divide-gray-200">
 							<thead className="bg-gray-50">
 								<tr>
-									<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+									<th className="px-6 py-3 text-left font-medium text-gray-500 text-xs uppercase tracking-wider">
 										列1
 									</th>
-									<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+									<th className="px-6 py-3 text-left font-medium text-gray-500 text-xs uppercase tracking-wider">
 										列2
 									</th>
-									<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+									<th className="px-6 py-3 text-left font-medium text-gray-500 text-xs uppercase tracking-wider">
 										操作
 									</th>
 								</tr>
 							</thead>
-							<tbody className="bg-white divide-y divide-gray-200">
+							<tbody className="divide-y divide-gray-200 bg-white">
 								<tr>
-									<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-										<input type="text" className="border rounded px-2 py-1" />
+									<td className="whitespace-nowrap px-6 py-4 text-gray-900 text-sm">
+										<input type="text" className="rounded border px-2 py-1" />
 									</td>
-									<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-										<input type="text" className="border rounded px-2 py-1" />
+									<td className="whitespace-nowrap px-6 py-4 text-gray-900 text-sm">
+										<input type="text" className="rounded border px-2 py-1" />
 									</td>
-									<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-										<button
-											type="button"
-											className="text-red-600 hover:text-red-900"
-										>
-											<Trash2 className="w-4 h-4" />
+									<td className="whitespace-nowrap px-6 py-4 text-gray-900 text-sm">
+										<button type="button" className="text-red-600 hover:text-red-900">
+											<Trash2 className="h-4 w-4" />
 										</button>
 									</td>
 								</tr>
@@ -587,7 +540,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 						</table>
 						<button
 							type="button"
-							className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 text-sm font-medium text-gray-700"
+							className="w-full bg-gray-100 px-4 py-2 font-medium text-gray-700 text-sm hover:bg-gray-200"
 						>
 							+ 添加行
 						</button>
@@ -597,32 +550,21 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 			case "repeater":
 				return (
 					<div className="space-y-4">
-						<div className="border rounded-lg p-4 bg-gray-50">
-							<div className="flex justify-between items-center mb-3">
+						<div className="rounded-lg border bg-gray-50 p-4">
+							<div className="mb-3 flex items-center justify-between">
 								<h4 className="font-medium">重复项 #1</h4>
-								<button
-									type="button"
-									className="text-red-600 hover:text-red-900"
-								>
-									<Trash2 className="w-4 h-4" />
+								<button type="button" className="text-red-600 hover:text-red-900">
+									<Trash2 className="h-4 w-4" />
 								</button>
 							</div>
 							<div className="space-y-3">
-								<input
-									type="text"
-									placeholder="字段1"
-									className="w-full px-4 py-2 border rounded-lg"
-								/>
-								<input
-									type="text"
-									placeholder="字段2"
-									className="w-full px-4 py-2 border rounded-lg"
-								/>
+								<input type="text" placeholder="字段1" className="w-full rounded-lg border px-4 py-2" />
+								<input type="text" placeholder="字段2" className="w-full rounded-lg border px-4 py-2" />
 							</div>
 						</div>
 						<button
 							type="button"
-							className="w-full px-4 py-2 bg-blue-100 hover:bg-blue-200 text-sm font-medium text-blue-700 rounded-lg"
+							className="w-full rounded-lg bg-blue-100 px-4 py-2 font-medium text-blue-700 text-sm hover:bg-blue-200"
 						>
 							+ 添加项目
 						</button>
@@ -633,18 +575,10 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 				return <hr className="my-6 border-gray-300" />;
 
 			case "heading":
-				return (
-					<h3 className="text-lg font-semibold text-gray-900 mb-4">
-						{field.label || "标题"}
-					</h3>
-				);
+				return <h3 className="mb-4 font-semibold text-gray-900 text-lg">{field.label || "标题"}</h3>;
 
 			case "paragraph":
-				return (
-					<p className="text-gray-600 mb-4">
-						{field.description || "段落文本内容"}
-					</p>
-				);
+				return <p className="mb-4 text-gray-600">{field.description || "段落文本内容"}</p>;
 
 			default:
 				return (
@@ -652,7 +586,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 						type="text"
 						placeholder="未知字段类型"
 						disabled
-						className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100"
+						className="w-full rounded-lg border border-gray-300 bg-gray-100 px-4 py-2"
 					/>
 				);
 		}
@@ -660,22 +594,18 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 
 	return (
 		<div className={`space-y-2 ${field.styling?.className || ""}`}>
-			{field.type !== "divider" &&
-				field.type !== "heading" &&
-				field.type !== "paragraph" && (
-					<label className="block text-sm font-medium text-gray-700">
-						{field.label}
-						{field.required && <span className="text-red-500 ml-1">*</span>}
-					</label>
-				)}
+			{field.type !== "divider" && field.type !== "heading" && field.type !== "paragraph" && (
+				<label className="block font-medium text-gray-700 text-sm">
+					{field.label}
+					{field.required && <span className="ml-1 text-red-500">*</span>}
+				</label>
+			)}
 
 			{renderField()}
 
-			{field.description && (
-				<p className="text-sm text-gray-500">{field.description}</p>
-			)}
+			{field.description && <p className="text-gray-500 text-sm">{field.description}</p>}
 
-			{error && <p className="text-sm text-red-600">{error}</p>}
+			{error && <p className="text-red-600 text-sm">{error}</p>}
 		</div>
 	);
 };

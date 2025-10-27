@@ -1,5 +1,5 @@
-import { metadata } from "./metadata";
 import AdvancedRichTextPage from "./AdvancedRichTextPage";
+import { metadata } from "./metadata";
 
 export { metadata };
 

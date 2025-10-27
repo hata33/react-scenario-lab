@@ -13,9 +13,7 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 
 	// 自动展开当前激活路径所在的分组
 	useEffect(() => {
-		const currentGroup = menuTree.find((group) =>
-			group.children?.some((child) => child.path === activePath),
-		);
+		const currentGroup = menuTree.find((group) => group.children?.some((child) => child.path === activePath));
 		if (currentGroup?.title) {
 			setExpandedGroups((prev: any) => new Set([...prev, currentGroup.title]));
 		}
@@ -37,12 +35,8 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 			<div className="shrink-0 border-b bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-6">
 				<div className="mb-4 flex items-center justify-between">
 					<div>
-						<h1 className="font-bold text-gray-900 text-xl">
-							React Scenario Lab
-						</h1>
-						<p className="text-gray-600 text-sm">
-							Next.js 15 + React 19 + Tailwind
-						</p>
+						<h1 className="font-bold text-gray-900 text-xl">React Scenario Lab</h1>
+						<p className="text-gray-600 text-sm">Next.js 15 + React 19 + Tailwind</p>
 					</div>
 				</div>
 
@@ -55,12 +49,7 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 							: "border border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
 					}`}
 				>
-					<svg
-						className="h-5 w-5"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
+					<svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -70,11 +59,7 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 					</svg>
 					<span>首页</span>
 					{activePath === "/" && (
-						<svg
-							className="h-4 w-4 animate-pulse"
-							fill="currentColor"
-							viewBox="0 0 20 20"
-						>
+						<svg className="h-4 w-4 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
 							<path
 								fillRule="evenodd"
 								d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -100,25 +85,16 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 										: "text-gray-700 hover:bg-gray-50"
 								} focus:outline-none focus:ring-2 focus:ring-blue-500`}
 							>
-								<span className="font-semibold text-sm uppercase tracking-wider">
-									{group.title}
-								</span>
+								<span className="font-semibold text-sm uppercase tracking-wider">{group.title}</span>
 								<svg
 									className={`h-4 w-4 transform transition-transform duration-200 ${
-										expandedGroups.has(group.title || "")
-											? "rotate-180 text-blue-600"
-											: "text-gray-400"
+										expandedGroups.has(group.title || "") ? "rotate-180 text-blue-600" : "text-gray-400"
 									}`}
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
 								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M19 9l-7 7-7-7"
-									/>
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
 								</svg>
 							</button>
 
@@ -147,9 +123,7 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 													<div className="absolute inset-0 animate-pulse bg-gradient-to-r from-blue-600 to-blue-700 opacity-20" />
 												)}
 
-												<span className="flex min-h-[44px] flex-1 items-center font-medium">
-													{child.title}
-												</span>
+												<span className="flex min-h-[44px] flex-1 items-center font-medium">{child.title}</span>
 											</Link>
 										</li>
 									);
@@ -164,12 +138,7 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 			<div className="border-t bg-gradient-to-t from-gray-50 to-white px-6 py-4">
 				<div className="space-y-2">
 					<div className="flex items-center gap-2 text-gray-600 text-sm">
-						<svg
-							className="h-4 w-4"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-						>
+						<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path
 								strokeLinecap="round"
 								strokeLinejoin="round"
@@ -182,12 +151,7 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 						</span>
 					</div>
 					<div className="flex items-center gap-2 text-blue-600 text-sm">
-						<svg
-							className="h-4 w-4"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-						>
+						<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path
 								strokeLinecap="round"
 								strokeLinejoin="round"

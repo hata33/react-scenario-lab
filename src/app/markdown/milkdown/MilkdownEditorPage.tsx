@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { Editor, rootCtx, defaultValueCtx } from "@milkdown/core";
-import { nord } from "@milkdown/theme-nord";
+import { defaultValueCtx, Editor, rootCtx } from "@milkdown/core";
 import { commonmark } from "@milkdown/preset-commonmark";
+import { nord } from "@milkdown/theme-nord";
+import React, { useEffect, useRef, useState } from "react";
 import "@milkdown/theme-nord/style.css";
 
 const MilkdownEditorPage = () => {
 	// 添加内联样式以确保编辑器正确显示
 	useEffect(() => {
-		const style = document.createElement('style');
+		const style = document.createElement("style");
 		style.textContent = `
 			.milkdown-editor {
 				min-height: 500px;
@@ -29,7 +29,9 @@ const MilkdownEditorPage = () => {
 			document.head.removeChild(style);
 		};
 	}, []);
-	const [content, setContent] = useState("# Milkdown 编辑器\n\n欢迎使用 **Milkdown** 编辑器！\n\n## 特性\n\n- 🎨 美观的主题\n- ⚡ 实时渲染\n- 🔧 可扩展插件\n\n试试编辑一些内容吧！");
+	const [content, setContent] = useState(
+		"# Milkdown 编辑器\n\n欢迎使用 **Milkdown** 编辑器！\n\n## 特性\n\n- 🎨 美观的主题\n- ⚡ 实时渲染\n- 🔧 可扩展插件\n\n试试编辑一些内容吧！",
+	);
 	const editorRef = useRef<HTMLDivElement>(null);
 	const editorInstanceRef = useRef<any>(null);
 
@@ -43,11 +45,14 @@ const MilkdownEditorPage = () => {
 				.use(nord as any)
 				.use(commonmark);
 
-			editor.create().then((editorInstance: any) => {
-				editorInstanceRef.current = editorInstance;
-			}).catch((error: Error) => {
-				console.error("Milkdown editor creation failed:", error);
-			});
+			editor
+				.create()
+				.then((editorInstance: any) => {
+					editorInstanceRef.current = editorInstance;
+				})
+				.catch((error: Error) => {
+					console.error("Milkdown editor creation failed:", error);
+				});
 		}
 
 		return () => {
@@ -95,37 +100,28 @@ const MilkdownEditorPage = () => {
 	};
 
 	return (
-		<div className="p-6 max-w-7xl mx-auto">
+		<div className="mx-auto max-w-7xl p-6">
 			{/* 页面标题 */}
 			<div className="mb-8">
-				<h1 className="text-3xl font-bold text-gray-900 mb-4">
-					Milkdown 编辑器
-				</h1>
-				<p className="text-lg text-gray-600">
-					基于 Milkdown 的现代 Markdown 编辑器，提供优秀的编辑体验
-				</p>
+				<h1 className="mb-4 font-bold text-3xl text-gray-900">Milkdown 编辑器</h1>
+				<p className="text-gray-600 text-lg">基于 Milkdown 的现代 Markdown 编辑器，提供优秀的编辑体验</p>
 			</div>
 
 			{/* 工具栏 */}
-			<div className="bg-white border border-gray-200 rounded-lg p-4 mb-4 flex items-center justify-between">
+			<div className="mb-4 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
 				<div className="flex items-center gap-4">
-					<h2 className="text-lg font-semibold text-gray-800">编辑器</h2>
-					<div className="flex items-center gap-2 text-sm text-gray-500">
-						<div className="w-2 h-2 bg-green-500 rounded-full"></div>
+					<h2 className="font-semibold text-gray-800 text-lg">编辑器</h2>
+					<div className="flex items-center gap-2 text-gray-500 text-sm">
+						<div className="h-2 w-2 rounded-full bg-green-500"></div>
 						<span>实时预览</span>
 					</div>
 				</div>
 				<div className="flex items-center gap-2">
 					<button
 						onClick={handleExport}
-						className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+						className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-blue-700"
 					>
-						<svg
-							className="w-4 h-4"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-						>
+						<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path
 								strokeLinecap="round"
 								strokeLinejoin="round"
@@ -139,14 +135,10 @@ const MilkdownEditorPage = () => {
 			</div>
 
 			{/* 编辑器容器 */}
-			<div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-				<div className="border-b border-gray-200 bg-gray-50 px-4 py-2">
-					<div className="flex items-center gap-2 text-sm text-gray-600">
-						<svg
-							className="w-4 h-4"
-							fill="currentColor"
-							viewBox="0 0 24 24"
-						>
+			<div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+				<div className="border-gray-200 border-b bg-gray-50 px-4 py-2">
+					<div className="flex items-center gap-2 text-gray-600 text-sm">
+						<svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
 							<path d="M14.857 17.082l-1.714-1.714a6.001 6.001 0 01-8.485-8.485l1.714 1.714a6.001 6.001 0 018.485 8.485zm-6.714-6.714l-1.714-1.714a6.001 6.001 0 00-8.485 8.485l1.714 1.714a6.001 6.001 0 008.485-8.485zm4.243 2.828l-1.414 1.414-1.414-1.414-1.414 1.414-1.414-1.414 1.414-1.414-1.414-1.414 1.414-1.414 1.414 1.414 1.414-1.414 1.414 1.414-1.414 1.414z" />
 						</svg>
 						<span>Milkdown 编辑器 - 支持 CommonMark 语法</span>
@@ -158,9 +150,9 @@ const MilkdownEditorPage = () => {
 			</div>
 
 			{/* 使用说明 */}
-			<div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
-				<h3 className="text-lg font-semibold text-blue-900 mb-3">使用说明</h3>
-				<div className="space-y-2 text-sm text-blue-800">
+			<div className="mt-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
+				<h3 className="mb-3 font-semibold text-blue-900 text-lg">使用说明</h3>
+				<div className="space-y-2 text-blue-800 text-sm">
 					<p>• 支持标准 Markdown 语法，包括标题、粗体、斜体、链接等</p>
 					<p>• 实时渲染，输入即所见</p>
 					<p>• 使用 Nord 主题，提供舒适的视觉体验</p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Layout from "@/components/Layout";
 
 export default function CacheSignalsPage() {
@@ -9,35 +9,26 @@ export default function CacheSignalsPage() {
 			<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
 				<div className="container mx-auto px-4 py-8">
 					<div className="mb-8">
-						<h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-							Cache Signals - React 19 新特性
-						</h1>
-						<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-							<h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
-								💾 3W 法则解析
-							</h2>
-							<div className="grid md:grid-cols-3 gap-6">
-								<div className="bg-teal-50 dark:bg-teal-900/20 p-4 rounded-lg">
-									<h3 className="font-bold text-lg mb-2 text-teal-800 dark:text-teal-300">
-										What - 它是什么？
-									</h3>
-									<p className="text-gray-800 dark:text-gray-300 font-medium">
-										Cache Signals 是 React 19 中用于智能缓存管理的新机制，能够自动追踪数据依赖关系，实现精确的缓存失效和更新。
+						<h1 className="mb-4 font-bold text-4xl text-gray-900 dark:text-white">Cache Signals - React 19 新特性</h1>
+						<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+							<h2 className="mb-4 font-semibold text-2xl text-gray-800 dark:text-white">💾 3W 法则解析</h2>
+							<div className="grid gap-6 md:grid-cols-3">
+								<div className="rounded-lg bg-teal-50 p-4 dark:bg-teal-900/20">
+									<h3 className="mb-2 font-bold text-lg text-teal-800 dark:text-teal-300">What - 它是什么？</h3>
+									<p className="font-medium text-gray-800 dark:text-gray-300">
+										Cache Signals 是 React 19
+										中用于智能缓存管理的新机制，能够自动追踪数据依赖关系，实现精确的缓存失效和更新。
 									</p>
 								</div>
-								<div className="bg-cyan-50 dark:bg-cyan-900/20 p-4 rounded-lg">
-									<h3 className="font-bold text-lg mb-2 text-cyan-800 dark:text-cyan-300">
-										Why - 为什么需要？
-									</h3>
-									<p className="text-gray-800 dark:text-gray-300 font-medium">
+								<div className="rounded-lg bg-cyan-50 p-4 dark:bg-cyan-900/20">
+									<h3 className="mb-2 font-bold text-cyan-800 text-lg dark:text-cyan-300">Why - 为什么需要？</h3>
+									<p className="font-medium text-gray-800 dark:text-gray-300">
 										解决传统缓存管理中的过度失效、缓存穿透、数据一致性问题，以及手动管理缓存的复杂性。
 									</p>
 								</div>
-								<div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
-									<h3 className="font-bold text-lg mb-2 text-blue-800 dark:text-blue-300">
-										When - 何时使用？
-									</h3>
-									<p className="text-gray-800 dark:text-gray-300 font-medium">
+								<div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
+									<h3 className="mb-2 font-bold text-blue-800 text-lg dark:text-blue-300">When - 何时使用？</h3>
+									<p className="font-medium text-gray-800 dark:text-gray-300">
 										数据获取、状态管理、计算缓存、API 响应缓存等需要智能缓存管理的场景。
 									</p>
 								</div>
@@ -47,31 +38,23 @@ export default function CacheSignalsPage() {
 
 					{/* 基础缓存演示 */}
 					<div className="mb-8">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-							基础缓存功能演示
-						</h2>
-						<div className="grid lg:grid-cols-2 gap-6">
-							<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-								<h3 className="text-xl font-semibold mb-4 text-red-600 dark:text-red-400">
-									🚫 传统缓存管理的问题
-								</h3>
+						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">基础缓存功能演示</h2>
+						<div className="grid gap-6 lg:grid-cols-2">
+							<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+								<h3 className="mb-4 font-semibold text-red-600 text-xl dark:text-red-400">🚫 传统缓存管理的问题</h3>
 								<div className="space-y-4">
-									<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-										<p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
-											传统缓存问题：
-										</p>
-										<ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+									<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+										<p className="mb-2 text-gray-600 text-sm dark:text-gray-300">传统缓存问题：</p>
+										<ul className="space-y-2 text-gray-700 text-sm dark:text-gray-300">
 											<li>• 手动管理缓存键</li>
 											<li>• 过度失效问题</li>
 											<li>• 缓存穿透风险</li>
 											<li>• 数据一致性难以保证</li>
 										</ul>
 									</div>
-									<div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
-										<p className="text-sm font-medium text-red-800 dark:text-red-300">
-											❌ 常见问题：
-										</p>
-										<ul className="text-sm text-red-700 dark:text-red-400 mt-2">
+									<div className="rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
+										<p className="font-medium text-red-800 text-sm dark:text-red-300">❌ 常见问题：</p>
+										<ul className="mt-2 text-red-700 text-sm dark:text-red-400">
 											<li>• 缓存雪崩</li>
 											<li>• 缓存击穿</li>
 											<li>• 数据过期</li>
@@ -81,8 +64,8 @@ export default function CacheSignalsPage() {
 								</div>
 							</div>
 
-							<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-								<h3 className="text-xl font-semibold mb-4 text-green-600 dark:text-green-400">
+							<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+								<h3 className="mb-4 font-semibold text-green-600 text-xl dark:text-green-400">
 									✅ Cache Signals 的优势
 								</h3>
 								<div className="space-y-4">
@@ -94,94 +77,66 @@ export default function CacheSignalsPage() {
 
 					{/* 智能依赖追踪 */}
 					<div className="mb-8">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-							智能依赖追踪
-						</h2>
+						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">智能依赖追踪</h2>
 						<DependencyTrackingDemo />
 					</div>
 
 					{/* 缓存策略演示 */}
 					<div className="mb-8">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-							缓存策略与优化
-						</h2>
+						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">缓存策略与优化</h2>
 						<CacheStrategiesDemo />
 					</div>
 
 					{/* 高级应用演示 */}
 					<div className="mb-8">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-							高级应用场景
-						</h2>
+						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">高级应用场景</h2>
 						<AdvancedCacheDemo />
 					</div>
 
 					{/* 最佳实践 */}
 					<div className="mb-8">
-						<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-							Cache Signals 最佳实践
-						</h2>
-						<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-							<div className="grid md:grid-cols-2 gap-6">
+						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">Cache Signals 最佳实践</h2>
+						<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+							<div className="grid gap-6 md:grid-cols-2">
 								<div>
-									<h3 className="text-xl font-semibold mb-4 text-green-600 dark:text-green-400">
-										✅ 推荐做法
-									</h3>
+									<h3 className="mb-4 font-semibold text-green-600 text-xl dark:text-green-400">✅ 推荐做法</h3>
 									<ul className="space-y-3">
 										<li className="flex items-start">
-											<span className="text-green-500 mr-2">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												合理设置缓存策略
-											</span>
+											<span className="mr-2 text-green-500">✓</span>
+											<span className="text-gray-700 dark:text-gray-300">合理设置缓存策略</span>
 										</li>
 										<li className="flex items-start">
-											<span className="text-green-500 mr-2">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												利用自动依赖追踪
-											</span>
+											<span className="mr-2 text-green-500">✓</span>
+											<span className="text-gray-700 dark:text-gray-300">利用自动依赖追踪</span>
 										</li>
 										<li className="flex items-start">
-											<span className="text-green-500 mr-2">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												设置合适的过期时间
-											</span>
+											<span className="mr-2 text-green-500">✓</span>
+											<span className="text-gray-700 dark:text-gray-300">设置合适的过期时间</span>
 										</li>
 										<li className="flex items-start">
-											<span className="text-green-500 mr-2">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												监控缓存命中率
-											</span>
+											<span className="mr-2 text-green-500">✓</span>
+											<span className="text-gray-700 dark:text-gray-300">监控缓存命中率</span>
 										</li>
 									</ul>
 								</div>
 								<div>
-									<h3 className="text-xl font-semibold mb-4 text-red-600 dark:text-red-400">
-										❌ 避免做法
-									</h3>
+									<h3 className="mb-4 font-semibold text-red-600 text-xl dark:text-red-400">❌ 避免做法</h3>
 									<ul className="space-y-3">
 										<li className="flex items-start">
-											<span className="text-red-500 mr-2">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												过度依赖缓存
-											</span>
+											<span className="mr-2 text-red-500">✗</span>
+											<span className="text-gray-700 dark:text-gray-300">过度依赖缓存</span>
 										</li>
 										<li className="flex items-start">
-											<span className="text-red-500 mr-2">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												忽略缓存大小限制
-											</span>
+											<span className="mr-2 text-red-500">✗</span>
+											<span className="text-gray-700 dark:text-gray-300">忽略缓存大小限制</span>
 										</li>
 										<li className="flex items-start">
-											<span className="text-red-500 mr-2">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												缓存敏感数据
-											</span>
+											<span className="mr-2 text-red-500">✗</span>
+											<span className="text-gray-700 dark:text-gray-300">缓存敏感数据</span>
 										</li>
 										<li className="flex items-start">
-											<span className="text-red-500 mr-2">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">
-												忽视缓存清理
-											</span>
+											<span className="mr-2 text-red-500">✗</span>
+											<span className="text-gray-700 dark:text-gray-300">忽视缓存清理</span>
 										</li>
 									</ul>
 								</div>
@@ -210,42 +165,45 @@ function BasicCacheDemo() {
 	const dependencies = useRef(new Map());
 
 	// 模拟数据获取函数
-	const fetchData = useCallback(async (searchQuery: string) => {
-		const cacheKey = `search-${searchQuery}`;
+	const fetchData = useCallback(
+		async (searchQuery: string) => {
+			const cacheKey = `search-${searchQuery}`;
 
-		// 检查缓存
-		if (cacheEnabled && cache.current.has(cacheKey)) {
-			setCacheStats(prev => ({
-				...prev,
-				hits: prev.hits + 1
+			// 检查缓存
+			if (cacheEnabled && cache.current.has(cacheKey)) {
+				setCacheStats((prev) => ({
+					...prev,
+					hits: prev.hits + 1,
+				}));
+				return cache.current.get(cacheKey);
+			}
+
+			// 模拟 API 调用
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+
+			const mockData = Array.from({ length: 5 }, (_, i) => ({
+				id: `${searchQuery}-${i}`,
+				title: `${searchQuery} 结果 ${i + 1}`,
+				description: `这是关于 ${searchQuery} 的搜索结果 ${i + 1}`,
+				timestamp: Date.now(),
 			}));
-			return cache.current.get(cacheKey);
-		}
 
-		// 模拟 API 调用
-		await new Promise(resolve => setTimeout(resolve, 1000));
+			// 缓存结果
+			if (cacheEnabled) {
+				cache.current.set(cacheKey, mockData);
+				dependencies.current.set(cacheKey, [searchQuery]);
 
-		const mockData = Array.from({ length: 5 }, (_, i) => ({
-			id: `${searchQuery}-${i}`,
-			title: `${searchQuery} 结果 ${i + 1}`,
-			description: `这是关于 ${searchQuery} 的搜索结果 ${i + 1}`,
-			timestamp: Date.now()
-		}));
+				setCacheStats((prev) => ({
+					...prev,
+					misses: prev.misses + 1,
+					size: cache.current.size,
+				}));
+			}
 
-		// 缓存结果
-		if (cacheEnabled) {
-			cache.current.set(cacheKey, mockData);
-			dependencies.current.set(cacheKey, [searchQuery]);
-
-			setCacheStats(prev => ({
-				...prev,
-				misses: prev.misses + 1,
-				size: cache.current.size
-			}));
-		}
-
-		return mockData;
-	}, [cacheEnabled]);
+			return mockData;
+		},
+		[cacheEnabled],
+	);
 
 	// 智能缓存失效
 	const invalidateCache = useCallback((changedQuery: string) => {
@@ -256,9 +214,9 @@ function BasicCacheDemo() {
 			}
 		}
 
-		setCacheStats(prev => ({
+		setCacheStats((prev) => ({
 			...prev,
-			size: cache.current.size
+			size: cache.current.size,
 		}));
 	}, []);
 
@@ -287,10 +245,8 @@ function BasicCacheDemo() {
 			<div className="flex gap-4">
 				<button
 					onClick={() => setCacheEnabled(!cacheEnabled)}
-					className={`px-4 py-2 rounded-lg transition-colors ${
-						cacheEnabled
-							? "bg-teal-600 text-white hover:bg-teal-700"
-							: "bg-gray-600 text-white hover:bg-gray-700"
+					className={`rounded-lg px-4 py-2 transition-colors ${
+						cacheEnabled ? "bg-teal-600 text-white hover:bg-teal-700" : "bg-gray-600 text-white hover:bg-gray-700"
 					}`}
 				>
 					{cacheEnabled ? "缓存已启用" : "缓存已禁用"}
@@ -298,7 +254,7 @@ function BasicCacheDemo() {
 
 				<button
 					onClick={clearCache}
-					className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+					className="rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
 				>
 					清除缓存
 				</button>
@@ -310,11 +266,11 @@ function BasicCacheDemo() {
 					value={query}
 					onChange={(e) => handleQueryChange(e.target.value)}
 					placeholder="搜索内容..."
-					className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+					className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
 				/>
 				<button
 					onClick={handleSearch}
-					className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+					className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
 				>
 					搜索
 				</button>
@@ -322,46 +278,41 @@ function BasicCacheDemo() {
 
 			{/* 缓存统计 */}
 			<div className="grid grid-cols-3 gap-4">
-				<div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-center">
-					<p className="text-sm text-gray-600 dark:text-gray-400">缓存命中</p>
-					<p className="text-lg font-bold text-green-600 dark:text-green-400">
-						{cacheStats.hits}
-					</p>
+				<div className="rounded-lg bg-gray-50 p-3 text-center dark:bg-gray-700">
+					<p className="text-gray-600 text-sm dark:text-gray-400">缓存命中</p>
+					<p className="font-bold text-green-600 text-lg dark:text-green-400">{cacheStats.hits}</p>
 				</div>
-				<div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-center">
-					<p className="text-sm text-gray-600 dark:text-gray-400">缓存未命中</p>
-					<p className="text-lg font-bold text-red-600 dark:text-red-400">
-						{cacheStats.misses}
-					</p>
+				<div className="rounded-lg bg-gray-50 p-3 text-center dark:bg-gray-700">
+					<p className="text-gray-600 text-sm dark:text-gray-400">缓存未命中</p>
+					<p className="font-bold text-lg text-red-600 dark:text-red-400">{cacheStats.misses}</p>
 				</div>
-				<div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-center">
-					<p className="text-sm text-gray-600 dark:text-gray-400">缓存大小</p>
-					<p className="text-lg font-bold text-blue-600 dark:text-blue-400">
-						{cacheStats.size}
-					</p>
+				<div className="rounded-lg bg-gray-50 p-3 text-center dark:bg-gray-700">
+					<p className="text-gray-600 text-sm dark:text-gray-400">缓存大小</p>
+					<p className="font-bold text-blue-600 text-lg dark:text-blue-400">{cacheStats.size}</p>
 				</div>
 			</div>
 
 			{/* 搜索结果 */}
 			{results.length > 0 && (
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<h4 className="font-medium text-gray-800 dark:text-white mb-3">搜索结果:</h4>
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-3 font-medium text-gray-800 dark:text-white">搜索结果:</h4>
 					<div className="space-y-2">
 						{results.map((result) => (
-							<div key={result.id} className="bg-white dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-600">
+							<div
+								key={result.id}
+								className="rounded border border-gray-200 bg-white p-3 dark:border-gray-600 dark:bg-gray-800"
+							>
 								<p className="font-medium text-gray-800 dark:text-white">{result.title}</p>
-								<p className="text-sm text-gray-600 dark:text-gray-400">{result.description}</p>
+								<p className="text-gray-600 text-sm dark:text-gray-400">{result.description}</p>
 							</div>
 						))}
 					</div>
 				</div>
 			)}
 
-			<div className="bg-teal-50 dark:bg-teal-900/20 p-4 rounded-lg">
-				<p className="text-sm font-medium text-teal-800 dark:text-teal-300 mb-2">
-					🎯 Cache Signals 的优势：
-				</p>
-				<ul className="text-sm text-teal-700 dark:text-teal-400 space-y-1">
+			<div className="rounded-lg bg-teal-50 p-4 dark:bg-teal-900/20">
+				<p className="mb-2 font-medium text-sm text-teal-800 dark:text-teal-300">🎯 Cache Signals 的优势：</p>
+				<ul className="space-y-1 text-sm text-teal-700 dark:text-teal-400">
 					<li>• 自动依赖追踪和失效</li>
 					<li>• 智能缓存管理</li>
 					<li>• 减少重复计算</li>
@@ -394,7 +345,7 @@ function DependencyTrackingDemo() {
 		}
 
 		// 模拟 API 调用
-		await new Promise(resolve => setTimeout(resolve, 500));
+		await new Promise((resolve) => setTimeout(resolve, 500));
 
 		let data;
 		switch (type) {
@@ -405,14 +356,14 @@ function DependencyTrackingDemo() {
 				data = Array.from({ length: 3 }, (_, i) => ({
 					id: `post-${id}-${i}`,
 					title: `文章 ${i + 1}`,
-					authorId: id
+					authorId: id,
 				}));
 				break;
 			case "comments":
 				data = Array.from({ length: 5 }, (_, i) => ({
 					id: `comment-${id}-${i}`,
 					content: `评论 ${i + 1}`,
-					postId: `post-${id}-0`
+					postId: `post-${id}-0`,
 				}));
 				break;
 		}
@@ -433,7 +384,7 @@ function DependencyTrackingDemo() {
 			return manualCache.current.get(cacheKey);
 		}
 
-		await new Promise(resolve => setTimeout(resolve, 500));
+		await new Promise((resolve) => setTimeout(resolve, 500));
 
 		let data;
 		switch (type) {
@@ -444,14 +395,14 @@ function DependencyTrackingDemo() {
 				data = Array.from({ length: 3 }, (_, i) => ({
 					id: `post-${id}-${i}`,
 					title: `文章 ${i + 1}`,
-					authorId: id
+					authorId: id,
 				}));
 				break;
 			case "comments":
 				data = Array.from({ length: 5 }, (_, i) => ({
 					id: `comment-${id}-${i}`,
 					content: `评论 ${i + 1}`,
-					postId: `post-${id}-0`
+					postId: `post-${id}-0`,
 				}));
 				break;
 		}
@@ -483,19 +434,22 @@ function DependencyTrackingDemo() {
 	};
 
 	// 智能缓存失效（仅自动模式）
-	const smartInvalidate = useCallback((changedType: string, changedId: any) => {
-		if (activeTab === "auto") {
-			for (const [key, deps] of dependencies.current.entries()) {
-				if (deps.includes(changedType) && deps.includes(changedId)) {
-					autoCache.current.delete(key);
-					dependencies.current.delete(key);
+	const smartInvalidate = useCallback(
+		(changedType: string, changedId: any) => {
+			if (activeTab === "auto") {
+				for (const [key, deps] of dependencies.current.entries()) {
+					if (deps.includes(changedType) && deps.includes(changedId)) {
+						autoCache.current.delete(key);
+						dependencies.current.delete(key);
+					}
 				}
+			} else {
+				// 手动模式需要手动清理所有相关缓存
+				manualCache.current.clear();
 			}
-		} else {
-			// 手动模式需要手动清理所有相关缓存
-			manualCache.current.clear();
-		}
-	}, [activeTab]);
+		},
+		[activeTab],
+	);
 
 	const changeUser = () => {
 		const newUserId = user.id + 1;
@@ -504,110 +458,111 @@ function DependencyTrackingDemo() {
 	};
 
 	return (
-		<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-			<h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
-				🔍 智能依赖追踪
-			</h3>
+		<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+			<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">🔍 智能依赖追踪</h3>
 
 			<div className="mb-6">
-				<div className="flex gap-2 mb-4">
+				<div className="mb-4 flex gap-2">
 					<button
 						onClick={() => setActiveTab("auto")}
-						className={`px-4 py-2 rounded-lg transition-colors ${
+						className={`rounded-lg px-4 py-2 transition-colors ${
 							activeTab === "auto"
 								? "bg-teal-600 text-white"
-								: "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+								: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
 						}`}
 					>
 						🤖 自动追踪
 					</button>
 					<button
 						onClick={() => setActiveTab("manual")}
-						className={`px-4 py-2 rounded-lg transition-colors ${
+						className={`rounded-lg px-4 py-2 transition-colors ${
 							activeTab === "manual"
 								? "bg-orange-600 text-white"
-								: "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+								: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
 						}`}
 					>
 						🔧 手动管理
 					</button>
 				</div>
 
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4">
-					<p className="text-sm text-gray-600 dark:text-gray-400">
+				<div className="mb-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<p className="text-gray-600 text-sm dark:text-gray-400">
 						{activeTab === "auto"
 							? "🤖 自动模式：Cache Signals 自动追踪数据依赖关系，实现精确的缓存失效"
-							: "🔧 手动模式：需要手动管理缓存键和失效策略"
-						}
+							: "🔧 手动模式：需要手动管理缓存键和失效策略"}
 					</p>
 				</div>
 			</div>
 
-			<div className="flex gap-4 mb-6">
+			<div className="mb-6 flex gap-4">
 				<button
 					onClick={loadUserData}
-					className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+					className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
 				>
 					加载数据
 				</button>
 
 				<button
 					onClick={changeUser}
-					className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+					className="rounded-lg bg-purple-600 px-4 py-2 text-white transition-colors hover:bg-purple-700"
 				>
 					切换用户 (ID: {user.id})
 				</button>
 			</div>
 
-			<div className="grid md:grid-cols-3 gap-6">
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<h4 className="font-medium text-gray-800 dark:text-white mb-3">用户信息</h4>
+			<div className="grid gap-6 md:grid-cols-3">
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-3 font-medium text-gray-800 dark:text-white">用户信息</h4>
 					{user.name ? (
 						<div className="space-y-2">
-							<p className="text-sm"><span className="font-medium">姓名:</span> {user.name}</p>
-							<p className="text-sm"><span className="font-medium">邮箱:</span> {user.email}</p>
+							<p className="text-sm">
+								<span className="font-medium">姓名:</span> {user.name}
+							</p>
+							<p className="text-sm">
+								<span className="font-medium">邮箱:</span> {user.email}
+							</p>
 						</div>
 					) : (
-						<p className="text-sm text-gray-500">暂无数据</p>
+						<p className="text-gray-500 text-sm">暂无数据</p>
 					)}
 				</div>
 
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<h4 className="font-medium text-gray-800 dark:text-white mb-3">文章列表</h4>
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-3 font-medium text-gray-800 dark:text-white">文章列表</h4>
 					{posts.length > 0 ? (
 						<ul className="space-y-2">
 							{posts.map((post) => (
-								<li key={post.id} className="text-sm">{post.title}</li>
+								<li key={post.id} className="text-sm">
+									{post.title}
+								</li>
 							))}
 						</ul>
 					) : (
-						<p className="text-sm text-gray-500">暂无数据</p>
+						<p className="text-gray-500 text-sm">暂无数据</p>
 					)}
 				</div>
 
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<h4 className="font-medium text-gray-800 dark:text-white mb-3">评论列表</h4>
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-3 font-medium text-gray-800 dark:text-white">评论列表</h4>
 					{comments.length > 0 ? (
 						<ul className="space-y-2">
 							{comments.slice(0, 3).map((comment) => (
-								<li key={comment.id} className="text-sm">{comment.content}</li>
+								<li key={comment.id} className="text-sm">
+									{comment.content}
+								</li>
 							))}
-							{comments.length > 3 && (
-								<li className="text-sm text-gray-500">...还有 {comments.length - 3} 条评论</li>
-							)}
+							{comments.length > 3 && <li className="text-gray-500 text-sm">...还有 {comments.length - 3} 条评论</li>}
 						</ul>
 					) : (
-						<p className="text-sm text-gray-500">暂无数据</p>
+						<p className="text-gray-500 text-sm">暂无数据</p>
 					)}
 				</div>
 			</div>
 
-			<div className="mt-6 grid md:grid-cols-2 gap-6">
-				<div className="bg-teal-50 dark:bg-teal-900/20 p-4 rounded-lg">
-					<h4 className="font-medium text-teal-800 dark:text-teal-300 mb-2">
-						自动追踪优势：
-					</h4>
-					<ul className="text-sm text-teal-700 dark:text-teal-400 space-y-1">
+			<div className="mt-6 grid gap-6 md:grid-cols-2">
+				<div className="rounded-lg bg-teal-50 p-4 dark:bg-teal-900/20">
+					<h4 className="mb-2 font-medium text-teal-800 dark:text-teal-300">自动追踪优势：</h4>
+					<ul className="space-y-1 text-sm text-teal-700 dark:text-teal-400">
 						<li>• 自动发现数据依赖关系</li>
 						<li>• 精确的缓存失效</li>
 						<li>• 减少不必要的网络请求</li>
@@ -615,11 +570,9 @@ function DependencyTrackingDemo() {
 					</ul>
 				</div>
 
-				<div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg">
-					<h4 className="font-medium text-orange-800 dark:text-orange-300 mb-2">
-						手动管理挑战：
-					</h4>
-					<ul className="text-sm text-orange-700 dark:text-orange-400 space-y-1">
+				<div className="rounded-lg bg-orange-50 p-4 dark:bg-orange-900/20">
+					<h4 className="mb-2 font-medium text-orange-800 dark:text-orange-300">手动管理挑战：</h4>
+					<ul className="space-y-1 text-orange-700 text-sm dark:text-orange-400">
 						<li>• 需要手动定义缓存键</li>
 						<li>• 复杂的失效策略</li>
 						<li>• 容易出现过度失效</li>
@@ -648,109 +601,121 @@ function CacheStrategiesDemo() {
 	const accessOrder = useRef<string[]>([]);
 	const timestamps = useRef(new Map());
 
-	const addToCache = useCallback((key: string, value: any) => {
-		switch (strategy) {
-			case "lru":
-				// LRU 策略
-				if (lruCache.current.size >= 3) {
-					const lruKey = accessOrder.current.shift()!;
-					lruCache.current.delete(lruKey);
-					setStats(prev => ({ ...prev, evictions: prev.evictions + 1 }));
-				}
-				lruCache.current.set(key, value);
-				accessOrder.current.push(key);
-				break;
-
-			case "ttl":
-				// TTL 策略 (5秒过期)
-				const now = Date.now();
-				const expireTime = now + 5000;
-
-				// 清理过期项
-				for (const [cacheKey, timestamp] of timestamps.current.entries()) {
-					if (timestamp < now) {
-						ttlCache.current.delete(cacheKey);
-						timestamps.current.delete(cacheKey);
-						setStats(prev => ({ ...prev, evictions: prev.evictions + 1 }));
+	const addToCache = useCallback(
+		(key: string, value: any) => {
+			switch (strategy) {
+				case "lru":
+					// LRU 策略
+					if (lruCache.current.size >= 3) {
+						const lruKey = accessOrder.current.shift()!;
+						lruCache.current.delete(lruKey);
+						setStats((prev) => ({ ...prev, evictions: prev.evictions + 1 }));
 					}
-				}
+					lruCache.current.set(key, value);
+					accessOrder.current.push(key);
+					break;
 
-				ttlCache.current.set(key, value);
-				timestamps.current.set(key, expireTime);
-				break;
+				case "ttl": {
+					// TTL 策略 (5秒过期)
+					const now = Date.now();
+					const expireTime = now + 5000;
 
-			case "size-based":
-				// 基于大小的策略
-				const currentSize = Array.from(sizeBasedCache.current.values())
-					.reduce((total, item) => total + JSON.stringify(item).length, 0);
-
-				if (currentSize > 100) { // 100 字节限制
-					const firstKey = sizeBasedCache.current.keys().next().value;
-					sizeBasedCache.current.delete(firstKey);
-					setStats(prev => ({ ...prev, evictions: prev.evictions + 1 }));
-				}
-
-				sizeBasedCache.current.set(key, value);
-				break;
-		}
-	}, [strategy]);
-
-	const getFromCache = useCallback((key: string) => {
-		switch (strategy) {
-			case "lru":
-				if (lruCache.current.has(key)) {
-					// 更新访问顺序
-					const index = accessOrder.current.indexOf(key);
-					if (index > -1) {
-						accessOrder.current.splice(index, 1);
-						accessOrder.current.push(key);
+					// 清理过期项
+					for (const [cacheKey, timestamp] of timestamps.current.entries()) {
+						if (timestamp < now) {
+							ttlCache.current.delete(cacheKey);
+							timestamps.current.delete(cacheKey);
+							setStats((prev) => ({ ...prev, evictions: prev.evictions + 1 }));
+						}
 					}
-					setStats(prev => ({ ...prev, hits: prev.hits + 1 }));
-					return lruCache.current.get(key);
-				}
-				break;
 
-			case "ttl":
-				const now = Date.now();
-				if (ttlCache.current.has(key) && timestamps.current.get(key)! > now) {
-					setStats(prev => ({ ...prev, hits: prev.hits + 1 }));
-					return ttlCache.current.get(key);
-				} else if (ttlCache.current.has(key)) {
-					ttlCache.current.delete(key);
-					timestamps.current.delete(key);
-					setStats(prev => ({ ...prev, evictions: prev.evictions + 1 }));
+					ttlCache.current.set(key, value);
+					timestamps.current.set(key, expireTime);
+					break;
 				}
-				break;
 
-			case "size-based":
-				if (sizeBasedCache.current.has(key)) {
-					setStats(prev => ({ ...prev, hits: prev.hits + 1 }));
-					return sizeBasedCache.current.get(key);
+				case "size-based": {
+					// 基于大小的策略
+					const currentSize = Array.from(sizeBasedCache.current.values()).reduce(
+						(total, item) => total + JSON.stringify(item).length,
+						0,
+					);
+
+					if (currentSize > 100) {
+						// 100 字节限制
+						const firstKey = sizeBasedCache.current.keys().next().value;
+						sizeBasedCache.current.delete(firstKey);
+						setStats((prev) => ({ ...prev, evictions: prev.evictions + 1 }));
+					}
+
+					sizeBasedCache.current.set(key, value);
+					break;
 				}
-				break;
-		}
+			}
+		},
+		[strategy],
+	);
 
-		setStats(prev => ({ ...prev, misses: prev.misses + 1 }));
-		return null;
-	}, [strategy]);
+	const getFromCache = useCallback(
+		(key: string) => {
+			switch (strategy) {
+				case "lru":
+					if (lruCache.current.has(key)) {
+						// 更新访问顺序
+						const index = accessOrder.current.indexOf(key);
+						if (index > -1) {
+							accessOrder.current.splice(index, 1);
+							accessOrder.current.push(key);
+						}
+						setStats((prev) => ({ ...prev, hits: prev.hits + 1 }));
+						return lruCache.current.get(key);
+					}
+					break;
+
+				case "ttl": {
+					const now = Date.now();
+					if (ttlCache.current.has(key) && timestamps.current.get(key)! > now) {
+						setStats((prev) => ({ ...prev, hits: prev.hits + 1 }));
+						return ttlCache.current.get(key);
+					} else if (ttlCache.current.has(key)) {
+						ttlCache.current.delete(key);
+						timestamps.current.delete(key);
+						setStats((prev) => ({ ...prev, evictions: prev.evictions + 1 }));
+					}
+					break;
+				}
+
+				case "size-based":
+					if (sizeBasedCache.current.has(key)) {
+						setStats((prev) => ({ ...prev, hits: prev.hits + 1 }));
+						return sizeBasedCache.current.get(key);
+					}
+					break;
+			}
+
+			setStats((prev) => ({ ...prev, misses: prev.misses + 1 }));
+			return null;
+		},
+		[strategy],
+	);
 
 	const generateData = useCallback(() => {
 		const id = Math.random().toString(36).substr(2, 9);
 		const item = {
 			id,
 			data: `数据块 ${Math.random().toString(36).substr(2, 5)}`.repeat(10),
-			timestamp: Date.now()
+			timestamp: Date.now(),
 		};
 
 		// 先检查缓存
 		const cached = getFromCache(id);
 		if (cached) {
-			setData(prev => [...prev, cached]);
+			setData((prev) => [...prev, cached]);
 		} else {
 			// 模拟数据生成
 			setTimeout(() => {
 				addToCache(id, item);
-				setData(prev => [...prev, item]);
+				setData((prev) => [...prev, item]);
 			}, 200);
 		}
 	}, [getFromCache, addToCache]);
@@ -766,13 +731,11 @@ function CacheStrategiesDemo() {
 	};
 
 	return (
-		<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-			<h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
-				📊 缓存策略与优化
-			</h3>
+		<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+			<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">📊 缓存策略与优化</h3>
 
 			<div className="mb-6">
-				<div className="flex gap-2 mb-4">
+				<div className="mb-4 flex gap-2">
 					{[
 						{ key: "lru", label: "LRU", desc: "最近最少使用" },
 						{ key: "ttl", label: "TTL", desc: "生存时间" },
@@ -784,10 +747,10 @@ function CacheStrategiesDemo() {
 								setStrategy(key as any);
 								clearStats();
 							}}
-							className={`px-4 py-2 rounded-lg transition-colors ${
+							className={`rounded-lg px-4 py-2 transition-colors ${
 								strategy === key
 									? "bg-teal-600 text-white"
-									: "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+									: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
 							}`}
 						>
 							{label} - {desc}
@@ -795,9 +758,10 @@ function CacheStrategiesDemo() {
 					))}
 				</div>
 
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4">
-					<p className="text-sm text-gray-600 dark:text-gray-400">
-						当前策略: <span className="font-medium">
+				<div className="mb-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<p className="text-gray-600 text-sm dark:text-gray-400">
+						当前策略:{" "}
+						<span className="font-medium">
 							{strategy === "lru" && "LRU (最近最少使用) - 移除最长时间未访问的项"}
 							{strategy === "ttl" && "TTL (生存时间) - 5秒后自动过期"}
 							{strategy === "size-based" && "基于大小 - 超过100字节时移除最旧的项"}
@@ -806,58 +770,49 @@ function CacheStrategiesDemo() {
 				</div>
 			</div>
 
-			<div className="flex gap-4 mb-6">
+			<div className="mb-6 flex gap-4">
 				<button
 					onClick={generateData}
-					className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+					className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
 				>
 					生成数据
 				</button>
 
 				<button
 					onClick={clearStats}
-					className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+					className="rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
 				>
 					清空缓存
 				</button>
 			</div>
 
-			<div className="grid md:grid-cols-4 gap-4 mb-6">
-				<div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-center">
-					<p className="text-sm text-gray-600 dark:text-gray-400">缓存命中</p>
-					<p className="text-lg font-bold text-green-600 dark:text-green-400">
-						{stats.hits}
-					</p>
+			<div className="mb-6 grid gap-4 md:grid-cols-4">
+				<div className="rounded-lg bg-gray-50 p-3 text-center dark:bg-gray-700">
+					<p className="text-gray-600 text-sm dark:text-gray-400">缓存命中</p>
+					<p className="font-bold text-green-600 text-lg dark:text-green-400">{stats.hits}</p>
 				</div>
-				<div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-center">
-					<p className="text-sm text-gray-600 dark:text-gray-400">缓存未命中</p>
-					<p className="text-lg font-bold text-red-600 dark:text-red-400">
-						{stats.misses}
-					</p>
+				<div className="rounded-lg bg-gray-50 p-3 text-center dark:bg-gray-700">
+					<p className="text-gray-600 text-sm dark:text-gray-400">缓存未命中</p>
+					<p className="font-bold text-lg text-red-600 dark:text-red-400">{stats.misses}</p>
 				</div>
-				<div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-center">
-					<p className="text-sm text-gray-600 dark:text-gray-400">缓存淘汰</p>
-					<p className="text-lg font-bold text-orange-600 dark:text-orange-400">
-						{stats.evictions}
-					</p>
+				<div className="rounded-lg bg-gray-50 p-3 text-center dark:bg-gray-700">
+					<p className="text-gray-600 text-sm dark:text-gray-400">缓存淘汰</p>
+					<p className="font-bold text-lg text-orange-600 dark:text-orange-400">{stats.evictions}</p>
 				</div>
-				<div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-center">
-					<p className="text-sm text-gray-600 dark:text-gray-400">命中率</p>
-					<p className="text-lg font-bold text-blue-600 dark:text-blue-400">
-						{stats.hits + stats.misses > 0
-							? `${Math.round((stats.hits / (stats.hits + stats.misses)) * 100)}%`
-							: "0%"
-						}
+				<div className="rounded-lg bg-gray-50 p-3 text-center dark:bg-gray-700">
+					<p className="text-gray-600 text-sm dark:text-gray-400">命中率</p>
+					<p className="font-bold text-blue-600 text-lg dark:text-blue-400">
+						{stats.hits + stats.misses > 0 ? `${Math.round((stats.hits / (stats.hits + stats.misses)) * 100)}%` : "0%"}
 					</p>
 				</div>
 			</div>
 
 			{data.length > 0 && (
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<h4 className="font-medium text-gray-800 dark:text-white mb-3">缓存数据:</h4>
-					<div className="space-y-2 max-h-40 overflow-auto">
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-3 font-medium text-gray-800 dark:text-white">缓存数据:</h4>
+					<div className="max-h-40 space-y-2 overflow-auto">
 						{data.map((item, index) => (
-							<div key={item.id} className="bg-white dark:bg-gray-800 p-2 rounded text-xs">
+							<div key={item.id} className="rounded bg-white p-2 text-xs dark:bg-gray-800">
 								<span className="font-medium">#{index + 1}:</span> {item.data.substring(0, 50)}...
 							</div>
 						))}
@@ -865,8 +820,8 @@ function CacheStrategiesDemo() {
 				</div>
 			)}
 
-			<div className="mt-6 bg-cyan-50 dark:bg-cyan-900/20 p-4 rounded-lg">
-				<p className="text-sm text-cyan-800 dark:text-cyan-300">
+			<div className="mt-6 rounded-lg bg-cyan-50 p-4 dark:bg-cyan-900/20">
+				<p className="text-cyan-800 text-sm dark:text-cyan-300">
 					💡 <strong>缓存策略选择：</strong>
 					不同的应用场景适合不同的缓存策略。LRU 适合通用场景，TTL 适合有时效性的数据，
 					基于大小的策略适合内存受限的环境。
@@ -896,15 +851,15 @@ function AdvancedCacheDemo() {
 			}
 
 			// 模拟 API 调用
-			await new Promise(resolve => setTimeout(resolve, 800));
+			await new Promise((resolve) => setTimeout(resolve, 800));
 
 			const pageData = {
 				page,
 				data: Array.from({ length: 10 }, (_, i) => ({
 					id: `item-${page}-${i}`,
 					title: `项目 ${page}-${i + 1}`,
-					content: `这是第 ${page} 页的第 ${i + 1} 个项目`
-				}))
+					content: `这是第 ${page} 页的第 ${i + 1} 个项目`,
+				})),
 			};
 
 			paginationCache.current.set(cacheKey, pageData);
@@ -917,23 +872,23 @@ function AdvancedCacheDemo() {
 
 		return (
 			<div className="space-y-4">
-				<div className="flex gap-2 items-center">
+				<div className="flex items-center gap-2">
 					<button
-						onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+						onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
 						disabled={currentPage === 1}
-						className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+						className="rounded bg-gray-600 px-3 py-1 text-white transition-colors hover:bg-gray-700 disabled:cursor-not-allowed disabled:bg-gray-400"
 					>
 						上一页
 					</button>
 
-					{[1, 2, 3, 4, 5].map(page => (
+					{[1, 2, 3, 4, 5].map((page) => (
 						<button
 							key={page}
 							onClick={() => setCurrentPage(page)}
-							className={`px-3 py-1 rounded transition-colors ${
+							className={`rounded px-3 py-1 transition-colors ${
 								currentPage === page
 									? "bg-teal-600 text-white"
-									: "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+									: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
 							}`}
 						>
 							{page}
@@ -941,22 +896,20 @@ function AdvancedCacheDemo() {
 					))}
 
 					<button
-						onClick={() => setCurrentPage(prev => Math.min(5, prev + 1))}
+						onClick={() => setCurrentPage((prev) => Math.min(5, prev + 1))}
 						disabled={currentPage === 5}
-						className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+						className="rounded bg-gray-600 px-3 py-1 text-white transition-colors hover:bg-gray-700 disabled:cursor-not-allowed disabled:bg-gray-400"
 					>
 						下一页
 					</button>
 				</div>
 
 				{pages[currentPage] && (
-					<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-						<h4 className="font-medium text-gray-800 dark:text-white mb-3">
-							第 {currentPage} 页内容 (已缓存)
-						</h4>
+					<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+						<h4 className="mb-3 font-medium text-gray-800 dark:text-white">第 {currentPage} 页内容 (已缓存)</h4>
 						<div className="grid grid-cols-2 gap-2">
 							{pages[currentPage].data.map((item: any) => (
-								<div key={item.id} className="bg-white dark:bg-gray-800 p-2 rounded text-sm">
+								<div key={item.id} className="rounded bg-white p-2 text-sm dark:bg-gray-800">
 									{item.title}
 								</div>
 							))}
@@ -964,8 +917,8 @@ function AdvancedCacheDemo() {
 					</div>
 				)}
 
-				<div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
-					<p className="text-sm text-blue-800 dark:text-blue-300">
+				<div className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+					<p className="text-blue-800 text-sm dark:text-blue-300">
 						💡 分页缓存可以显著提升用户体验，切换页面时无需重新加载已访问的页面
 					</p>
 				</div>
@@ -990,12 +943,12 @@ function AdvancedCacheDemo() {
 					id: `msg-${Date.now()}`,
 					text: `实时消息 ${Math.random().toString(36).substr(2, 5)}`,
 					timestamp: new Date().toLocaleTimeString(),
-					subscriptionId: subscriptionId.current
+					subscriptionId: subscriptionId.current,
 				};
 
 				// 缓存最新消息
 				realtimeCache.current.set("latest", message);
-				setMessages(prev => [...prev.slice(-9), message]);
+				setMessages((prev) => [...prev.slice(-9), message]);
 			}, 2000);
 
 			setTimeout(() => {
@@ -1012,7 +965,7 @@ function AdvancedCacheDemo() {
 		const replayLatest = () => {
 			const latest = realtimeCache.current.get("latest");
 			if (latest) {
-				setMessages(prev => [...prev, { ...latest, text: latest.text + " (重播)" }]);
+				setMessages((prev) => [...prev, { ...latest, text: latest.text + " (重播)" }]);
 			}
 		};
 
@@ -1022,7 +975,7 @@ function AdvancedCacheDemo() {
 					<button
 						onClick={connect}
 						disabled={connectionStatus === "connected"}
-						className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+						className="rounded bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-gray-400"
 					>
 						{connectionStatus === "connected" ? "已连接" : "连接实时数据"}
 					</button>
@@ -1030,37 +983,39 @@ function AdvancedCacheDemo() {
 					<button
 						onClick={disconnect}
 						disabled={connectionStatus === "disconnected"}
-						className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+						className="rounded bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-gray-400"
 					>
 						断开连接
 					</button>
 
 					<button
 						onClick={replayLatest}
-						className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+						className="rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
 					>
 						重播最新消息
 					</button>
 				</div>
 
-				<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-					<div className="flex justify-between items-center mb-3">
+				<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+					<div className="mb-3 flex items-center justify-between">
 						<h4 className="font-medium text-gray-800 dark:text-white">实时消息流</h4>
-						<span className={`text-sm px-2 py-1 rounded ${
-							connectionStatus === "connected"
-								? "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300"
-								: "bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300"
-						}`}>
+						<span
+							className={`rounded px-2 py-1 text-sm ${
+								connectionStatus === "connected"
+									? "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300"
+									: "bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300"
+							}`}
+						>
 							{connectionStatus === "connected" ? "🟢 已连接" : "🔴 已断开"}
 						</span>
 					</div>
 
-					<div className="space-y-2 max-h-40 overflow-auto">
+					<div className="max-h-40 space-y-2 overflow-auto">
 						{messages.length === 0 ? (
-							<p className="text-sm text-gray-500 text-center">暂无消息...</p>
+							<p className="text-center text-gray-500 text-sm">暂无消息...</p>
 						) : (
 							messages.map((msg) => (
-								<div key={msg.id} className="bg-white dark:bg-gray-800 p-2 rounded text-sm">
+								<div key={msg.id} className="rounded bg-white p-2 text-sm dark:bg-gray-800">
 									<span className="text-gray-500">[{msg.timestamp}]</span> {msg.text}
 								</div>
 							))
@@ -1068,8 +1023,8 @@ function AdvancedCacheDemo() {
 					</div>
 				</div>
 
-				<div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
-					<p className="text-sm text-purple-800 dark:text-purple-300">
+				<div className="rounded-lg bg-purple-50 p-3 dark:bg-purple-900/20">
+					<p className="text-purple-800 text-sm dark:text-purple-300">
 						💡 实时数据缓存确保在网络中断时仍能访问最新数据，提供更好的用户体验
 					</p>
 				</div>
@@ -1103,7 +1058,7 @@ function AdvancedCacheDemo() {
 				input: value,
 				result: result.toFixed(2),
 				computationTime,
-				timestamp: new Date().toLocaleTimeString()
+				timestamp: new Date().toLocaleTimeString(),
 			};
 
 			computedCache.current.set(cacheKey, output);
@@ -1130,17 +1085,17 @@ function AdvancedCacheDemo() {
 						value={input}
 						onChange={(e) => setInput(e.target.value)}
 						placeholder="输入计算参数..."
-						className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+						className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
 					/>
 					<button
 						onClick={compute}
-						className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+						className="rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
 					>
 						计算
 					</button>
 					<button
 						onClick={clearCache}
-						className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+						className="rounded bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
 					>
 						清空缓存
 					</button>
@@ -1148,28 +1103,22 @@ function AdvancedCacheDemo() {
 
 				<div className="grid grid-cols-2 gap-4">
 					{Object.entries(results).map(([key, value]: [string, any]) => (
-						<div key={key} className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-							<h4 className="font-medium text-gray-800 dark:text-white mb-2">
-								输入: {value.input}
-							</h4>
-							<p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-								结果: {value.result}
-							</p>
-							<p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-								计算时间: {value.computationTime}ms
-							</p>
-							<p className="text-xs text-gray-500 dark:text-gray-400">
+						<div key={key} className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+							<h4 className="mb-2 font-medium text-gray-800 dark:text-white">输入: {value.input}</h4>
+							<p className="mb-1 text-gray-600 text-sm dark:text-gray-400">结果: {value.result}</p>
+							<p className="mb-1 text-gray-500 text-xs dark:text-gray-400">计算时间: {value.computationTime}ms</p>
+							<p className="text-gray-500 text-xs dark:text-gray-400">
 								时间戳: {value.timestamp}
 								{computedCache.current.has(`compute-${key}`) && (
-									<span className="text-green-600 dark:text-green-400 ml-2">(已缓存)</span>
+									<span className="ml-2 text-green-600 dark:text-green-400">(已缓存)</span>
 								)}
 							</p>
 						</div>
 					))}
 				</div>
 
-				<div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
-					<p className="text-sm text-green-800 dark:text-green-300">
+				<div className="rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
+					<p className="text-green-800 text-sm dark:text-green-300">
 						💡 计算结果缓存可以避免重复的复杂计算，显著提升性能
 					</p>
 				</div>
@@ -1178,10 +1127,8 @@ function AdvancedCacheDemo() {
 	};
 
 	return (
-		<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-			<h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
-				🚀 高级应用场景
-			</h3>
+		<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
+			<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">🚀 高级应用场景</h3>
 
 			<div className="mb-6">
 				<div className="flex gap-2">
@@ -1193,10 +1140,10 @@ function AdvancedCacheDemo() {
 						<button
 							key={key}
 							onClick={() => setScenario(key as any)}
-							className={`px-4 py-2 rounded-lg transition-colors ${
+							className={`rounded-lg px-4 py-2 transition-colors ${
 								scenario === key
 									? "bg-teal-600 text-white"
-									: "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+									: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
 							}`}
 						>
 							{icon} {label}
@@ -1209,7 +1156,7 @@ function AdvancedCacheDemo() {
 			{scenario === "realtime" && <RealtimeDemo />}
 			{scenario === "computed" && <ComputedDemo />}
 
-			<div className="mt-6 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 p-4 rounded-lg">
+			<div className="mt-6 rounded-lg bg-gradient-to-r from-teal-50 to-cyan-50 p-4 dark:from-teal-900/20 dark:to-cyan-900/20">
 				<p className="text-sm text-teal-800 dark:text-teal-300">
 					🎯 <strong>高级应用总结：</strong>
 					Cache Signals 在各种复杂场景中都能提供智能的缓存管理，从分页数据到实时流，

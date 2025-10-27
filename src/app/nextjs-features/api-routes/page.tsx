@@ -1,21 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
-import Layout from "@/components/Layout";
 import {
-	Code,
-	Shield,
-	FileText,
-	Upload,
-	Database,
-	CheckCircle,
-	ArrowLeft,
-	Copy,
-	Download,
-	Play,
 	AlertCircle,
+	ArrowLeft,
+	CheckCircle,
+	Code,
+	Copy,
+	Database,
+	Download,
+	FileText,
+	Play,
+	Shield,
+	Upload,
 } from "lucide-react";
 import Link from "next/link";
+import React, { useState } from "react";
+import Layout from "@/components/Layout";
 
 interface APIExample {
 	id: string;
@@ -508,9 +508,7 @@ export function negotiateVersion(request: NextRequest) {
 ];
 
 export default function APIRoutesPage() {
-	const [selectedExample, setSelectedExample] = useState<APIExample | null>(
-		null,
-	);
+	const [selectedExample, setSelectedExample] = useState<APIExample | null>(null);
 	const [copiedCode, setCopiedCode] = useState(false);
 
 	const copyToClipboard = async (text: string) => {
@@ -586,24 +584,20 @@ export default function APIRoutesPage() {
 			<div className="min-h-screen bg-gray-50">
 				{/* 头部 */}
 				<div className="bg-white shadow-sm">
-					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 						<div className="flex items-center space-x-4">
 							<Link
 								href="/nextjs-features"
-								className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+								className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
 							>
-								<ArrowLeft className="w-5 h-5 mr-2" />
+								<ArrowLeft className="mr-2 h-5 w-5" />
 								返回特性列表
 							</Link>
 							<div className="flex items-center space-x-3">
-								<Code className="w-8 h-8 text-blue-600" />
+								<Code className="h-8 w-8 text-blue-600" />
 								<div>
-									<h1 className="text-3xl font-bold text-gray-900">
-										API 路由特性
-									</h1>
-									<p className="text-gray-600">
-										Next.js 全栈 API 开发：RESTful、中间件、认证、文件处理
-									</p>
+									<h1 className="font-bold text-3xl text-gray-900">API 路由特性</h1>
+									<p className="text-gray-600">Next.js 全栈 API 开发：RESTful、中间件、认证、文件处理</p>
 								</div>
 							</div>
 						</div>
@@ -611,103 +605,95 @@ export default function APIRoutesPage() {
 				</div>
 
 				{/* API 架构概览 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-						<h2 className="text-xl font-semibold text-gray-900 mb-6">
-							API 路由架构
-						</h2>
-						<div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-							<div className="text-center p-4 bg-blue-50 rounded-lg">
-								<Database className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-blue-900 mb-1">RESTful</h3>
-								<p className="text-sm text-blue-700">标准化接口</p>
+				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+						<h2 className="mb-6 font-semibold text-gray-900 text-xl">API 路由架构</h2>
+						<div className="grid grid-cols-1 gap-4 md:grid-cols-6">
+							<div className="rounded-lg bg-blue-50 p-4 text-center">
+								<Database className="mx-auto mb-2 h-6 w-6 text-blue-600" />
+								<h3 className="mb-1 font-semibold text-blue-900">RESTful</h3>
+								<p className="text-blue-700 text-sm">标准化接口</p>
 							</div>
-							<div className="text-center p-4 bg-green-50 rounded-lg">
-								<Shield className="w-6 h-6 text-green-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-green-900 mb-1">认证</h3>
-								<p className="text-sm text-green-700">JWT 授权</p>
+							<div className="rounded-lg bg-green-50 p-4 text-center">
+								<Shield className="mx-auto mb-2 h-6 w-6 text-green-600" />
+								<h3 className="mb-1 font-semibold text-green-900">认证</h3>
+								<p className="text-green-700 text-sm">JWT 授权</p>
 							</div>
-							<div className="text-center p-4 bg-purple-50 rounded-lg">
-								<FileText className="w-6 h-6 text-purple-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-purple-900 mb-1">中间件</h3>
-								<p className="text-sm text-purple-700">请求处理</p>
+							<div className="rounded-lg bg-purple-50 p-4 text-center">
+								<FileText className="mx-auto mb-2 h-6 w-6 text-purple-600" />
+								<h3 className="mb-1 font-semibold text-purple-900">中间件</h3>
+								<p className="text-purple-700 text-sm">请求处理</p>
 							</div>
-							<div className="text-center p-4 bg-orange-50 rounded-lg">
-								<Upload className="w-6 h-6 text-orange-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-orange-900 mb-1">文件处理</h3>
-								<p className="text-sm text-orange-700">上传下载</p>
+							<div className="rounded-lg bg-orange-50 p-4 text-center">
+								<Upload className="mx-auto mb-2 h-6 w-6 text-orange-600" />
+								<h3 className="mb-1 font-semibold text-orange-900">文件处理</h3>
+								<p className="text-orange-700 text-sm">上传下载</p>
 							</div>
-							<div className="text-center p-4 bg-red-50 rounded-lg">
-								<AlertCircle className="w-6 h-6 text-red-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-red-900 mb-1">错误处理</h3>
-								<p className="text-sm text-red-700">统一格式</p>
+							<div className="rounded-lg bg-red-50 p-4 text-center">
+								<AlertCircle className="mx-auto mb-2 h-6 w-6 text-red-600" />
+								<h3 className="mb-1 font-semibold text-red-900">错误处理</h3>
+								<p className="text-red-700 text-sm">统一格式</p>
 							</div>
-							<div className="text-center p-4 bg-indigo-50 rounded-lg">
-								<Code className="w-6 h-6 text-indigo-600 mx-auto mb-2" />
-								<h3 className="font-semibold text-indigo-900 mb-1">版本控制</h3>
-								<p className="text-sm text-indigo-700">兼容性</p>
+							<div className="rounded-lg bg-indigo-50 p-4 text-center">
+								<Code className="mx-auto mb-2 h-6 w-6 text-indigo-600" />
+								<h3 className="mb-1 font-semibold text-indigo-900">版本控制</h3>
+								<p className="text-indigo-700 text-sm">兼容性</p>
 							</div>
 						</div>
 					</div>
 				</div>
 
 				{/* API 示例 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-					<h2 className="text-2xl font-bold text-gray-900 mb-6">实现示例</h2>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+					<h2 className="mb-6 font-bold text-2xl text-gray-900">实现示例</h2>
+					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 						{/* 左侧：示例列表 */}
 						<div className="space-y-4">
 							{apiExamples.map((example) => (
 								<div
 									key={example.id}
-									className={`bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all cursor-pointer ${
-										selectedExample?.id === example.id
-											? "ring-2 ring-blue-500"
-											: ""
+									className={`cursor-pointer rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md ${
+										selectedExample?.id === example.id ? "ring-2 ring-blue-500" : ""
 									}`}
 									onClick={() => setSelectedExample(example)}
 								>
 									<div className="p-6">
-										<div className="flex items-start justify-between mb-3">
+										<div className="mb-3 flex items-start justify-between">
 											<div>
-												<h3 className="text-lg font-semibold text-gray-900 mb-1">
-													{example.title}
-												</h3>
-												<div className="flex items-center space-x-2 mb-2">
+												<h3 className="mb-1 font-semibold text-gray-900 text-lg">{example.title}</h3>
+												<div className="mb-2 flex items-center space-x-2">
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(example.category)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getCategoryColor(example.category)}`}
 													>
 														{example.category}
 													</span>
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(example.difficulty)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getDifficultyColor(example.difficulty)}`}
 													>
 														{example.difficulty}
 													</span>
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(example.status)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getStatusColor(example.status)}`}
 													>
 														{getStatusText(example.status)}
 													</span>
 												</div>
 											</div>
 										</div>
-										<p className="text-gray-600 mb-4">{example.description}</p>
+										<p className="mb-4 text-gray-600">{example.description}</p>
 										<div className="flex items-center justify-between">
 											<div className="flex flex-wrap gap-1">
 												{example.httpMethods.map((method) => (
 													<span
 														key={method}
-														className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700"
+														className="inline-flex items-center rounded bg-gray-100 px-2 py-1 font-medium text-gray-700 text-xs"
 													>
 														{method}
 													</span>
 												))}
 											</div>
 											<div className="flex items-center space-x-2">
-												{example.status === "completed" && (
-													<CheckCircle className="w-4 h-4 text-green-500" />
-												)}
+												{example.status === "completed" && <CheckCircle className="h-4 w-4 text-green-500" />}
 											</div>
 										</div>
 									</div>
@@ -718,30 +704,26 @@ export default function APIRoutesPage() {
 						{/* 右侧：示例详情 */}
 						<div className="lg:sticky lg:top-6">
 							{selectedExample ? (
-								<div className="bg-white rounded-lg shadow-sm border border-gray-200">
-									<div className="p-6 border-b border-gray-200">
-										<div className="flex items-center justify-between mb-4">
-											<h3 className="text-xl font-semibold text-gray-900">
-												{selectedExample.title}
-											</h3>
+								<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+									<div className="border-gray-200 border-b p-6">
+										<div className="mb-4 flex items-center justify-between">
+											<h3 className="font-semibold text-gray-900 text-xl">{selectedExample.title}</h3>
 											<div className="flex items-center space-x-2">
 												<span
-													className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(selectedExample.category)}`}
+													className={`inline-flex items-center rounded-full px-3 py-1 font-medium text-sm ${getCategoryColor(selectedExample.category)}`}
 												>
 													{selectedExample.category}
 												</span>
 											</div>
 										</div>
-										<p className="text-gray-600 mb-4">
-											{selectedExample.description}
-										</p>
+										<p className="mb-4 text-gray-600">{selectedExample.description}</p>
 
 										{/* HTTP 方法标签 */}
-										<div className="flex flex-wrap gap-2 mb-4">
+										<div className="mb-4 flex flex-wrap gap-2">
 											{selectedExample.httpMethods.map((method) => (
 												<span
 													key={method}
-													className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700"
+													className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 font-medium text-blue-700 text-sm"
 												>
 													{method}
 												</span>
@@ -750,19 +732,17 @@ export default function APIRoutesPage() {
 									</div>
 
 									<div className="p-6">
-										<div className="flex items-center justify-between mb-3">
+										<div className="mb-3 flex items-center justify-between">
 											<h4 className="font-semibold text-gray-900">代码示例</h4>
 											<button
-												onClick={() =>
-													copyToClipboard(selectedExample.codeSnippet)
-												}
-												className="flex items-center space-x-1 text-sm text-gray-600 hover:text-gray-900"
+												onClick={() => copyToClipboard(selectedExample.codeSnippet)}
+												className="flex items-center space-x-1 text-gray-600 text-sm hover:text-gray-900"
 											>
-												<Copy className="w-4 h-4" />
+												<Copy className="h-4 w-4" />
 												<span>{copiedCode ? "已复制" : "复制"}</span>
 											</button>
 										</div>
-										<div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-6">
+										<div className="mb-6 overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
 											<pre className="text-sm">
 												<code>{selectedExample.codeSnippet}</code>
 											</pre>
@@ -771,11 +751,9 @@ export default function APIRoutesPage() {
 										{/* 响应示例 */}
 										{selectedExample.responseExample && (
 											<div className="mb-6">
-												<h4 className="font-semibold text-gray-900 mb-3">
-													响应示例
-												</h4>
-												<div className="bg-green-50 border border-green-200 rounded-lg p-4">
-													<pre className="text-sm text-green-800">
+												<h4 className="mb-3 font-semibold text-gray-900">响应示例</h4>
+												<div className="rounded-lg border border-green-200 bg-green-50 p-4">
+													<pre className="text-green-800 text-sm">
 														<code>{selectedExample.responseExample}</code>
 													</pre>
 												</div>
@@ -784,14 +762,12 @@ export default function APIRoutesPage() {
 
 										{/* 主要优势 */}
 										<div className="mb-6">
-											<h5 className="font-medium text-gray-900 mb-2">
-												主要优势
-											</h5>
+											<h5 className="mb-2 font-medium text-gray-900">主要优势</h5>
 											<div className="flex flex-wrap gap-2">
 												{selectedExample.benefits.map((benefit, index) => (
 													<span
 														key={index}
-														className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-700"
+														className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm"
 													>
 														{benefit}
 													</span>
@@ -801,25 +777,19 @@ export default function APIRoutesPage() {
 									</div>
 
 									{selectedExample.status === "completed" && (
-										<div className="p-6 bg-green-50 border-t border-green-200">
+										<div className="border-green-200 border-t bg-green-50 p-6">
 											<div className="flex items-center space-x-2 text-green-800">
-												<CheckCircle className="w-5 h-5" />
-												<span className="font-medium">
-													该 API 功能已完成并可用
-												</span>
+												<CheckCircle className="h-5 w-5" />
+												<span className="font-medium">该 API 功能已完成并可用</span>
 											</div>
 										</div>
 									)}
 								</div>
 							) : (
-								<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-									<Code className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-									<h3 className="text-lg font-semibold text-gray-900 mb-2">
-										选择一个 API 示例
-									</h3>
-									<p className="text-gray-600">
-										点击左侧的示例查看详细信息和代码实现
-									</p>
+								<div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow-sm">
+									<Code className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+									<h3 className="mb-2 font-semibold text-gray-900 text-lg">选择一个 API 示例</h3>
+									<p className="text-gray-600">点击左侧的示例查看详细信息和代码实现</p>
 								</div>
 							)}
 						</div>

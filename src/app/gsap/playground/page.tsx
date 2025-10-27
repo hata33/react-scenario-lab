@@ -16,14 +16,7 @@ import TimelineSection from "./components/TimelineSection";
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
 
-type TabKey =
-	| "eases"
-	| "timeline"
-	| "stagger"
-	| "base"
-	| "scrolltrigger"
-	| "draggable"
-	| "advanced";
+type TabKey = "eases" | "timeline" | "stagger" | "base" | "scrolltrigger" | "draggable" | "advanced";
 
 export default function Page() {
 	const [tab, setTab] = useState<TabKey>("scrolltrigger");
@@ -84,18 +77,10 @@ export default function Page() {
 			<Layout>
 				<div ref={mainContainerRef} style={{ position: "relative" }}>
 					{/* 进度条 */}
-					<ProgressBar
-						scrubValue={scrubValue}
-						showPercentage={true}
-						position="top"
-					/>
+					<ProgressBar scrubValue={scrubValue} showPercentage={true} position="top" />
 
 					{/* 控制面板 */}
-					<ControlPanel
-						onScrubChange={setScrubValue}
-						onMarkersChange={setMarkers}
-						onSpeedChange={setAnimationSpeed}
-					/>
+					<ControlPanel onScrubChange={setScrubValue} onMarkersChange={setMarkers} onSpeedChange={setAnimationSpeed} />
 
 					{/* ScrollTrigger 内容 */}
 					<div style={{ paddingTop: 60 }}>
@@ -171,8 +156,7 @@ export default function Page() {
 										lineHeight: 1.6,
 									}}
 								>
-									你已经体验了 GSAP ScrollTrigger
-									的强大功能，包括视差滚动、固定元素、进度指示和时间轴动画。
+									你已经体验了 GSAP ScrollTrigger 的强大功能，包括视差滚动、固定元素、进度指示和时间轴动画。
 								</p>
 
 								{/* 统计信息 */}
@@ -234,9 +218,7 @@ export default function Page() {
 									}}
 								>
 									<button
-										onClick={() =>
-											window.scrollTo({ top: 0, behavior: "smooth" })
-										}
+										onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
 										style={{
 											padding: "16px 32px",
 											background: "rgba(255,255,255,0.2)",
@@ -289,12 +271,9 @@ export default function Page() {
 	return (
 		<Layout>
 			<div style={{ padding: 24 }}>
-				<h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12 }}>
-					GSAP 高级实验室
-				</h1>
+				<h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12 }}>GSAP 高级实验室</h1>
 				<p style={{ color: "#666", marginBottom: 16 }}>
-					基于真实项目需求的复杂动画示例集合，包含 ScrollTrigger、Draggable
-					等高级功能。
+					基于真实项目需求的复杂动画示例集合，包含 ScrollTrigger、Draggable 等高级功能。
 				</p>
 
 				<Tabs
@@ -325,11 +304,7 @@ export default function Page() {
 }
 
 // Tab组件
-function Tabs(props: {
-	value: TabKey;
-	onChange: (v: TabKey) => void;
-	items: { key: TabKey; label: string }[];
-}) {
+function Tabs(props: { value: TabKey; onChange: (v: TabKey) => void; items: { key: TabKey; label: string }[] }) {
 	return (
 		<div
 			style={{
@@ -370,9 +345,7 @@ function EasesDemo() {
 				borderRadius: 12,
 			}}
 		>
-			<h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>
-				Eases 缓动实验台
-			</h2>
+			<h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>Eases 缓动实验台</h2>
 			<p style={{ color: "#666" }}>各种缓动函数的效果展示和对比</p>
 		</div>
 	);
@@ -388,12 +361,8 @@ function TimelineDemo() {
 				borderRadius: 12,
 			}}
 		>
-			<h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>
-				Timeline 时间轴实验台
-			</h2>
-			<p style={{ color: "#666" }}>
-				使用 label、相对位移、timeScale 与控制按钮操控时间轴
-			</p>
+			<h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>Timeline 时间轴实验台</h2>
+			<p style={{ color: "#666" }}>使用 label、相对位移、timeScale 与控制按钮操控时间轴</p>
 		</div>
 	);
 }
@@ -408,9 +377,7 @@ function StaggerDemo() {
 				borderRadius: 12,
 			}}
 		>
-			<h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>
-				Stagger 错位实验台
-			</h2>
+			<h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>Stagger 错位实验台</h2>
 			<p style={{ color: "#666" }}>调整 from、grid、each 观察入场顺序变化</p>
 		</div>
 	);
@@ -426,9 +393,7 @@ function BaseDemo() {
 				borderRadius: 12,
 			}}
 		>
-			<h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>
-				基础 API 演示
-			</h2>
+			<h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>基础 API 演示</h2>
 			<p style={{ color: "#666" }}>set/to/fromFrom 的组合演示</p>
 		</div>
 	);
@@ -444,12 +409,8 @@ function DraggableDemo() {
 				borderRadius: 12,
 			}}
 		>
-			<h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>
-				Draggable 拖拽交互
-			</h2>
-			<p style={{ color: "#666" }}>
-				支持惯性、边界限制、网格吸附的高级拖拽功能
-			</p>
+			<h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>Draggable 拖拽交互</h2>
+			<p style={{ color: "#666" }}>支持惯性、边界限制、网格吸附的高级拖拽功能</p>
 		</div>
 	);
 }
@@ -464,9 +425,7 @@ function AdvancedDemo() {
 				borderRadius: 12,
 			}}
 		>
-			<h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>
-				高级组合动画
-			</h2>
+			<h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>高级组合动画</h2>
 			<p style={{ color: "#666" }}>模拟真实项目场景的复杂动画组合</p>
 		</div>
 	);

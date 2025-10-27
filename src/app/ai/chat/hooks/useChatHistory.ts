@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export interface ChatMessage {
 	id: string;
@@ -92,9 +92,7 @@ export function useChatHistory() {
 
 					// 如果是第一条用户消息，更新标题
 					if (history.messages.length === 0 && message.type === "user") {
-						updatedHistory.title =
-							message.content.slice(0, 20) +
-							(message.content.length > 20 ? "..." : "");
+						updatedHistory.title = message.content.slice(0, 20) + (message.content.length > 20 ? "..." : "");
 					}
 
 					return updatedHistory;
@@ -131,9 +129,7 @@ export function useChatHistory() {
 
 	// 导出对话历史
 	const exportHistory = (id?: string) => {
-		const historyToExport = id
-			? histories.find((h) => h.id === id)
-			: getCurrentHistory();
+		const historyToExport = id ? histories.find((h) => h.id === id) : getCurrentHistory();
 
 		if (!historyToExport) return null;
 

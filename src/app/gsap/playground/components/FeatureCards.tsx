@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -167,12 +167,7 @@ export default function FeatureCards() {
 			// 标题动画
 			const title = card.querySelector(".card-title");
 			if (title) {
-				tl.fromTo(
-					title,
-					{ x: -30, opacity: 0 },
-					{ x: 0, opacity: 1, duration: 0.5, ease: "power2.out" },
-					"-=0.2",
-				);
+				tl.fromTo(title, { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power2.out" }, "-=0.2");
 			}
 
 			// 描述动画
@@ -304,8 +299,7 @@ export default function FeatureCards() {
 							lineHeight: 1.6,
 						}}
 					>
-						探索 GSAP ScrollTrigger
-						的强大功能，每个组件都经过精心设计，带来流畅自然的动画体验
+						探索 GSAP ScrollTrigger 的强大功能，每个组件都经过精心设计，带来流畅自然的动画体验
 					</p>
 				</div>
 
@@ -335,12 +329,10 @@ export default function FeatureCards() {
 								border: "1px solid rgba(148, 163, 184, 0.1)",
 							}}
 							onMouseEnter={(e) => {
-								e.currentTarget.style.boxShadow =
-									"0 30px 80px rgba(0,0,0,0.12)";
+								e.currentTarget.style.boxShadow = "0 30px 80px rgba(0,0,0,0.12)";
 							}}
 							onMouseLeave={(e) => {
-								e.currentTarget.style.boxShadow =
-									"0 20px 60px rgba(0,0,0,0.08)";
+								e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.08)";
 							}}
 						>
 							{/* 背景装饰 */}
@@ -404,9 +396,7 @@ export default function FeatureCards() {
 							</p>
 
 							{/* 详细特性 */}
-							<div
-								style={{ marginBottom: 24, position: "relative", zIndex: 1 }}
-							>
+							<div style={{ marginBottom: 24, position: "relative", zIndex: 1 }}>
 								{feature.details.map((detail, idx) => (
 									<div
 										key={idx}

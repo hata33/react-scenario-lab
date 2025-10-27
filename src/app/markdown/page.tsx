@@ -1,6 +1,6 @@
-import { metadata } from "./metadata";
-import MarkdownHomePage from "./MarkdownHomePage";
 import Layout from "@/components/Layout";
+import MarkdownHomePage from "./MarkdownHomePage";
+import { metadata } from "./metadata";
 
 export { metadata };
 

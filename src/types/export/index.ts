@@ -79,13 +79,7 @@ export interface ExportTemplate {
 
 export interface ExportFilter {
 	field: string;
-	operator:
-		| "equals"
-		| "contains"
-		| "startsWith"
-		| "endsWith"
-		| "greaterThan"
-		| "lessThan";
+	operator: "equals" | "contains" | "startsWith" | "endsWith" | "greaterThan" | "lessThan";
 	value: any;
 }
 

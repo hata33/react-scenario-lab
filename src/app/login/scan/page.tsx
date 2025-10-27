@@ -9,9 +9,7 @@ import Layout from "@/components/Layout";
 function ScanPage() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const [status, setStatus] = useState<
-		"loading" | "valid" | "invalid" | "confirmed"
-	>("loading");
+	const [status, setStatus] = useState<"loading" | "valid" | "invalid" | "confirmed">("loading");
 	const [userInfo, setUserInfo] = useState<any>(null);
 
 	useEffect(() => {
@@ -29,12 +27,7 @@ function ScanPage() {
 		validateQRCode(sceneId, timestamp, nonce, signature);
 	}, [searchParams]);
 
-	const validateQRCode = async (
-		sceneId: string,
-		timestamp: string,
-		nonce: string,
-		signature: string,
-	) => {
+	const validateQRCode = async (sceneId: string, timestamp: string, nonce: string, signature: string) => {
 		try {
 			// 验证时间戳
 			const now = Date.now();
@@ -46,12 +39,7 @@ function ScanPage() {
 			}
 
 			// 验证签名（这里应该实现与后端一致的签名验证）
-			const isValid = await verifySignature(
-				sceneId,
-				timestamp,
-				nonce,
-				signature,
-			);
+			const isValid = await verifySignature(sceneId, timestamp, nonce, signature);
 			if (!isValid) {
 				setStatus("invalid");
 				return;
@@ -171,12 +159,8 @@ function ScanPage() {
 					{status === "invalid" && (
 						<div className="text-center">
 							<div className="mb-4 text-6xl text-red-500">⚠️</div>
-							<h2 className="mb-2 font-semibold text-red-600 text-xl">
-								二维码无效
-							</h2>
-							<p className="mb-4 text-gray-600">
-								二维码已过期或无效，请重新扫描
-							</p>
+							<h2 className="mb-2 font-semibold text-red-600 text-xl">二维码无效</h2>
+							<p className="mb-4 text-gray-600">二维码已过期或无效，请重新扫描</p>
 							<button
 								onClick={() => router.back()}
 								className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
@@ -189,9 +173,7 @@ function ScanPage() {
 					{status === "valid" && (
 						<div className="text-center">
 							<div className="mb-4 text-6xl text-green-500">✓</div>
-							<h2 className="mb-2 font-semibold text-gray-800 text-xl">
-								二维码有效
-							</h2>
+							<h2 className="mb-2 font-semibold text-gray-800 text-xl">二维码有效</h2>
 							<p className="mb-6 text-gray-600">是否允许在当前设备上登录？</p>
 
 							<div className="space-y-3">
@@ -222,15 +204,9 @@ function ScanPage() {
 					{status === "confirmed" && (
 						<div className="text-center">
 							<div className="mb-4 text-6xl text-green-500">✓</div>
-							<h2 className="mb-2 font-semibold text-gray-800 text-xl">
-								登录成功
-							</h2>
-							<p className="mb-4 text-gray-600">
-								{userInfo && `欢迎 ${userInfo.name}`}
-							</p>
-							<p className="mb-6 text-gray-500 text-sm">
-								请在电脑上查看登录结果
-							</p>
+							<h2 className="mb-2 font-semibold text-gray-800 text-xl">登录成功</h2>
+							<p className="mb-4 text-gray-600">{userInfo && `欢迎 ${userInfo.name}`}</p>
+							<p className="mb-6 text-gray-500 text-sm">请在电脑上查看登录结果</p>
 							<button
 								onClick={() => router.back()}
 								className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"

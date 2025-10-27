@@ -1,17 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-	ArrowLeft,
-	Server,
-	Code,
-	Database,
-	Zap,
-	Shield,
-	CheckCircle,
-} from "lucide-react";
-import Layout from "@/components/Layout";
+import { ArrowLeft, CheckCircle, Code, Database, Server, Shield, Zap } from "lucide-react";
 import Link from "next/link";
+import React, { useState } from "react";
+import Layout from "@/components/Layout";
 
 interface ServerComponentExample {
 	id: string;
@@ -207,12 +199,9 @@ async function BlogPage() {
 ];
 
 export default function ServerComponentsFeaturePage() {
-	const [selectedExample, setSelectedExample] =
-		useState<ServerComponentExample | null>(null);
+	const [selectedExample, setSelectedExample] = useState<ServerComponentExample | null>(null);
 
-	const getDifficultyColor = (
-		difficulty: ServerComponentExample["difficulty"],
-	) => {
+	const getDifficultyColor = (difficulty: ServerComponentExample["difficulty"]) => {
 		switch (difficulty) {
 			case "初级":
 				return "text-green-600 bg-green-100";
@@ -256,24 +245,20 @@ export default function ServerComponentsFeaturePage() {
 			<div className="min-h-screen bg-gray-50">
 				{/* 头部 */}
 				<div className="bg-white shadow-sm">
-					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 						<div className="flex items-center space-x-4">
 							<Link
 								href="/nextjs-features"
-								className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+								className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
 							>
-								<ArrowLeft className="w-5 h-5 mr-2" />
+								<ArrowLeft className="mr-2 h-5 w-5" />
 								返回特性列表
 							</Link>
 							<div className="flex items-center space-x-3">
-								<Server className="w-8 h-8 text-blue-600" />
+								<Server className="h-8 w-8 text-blue-600" />
 								<div>
-									<h1 className="text-3xl font-bold text-gray-900">
-										Server Components 特性
-									</h1>
-									<p className="text-gray-600">
-										Next.js 服务端组件完整指南和最佳实践
-									</p>
+									<h1 className="font-bold text-3xl text-gray-900">Server Components 特性</h1>
+									<p className="text-gray-600">Next.js 服务端组件完整指南和最佳实践</p>
 								</div>
 							</div>
 						</div>
@@ -281,18 +266,14 @@ export default function ServerComponentsFeaturePage() {
 				</div>
 
 				{/* 概述 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-						<h2 className="text-xl font-semibold text-gray-900 mb-4">
-							什么是 Server Components？
-						</h2>
+				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+						<h2 className="mb-4 font-semibold text-gray-900 text-xl">什么是 Server Components？</h2>
 						<div className="prose prose-gray max-w-none">
 							<p>
-								React Server Components (RSC)
-								是一种新的组件类型，允许您在服务端渲染组件。
-								与传统组件不同，服务端组件：
+								React Server Components (RSC) 是一种新的组件类型，允许您在服务端渲染组件。 与传统组件不同，服务端组件：
 							</p>
-							<ul className="list-disc pl-6 space-y-2">
+							<ul className="list-disc space-y-2 pl-6">
 								<li>
 									<strong>在服务端运行</strong>：不会在客户端下载或执行
 								</li>
@@ -314,94 +295,76 @@ export default function ServerComponentsFeaturePage() {
 				</div>
 
 				{/* 主要优势 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-					<h2 className="text-2xl font-bold text-gray-900 mb-6">主要优势</h2>
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-						<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-							<div className="flex items-center space-x-3 mb-4">
-								<Zap className="w-8 h-8 text-yellow-600" />
-								<h3 className="text-lg font-semibold text-gray-900">
-									性能优化
-								</h3>
+				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+					<h2 className="mb-6 font-bold text-2xl text-gray-900">主要优势</h2>
+					<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+							<div className="mb-4 flex items-center space-x-3">
+								<Zap className="h-8 w-8 text-yellow-600" />
+								<h3 className="font-semibold text-gray-900 text-lg">性能优化</h3>
 							</div>
-							<p className="text-gray-600">
-								减少客户端 JavaScript 包大小，提高页面加载速度
-							</p>
+							<p className="text-gray-600">减少客户端 JavaScript 包大小，提高页面加载速度</p>
 						</div>
-						<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-							<div className="flex items-center space-x-3 mb-4">
-								<Database className="w-8 h-8 text-blue-600" />
-								<h3 className="text-lg font-semibold text-gray-900">
-									数据获取
-								</h3>
+						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+							<div className="mb-4 flex items-center space-x-3">
+								<Database className="h-8 w-8 text-blue-600" />
+								<h3 className="font-semibold text-gray-900 text-lg">数据获取</h3>
 							</div>
-							<p className="text-gray-600">
-								直接在服务端获取数据，避免客户端 loading 状态
-							</p>
+							<p className="text-gray-600">直接在服务端获取数据，避免客户端 loading 状态</p>
 						</div>
-						<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-							<div className="flex items-center space-x-3 mb-4">
-								<Shield className="w-8 h-8 text-green-600" />
-								<h3 className="text-lg font-semibold text-gray-900">安全性</h3>
+						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+							<div className="mb-4 flex items-center space-x-3">
+								<Shield className="h-8 w-8 text-green-600" />
+								<h3 className="font-semibold text-gray-900 text-lg">安全性</h3>
 							</div>
-							<p className="text-gray-600">
-								敏感数据和逻辑保留在服务端，提高安全性
-							</p>
+							<p className="text-gray-600">敏感数据和逻辑保留在服务端，提高安全性</p>
 						</div>
-						<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-							<div className="flex items-center space-x-3 mb-4">
-								<Code className="w-8 h-8 text-purple-600" />
-								<h3 className="text-lg font-semibold text-gray-900">
-									开发体验
-								</h3>
+						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+							<div className="mb-4 flex items-center space-x-3">
+								<Code className="h-8 w-8 text-purple-600" />
+								<h3 className="font-semibold text-gray-900 text-lg">开发体验</h3>
 							</div>
-							<p className="text-gray-600">
-								简化数据获取和状态管理，提高开发效率
-							</p>
+							<p className="text-gray-600">简化数据获取和状态管理，提高开发效率</p>
 						</div>
 					</div>
 				</div>
 
 				{/* 特性示例 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-					<h2 className="text-2xl font-bold text-gray-900 mb-6">功能示例</h2>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+					<h2 className="mb-6 font-bold text-2xl text-gray-900">功能示例</h2>
+					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 						{/* 左侧：示例列表 */}
 						<div className="space-y-4">
 							{serverComponentExamples.map((example) => (
 								<div
 									key={example.id}
-									className={`bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all cursor-pointer ${
-										selectedExample?.id === example.id
-											? "ring-2 ring-blue-500"
-											: ""
+									className={`cursor-pointer rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md ${
+										selectedExample?.id === example.id ? "ring-2 ring-blue-500" : ""
 									}`}
 									onClick={() => setSelectedExample(example)}
 								>
 									<div className="p-6">
-										<div className="flex items-start justify-between mb-3">
-											<h3 className="text-lg font-semibold text-gray-900">
-												{example.title}
-											</h3>
+										<div className="mb-3 flex items-start justify-between">
+											<h3 className="font-semibold text-gray-900 text-lg">{example.title}</h3>
 											<div className="flex items-center space-x-2">
 												<span
-													className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getDifficultyColor(example.difficulty)}`}
+													className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-medium text-xs ${getDifficultyColor(example.difficulty)}`}
 												>
 													{example.difficulty}
 												</span>
 												<span
-													className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(example.status)}`}
+													className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-medium text-xs ${getStatusColor(example.status)}`}
 												>
 													{getStatusText(example.status)}
 												</span>
 											</div>
 										</div>
-										<p className="text-gray-600 mb-4">{example.description}</p>
+										<p className="mb-4 text-gray-600">{example.description}</p>
 										<div className="flex flex-wrap gap-2">
 											{example.benefits.slice(0, 3).map((benefit, index) => (
 												<span
 													key={index}
-													className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 text-gray-700"
+													className="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-gray-700 text-xs"
 												>
 													{benefit}
 												</span>
@@ -415,34 +378,28 @@ export default function ServerComponentsFeaturePage() {
 						{/* 右侧：示例详情 */}
 						<div className="lg:sticky lg:top-6">
 							{selectedExample ? (
-								<div className="bg-white rounded-lg shadow-sm border border-gray-200">
-									<div className="p-6 border-b border-gray-200">
-										<div className="flex items-center justify-between mb-4">
-											<h3 className="text-xl font-semibold text-gray-900">
-												{selectedExample.title}
-											</h3>
+								<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+									<div className="border-gray-200 border-b p-6">
+										<div className="mb-4 flex items-center justify-between">
+											<h3 className="font-semibold text-gray-900 text-xl">{selectedExample.title}</h3>
 											{selectedExample.status === "completed" && (
-												<button className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-													<Code className="w-4 h-4" />
+												<button className="flex items-center space-x-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700">
+													<Code className="h-4 w-4" />
 													<span>查看演示</span>
 												</button>
 											)}
 										</div>
-										<p className="text-gray-600 mb-4">
-											{selectedExample.description}
-										</p>
-										<div className="flex items-center space-x-4 text-sm text-gray-500">
+										<p className="mb-4 text-gray-600">{selectedExample.description}</p>
+										<div className="flex items-center space-x-4 text-gray-500 text-sm">
 											<span>难度: {selectedExample.difficulty}</span>
 											<span>状态: {getStatusText(selectedExample.status)}</span>
 										</div>
 									</div>
 
-									<div className="p-6 space-y-4">
+									<div className="space-y-4 p-6">
 										<div>
-											<h4 className="font-semibold text-gray-900 mb-3">
-												服务端代码
-											</h4>
-											<div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+											<h4 className="mb-3 font-semibold text-gray-900">服务端代码</h4>
+											<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
 												<pre className="text-sm">
 													<code>{selectedExample.serverCode}</code>
 												</pre>
@@ -451,10 +408,8 @@ export default function ServerComponentsFeaturePage() {
 
 										{selectedExample.clientCode && (
 											<div>
-												<h4 className="font-semibold text-gray-900 mb-3">
-													客户端代码
-												</h4>
-												<div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+												<h4 className="mb-3 font-semibold text-gray-900">客户端代码</h4>
+												<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
 													<pre className="text-sm">
 														<code>{selectedExample.clientCode}</code>
 													</pre>
@@ -464,23 +419,19 @@ export default function ServerComponentsFeaturePage() {
 									</div>
 
 									{selectedExample.status === "completed" && (
-										<div className="p-6 bg-green-50 border-t border-green-200">
+										<div className="border-green-200 border-t bg-green-50 p-6">
 											<div className="flex items-center space-x-2 text-green-800">
-												<CheckCircle className="w-5 h-5" />
+												<CheckCircle className="h-5 w-5" />
 												<span className="font-medium">该示例已完成并可用</span>
 											</div>
 										</div>
 									)}
 								</div>
 							) : (
-								<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-									<Server className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-									<h3 className="text-lg font-semibold text-gray-900 mb-2">
-										选择一个示例
-									</h3>
-									<p className="text-gray-600">
-										点击左侧的示例查看详细信息和代码示例
-									</p>
+								<div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow-sm">
+									<Server className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+									<h3 className="mb-2 font-semibold text-gray-900 text-lg">选择一个示例</h3>
+									<p className="text-gray-600">点击左侧的示例查看详细信息和代码示例</p>
 								</div>
 							)}
 						</div>

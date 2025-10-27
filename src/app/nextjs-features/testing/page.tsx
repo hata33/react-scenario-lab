@@ -1,29 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-	ArrowLeft,
-	CheckCircle,
-	FlaskConical,
-	Code,
-	Shield,
-	Bug,
-	Zap,
-} from "lucide-react";
+import { ArrowLeft, Bug, CheckCircle, Code, FlaskConical, Shield, Zap } from "lucide-react";
 import Link from "next/link";
+import React, { useState } from "react";
 import Layout from "@/components/Layout";
 
 interface TestingExample {
 	id: string;
 	title: string;
 	description: string;
-	category:
-		| "Unit"
-		| "Integration"
-		| "E2E"
-		| "Visual"
-		| "Performance"
-		| "Accessibility";
+	category: "Unit" | "Integration" | "E2E" | "Visual" | "Performance" | "Accessibility";
 	difficulty: "初级" | "中级" | "高级";
 	status: "completed" | "in-progress" | "planned";
 	codeSnippet: string;
@@ -1116,9 +1102,7 @@ describe('UserProfile Component', () => {
 ];
 
 export default function TestingFeaturePage() {
-	const [selectedExample, setSelectedExample] = useState<TestingExample | null>(
-		null,
-	);
+	const [selectedExample, setSelectedExample] = useState<TestingExample | null>(null);
 
 	const getCategoryColor = (category: TestingExample["category"]) => {
 		switch (category) {
@@ -1183,24 +1167,20 @@ export default function TestingFeaturePage() {
 			<div className="min-h-screen bg-gray-50">
 				{/* 头部 */}
 				<div className="bg-white shadow-sm">
-					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 						<div className="flex items-center space-x-4">
 							<Link
 								href="/nextjs-features"
-								className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+								className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
 							>
-								<ArrowLeft className="w-5 h-5 mr-2" />
+								<ArrowLeft className="mr-2 h-5 w-5" />
 								返回特性列表
 							</Link>
 							<div className="flex items-center space-x-3">
-								<FlaskConical className="w-8 h-8 text-purple-600" />
+								<FlaskConical className="h-8 w-8 text-purple-600" />
 								<div>
-									<h1 className="text-3xl font-bold text-gray-900">
-										测试策略特性
-									</h1>
-									<p className="text-gray-600">
-										Next.js 完整测试方案：单元测试、集成测试、E2E 测试、视觉测试
-									</p>
+									<h1 className="font-bold text-3xl text-gray-900">测试策略特性</h1>
+									<p className="text-gray-600">Next.js 完整测试方案：单元测试、集成测试、E2E 测试、视觉测试</p>
 								</div>
 							</div>
 						</div>
@@ -1208,79 +1188,77 @@ export default function TestingFeaturePage() {
 				</div>
 
 				{/* 测试方案对比 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-						<h2 className="text-xl font-semibold text-gray-900 mb-6">
-							测试方案对比
-						</h2>
-						<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
-							<div className="text-center p-4 bg-blue-50 rounded-lg">
-								<div className="flex items-center justify-center mb-2">
-									<Code className="w-6 h-6 text-blue-600" />
+				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+						<h2 className="mb-6 font-semibold text-gray-900 text-xl">测试方案对比</h2>
+						<div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
+							<div className="rounded-lg bg-blue-50 p-4 text-center">
+								<div className="mb-2 flex items-center justify-center">
+									<Code className="h-6 w-6 text-blue-600" />
 								</div>
-								<h3 className="font-semibold text-blue-900 mb-2">单元测试</h3>
-								<p className="text-sm text-blue-700">组件/函数</p>
-								<div className="mt-2 text-xs text-blue-600">
+								<h3 className="mb-2 font-semibold text-blue-900">单元测试</h3>
+								<p className="text-blue-700 text-sm">组件/函数</p>
+								<div className="mt-2 text-blue-600 text-xs">
 									<div>⚡ 快速反馈</div>
 									<div>🎯 单元隔离</div>
 									<div>🔧 易于调试</div>
 								</div>
 							</div>
-							<div className="text-center p-4 bg-green-50 rounded-lg">
-								<div className="flex items-center justify-center mb-2">
-									<Bug className="w-6 h-6 text-green-600" />
+							<div className="rounded-lg bg-green-50 p-4 text-center">
+								<div className="mb-2 flex items-center justify-center">
+									<Bug className="h-6 w-6 text-green-600" />
 								</div>
-								<h3 className="font-semibold text-green-900 mb-2">集成测试</h3>
-								<p className="text-sm text-green-700">组件交互</p>
-								<div className="mt-2 text-xs text-green-600">
+								<h3 className="mb-2 font-semibold text-green-900">集成测试</h3>
+								<p className="text-green-700 text-sm">组件交互</p>
+								<div className="mt-2 text-green-600 text-xs">
 									<div>🔗 交互测试</div>
 									<div>👤 用户行为</div>
 									<div>♿ 可访问性</div>
 								</div>
 							</div>
-							<div className="text-center p-4 bg-purple-50 rounded-lg">
-								<div className="flex items-center justify-center mb-2">
-									<Shield className="w-6 h-6 text-purple-600" />
+							<div className="rounded-lg bg-purple-50 p-4 text-center">
+								<div className="mb-2 flex items-center justify-center">
+									<Shield className="h-6 w-6 text-purple-600" />
 								</div>
-								<h3 className="font-semibold text-purple-900 mb-2">E2E 测试</h3>
-								<p className="text-sm text-purple-700">完整流程</p>
-								<div className="mt-2 text-xs text-purple-600">
+								<h3 className="mb-2 font-semibold text-purple-900">E2E 测试</h3>
+								<p className="text-purple-700 text-sm">完整流程</p>
+								<div className="mt-2 text-purple-600 text-xs">
 									<div>🌐 真实场景</div>
 									<div>📱 跨浏览器</div>
 									<div>🎮 可视调试</div>
 								</div>
 							</div>
-							<div className="text-center p-4 bg-cyan-50 rounded-lg">
-								<div className="flex items-center justify-center mb-2">
-									<Zap className="w-6 h-6 text-cyan-600" />
+							<div className="rounded-lg bg-cyan-50 p-4 text-center">
+								<div className="mb-2 flex items-center justify-center">
+									<Zap className="h-6 w-6 text-cyan-600" />
 								</div>
-								<h3 className="font-semibold text-cyan-900 mb-2">视觉测试</h3>
-								<p className="text-sm text-cyan-700">UI 回归</p>
-								<div className="mt-2 text-xs text-cyan-600">
+								<h3 className="mb-2 font-semibold text-cyan-900">视觉测试</h3>
+								<p className="text-cyan-700 text-sm">UI 回归</p>
+								<div className="mt-2 text-cyan-600 text-xs">
 									<div>🎨 设计一致</div>
 									<div>📸 快照对比</div>
 									<div>📖 文档驱动</div>
 								</div>
 							</div>
-							<div className="text-center p-4 bg-orange-50 rounded-lg">
-								<div className="flex items-center justify-center mb-2">
-									<FlaskConical className="w-6 h-6 text-orange-600" />
+							<div className="rounded-lg bg-orange-50 p-4 text-center">
+								<div className="mb-2 flex items-center justify-center">
+									<FlaskConical className="h-6 w-6 text-orange-600" />
 								</div>
-								<h3 className="font-semibold text-orange-900 mb-2">性能测试</h3>
-								<p className="text-sm text-orange-700">Web Vitals</p>
-								<div className="mt-2 text-xs text-orange-600">
+								<h3 className="mb-2 font-semibold text-orange-900">性能测试</h3>
+								<p className="text-orange-700 text-sm">Web Vitals</p>
+								<div className="mt-2 text-orange-600 text-xs">
 									<div>📊 性能监控</div>
 									<div>🚀 用户体验</div>
 									<div>📈 持续优化</div>
 								</div>
 							</div>
-							<div className="text-center p-4 bg-red-50 rounded-lg">
-								<div className="flex items-center justify-center mb-2">
-									<Shield className="w-6 h-6 text-red-600" />
+							<div className="rounded-lg bg-red-50 p-4 text-center">
+								<div className="mb-2 flex items-center justify-center">
+									<Shield className="h-6 w-6 text-red-600" />
 								</div>
-								<h3 className="font-semibold text-red-900 mb-2">可访问性</h3>
-								<p className="text-sm text-red-700">A11y 测试</p>
-								<div className="mt-2 text-xs text-red-600">
+								<h3 className="mb-2 font-semibold text-red-900">可访问性</h3>
+								<p className="text-red-700 text-sm">A11y 测试</p>
+								<div className="mt-2 text-red-600 text-xs">
 									<div>♿ WCAG 标准</div>
 									<div>🎤 屏幕阅读器</div>
 									<div>⌨️ 键盘导航</div>
@@ -1291,54 +1269,46 @@ export default function TestingFeaturePage() {
 				</div>
 
 				{/* 测试示例 */}
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-					<h2 className="text-2xl font-bold text-gray-900 mb-6">实现示例</h2>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+					<h2 className="mb-6 font-bold text-2xl text-gray-900">实现示例</h2>
+					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 						{/* 左侧：示例列表 */}
 						<div className="space-y-4">
 							{testingExamples.map((example) => (
 								<div
 									key={example.id}
-									className={`bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all cursor-pointer ${
-										selectedExample?.id === example.id
-											? "ring-2 ring-purple-500"
-											: ""
+									className={`cursor-pointer rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md ${
+										selectedExample?.id === example.id ? "ring-2 ring-purple-500" : ""
 									}`}
 									onClick={() => setSelectedExample(example)}
 								>
 									<div className="p-6">
-										<div className="flex items-start justify-between mb-3">
+										<div className="mb-3 flex items-start justify-between">
 											<div>
-												<h3 className="text-lg font-semibold text-gray-900 mb-1">
-													{example.title}
-												</h3>
-												<div className="flex items-center space-x-2 mb-2">
+												<h3 className="mb-1 font-semibold text-gray-900 text-lg">{example.title}</h3>
+												<div className="mb-2 flex items-center space-x-2">
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(
-															example.category,
-														)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getCategoryColor(example.category)}`}
 													>
 														{example.category}
 													</span>
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getDifficultyColor(
 															example.difficulty,
 														)}`}
 													>
 														{example.difficulty}
 													</span>
 													<span
-														className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-															example.status,
-														)}`}
+														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getStatusColor(example.status)}`}
 													>
 														{getStatusText(example.status)}
 													</span>
 												</div>
 											</div>
 										</div>
-										<p className="text-gray-600 mb-4">{example.description}</p>
-										<div className="flex items-center justify-between text-sm text-gray-500">
+										<p className="mb-4 text-gray-600">{example.description}</p>
+										<div className="flex items-center justify-between text-gray-500 text-sm">
 											<div className="flex space-x-4">
 												<span>⏱️ {example.performance.executionTime}</span>
 												<span>📊 {example.performance.coverage}</span>
@@ -1353,15 +1323,13 @@ export default function TestingFeaturePage() {
 						{/* 右侧：示例详情 */}
 						<div className="lg:sticky lg:top-6">
 							{selectedExample ? (
-								<div className="bg-white rounded-lg shadow-sm border border-gray-200">
-									<div className="p-6 border-b border-gray-200">
-										<div className="flex items-center justify-between mb-4">
-											<h3 className="text-xl font-semibold text-gray-900">
-												{selectedExample.title}
-											</h3>
+								<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+									<div className="border-gray-200 border-b p-6">
+										<div className="mb-4 flex items-center justify-between">
+											<h3 className="font-semibold text-gray-900 text-xl">{selectedExample.title}</h3>
 											<div className="flex items-center space-x-2">
 												<span
-													className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(
+													className={`inline-flex items-center rounded-full px-3 py-1 font-medium text-sm ${getCategoryColor(
 														selectedExample.category,
 													)}`}
 												>
@@ -1369,56 +1337,38 @@ export default function TestingFeaturePage() {
 												</span>
 											</div>
 										</div>
-										<p className="text-gray-600 mb-4">
-											{selectedExample.description}
-										</p>
+										<p className="mb-4 text-gray-600">{selectedExample.description}</p>
 										<div className="grid grid-cols-3 gap-4 text-sm">
-											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													执行时间
-												</div>
-												<div className="text-gray-600">
-													{selectedExample.performance.executionTime}
-												</div>
+											<div className="rounded bg-gray-50 p-2 text-center">
+												<div className="font-medium text-gray-900">执行时间</div>
+												<div className="text-gray-600">{selectedExample.performance.executionTime}</div>
 											</div>
-											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													覆盖范围
-												</div>
-												<div className="text-gray-600">
-													{selectedExample.performance.coverage}
-												</div>
+											<div className="rounded bg-gray-50 p-2 text-center">
+												<div className="font-medium text-gray-900">覆盖范围</div>
+												<div className="text-gray-600">{selectedExample.performance.coverage}</div>
 											</div>
-											<div className="text-center p-2 bg-gray-50 rounded">
-												<div className="font-medium text-gray-900">
-													维护成本
-												</div>
-												<div className="text-gray-600">
-													{selectedExample.performance.maintenance}
-												</div>
+											<div className="rounded bg-gray-50 p-2 text-center">
+												<div className="font-medium text-gray-900">维护成本</div>
+												<div className="text-gray-600">{selectedExample.performance.maintenance}</div>
 											</div>
 										</div>
 									</div>
 
 									<div className="p-6">
-										<h4 className="font-semibold text-gray-900 mb-3">
-											代码示例
-										</h4>
-										<div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+										<h4 className="mb-3 font-semibold text-gray-900">代码示例</h4>
+										<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
 											<pre className="text-sm">
 												<code>{selectedExample.codeSnippet}</code>
 											</pre>
 										</div>
 
 										<div className="mt-6">
-											<h5 className="font-medium text-gray-900 mb-2">
-												主要优势
-											</h5>
+											<h5 className="mb-2 font-medium text-gray-900">主要优势</h5>
 											<div className="flex flex-wrap gap-2">
 												{selectedExample.benefits.map((benefit, index) => (
 													<span
 														key={index}
-														className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-700"
+														className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm"
 													>
 														{benefit}
 													</span>
@@ -1427,14 +1377,12 @@ export default function TestingFeaturePage() {
 										</div>
 
 										<div className="mt-4">
-											<h5 className="font-medium text-gray-900 mb-2">
-												核心功能
-											</h5>
+											<h5 className="mb-2 font-medium text-gray-900">核心功能</h5>
 											<div className="flex flex-wrap gap-2">
 												{selectedExample.features.map((feature, index) => (
 													<span
 														key={index}
-														className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700"
+														className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-blue-700 text-sm"
 													>
 														{feature}
 													</span>
@@ -1444,25 +1392,19 @@ export default function TestingFeaturePage() {
 									</div>
 
 									{selectedExample.status === "completed" && (
-										<div className="p-6 bg-green-50 border-t border-green-200">
+										<div className="border-green-200 border-t bg-green-50 p-6">
 											<div className="flex items-center space-x-2 text-green-800">
-												<CheckCircle className="w-5 h-5" />
-												<span className="font-medium">
-													该测试方案已完成并可用
-												</span>
+												<CheckCircle className="h-5 w-5" />
+												<span className="font-medium">该测试方案已完成并可用</span>
 											</div>
 										</div>
 									)}
 								</div>
 							) : (
-								<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-									<FlaskConical className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-									<h3 className="text-lg font-semibold text-gray-900 mb-2">
-										选择一个测试方案
-									</h3>
-									<p className="text-gray-600">
-										点击左侧的测试方案查看详细信息和代码示例
-									</p>
+								<div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow-sm">
+									<FlaskConical className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+									<h3 className="mb-2 font-semibold text-gray-900 text-lg">选择一个测试方案</h3>
+									<p className="text-gray-600">点击左侧的测试方案查看详细信息和代码示例</p>
 								</div>
 							)}
 						</div>

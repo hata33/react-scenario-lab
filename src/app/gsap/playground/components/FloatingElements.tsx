@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -266,10 +266,8 @@ export default function FloatingElements() {
 					scrub: 1.5,
 					onUpdate: (self) => {
 						// 添加一些随机性的微动效
-						const randomX =
-							Math.sin(self.progress * Math.PI * 2 + config.id) * 20;
-						const randomY =
-							Math.cos(self.progress * Math.PI * 2 + config.id) * 15;
+						const randomX = Math.sin(self.progress * Math.PI * 2 + config.id) * 20;
+						const randomY = Math.cos(self.progress * Math.PI * 2 + config.id) * 15;
 						gsap.to(element, {
 							x: randomX,
 							y: randomY,
@@ -283,8 +281,7 @@ export default function FloatingElements() {
 			// 复杂的路径动画
 			const moveX = (config.id % 2 === 0 ? 1 : -1) * (80 + config.size * 0.5);
 			const moveY = -(60 + config.size * 0.3);
-			const finalRotation =
-				config.rotation + (config.id % 2 === 0 ? 180 : -180);
+			const finalRotation = config.rotation + (config.id % 2 === 0 ? 180 : -180);
 
 			timeline
 				.to(element, {
@@ -528,9 +525,7 @@ export default function FloatingElements() {
 				>
 					滚动时观察元素的复杂运动轨迹，体验多层次的视差效果。
 					<br />
-					<span style={{ fontSize: "0.9em", opacity: 0.8 }}>
-						点击元素查看交互动画 ✨
-					</span>
+					<span style={{ fontSize: "0.9em", opacity: 0.8 }}>点击元素查看交互动画 ✨</span>
 				</p>
 
 				{/* 提示信息 */}

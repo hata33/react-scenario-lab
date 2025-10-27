@@ -3,27 +3,22 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { routeGroups } from "@/routeDefs";
+import BackButton from "./BackButton";
 import FirstVisitConfetti from "./FirstVisitConfetti";
 import Sidebar, { type MenuItem } from "./Sidebar";
-import BackButton from "./BackButton";
 
 function flattenRoutesForMenu(routesInput: any[], basePath = ""): MenuItem[] {
 	return routesInput.filter(Boolean).map((route) => {
 		const currentPath = route.index
 			? basePath
-			: `${basePath}/${route.path ?? ""}`
-					.replace(/\/+/, "/")
-					.replace(/\/$/, "") || "/";
+			: `${basePath}/${route.path ?? ""}`.replace(/\/+/, "/").replace(/\/$/, "") || "/";
 		const item: MenuItem = {
 			path: currentPath || "/",
 			title: route.meta?.title,
 			children: [],
 		};
 		if (route.children?.length) {
-			item.children = flattenRoutesForMenu(
-				route.children,
-				currentPath === "/" ? "" : currentPath,
-			);
+			item.children = flattenRoutesForMenu(route.children, currentPath === "/" ? "" : currentPath);
 		}
 		return item;
 	});
@@ -107,10 +102,7 @@ export default function Layout({ children, showBackButton = true }: LayoutProps)
 
 			{/* 移动端遮罩层 */}
 			{isOpen && (
-				<div
-					className="fixed inset-0 z-20 bg-black bg-opacity-50 md:hidden"
-					onClick={() => setHoverOpen(false)}
-				/>
+				<div className="fixed inset-0 z-20 bg-black bg-opacity-50 md:hidden" onClick={() => setHoverOpen(false)} />
 			)}
 
 			{/* 左侧边缘悬停热区：非按钮交互，移到左侧边缘自动显示 */}
@@ -121,17 +113,13 @@ export default function Layout({ children, showBackButton = true }: LayoutProps)
 
 			{/* 侧栏列容器：响应式设计 */}
 			<div
-				className={`relative transition-[width] duration-300 ease-in-out ${
-					isOpen ? "w-[280px] md:w-[320px]" : "w-0"
-				} z-30 overflow-hidden`}
+				className={`relative transition-[width] duration-300 ease-in-out ${isOpen ? "w-[280px] md:w-[320px]" : "w-0"} z-30 overflow-hidden`}
 				onMouseEnter={() => !pinnedOpen && setHoverOpen(true)}
 				onMouseLeave={() => !pinnedOpen && setHoverOpen(false)}
 			>
 				<div
 					className={`absolute inset-0 ${
-						isOpen
-							? "translate-x-0 opacity-100"
-							: "-translate-x-full pointer-events-none opacity-0"
+						isOpen ? "translate-x-0 opacity-100" : "-translate-x-full pointer-events-none opacity-0"
 					} transition-transform duration-300 ease-in-out`}
 				>
 					<Sidebar menuTree={menuTree} activePath={activePath} />

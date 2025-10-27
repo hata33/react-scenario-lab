@@ -6,10 +6,7 @@ interface MousePosition {
 	y: number;
 }
 
-type FragmentFunction = (
-	uv: { x: number; y: number },
-	mouse?: MousePosition,
-) => { type: "t"; x: number; y: number };
+type FragmentFunction = (uv: { x: number; y: number }, mouse?: MousePosition) => { type: "t"; x: number; y: number };
 
 interface LiquidGlassProps {
 	width?: number;
@@ -30,20 +27,10 @@ function length(x: number, y: number): number {
 	return Math.sqrt(x * x + y * y);
 }
 
-function roundedRectSDF(
-	x: number,
-	y: number,
-	width: number,
-	height: number,
-	radius: number,
-): number {
+function roundedRectSDF(x: number, y: number, width: number, height: number, radius: number): number {
 	const qx = Math.abs(x) - width + radius;
 	const qy = Math.abs(y) - height + radius;
-	return (
-		Math.min(Math.max(qx, qy), 0) +
-		length(Math.max(qx, 0), Math.max(qy, 0)) -
-		radius
-	);
+	return Math.min(Math.max(qx, qy), 0) + length(Math.max(qx, 0), Math.max(qy, 0)) - radius;
 }
 
 function texture(x: number, y: number): { type: "t"; x: number; y: number } {
@@ -169,11 +156,7 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
 		}
 
 		context.putImageData(new ImageData(data, w, h), 0, 0);
-		feImage.setAttributeNS(
-			"http://www.w3.org/1999/xlink",
-			"href",
-			canvas.toDataURL(),
-		);
+		feImage.setAttributeNS("http://www.w3.org/1999/xlink", "href", canvas.toDataURL());
 		feDisplacementMap.setAttribute("scale", (maxScale / canvasDPI).toString());
 	}, [width, height, fragmentShader]);
 
@@ -274,8 +257,7 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
 		height: `${height}px`,
 		overflow: "hidden",
 		borderRadius: "150px",
-		boxShadow:
-			"0 4px 8px rgba(0, 0, 0, 0.25), 0 -10px 25px inset rgba(0, 0, 0, 0.15)",
+		boxShadow: "0 4px 8px rgba(0, 0, 0, 0.25), 0 -10px 25px inset rgba(0, 0, 0, 0.15)",
 		cursor: "grab",
 		backdropFilter: `url(#${id}_filter) blur(0.25px) contrast(1.2) brightness(1.05) saturate(1.1)`,
 		zIndex: 9999,
@@ -308,12 +290,7 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
 						width={width.toString()}
 						height={height.toString()}
 					>
-						<feImage
-							ref={feImageRef}
-							id={`${id}_map`}
-							width={width.toString()}
-							height={height.toString()}
-						/>
+						<feImage ref={feImageRef} id={`${id}_map`} width={width.toString()} height={height.toString()} />
 						<feDisplacementMap
 							ref={feDisplacementMapRef}
 							in="SourceGraphic"
@@ -326,24 +303,12 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
 			</svg>
 
 			{/* 液体玻璃容器 */}
-			<div
-				ref={containerRef}
-				className={className}
-				style={containerStyle}
-				onMouseDown={handleMouseDown}
-			>
-				<div className="flex h-full w-full items-center justify-center">
-					{children}
-				</div>
+			<div ref={containerRef} className={className} style={containerStyle} onMouseDown={handleMouseDown}>
+				<div className="flex h-full w-full items-center justify-center">{children}</div>
 			</div>
 
 			{/* 隐藏的画布用于生成位移贴图 */}
-			<canvas
-				ref={canvasRef}
-				width={width * canvasDPI}
-				height={height * canvasDPI}
-				style={{ display: "none" }}
-			/>
+			<canvas ref={canvasRef} width={width * canvasDPI} height={height * canvasDPI} style={{ display: "none" }} />
 		</>
 	);
 };

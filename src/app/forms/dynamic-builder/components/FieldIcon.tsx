@@ -1,36 +1,36 @@
 "use client";
 
-import React from "react";
 import {
-	Type,
 	Calendar,
-	Upload as UploadIcon,
-	Mail,
-	Phone,
-	MapPin,
-	Hash,
-	FileText,
-	Image,
-	Video,
-	Music,
-	Link as LinkIcon,
-	Star,
-	ToggleLeft,
-	Grid3x3,
-	List,
-	Users,
-	CreditCard,
+	Check,
+	CheckSquare,
+	ChevronDown,
 	Clock,
 	Code,
-	ChevronDown,
-	CheckSquare,
-	Radio,
-	Check,
-	Sliders,
+	CreditCard,
+	FileText,
+	Grid3x3,
+	Hash,
+	Image,
+	Link as LinkIcon,
+	List,
+	Mail,
+	MapPin,
+	Minus,
+	Music,
 	Palette,
 	PenTool,
-	Minus,
+	Phone,
+	Radio,
+	Sliders,
+	Star,
+	ToggleLeft,
+	Type,
+	Upload as UploadIcon,
+	Users,
+	Video,
 } from "lucide-react";
+import type React from "react";
 
 interface FieldIconProps {
 	iconName: string;
@@ -69,10 +69,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 	minus: Minus,
 };
 
-const FieldIcon: React.FC<FieldIconProps> = ({
-	iconName,
-	className = "w-4 h-4",
-}) => {
+const FieldIcon: React.FC<FieldIconProps> = ({ iconName, className = "w-4 h-4" }) => {
 	const IconComponent = iconMap[iconName];
 
 	if (IconComponent) {
@@ -80,7 +77,7 @@ const FieldIcon: React.FC<FieldIconProps> = ({
 	}
 
 	// 对于没有对应图标的字段类型，返回默认图标
-	return <div className={`${className} bg-gray-400 rounded`} />;
+	return <div className={`${className} rounded bg-gray-400`} />;
 };
 
 export default FieldIcon;

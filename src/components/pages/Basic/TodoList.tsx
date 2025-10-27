@@ -18,10 +18,7 @@ export default function TodoList() {
 					onChange={(e) => setText(e.target.value)}
 					onKeyDown={(e) => {
 						if (e.key === "Enter" && text.trim()) {
-							setItems((arr) => [
-								...arr,
-								{ id: Date.now(), text: text.trim(), done: false },
-							]);
+							setItems((arr) => [...arr, { id: Date.now(), text: text.trim(), done: false }]);
 							setText("");
 						}
 					}}
@@ -30,10 +27,7 @@ export default function TodoList() {
 					className="rounded bg-gray-900 px-3 py-2 text-white"
 					onClick={() => {
 						if (!text.trim()) return;
-						setItems((arr) => [
-							...arr,
-							{ id: Date.now(), text: text.trim(), done: false },
-						]);
+						setItems((arr) => [...arr, { id: Date.now(), text: text.trim(), done: false }]);
 						setText("");
 					}}
 				>
@@ -49,22 +43,14 @@ export default function TodoList() {
 							checked={item.done}
 							onChange={(e) =>
 								setItems((arr) =>
-									arr.map((it) =>
-										it.id === item.id
-											? { ...it, done: (e.target as HTMLInputElement).checked }
-											: it,
-									),
+									arr.map((it) => (it.id === item.id ? { ...it, done: (e.target as HTMLInputElement).checked } : it)),
 								)
 							}
 						/>
-						<span className={item.done ? "text-gray-400 line-through" : ""}>
-							{item.text}
-						</span>
+						<span className={item.done ? "text-gray-400 line-through" : ""}>{item.text}</span>
 						<button
 							className="ml-auto text-red-600 text-sm"
-							onClick={() =>
-								setItems((arr) => arr.filter((it) => it.id !== item.id))
-							}
+							onClick={() => setItems((arr) => arr.filter((it) => it.id !== item.id))}
 						>
 							删除
 						</button>

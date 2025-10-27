@@ -76,9 +76,7 @@ export async function generateLoginQRCode(request?: Request): Promise<{
 		nonce: nonce?.substring(0, 8) + "...",
 		signature: signature?.substring(0, 8) + "...",
 		finalUrl,
-		secretKey: process.env.QR_CODE_SECRET
-			? process.env.QR_CODE_SECRET
-			: "未设置（使用默认值）",
+		secretKey: process.env.QR_CODE_SECRET ? process.env.QR_CODE_SECRET : "未设置（使用默认值）",
 	});
 
 	// 生成二维码图片
@@ -99,9 +97,7 @@ export async function generateLoginQRCode(request?: Request): Promise<{
 }
 
 // 生成数字签名
-const generateSignature = (
-	payload: Omit<QRCodePayload, "signature">,
-): string => {
+const generateSignature = (payload: Omit<QRCodePayload, "signature">): string => {
 	const data = `${payload.sceneId}:${payload.timestamp}:${payload.nonce}`;
 	const crypto = require("crypto");
 	return crypto

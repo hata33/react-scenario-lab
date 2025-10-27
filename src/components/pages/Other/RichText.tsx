@@ -10,10 +10,7 @@ export default function RichText() {
 				value={value}
 				onChange={(e) => setValue(e.target.value)}
 			/>
-			<div
-				className="mt-4 rounded border bg-white p-4"
-				dangerouslySetInnerHTML={{ __html: value }}
-			/>
+			<div className="mt-4 rounded border bg-white p-4" dangerouslySetInnerHTML={{ __html: value }} />
 		</div>
 	);
 }

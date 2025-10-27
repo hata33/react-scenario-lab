@@ -2,7 +2,7 @@
  * 文本格式导出功能
  */
 
-import { ExportConfig, ExportOptions } from "@/types/export";
+import { ExportConfig, type ExportOptions } from "@/types/export";
 
 export class TextExporter {
 	/**
@@ -47,16 +47,14 @@ export class TextExporter {
 
 		// 添加表头
 		if (includeHeaders) {
-			csv +=
-				headers.map((header) => this.escapeCsvValue(header)).join(delimiter) +
-				"\n";
+			csv += headers.map((header) => TextExporter.escapeCsvValue(header)).join(delimiter) + "\n";
 		}
 
 		// 添加数据行
 		data.forEach((row) => {
 			const values = headers.map((header) => {
 				const value = row[header];
-				return this.escapeCsvValue(value);
+				return TextExporter.escapeCsvValue(value);
 			});
 			csv += values.join(delimiter) + "\n";
 		});
@@ -87,12 +85,12 @@ export class TextExporter {
 
 		if (Array.isArray(data)) {
 			data.forEach((item, index) => {
-				xml += this.objectToXml(item, `item${index + 1}`, 1);
+				xml += TextExporter.objectToXml(item, `item${index + 1}`, 1);
 			});
 		} else if (typeof data === "object") {
-			xml += this.objectToXml(data, "root", 1);
+			xml += TextExporter.objectToXml(data, "root", 1);
 		} else {
-			xml += `  <value>${this.escapeXml(String(data))}</value>\n`;
+			xml += `  <value>${TextExporter.escapeXml(String(data))}</value>\n`;
 		}
 
 		xml += `</${rootName}>`;
@@ -102,11 +100,7 @@ export class TextExporter {
 	/**
 	 * 对象转XML
 	 */
-	private static objectToXml(
-		obj: any,
-		tagName: string,
-		indent: number,
-	): string {
+	private static objectToXml(obj: any, tagName: string, indent: number): string {
 		const spaces = "  ".repeat(indent);
 		let xml = `${spaces}<${tagName}>\n`;
 
@@ -120,16 +114,16 @@ export class TextExporter {
 				if (Array.isArray(value)) {
 					value.forEach((item, index) => {
 						if (typeof item === "object") {
-							xml += this.objectToXml(item, `${key}_${index + 1}`, indent + 1);
+							xml += TextExporter.objectToXml(item, `${key}_${index + 1}`, indent + 1);
 						} else {
-							xml += `${spaces}  <${key}_${index + 1}>${this.escapeXml(String(item))}</${key}_${index + 1}>\n`;
+							xml += `${spaces}  <${key}_${index + 1}>${TextExporter.escapeXml(String(item))}</${key}_${index + 1}>\n`;
 						}
 					});
 				} else {
-					xml += this.objectToXml(value, key, indent + 1);
+					xml += TextExporter.objectToXml(value, key, indent + 1);
 				}
 			} else {
-				xml += `${spaces}  <${key}>${this.escapeXml(String(value))}</${key}>\n`;
+				xml += `${spaces}  <${key}>${TextExporter.escapeXml(String(value))}</${key}>\n`;
 			}
 		});
 

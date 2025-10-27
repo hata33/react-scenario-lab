@@ -2,8 +2,7 @@
 export const API_CONFIG = {
 	// OpenAI DALL-E 配置
 	openai: {
-		baseURL:
-			process.env.NEXT_PUBLIC_OPENAI_BASE_URL || "https://api.openai.com/v1",
+		baseURL: process.env.NEXT_PUBLIC_OPENAI_BASE_URL || "https://api.openai.com/v1",
 		apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY || "",
 		models: {
 			"dall-e-3": {
@@ -25,29 +24,20 @@ export const API_CONFIG = {
 
 	// Stability AI 配置
 	stability: {
-		baseURL:
-			process.env.NEXT_PUBLIC_STABILITY_BASE_URL ||
-			"https://api.stability.ai/v1",
+		baseURL: process.env.NEXT_PUBLIC_STABILITY_BASE_URL || "https://api.stability.ai/v1",
 		apiKey: process.env.NEXT_PUBLIC_STABILITY_API_KEY || "",
 		models: {
 			"stable-diffusion-xl-1024-v1-0": {
 				name: "Stable Diffusion XL",
 				maxPromptLength: 1000,
-				supportedSizes: [
-					"1024x1024",
-					"1152x896",
-					"896x1152",
-					"1216x832",
-					"832x1216",
-				],
+				supportedSizes: ["1024x1024", "1152x896", "896x1152", "1216x832", "832x1216"],
 			},
 		},
 	},
 
 	// Midjourney 配置（通过代理）
 	midjourney: {
-		baseURL:
-			process.env.NEXT_PUBLIC_MIDJOURNEY_BASE_URL || "http://localhost:3001",
+		baseURL: process.env.NEXT_PUBLIC_MIDJOURNEY_BASE_URL || "http://localhost:3001",
 		apiKey: process.env.NEXT_PUBLIC_MIDJOURNEY_API_KEY || "",
 		models: {
 			"midjourney-v6": {
@@ -60,9 +50,7 @@ export const API_CONFIG = {
 
 	// SiliconFlow 配置
 	siliconflow: {
-		baseURL:
-			process.env.NEXT_PUBLIC_SILICONFLOW_BASE_URL ||
-			"https://api.siliconflow.cn/v1",
+		baseURL: process.env.NEXT_PUBLIC_SILICONFLOW_BASE_URL || "https://api.siliconflow.cn/v1",
 		apiKey: process.env.NEXT_PUBLIC_SILICONFLOW_API_KEY || "",
 		models: {
 			"Kwai-Kolors/Kolors": {
@@ -109,12 +97,7 @@ export class APIError extends Error {
 	public code?: string;
 	public details?: any;
 
-	constructor(
-		type: APIErrorType,
-		message: string,
-		code?: string,
-		details?: any,
-	) {
+	constructor(type: APIErrorType, message: string, code?: string, details?: any) {
 		super(message);
 		this.name = "APIError";
 		this.type = type;

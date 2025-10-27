@@ -20,10 +20,7 @@ const RETRY_CONFIG = {
 };
 
 // 创建 API 请求头
-const createHeaders = (
-	apiKey: string,
-	additionalHeaders: Record<string, string> = {},
-) => {
+const createHeaders = (apiKey: string, additionalHeaders: Record<string, string> = {}) => {
 	return {
 		"Content-Type": "application/json",
 		Authorization: `Bearer ${apiKey}`,
@@ -83,23 +80,14 @@ const handleApiError = async (response: Response): Promise<never> => {
 };
 
 // 带重试的请求函数
-const fetchWithRetry = async (
-	url: string,
-	options: RequestInit,
-	retries = 0,
-): Promise<Response> => {
+const fetchWithRetry = async (url: string, options: RequestInit, retries = 0): Promise<Response> => {
 	try {
 		const response = await fetch(url, options);
 
 		if (!response.ok) {
 			// 如果是服务器错误且还有重试次数，则重试
-			if (
-				(response.status >= 500 || response.status === 429) &&
-				retries < RETRY_CONFIG.maxRetries
-			) {
-				const delay =
-					RETRY_CONFIG.retryDelay *
-					Math.pow(RETRY_CONFIG.retryBackoff, retries);
+			if ((response.status >= 500 || response.status === 429) && retries < RETRY_CONFIG.maxRetries) {
+				const delay = RETRY_CONFIG.retryDelay * RETRY_CONFIG.retryBackoff ** retries;
 				await new Promise((resolve) => setTimeout(resolve, delay));
 				return fetchWithRetry(url, options, retries + 1);
 			}
@@ -109,8 +97,7 @@ const fetchWithRetry = async (
 	} catch (error) {
 		// 网络错误重试
 		if (retries < RETRY_CONFIG.maxRetries) {
-			const delay =
-				RETRY_CONFIG.retryDelay * Math.pow(RETRY_CONFIG.retryBackoff, retries);
+			const delay = RETRY_CONFIG.retryDelay * RETRY_CONFIG.retryBackoff ** retries;
 			await new Promise((resolve) => setTimeout(resolve, delay));
 			return fetchWithRetry(url, options, retries + 1);
 		}
@@ -126,11 +113,7 @@ export const generateImageWithOpenAI = async (
 	const { baseURL, apiKey } = API_CONFIG.openai;
 
 	if (!apiKey) {
-		throw new APIError(
-			APIErrorType.AUTHENTICATION_ERROR,
-			"OpenAI API key is required",
-			"MISSING_API_KEY",
-		);
+		throw new APIError(APIErrorType.AUTHENTICATION_ERROR, "OpenAI API key is required", "MISSING_API_KEY");
 	}
 
 	// 模拟进度
@@ -178,11 +161,7 @@ export const generateImageWithStability = async (
 	const { baseURL, apiKey } = API_CONFIG.stability;
 
 	if (!apiKey) {
-		throw new APIError(
-			APIErrorType.AUTHENTICATION_ERROR,
-			"Stability AI API key is required",
-			"MISSING_API_KEY",
-		);
+		throw new APIError(APIErrorType.AUTHENTICATION_ERROR, "Stability AI API key is required", "MISSING_API_KEY");
 	}
 
 	// 对于 Stability AI，width 和 height 已经在 request 中
@@ -192,26 +171,23 @@ export const generateImageWithStability = async (
 		onProgress(10, "正在验证请求...");
 	}
 
-	const response = await fetchWithRetry(
-		`${baseURL}/generation/stable-diffusion-xl-1024-v1-0/text-to-image`,
-		{
-			method: "POST",
-			headers: createHeaders(apiKey, {
-				"Stability-API-Version": "1.0",
-			}),
-			body: JSON.stringify({
-				prompt: request.prompt,
-				negative_prompt: request.negative_prompt,
-				samples: request.samples || 1,
-				model: request.model,
-				width,
-				height,
-				steps: request.steps || 30,
-				cfg_scale: request.cfg_scale || 7,
-				seed: request.seed,
-			}),
-		},
-	);
+	const response = await fetchWithRetry(`${baseURL}/generation/stable-diffusion-xl-1024-v1-0/text-to-image`, {
+		method: "POST",
+		headers: createHeaders(apiKey, {
+			"Stability-API-Version": "1.0",
+		}),
+		body: JSON.stringify({
+			prompt: request.prompt,
+			negative_prompt: request.negative_prompt,
+			samples: request.samples || 1,
+			model: request.model,
+			width,
+			height,
+			steps: request.steps || 30,
+			cfg_scale: request.cfg_scale || 7,
+			seed: request.seed,
+		}),
+	});
 
 	if (onProgress) {
 		onProgress(50, "正在生成图片...");
@@ -238,11 +214,7 @@ export const generateImageWithMidjourney = async (
 	const { baseURL, apiKey } = API_CONFIG.midjourney;
 
 	if (!apiKey) {
-		throw new APIError(
-			APIErrorType.AUTHENTICATION_ERROR,
-			"Midjourney API key is required",
-			"MISSING_API_KEY",
-		);
+		throw new APIError(APIErrorType.AUTHENTICATION_ERROR, "Midjourney API key is required", "MISSING_API_KEY");
 	}
 
 	if (onProgress) {
@@ -280,13 +252,10 @@ export const generateImageWithMidjourney = async (
 		for (let i = 0; i < maxAttempts; i++) {
 			await new Promise((resolve) => setTimeout(resolve, 10000)); // 等待10秒
 
-			const statusResponse = await fetchWithRetry(
-				`${baseURL}/api/imagine/${result.id}`,
-				{
-					method: "GET",
-					headers: createHeaders(apiKey),
-				},
-			);
+			const statusResponse = await fetchWithRetry(`${baseURL}/api/imagine/${result.id}`, {
+				method: "GET",
+				headers: createHeaders(apiKey),
+			});
 
 			if (statusResponse.ok) {
 				result = await statusResponse.json();
@@ -297,19 +266,12 @@ export const generateImageWithMidjourney = async (
 					}
 					break;
 				} else if (result.status === "failed") {
-					throw new APIError(
-						APIErrorType.SERVER_ERROR,
-						result.error || "Midjourney 生成失败",
-						"MIDJOURNEY_FAILED",
-					);
+					throw new APIError(APIErrorType.SERVER_ERROR, result.error || "Midjourney 生成失败", "MIDJOURNEY_FAILED");
 				}
 
 				if (onProgress) {
 					const progress = 30 + (i + 1) * 1.16; // 30% - 100%
-					onProgress(
-						Math.round(progress),
-						`正在处理... (${i + 1}/${maxAttempts})`,
-					);
+					onProgress(Math.round(progress), `正在处理... (${i + 1}/${maxAttempts})`);
 				}
 			}
 		}
@@ -326,11 +288,7 @@ export const generateImageWithSiliconFlow = async (
 	const { baseURL, apiKey } = API_CONFIG.siliconflow;
 
 	if (!apiKey) {
-		throw new APIError(
-			APIErrorType.AUTHENTICATION_ERROR,
-			"SiliconFlow API key is required",
-			"MISSING_API_KEY",
-		);
+		throw new APIError(APIErrorType.AUTHENTICATION_ERROR, "SiliconFlow API key is required", "MISSING_API_KEY");
 	}
 
 	if (onProgress) {
@@ -338,10 +296,7 @@ export const generateImageWithSiliconFlow = async (
 	}
 
 	// 获取模型默认参数
-	const modelConfig =
-		API_CONFIG.siliconflow.models[
-			request.model as keyof typeof API_CONFIG.siliconflow.models
-		];
+	const modelConfig = API_CONFIG.siliconflow.models[request.model as keyof typeof API_CONFIG.siliconflow.models];
 	const defaultParams = modelConfig?.defaultParams || {};
 
 	const response = await fetchWithRetry(`${baseURL}/images/generations`, {
@@ -351,10 +306,8 @@ export const generateImageWithSiliconFlow = async (
 			model: request.model,
 			prompt: request.prompt,
 			batch_size: request.batch_size || defaultParams.batch_size || 1,
-			num_inference_steps:
-				request.num_inference_steps || defaultParams.num_inference_steps || 20,
-			guidance_scale:
-				request.guidance_scale || defaultParams.guidance_scale || 7.5,
+			num_inference_steps: request.num_inference_steps || defaultParams.num_inference_steps || 20,
+			guidance_scale: request.guidance_scale || defaultParams.guidance_scale || 7.5,
 		}),
 	});
 
@@ -456,11 +409,7 @@ export const generateImage = async (
 				prompt: request.prompt,
 			};
 		} else {
-			throw new APIError(
-				APIErrorType.INVALID_REQUEST_ERROR,
-				`Unsupported model: ${model}`,
-				"UNSUPPORTED_MODEL",
-			);
+			throw new APIError(APIErrorType.INVALID_REQUEST_ERROR, `Unsupported model: ${model}`, "UNSUPPORTED_MODEL");
 		}
 
 		return result;

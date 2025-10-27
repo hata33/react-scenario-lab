@@ -3,7 +3,7 @@
 import { BookOpen, Bot, Menu, Send, Square, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useChatHistory } from "../hooks/useChatHistory";
-import { PromptTemplate } from "../types/prompt";
+import type { PromptTemplate } from "../types/prompt";
 import ChatSidebar from "./ChatSidebar";
 import MarkdownMessage from "./MarkdownMessage";
 import PromptTemplateLibrary from "./PromptTemplateLibrary";
@@ -48,10 +48,7 @@ export default function SimpleStreamChat() {
 	}, [currentHistory, createHistory]);
 
 	// 流式输出函数
-	const streamText = async (
-		text: string,
-		onUpdate: (chunk: string) => void,
-	) => {
+	const streamText = async (text: string, onUpdate: (chunk: string) => void) => {
 		setIsStreaming(true);
 		setStreamingText("");
 
@@ -72,10 +69,7 @@ export default function SimpleStreamChat() {
 			// 在标点符号处稍微停顿
 			if (["。", "！", "？", "\n", "，", "；"].includes(chars[i])) {
 				await new Promise((resolve) => {
-					streamTimeoutRef.current = setTimeout(
-						resolve,
-						Math.random() * 150 + 50,
-					);
+					streamTimeoutRef.current = setTimeout(resolve, Math.random() * 150 + 50);
 				});
 			}
 		}
@@ -287,10 +281,7 @@ export default WelcomeMessage;
 	};
 
 	// 处理模板选择
-	const handleSelectTemplate = (
-		template: PromptTemplate,
-		variables?: Record<string, string>,
-	) => {
+	const handleSelectTemplate = (template: PromptTemplate, variables?: Record<string, string>) => {
 		// 获取处理后的模板内容
 		let content = template.content;
 
@@ -306,42 +297,38 @@ export default WelcomeMessage;
 	};
 
 	return (
-		<div className="flex h-full bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+		<div className="flex h-full overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md">
 			{/* 侧边栏 */}
 			<ChatSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
 			{/* 主聊天区域 */}
-			<div className="flex-1 flex flex-col">
+			<div className="flex flex-1 flex-col">
 				{/* 头部 */}
-				<div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
+				<div className="flex items-center justify-between border-gray-200 border-b bg-gray-50 p-4">
 					<div className="flex items-center gap-3">
 						<button
 							onClick={() => setSidebarOpen(true)}
-							className="p-2 hover:bg-gray-200 rounded-lg transition-colors lg:hidden"
+							className="rounded-lg p-2 transition-colors hover:bg-gray-200 lg:hidden"
 						>
-							<Menu className="w-5 h-5" />
+							<Menu className="h-5 w-5" />
 						</button>
 						<div>
-							<h2 className="font-semibold text-gray-800">
-								{currentHistory?.title || "AI 对话"}
-							</h2>
-							<p className="text-sm text-gray-500">
-								{currentHistory?.messages.length || 0} 条消息
-							</p>
+							<h2 className="font-semibold text-gray-800">{currentHistory?.title || "AI 对话"}</h2>
+							<p className="text-gray-500 text-sm">{currentHistory?.messages.length || 0} 条消息</p>
 						</div>
 					</div>
 					<div className="flex items-center gap-2">
 						<button
 							onClick={() => setShowTemplateLibrary(true)}
-							className="px-3 py-1.5 bg-purple-500 text-white text-sm rounded-lg hover:bg-purple-600 transition-colors flex items-center gap-1"
+							className="flex items-center gap-1 rounded-lg bg-purple-500 px-3 py-1.5 text-sm text-white transition-colors hover:bg-purple-600"
 							title="提示词模板库"
 						>
-							<BookOpen className="w-4 h-4" />
+							<BookOpen className="h-4 w-4" />
 							模板库
 						</button>
 						<button
 							onClick={() => createHistory()}
-							className="px-3 py-1.5 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-colors"
+							className="rounded-lg bg-blue-500 px-3 py-1.5 text-sm text-white transition-colors hover:bg-blue-600"
 						>
 							新建对话
 						</button>
@@ -349,68 +336,41 @@ export default WelcomeMessage;
 				</div>
 
 				{/* 消息列表 */}
-				<div className="flex-1 overflow-y-auto p-4 space-y-4">
+				<div className="flex-1 space-y-4 overflow-y-auto p-4">
 					{currentHistory?.messages.length === 0 ? (
-						<div className="text-center py-12">
-							<Bot className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-							<h3 className="text-lg font-medium text-gray-600 mb-2">
-								开始新的对话
-							</h3>
+						<div className="py-12 text-center">
+							<Bot className="mx-auto mb-4 h-16 w-16 text-gray-300" />
+							<h3 className="mb-2 font-medium text-gray-600 text-lg">开始新的对话</h3>
 							<p className="text-gray-500">输入消息开始与 AI 助手对话</p>
-							<div className="mt-6 text-sm text-gray-400">
+							<div className="mt-6 text-gray-400 text-sm">
 								<p>试试输入：</p>
-								<div className="flex flex-wrap gap-2 justify-center mt-2">
-									<span className="px-2 py-1 bg-gray-100 rounded">"代码"</span>
-									<span className="px-2 py-1 bg-gray-100 rounded">"表格"</span>
-									<span className="px-2 py-1 bg-gray-100 rounded">"列表"</span>
+								<div className="mt-2 flex flex-wrap justify-center gap-2">
+									<span className="rounded bg-gray-100 px-2 py-1">"代码"</span>
+									<span className="rounded bg-gray-100 px-2 py-1">"表格"</span>
+									<span className="rounded bg-gray-100 px-2 py-1">"列表"</span>
 								</div>
 							</div>
 						</div>
 					) : (
 						currentHistory?.messages.map((message) => (
-							<div
-								key={message.id}
-								className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
-							>
+							<div key={message.id} className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}>
 								<div
-									className={`flex items-start gap-3 max-w-[80%] ${
-										message.type === "user" ? "flex-row-reverse" : ""
-									}`}
+									className={`flex max-w-[80%] items-start gap-3 ${message.type === "user" ? "flex-row-reverse" : ""}`}
 								>
 									<div
-										className={`
-										w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
-										${
-											message.type === "user"
-												? "bg-blue-500 text-white ml-2"
-												: "bg-gray-200 text-gray-600 mr-2"
-										}
+										className={`flex h-8 w-8 items-center justify-center rounded-full flex-shrink-0${message.type === "user" ? "ml-2 bg-blue-500 text-white" : "mr-2 bg-gray-200 text-gray-600"}
 									`}
 									>
-										{message.type === "user" ? (
-											<User className="w-4 h-4" />
-										) : (
-											<Bot className="w-4 h-4" />
-										)}
+										{message.type === "user" ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
 									</div>
 									<div
-										className={`
-										rounded-lg px-4 py-2 ${
-											message.type === "user"
-												? "bg-blue-500 text-white"
-												: "bg-gray-50 border border-gray-200"
-										}
+										className={`rounded-lg px-4 py-2 ${message.type === "user" ? "bg-blue-500 text-white" : "border border-gray-200 bg-gray-50"}
 									`}
 									>
 										{message.type === "assistant" ? (
-											<MarkdownMessage
-												content={message.content}
-												className="text-gray-800"
-											/>
+											<MarkdownMessage content={message.content} className="text-gray-800" />
 										) : (
-											<p className="text-sm whitespace-pre-wrap">
-												{message.content}
-											</p>
+											<p className="whitespace-pre-wrap text-sm">{message.content}</p>
 										)}
 									</div>
 								</div>
@@ -421,25 +381,22 @@ export default WelcomeMessage;
 					{/* 流式输出消息 */}
 					{isStreaming && (
 						<div className="flex justify-start">
-							<div className="flex items-start gap-3 max-w-[80%]">
-								<div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 mr-2 flex items-center justify-center">
-									<Bot className="w-4 h-4" />
+							<div className="flex max-w-[80%] items-start gap-3">
+								<div className="mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-600">
+									<Bot className="h-4 w-4" />
 								</div>
-								<div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 relative">
-									<MarkdownMessage
-										content={streamingText}
-										className="text-gray-800"
-									/>
+								<div className="relative rounded-lg border border-gray-200 bg-gray-50 px-4 py-2">
+									<MarkdownMessage content={streamingText} className="text-gray-800" />
 									{/* 光标 */}
-									<span className="inline-block w-2 h-4 bg-gray-600 animate-pulse ml-1"></span>
+									<span className="ml-1 inline-block h-4 w-2 animate-pulse bg-gray-600"></span>
 
 									{/* 停止按钮 */}
 									<button
 										onClick={handleStopStream}
-										className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg"
+										className="-top-2 -right-2 absolute rounded-full bg-red-500 p-1 text-white shadow-lg transition-colors hover:bg-red-600"
 										title="停止生成"
 									>
-										<Square className="w-3 h-3" />
+										<Square className="h-3 w-3" />
 									</button>
 								</div>
 							</div>
@@ -450,23 +407,21 @@ export default WelcomeMessage;
 				</div>
 
 				{/* 输入区域 */}
-				<div className="border-t border-gray-200 bg-white">
+				<div className="border-gray-200 border-t bg-white">
 					{/* 主输入容器 */}
 					<div className="p-4">
-						<div className="relative bg-gray-50 rounded-2xl border border-gray-200 focus-within:border-blue-400 transition-colors">
+						<div className="relative rounded-2xl border border-gray-200 bg-gray-50 transition-colors focus-within:border-blue-400">
 							{/* 自定义滚动区域容器 */}
-							<div className="relative min-h-[60px] max-h-[200px] overflow-hidden">
+							<div className="relative max-h-[200px] min-h-[60px] overflow-hidden">
 								<textarea
 									ref={textareaRef}
 									value={inputValue}
 									onChange={handleInputChange}
 									onKeyDown={handleKeyDown}
 									onPaste={handlePaste}
-									placeholder={
-										isStreaming ? "AI 正在回复中..." : "给 AI 助手发送消息..."
-									}
+									placeholder={isStreaming ? "AI 正在回复中..." : "给 AI 助手发送消息..."}
 									disabled={isTyping || isStreaming}
-									className="w-full px-4 py-3 pr-12 bg-transparent resize-none overflow-y-auto focus:outline-none placeholder:text-gray-400 disabled:text-gray-500 text-gray-900"
+									className="w-full resize-none overflow-y-auto bg-transparent px-4 py-3 pr-12 text-gray-900 placeholder:text-gray-400 focus:outline-none disabled:text-gray-500"
 									style={{
 										minHeight: "60px",
 										maxHeight: "200px",
@@ -487,27 +442,27 @@ export default WelcomeMessage;
 							)} */}
 
 							{/* 发送/停止按钮 */}
-							<div className="absolute bottom-2 right-2">
+							<div className="absolute right-2 bottom-2">
 								{isStreaming ? (
 									<button
 										onClick={handleStopStream}
-										className="w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-xl transition-all duration-200 flex items-center justify-center group"
+										className="group flex h-8 w-8 items-center justify-center rounded-xl bg-gray-100 text-gray-600 transition-all duration-200 hover:bg-gray-200"
 										title="停止生成"
 									>
-										<Square className="w-4 h-4 group-hover:scale-110 transition-transform" />
+										<Square className="h-4 w-4 transition-transform group-hover:scale-110" />
 									</button>
 								) : (
 									<button
 										onClick={handleSendMessage}
 										disabled={!inputValue.trim() || isTyping}
-										className={`w-8 h-8 rounded-xl transition-all duration-200 flex items-center justify-center group ${
+										className={`group flex h-8 w-8 items-center justify-center rounded-xl transition-all duration-200 ${
 											inputValue.trim()
-												? "bg-blue-500 hover:bg-blue-600 text-white hover:scale-105 shadow-sm"
-												: "bg-gray-100 text-gray-400 cursor-not-allowed"
+												? "bg-blue-500 text-white shadow-sm hover:scale-105 hover:bg-blue-600"
+												: "cursor-not-allowed bg-gray-100 text-gray-400"
 										}`}
 										title="发送消息 (Enter)"
 									>
-										<Send className="w-4 h-4 group-hover:scale-110 transition-transform" />
+										<Send className="h-4 w-4 transition-transform group-hover:scale-110" />
 									</button>
 								)}
 							</div>
@@ -521,15 +476,15 @@ export default WelcomeMessage;
 								{/* 模板库按钮 */}
 								<button
 									onClick={() => setShowTemplateLibrary(true)}
-									className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
+									className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-gray-600 text-sm transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
 									title="提示词模板库"
 								>
-									<BookOpen className="w-4 h-4" />
+									<BookOpen className="h-4 w-4" />
 									<span className="hidden sm:inline">模板库</span>
 								</button>
 
 								{/* 功能提示 */}
-								<div className="flex items-center gap-2 text-xs text-gray-500">
+								<div className="flex items-center gap-2 text-gray-500 text-xs">
 									<span className="hidden sm:inline">支持 Markdown</span>
 									<span className="hidden sm:inline">•</span>
 									<span className="hidden sm:inline">代码高亮</span>
@@ -539,16 +494,15 @@ export default WelcomeMessage;
 							</div>
 
 							{/* 状态信息 */}
-							<div className="flex items-center gap-3 text-xs text-gray-500">
+							<div className="flex items-center gap-3 text-gray-500 text-xs">
 								{inputValue.length > 0 && (
 									<span className="text-gray-400">
-										{inputValue.trim().length} 字符 •{" "}
-										{inputValue.split("\n").length} 行
+										{inputValue.trim().length} 字符 • {inputValue.split("\n").length} 行
 									</span>
 								)}
 								{isStreaming && (
-									<span className="text-blue-600 flex items-center gap-1">
-										<div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+									<span className="flex items-center gap-1 text-blue-600">
+										<div className="h-2 w-2 animate-pulse rounded-full bg-blue-600"></div>
 										正在生成
 									</span>
 								)}
@@ -556,7 +510,7 @@ export default WelcomeMessage;
 						</div>
 
 						{/* 快捷键提示 */}
-						<div className="mt-2 text-xs text-gray-400 text-center">
+						<div className="mt-2 text-center text-gray-400 text-xs">
 							快捷键：Enter 发送 • Shift+Enter 换行 • Ctrl+Enter 发送 • Esc 清空
 						</div>
 					</div>

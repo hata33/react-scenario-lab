@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import Layout from "@/components/Layout";
 import BasicForm from "@/components/pages/Forms/BasicForm";
 
@@ -12,9 +12,9 @@ export default function BasicFormPage() {
 				<div className="mb-6">
 					<Link
 						href="/forms"
-						className="flex items-center text-gray-600 hover:text-gray-900 transition-colors mb-4 inline-block"
+						className="mb-4 inline-block flex items-center text-gray-600 transition-colors hover:text-gray-900"
 					>
-						<ArrowLeft className="w-5 h-5 mr-2" />
+						<ArrowLeft className="mr-2 h-5 w-5" />
 						返回表单列表
 					</Link>
 					<h1 className="font-bold text-3xl text-gray-900">基础表单</h1>

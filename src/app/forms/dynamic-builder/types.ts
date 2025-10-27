@@ -42,16 +42,7 @@ export interface FieldOption {
 }
 
 export interface ValidationRule {
-	type:
-		| "required"
-		| "minLength"
-		| "maxLength"
-		| "min"
-		| "max"
-		| "pattern"
-		| "email"
-		| "url"
-		| "custom";
+	type: "required" | "minLength" | "maxLength" | "min" | "max" | "pattern" | "email" | "url" | "custom";
 	value?: string | number;
 	message?: string;
 	pattern?: string;
@@ -71,13 +62,7 @@ export interface FormField {
 	defaultValue?: any;
 	conditional?: {
 		field: string;
-		operator:
-			| "equals"
-			| "not_equals"
-			| "contains"
-			| "not_contains"
-			| "greater_than"
-			| "less_than";
+		operator: "equals" | "not_equals" | "contains" | "not_contains" | "greater_than" | "less_than";
 		value: any;
 	};
 	styling?: {

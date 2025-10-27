@@ -1,9 +1,7 @@
 import { Metadata } from "next";
 
 // 动态生成面包屑结构化数据
-export function generateBreadcrumbSchema(
-	items: { name: string; url: string }[],
-) {
+export function generateBreadcrumbSchema(items: { name: string; url: string }[]) {
 	return {
 		"@context": "https://schema.org",
 		"@type": "BreadcrumbList",
@@ -17,9 +15,7 @@ export function generateBreadcrumbSchema(
 }
 
 // 生成FAQ结构化数据
-export function generateFAQSchema(
-	faqs: { question: string; answer: string }[],
-) {
+export function generateFAQSchema(faqs: { question: string; answer: string }[]) {
 	return {
 		"@context": "https://schema.org",
 		"@type": "FAQPage",

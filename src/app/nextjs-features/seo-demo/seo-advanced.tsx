@@ -1,24 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-	Code,
-	Copy,
-	Check,
-	ChevronDown,
-	ChevronUp,
-	Lightbulb,
-	Zap,
-	Target,
-	BarChart3,
-} from "lucide-react";
+import { BarChart3, Check, ChevronDown, ChevronUp, Code, Copy, Lightbulb, Target, Zap } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
 import {
 	generateBreadcrumbSchema,
+	generateEventSchema,
 	generateFAQSchema,
+	generateHowToSchema,
 	generateServiceSchema,
 	generateVideoSchema,
-	generateHowToSchema,
-	generateEventSchema,
 } from "./metadata";
 
 interface SEOFeature {
@@ -36,9 +27,8 @@ const advancedSEOFeatures: SEOFeature[] = [
 	{
 		id: "structured-data",
 		title: "多样化结构化数据",
-		description:
-			"添加面包屑、FAQ、产品、视频等多种结构化数据，提升搜索结果展示效果",
-		icon: <Target className="w-6 h-6" />,
+		description: "添加面包屑、FAQ、产品、视频等多种结构化数据，提升搜索结果展示效果",
+		icon: <Target className="h-6 w-6" />,
 		priority: "high",
 		implementation: "在页面中嵌入多种JSON-LD结构化数据",
 		benefits: ["丰富搜索结果", "提升点击率", "获得特色摘要", "语音搜索优化"],
@@ -67,7 +57,7 @@ const advancedSEOFeatures: SEOFeature[] = [
 		id: "core-web-vitals",
 		title: "Core Web Vitals 优化",
 		description: "优化LCP、FID、CLS等核心性能指标，提升搜索排名",
-		icon: <BarChart3 className="w-6 h-6" />,
+		icon: <BarChart3 className="h-6 w-6" />,
 		priority: "high",
 		implementation: "图片优化、字体优化、JavaScript拆分、减少CLS",
 		benefits: ["更好的搜索排名", "提升用户体验", "降低跳出率", "提高转化率"],
@@ -95,7 +85,7 @@ import Image from 'next/image';
 		id: "international-seo",
 		title: "国际化 SEO",
 		description: "多语言支持和hreflang标签，面向全球市场",
-		icon: <Zap className="w-6 h-6" />,
+		icon: <Zap className="h-6 w-6" />,
 		priority: "medium",
 		implementation: "配置i18n、添加hreflang标签、本地化内容",
 		benefits: ["覆盖全球用户", "本地化搜索", "提升国际排名", "多语言支持"],
@@ -125,7 +115,7 @@ module.exports = {
 		id: "schema-markup",
 		title: "高级 Schema 标记",
 		description: "使用HowTo、Event、Product等复杂Schema类型",
-		icon: <Lightbulb className="w-6 h-6" />,
+		icon: <Lightbulb className="h-6 w-6" />,
 		priority: "medium",
 		implementation: "添加特定行业的结构化数据",
 		benefits: ["获得丰富摘要", "提升可见性", "行业特定优化", "竞争优势"],
@@ -208,48 +198,33 @@ export default function SEOAdvancedFeatures() {
 	return (
 		<div className="space-y-8">
 			{/* FAQ 结构化数据演示 */}
-			<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-				<div className="flex items-center space-x-3 mb-6">
-					<Lightbulb className="w-6 h-6 text-blue-600" />
-					<h3 className="text-xl font-semibold text-gray-900">
-						FAQ 结构化数据演示
-					</h3>
+			<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+				<div className="mb-6 flex items-center space-x-3">
+					<Lightbulb className="h-6 w-6 text-blue-600" />
+					<h3 className="font-semibold text-gray-900 text-xl">FAQ 结构化数据演示</h3>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
 					{faqData.map((faq, index) => (
-						<div key={index} className="border border-gray-200 rounded-lg p-4">
-							<h4 className="font-medium text-gray-900 mb-2">
-								Q: {faq.question}
-							</h4>
+						<div key={index} className="rounded-lg border border-gray-200 p-4">
+							<h4 className="mb-2 font-medium text-gray-900">Q: {faq.question}</h4>
 							<p className="text-gray-700 text-sm">A: {faq.answer}</p>
 						</div>
 					))}
 				</div>
 
-				<div className="mt-6 p-4 bg-gray-50 rounded-lg">
-					<div className="flex items-center justify-between mb-2">
+				<div className="mt-6 rounded-lg bg-gray-50 p-4">
+					<div className="mb-2 flex items-center justify-between">
 						<h5 className="font-medium text-gray-900">生成的 FAQ Schema:</h5>
 						<button
-							onClick={() =>
-								copyToClipboard(
-									JSON.stringify(generateFAQSchema(faqData), null, 2),
-									"faq-schema",
-								)
-							}
+							onClick={() => copyToClipboard(JSON.stringify(generateFAQSchema(faqData), null, 2), "faq-schema")}
 							className="flex items-center space-x-2 text-blue-600 hover:text-blue-700"
 						>
-							{copiedId === "faq-schema" ? (
-								<Check className="w-4 h-4" />
-							) : (
-								<Copy className="w-4 h-4" />
-							)}
-							<span className="text-sm">
-								{copiedId === "faq-schema" ? "已复制" : "复制代码"}
-							</span>
+							{copiedId === "faq-schema" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+							<span className="text-sm">{copiedId === "faq-schema" ? "已复制" : "复制代码"}</span>
 						</button>
 					</div>
-					<pre className="text-xs text-gray-600 overflow-x-auto">
+					<pre className="overflow-x-auto text-gray-600 text-xs">
 						<code>{JSON.stringify(generateFAQSchema(faqData), null, 2)}</code>
 					</pre>
 				</div>
@@ -257,66 +232,49 @@ export default function SEOAdvancedFeatures() {
 
 			{/* 高级 SEO 功能 */}
 			<div>
-				<h3 className="text-xl font-semibold text-gray-900 mb-6">
-					更多 SEO 优化功能
-				</h3>
+				<h3 className="mb-6 font-semibold text-gray-900 text-xl">更多 SEO 优化功能</h3>
 				<div className="space-y-4">
 					{advancedSEOFeatures.map((feature) => (
-						<div
-							key={feature.id}
-							className="bg-white rounded-lg shadow-sm border border-gray-200"
-						>
+						<div key={feature.id} className="rounded-lg border border-gray-200 bg-white shadow-sm">
 							<div className="p-6">
-								<div className="flex items-start justify-between mb-4">
+								<div className="mb-4 flex items-start justify-between">
 									<div className="flex items-center space-x-3">
 										<div className="text-blue-600">{feature.icon}</div>
 										<div>
-											<h4 className="text-lg font-semibold text-gray-900">
-												{feature.title}
-											</h4>
+											<h4 className="font-semibold text-gray-900 text-lg">{feature.title}</h4>
 											<span
-												className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getPriorityColor(feature.priority)}`}
+												className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-medium text-xs ${getPriorityColor(feature.priority)}`}
 											>
 												{getPriorityText(feature.priority)}
 											</span>
 										</div>
 									</div>
 									<button
-										onClick={() =>
-											setExpandedFeature(
-												expandedFeature === feature.id ? null : feature.id,
-											)
-										}
+										onClick={() => setExpandedFeature(expandedFeature === feature.id ? null : feature.id)}
 										className="text-gray-400 hover:text-gray-600"
 									>
 										{expandedFeature === feature.id ? (
-											<ChevronUp className="w-5 h-5" />
+											<ChevronUp className="h-5 w-5" />
 										) : (
-											<ChevronDown className="w-5 h-5" />
+											<ChevronDown className="h-5 w-5" />
 										)}
 									</button>
 								</div>
 
-								<p className="text-gray-700 mb-4">{feature.description}</p>
+								<p className="mb-4 text-gray-700">{feature.description}</p>
 
-								<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-									<div className="bg-gray-50 p-3 rounded">
-										<h5 className="font-medium text-gray-900 text-sm mb-1">
-											实现方式
-										</h5>
-										<p className="text-gray-600 text-xs">
-											{feature.implementation}
-										</p>
+								<div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+									<div className="rounded bg-gray-50 p-3">
+										<h5 className="mb-1 font-medium text-gray-900 text-sm">实现方式</h5>
+										<p className="text-gray-600 text-xs">{feature.implementation}</p>
 									</div>
-									<div className="bg-green-50 p-3 rounded md:col-span-2">
-										<h5 className="font-medium text-green-900 text-sm mb-2">
-											主要优势
-										</h5>
+									<div className="rounded bg-green-50 p-3 md:col-span-2">
+										<h5 className="mb-2 font-medium text-green-900 text-sm">主要优势</h5>
 										<div className="flex flex-wrap gap-1">
 											{feature.benefits.map((benefit, index) => (
 												<span
 													key={index}
-													className="inline-flex items-center px-2 py-1 rounded text-xs bg-green-100 text-green-700"
+													className="inline-flex items-center rounded bg-green-100 px-2 py-1 text-green-700 text-xs"
 												>
 													{benefit}
 												</span>
@@ -326,26 +284,18 @@ export default function SEOAdvancedFeatures() {
 								</div>
 
 								{expandedFeature === feature.id && (
-									<div className="mt-4 pt-4 border-t border-gray-200">
-										<div className="flex items-center justify-between mb-2">
+									<div className="mt-4 border-gray-200 border-t pt-4">
+										<div className="mb-2 flex items-center justify-between">
 											<h5 className="font-medium text-gray-900">代码示例</h5>
 											<button
-												onClick={() =>
-													copyToClipboard(feature.codeExample, feature.id)
-												}
+												onClick={() => copyToClipboard(feature.codeExample, feature.id)}
 												className="flex items-center space-x-2 text-blue-600 hover:text-blue-700"
 											>
-												{copiedId === feature.id ? (
-													<Check className="w-4 h-4" />
-												) : (
-													<Copy className="w-4 h-4" />
-												)}
-												<span className="text-sm">
-													{copiedId === feature.id ? "已复制" : "复制代码"}
-												</span>
+												{copiedId === feature.id ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+												<span className="text-sm">{copiedId === feature.id ? "已复制" : "复制代码"}</span>
 											</button>
 										</div>
-										<div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+										<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
 											<pre className="text-sm">
 												<code>{feature.codeExample}</code>
 											</pre>
@@ -359,14 +309,12 @@ export default function SEOAdvancedFeatures() {
 			</div>
 
 			{/* SEO 检查清单 */}
-			<div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-				<h3 className="text-xl font-semibold text-blue-900 mb-4">
-					🚀 SEO 优化检查清单
-				</h3>
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+			<div className="rounded-lg border border-blue-200 bg-blue-50 p-6">
+				<h3 className="mb-4 font-semibold text-blue-900 text-xl">🚀 SEO 优化检查清单</h3>
+				<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
 					<div>
-						<h4 className="font-medium text-blue-800 mb-2">技术 SEO</h4>
-						<ul className="space-y-1 text-sm text-blue-700">
+						<h4 className="mb-2 font-medium text-blue-800">技术 SEO</h4>
+						<ul className="space-y-1 text-blue-700 text-sm">
 							<li>✅ 服务端渲染 (SSR/SSG)</li>
 							<li>✅ 元数据优化</li>
 							<li>✅ 结构化数据</li>
@@ -376,8 +324,8 @@ export default function SEOAdvancedFeatures() {
 						</ul>
 					</div>
 					<div>
-						<h4 className="font-medium text-blue-800 mb-2">内容 SEO</h4>
-						<ul className="space-y-1 text-sm text-blue-700">
+						<h4 className="mb-2 font-medium text-blue-800">内容 SEO</h4>
+						<ul className="space-y-1 text-blue-700 text-sm">
 							<li>✅ 语义化 HTML</li>
 							<li>✅ 图片 alt 属性</li>
 							<li>✅ 内链结构</li>

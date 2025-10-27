@@ -1,14 +1,7 @@
 "use client";
 
+import { AlertCircle, CheckCircle, Code, Eye, Search, XCircle } from "lucide-react";
 import React, { useState } from "react";
-import {
-	Code,
-	Search,
-	Eye,
-	AlertCircle,
-	CheckCircle,
-	XCircle,
-} from "lucide-react";
 
 interface ComparisonItem {
 	feature: string;
@@ -166,19 +159,19 @@ const getStatusColor = (status: string) => {
 const getStatusIcon = (status: string) => {
 	switch (status) {
 		case "perfect":
-			return <CheckCircle className="w-4 h-4" />;
+			return <CheckCircle className="h-4 w-4" />;
 		case "excellent":
-			return <CheckCircle className="w-4 h-4" />;
+			return <CheckCircle className="h-4 w-4" />;
 		case "good":
-			return <CheckCircle className="w-4 h-4" />;
+			return <CheckCircle className="h-4 w-4" />;
 		case "limited":
-			return <AlertCircle className="w-4 h-4" />;
+			return <AlertCircle className="h-4 w-4" />;
 		case "poor":
-			return <XCircle className="w-4 h-4" />;
+			return <XCircle className="h-4 w-4" />;
 		case "requires-workaround":
-			return <AlertCircle className="w-4 h-4" />;
+			return <AlertCircle className="h-4 w-4" />;
 		default:
-			return <AlertCircle className="w-4 h-4" />;
+			return <AlertCircle className="h-4 w-4" />;
 	}
 };
 
@@ -206,51 +199,43 @@ export default function SEOComparison() {
 	const [viewMode, setViewMode] = useState<"html" | "explain">("html");
 
 	return (
-		<div className="max-w-7xl mx-auto p-6">
+		<div className="mx-auto max-w-7xl p-6">
 			<div className="mb-8">
-				<h2 className="text-2xl font-bold text-gray-900 mb-4">
-					Next.js vs React SPA - SEO 对比
-				</h2>
-				<p className="text-gray-600 mb-6">
-					你看到的页面源代码已经证明了 Next.js 的 SEO 优势。下面是更详细的对比：
-				</p>
+				<h2 className="mb-4 font-bold text-2xl text-gray-900">Next.js vs React SPA - SEO 对比</h2>
+				<p className="mb-6 text-gray-600">你看到的页面源代码已经证明了 Next.js 的 SEO 优势。下面是更详细的对比：</p>
 
 				{/* 视图切换 */}
-				<div className="flex space-x-2 mb-6">
+				<div className="mb-6 flex space-x-2">
 					<button
 						onClick={() => setViewMode("html")}
-						className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-							viewMode === "html"
-								? "bg-blue-600 text-white"
-								: "bg-gray-200 text-gray-700 hover:bg-gray-300"
+						className={`rounded-lg px-4 py-2 font-medium transition-colors ${
+							viewMode === "html" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
 						}`}
 					>
-						<Code className="w-4 h-4 inline mr-2" />
+						<Code className="mr-2 inline h-4 w-4" />
 						HTML 源码对比
 					</button>
 					<button
 						onClick={() => setViewMode("explain")}
-						className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-							viewMode === "explain"
-								? "bg-blue-600 text-white"
-								: "bg-gray-200 text-gray-700 hover:bg-gray-300"
+						className={`rounded-lg px-4 py-2 font-medium transition-colors ${
+							viewMode === "explain" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
 						}`}
 					>
-						<Eye className="w-4 h-4 inline mr-2" />
+						<Eye className="mr-2 inline h-4 w-4" />
 						详细说明
 					</button>
 				</div>
 
 				{/* 特性选择器 */}
-				<div className="flex flex-wrap gap-2 mb-6">
+				<div className="mb-6 flex flex-wrap gap-2">
 					{comparisonData.map((item, index) => (
 						<button
 							key={index}
 							onClick={() => setSelectedFeature(index)}
-							className={`px-4 py-2 rounded-lg font-medium transition-all ${
+							className={`rounded-lg px-4 py-2 font-medium transition-all ${
 								selectedFeature === index
 									? "bg-blue-600 text-white shadow-lg"
-									: "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+									: "border border-gray-300 bg-white text-gray-700 hover:bg-gray-100"
 							}`}
 						>
 							{item.feature}
@@ -260,71 +245,58 @@ export default function SEOComparison() {
 			</div>
 
 			{/* 对比内容 */}
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+			<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 				{/* Next.js 列 */}
-				<div className="bg-white rounded-lg shadow-sm border border-green-200 overflow-hidden">
-					<div className="bg-green-50 px-6 py-4 border-b border-green-200">
+				<div className="overflow-hidden rounded-lg border border-green-200 bg-white shadow-sm">
+					<div className="border-green-200 border-b bg-green-50 px-6 py-4">
 						<div className="flex items-center justify-between">
-							<h3 className="text-lg font-semibold text-green-900">
-								Next.js (服务端渲染)
-							</h3>
+							<h3 className="font-semibold text-green-900 text-lg">Next.js (服务端渲染)</h3>
 							<span
-								className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(comparisonData[selectedFeature].nextjs.status)}`}
+								className={`inline-flex items-center rounded-full px-3 py-1 font-medium text-sm ${getStatusColor(comparisonData[selectedFeature].nextjs.status)}`}
 							>
 								{getStatusIcon(comparisonData[selectedFeature].nextjs.status)}
-								<span className="ml-1">
-									{getStatusText(comparisonData[selectedFeature].nextjs.status)}
-								</span>
+								<span className="ml-1">{getStatusText(comparisonData[selectedFeature].nextjs.status)}</span>
 							</span>
 						</div>
-						<p className="text-green-800 mt-2">
-							{comparisonData[selectedFeature].nextjs.description}
-						</p>
+						<p className="mt-2 text-green-800">{comparisonData[selectedFeature].nextjs.description}</p>
 					</div>
 
 					<div className="p-6">
 						{viewMode === "html" ? (
 							<div>
-								<h4 className="font-semibold text-gray-900 mb-3">
-									搜索引擎看到的 HTML:
-								</h4>
-								<div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+								<h4 className="mb-3 font-semibold text-gray-900">搜索引擎看到的 HTML:</h4>
+								<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
 									<pre className="text-sm">
-										<code>
-											{comparisonData[selectedFeature].nextjs.example}
-										</code>
+										<code>{comparisonData[selectedFeature].nextjs.example}</code>
 									</pre>
 								</div>
 							</div>
 						) : (
 							<div>
-								<h4 className="font-semibold text-gray-900 mb-3">优势说明:</h4>
+								<h4 className="mb-3 font-semibold text-gray-900">优势说明:</h4>
 								<div className="space-y-3">
 									<div className="flex items-start space-x-2">
-										<CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+										<CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" />
 										<div>
 											<strong>搜索引擎友好:</strong>
-											<p className="text-gray-700 text-sm mt-1">
+											<p className="mt-1 text-gray-700 text-sm">
 												搜索引擎爬虫可以立即获取和理解页面内容，无需执行JavaScript
 											</p>
 										</div>
 									</div>
 									<div className="flex items-start space-x-2">
-										<CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+										<CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" />
 										<div>
 											<strong>更好的用户体验:</strong>
-											<p className="text-gray-700 text-sm mt-1">
-												用户可以立即看到内容，不需要等待JavaScript加载和执行
-											</p>
+											<p className="mt-1 text-gray-700 text-sm">用户可以立即看到内容，不需要等待JavaScript加载和执行</p>
 										</div>
 									</div>
 									<div className="flex items-start space-x-2">
-										<CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+										<CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" />
 										<div>
 											<strong>自动化优化:</strong>
-											<p className="text-gray-700 text-sm mt-1">
-												Next.js
-												自动处理元数据、结构化数据、图片优化等SEO相关功能
+											<p className="mt-1 text-gray-700 text-sm">
+												Next.js 自动处理元数据、结构化数据、图片优化等SEO相关功能
 											</p>
 										</div>
 									</div>
@@ -335,69 +307,55 @@ export default function SEOComparison() {
 				</div>
 
 				{/* React SPA 列 */}
-				<div className="bg-white rounded-lg shadow-sm border border-red-200 overflow-hidden">
-					<div className="bg-red-50 px-6 py-4 border-b border-red-200">
+				<div className="overflow-hidden rounded-lg border border-red-200 bg-white shadow-sm">
+					<div className="border-red-200 border-b bg-red-50 px-6 py-4">
 						<div className="flex items-center justify-between">
-							<h3 className="text-lg font-semibold text-red-900">
-								React SPA (客户端渲染)
-							</h3>
+							<h3 className="font-semibold text-lg text-red-900">React SPA (客户端渲染)</h3>
 							<span
-								className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(comparisonData[selectedFeature].reactSPA.status)}`}
+								className={`inline-flex items-center rounded-full px-3 py-1 font-medium text-sm ${getStatusColor(comparisonData[selectedFeature].reactSPA.status)}`}
 							>
 								{getStatusIcon(comparisonData[selectedFeature].reactSPA.status)}
-								<span className="ml-1">
-									{getStatusText(
-										comparisonData[selectedFeature].reactSPA.status,
-									)}
-								</span>
+								<span className="ml-1">{getStatusText(comparisonData[selectedFeature].reactSPA.status)}</span>
 							</span>
 						</div>
-						<p className="text-red-800 mt-2">
-							{comparisonData[selectedFeature].reactSPA.description}
-						</p>
+						<p className="mt-2 text-red-800">{comparisonData[selectedFeature].reactSPA.description}</p>
 					</div>
 
 					<div className="p-6">
 						{viewMode === "html" ? (
 							<div>
-								<h4 className="font-semibold text-gray-900 mb-3">
-									搜索引擎看到的 HTML:
-								</h4>
-								<div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+								<h4 className="mb-3 font-semibold text-gray-900">搜索引擎看到的 HTML:</h4>
+								<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
 									<pre className="text-sm">
-										<code>
-											{comparisonData[selectedFeature].reactSPA.example}
-										</code>
+										<code>{comparisonData[selectedFeature].reactSPA.example}</code>
 									</pre>
 								</div>
 							</div>
 						) : (
 							<div>
-								<h4 className="font-semibold text-gray-900 mb-3">限制说明:</h4>
+								<h4 className="mb-3 font-semibold text-gray-900">限制说明:</h4>
 								<div className="space-y-3">
 									<div className="flex items-start space-x-2">
-										<XCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+										<XCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" />
 										<div>
 											<strong>SEO不友好:</strong>
-											<p className="text-gray-700 text-sm mt-1">
+											<p className="mt-1 text-gray-700 text-sm">
 												搜索引擎只能看到基本的HTML结构，内容完全依赖JavaScript渲染
 											</p>
 										</div>
 									</div>
 									<div className="flex items-start space-x-2">
-										<XCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+										<XCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" />
 										<div>
 											<strong>用户体验问题:</strong>
-											<p className="text-gray-700 text-sm mt-1">
-												用户需要等待JavaScript加载才能看到内容，增加跳出率
-											</p>
+											<p className="mt-1 text-gray-700 text-sm">用户需要等待JavaScript加载才能看到内容，增加跳出率</p>
 										</div>
 									</div>
 									<div className="flex items-start space-x-2">
-										<AlertCircle className="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" />
+										<AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-orange-600" />
 										<div>
 											<strong>需要额外工具:</strong>
-											<p className="text-gray-700 text-sm mt-1">
+											<p className="mt-1 text-gray-700 text-sm">
 												需要SSR解决方案(如Next.js)来改善SEO，但这又回到了起点
 											</p>
 										</div>
@@ -410,31 +368,25 @@ export default function SEOComparison() {
 			</div>
 
 			{/* 关键结论 */}
-			<div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+			<div className="mt-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
 				<div className="flex items-start space-x-3">
-					<Search className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
+					<Search className="mt-1 h-6 w-6 flex-shrink-0 text-blue-600" />
 					<div>
-						<h3 className="text-lg font-semibold text-blue-900 mb-3">
-							为什么SEO是Next.js的核心优势？
-						</h3>
-						<div className="text-blue-800 space-y-2">
+						<h3 className="mb-3 font-semibold text-blue-900 text-lg">为什么SEO是Next.js的核心优势？</h3>
+						<div className="space-y-2 text-blue-800">
 							<p>
-								<strong>1. 根本性差异:</strong>{" "}
-								Next.js在服务器端生成完整的HTML，React
+								<strong>1. 根本性差异:</strong> Next.js在服务器端生成完整的HTML，React
 								SPA在客户端渲染内容。这是一个架构层面的根本区别。
 							</p>
 							<p>
 								<strong>2. 不可替代的优势:</strong>{" "}
-								虽然其他特性(如路由、状态管理)都有替代方案，但服务端渲染带来的SEO优势是React
-								SPA难以替代的。
+								虽然其他特性(如路由、状态管理)都有替代方案，但服务端渲染带来的SEO优势是React SPA难以替代的。
 							</p>
 							<p>
-								<strong>3. 搜索引擎的依赖:</strong>{" "}
-								在搜索引擎主导的互联网时代，SEO直接决定了网站的流量和可见性。
+								<strong>3. 搜索引擎的依赖:</strong> 在搜索引擎主导的互联网时代，SEO直接决定了网站的流量和可见性。
 							</p>
 							<p>
-								<strong>4. 用户体验与SEO的统一:</strong>{" "}
-								Next.js同时改善了SEO和用户体验，实现了双赢。
+								<strong>4. 用户体验与SEO的统一:</strong> Next.js同时改善了SEO和用户体验，实现了双赢。
 							</p>
 						</div>
 					</div>

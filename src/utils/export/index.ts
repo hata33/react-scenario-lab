@@ -2,7 +2,7 @@
  * 导出功能工具类
  */
 
-import { ExportConfig, ExportOptions, ExportFilter } from "@/types/export";
+import { ExportConfig, type ExportFilter, ExportOptions } from "@/types/export";
 
 export class ExportUtils {
 	/**
@@ -16,7 +16,7 @@ export class ExportUtils {
 		return data.filter((item) => {
 			return filters.every((filter) => {
 				const value = item[filter.field];
-				return this.applyFilter(value, filter.operator, filter.value);
+				return ExportUtils.applyFilter(value, filter.operator, filter.value);
 			});
 		});
 	}
@@ -24,26 +24,16 @@ export class ExportUtils {
 	/**
 	 * 应用单个过滤器
 	 */
-	private static applyFilter(
-		value: any,
-		operator: string,
-		filterValue: any,
-	): boolean {
+	private static applyFilter(value: any, operator: string, filterValue: any): boolean {
 		switch (operator) {
 			case "equals":
 				return value === filterValue;
 			case "contains":
-				return String(value)
-					.toLowerCase()
-					.includes(String(filterValue).toLowerCase());
+				return String(value).toLowerCase().includes(String(filterValue).toLowerCase());
 			case "startsWith":
-				return String(value)
-					.toLowerCase()
-					.startsWith(String(filterValue).toLowerCase());
+				return String(value).toLowerCase().startsWith(String(filterValue).toLowerCase());
 			case "endsWith":
-				return String(value)
-					.toLowerCase()
-					.endsWith(String(filterValue).toLowerCase());
+				return String(value).toLowerCase().endsWith(String(filterValue).toLowerCase());
 			case "greaterThan":
 				return Number(value) > Number(filterValue);
 			case "lessThan":
@@ -97,9 +87,7 @@ export class ExportUtils {
 				if (Array.isArray(data) && data.length > 0) {
 					const headers = Object.keys(data[0]);
 					content = headers.join(",") + "\n";
-					content += data
-						.map((row) => headers.map((h) => row[h]).join(","))
-						.join("\n");
+					content += data.map((row) => headers.map((h) => row[h]).join(",")).join("\n");
 				} else {
 					content = "";
 				}
@@ -108,10 +96,7 @@ export class ExportUtils {
 				content = JSON.stringify(data);
 				break;
 			case "xml":
-				content =
-					'<?xml version="1.0" encoding="UTF-8"?>\n<data>\n' +
-					JSON.stringify(data, null, 2) +
-					"\n</data>";
+				content = '<?xml version="1.0" encoding="UTF-8"?>\n<data>\n' + JSON.stringify(data, null, 2) + "\n</data>";
 				break;
 			default:
 				content = JSON.stringify(data);
@@ -142,8 +127,7 @@ export class ExportUtils {
 			svg: 3,
 		};
 
-		const multiplier =
-			formatMultiplier[format as keyof typeof formatMultiplier] || 1;
+		const multiplier = formatMultiplier[format as keyof typeof formatMultiplier] || 1;
 
 		// 根据数据大小调整
 		const sizeMultiplier = Math.max(1, dataSize / 1024 / 1024); // MB
@@ -159,7 +143,7 @@ export class ExportUtils {
 		const k = 1024;
 		const sizes = ["B", "KB", "MB", "GB"];
 		const i = Math.floor(Math.log(bytes) / Math.log(k));
-		return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+		return parseFloat((bytes / k ** i).toFixed(2)) + " " + sizes[i];
 	}
 
 	/**
@@ -219,8 +203,7 @@ export class ExportUtils {
 				label: "Excel文件",
 				description: "Microsoft Excel格式，支持多工作表",
 				extension: ".xlsx",
-				mimeType:
-					"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+				mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 			},
 			{
 				value: "pdf",
@@ -234,8 +217,7 @@ export class ExportUtils {
 				label: "Word文档",
 				description: "Microsoft Word格式，支持富文本",
 				extension: ".docx",
-				mimeType:
-					"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+				mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 			},
 			{
 				value: "png",
@@ -307,13 +289,13 @@ export class ExportUtils {
 		}
 
 		if (Array.isArray(data)) {
-			return data.map((item) => this.deepClone(item)) as unknown as T;
+			return data.map((item) => ExportUtils.deepClone(item)) as unknown as T;
 		}
 
 		const cloned = {} as T;
 		for (const key in data) {
-			if (data.hasOwnProperty(key)) {
-				cloned[key] = this.deepClone(data[key]);
+			if (Object.hasOwn(data, key)) {
+				cloned[key] = ExportUtils.deepClone(data[key]);
 			}
 		}
 
@@ -338,11 +320,7 @@ export class ExportUtils {
 	/**
 	 * 日志记录
 	 */
-	static log(
-		level: "info" | "warn" | "error",
-		message: string,
-		data?: any,
-	): void {
+	static log(level: "info" | "warn" | "error", message: string, data?: any): void {
 		const timestamp = new Date().toISOString();
 		const logEntry = {
 			timestamp,

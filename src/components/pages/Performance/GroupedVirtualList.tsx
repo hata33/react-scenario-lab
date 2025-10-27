@@ -18,23 +18,8 @@ interface Group {
 
 const generateGroupData = (): Group[] => {
 	const departments = ["技术部", "产品部", "设计部", "运营部", "市场部"];
-	const roles = [
-		"前端工程师",
-		"后端工程师",
-		"产品经理",
-		"UI设计师",
-		"运营专员",
-	];
-	const names = [
-		"张三",
-		"李四",
-		"王五",
-		"赵六",
-		"钱七",
-		"孙八",
-		"周九",
-		"吴十",
-	];
+	const roles = ["前端工程师", "后端工程师", "产品经理", "UI设计师", "运营专员"];
+	const names = ["张三", "李四", "王五", "赵六", "钱七", "孙八", "周九", "吴十"];
 
 	return departments.map((dept, deptIndex) => {
 		const itemCount = Math.floor(Math.random() * 50) + 20; // 20-70个成员
@@ -46,10 +31,7 @@ const generateGroupData = (): Group[] => {
 				name: names[Math.floor(Math.random() * names.length)] + (i + 1),
 				email: `${dept.toLowerCase()}-${i + 1}@company.com`,
 				role: roles[Math.floor(Math.random() * roles.length)],
-				status: ["在线", "离线", "忙碌"][Math.floor(Math.random() * 3)] as
-					| "在线"
-					| "离线"
-					| "忙碌",
+				status: ["在线", "离线", "忙碌"][Math.floor(Math.random() * 3)] as "在线" | "离线" | "忙碌",
 			});
 		}
 
@@ -75,11 +57,7 @@ export function GroupedVirtualList() {
 	// 切换分组展开/折叠
 	const toggleGroup = useCallback((groupId: string) => {
 		setGroups((prev) =>
-			prev.map((group) =>
-				group.id === groupId
-					? { ...group, collapsed: !group.collapsed }
-					: group,
-			),
+			prev.map((group) => (group.id === groupId ? { ...group, collapsed: !group.collapsed } : group)),
 		);
 	}, []);
 
@@ -108,15 +86,10 @@ export function GroupedVirtualList() {
 
 		// 计算总高度并找到可见区域
 		groups.forEach((group) => {
-			const groupHeight =
-				groupHeaderHeight +
-				(group.collapsed ? 0 : group.items.length * rowHeight);
+			const groupHeight = groupHeaderHeight + (group.collapsed ? 0 : group.items.length * rowHeight);
 
 			// 检查是否在可见区域
-			if (
-				currentHeight + groupHeight > scrollTop &&
-				currentHeight < scrollTop + containerHeight
-			) {
+			if (currentHeight + groupHeight > scrollTop && currentHeight < scrollTop + containerHeight) {
 				// 添加分组头
 				visibleItems.push({
 					type: "group",
@@ -152,10 +125,7 @@ export function GroupedVirtualList() {
 	const totalGroups = groups.length;
 	const expandedGroups = groups.filter((g) => !g.collapsed).length;
 	const totalItems = groups.reduce((sum, group) => sum + group.items.length, 0);
-	const visibleItemsCount = groups.reduce(
-		(sum, group) => sum + (group.collapsed ? 0 : group.items.length),
-		0,
-	);
+	const visibleItemsCount = groups.reduce((sum, group) => sum + (group.collapsed ? 0 : group.items.length), 0);
 
 	return (
 		<div className="space-y-4">
@@ -163,23 +133,14 @@ export function GroupedVirtualList() {
 				<div>
 					<h3 className="font-semibold">分组虚拟列表</h3>
 					<p className="text-muted-foreground text-sm">
-						{totalGroups} 个分组，{totalItems} 个成员，显示 {visibleItemsCount}{" "}
-						个
+						{totalGroups} 个分组，{totalItems} 个成员，显示 {visibleItemsCount} 个
 					</p>
 				</div>
 				<div className="flex gap-2">
-					<button
-						type="button"
-						onClick={expandAll}
-						className="rounded bg-muted px-3 py-1 text-sm hover:bg-muted/80"
-					>
+					<button type="button" onClick={expandAll} className="rounded bg-muted px-3 py-1 text-sm hover:bg-muted/80">
 						展开全部
 					</button>
-					<button
-						type="button"
-						onClick={collapseAll}
-						className="rounded bg-muted px-3 py-1 text-sm hover:bg-muted/80"
-					>
+					<button type="button" onClick={collapseAll} className="rounded bg-muted px-3 py-1 text-sm hover:bg-muted/80">
 						折叠全部
 					</button>
 				</div>
@@ -206,18 +167,12 @@ export function GroupedVirtualList() {
 								>
 									<div className="flex h-full items-center justify-between px-4">
 										<div className="flex items-center gap-3">
-											<span className="text-lg">
-												{group.collapsed ? "▶" : "▼"}
-											</span>
+											<span className="text-lg">{group.collapsed ? "▶" : "▼"}</span>
 											<span className="font-medium">{group.name}</span>
-											<span className="text-muted-foreground text-sm">
-												{group.count} 成员
-											</span>
+											<span className="text-muted-foreground text-sm">{group.count} 成员</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<span className="text-muted-foreground text-xs">
-												{group.collapsed ? "已折叠" : "已展开"}
-											</span>
+											<span className="text-muted-foreground text-xs">{group.collapsed ? "已折叠" : "已展开"}</span>
 											<div className="-space-x-2 flex">
 												{group.items.slice(0, 3).map((member, idx) => (
 													<div
@@ -250,15 +205,9 @@ export function GroupedVirtualList() {
 								>
 									<div className="flex-1">
 										<div className="flex items-center gap-2">
-											<span className="font-medium text-sm">
-												{itemData.name}
-											</span>
-											<span className="text-muted-foreground text-xs">
-												{itemData.email}
-											</span>
-											<span className="rounded bg-muted px-2 py-1 text-xs">
-												{itemData.role}
-											</span>
+											<span className="font-medium text-sm">{itemData.name}</span>
+											<span className="text-muted-foreground text-xs">{itemData.email}</span>
+											<span className="rounded bg-muted px-2 py-1 text-xs">{itemData.role}</span>
 										</div>
 									</div>
 									<div>

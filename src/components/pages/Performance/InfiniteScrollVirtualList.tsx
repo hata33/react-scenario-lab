@@ -13,24 +13,8 @@ interface NewsItem {
 }
 
 const generateNewsData = (page: number, pageSize: number = 20): NewsItem[] => {
-	const categories = [
-		"科技",
-		"体育",
-		"娱乐",
-		"财经",
-		"教育",
-		"健康",
-		"旅游",
-		"美食",
-	];
-	const authors = [
-		"张记者",
-		"李编辑",
-		"王评论员",
-		"赵主播",
-		"钱分析师",
-		"孙专家",
-	];
+	const categories = ["科技", "体育", "娱乐", "财经", "教育", "健康", "旅游", "美食"];
+	const authors = ["张记者", "李编辑", "王评论员", "赵主播", "钱分析师", "孙专家"];
 
 	return Array.from({ length: pageSize }, (_, i) => {
 		const index = (page - 1) * pageSize + i;
@@ -45,13 +29,8 @@ const generateNewsData = (page: number, pageSize: number = 20): NewsItem[] => {
 			category,
 			likes: Math.floor(Math.random() * 1000),
 			comments: Math.floor(Math.random() * 200),
-			timestamp: new Date(
-				Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000,
-			).toISOString(),
-			imageUrl:
-				index % 3 === 0
-					? `https://picsum.photos/seed/news${index}/100/80.jpg`
-					: undefined,
+			timestamp: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
+			imageUrl: index % 3 === 0 ? `https://picsum.photos/seed/news${index}/100/80.jpg` : undefined,
 		};
 	});
 };
@@ -116,11 +95,7 @@ export function InfiniteScrollVirtualList() {
 			setScrollTop(scrollTop);
 
 			// 检测是否滚动到底部（距离底部100px时触发）
-			if (
-				scrollHeight - scrollTop - clientHeight < 100 &&
-				!loading &&
-				hasMore
-			) {
+			if (scrollHeight - scrollTop - clientHeight < 100 && !loading && hasMore) {
 				loadMore();
 			}
 		},
@@ -136,10 +111,7 @@ export function InfiniteScrollVirtualList() {
 	const endIndex = Math.min(filteredItems.length, startIndex + visibleCount);
 	const offsetY = startIndex * rowHeight;
 
-	const visibleItems = useMemo(
-		() => filteredItems.slice(startIndex, endIndex),
-		[startIndex, endIndex, filteredItems],
-	);
+	const visibleItems = useMemo(() => filteredItems.slice(startIndex, endIndex), [startIndex, endIndex, filteredItems]);
 
 	// 重置数据
 	const resetData = useCallback(() => {
@@ -173,11 +145,7 @@ export function InfiniteScrollVirtualList() {
 							</option>
 						))}
 					</select>
-					<button
-						type="button"
-						onClick={resetData}
-						className="rounded bg-muted px-3 py-1 text-sm hover:bg-muted/80"
-					>
+					<button type="button" onClick={resetData} className="rounded bg-muted px-3 py-1 text-sm hover:bg-muted/80">
 						重置
 					</button>
 				</div>
@@ -198,37 +166,21 @@ export function InfiniteScrollVirtualList() {
 							>
 								{item.imageUrl && (
 									<div className="flex-shrink-0">
-										<img
-											src={item.imageUrl}
-											alt={item.title}
-											className="h-16 w-20 rounded object-cover"
-										/>
+										<img src={item.imageUrl} alt={item.title} className="h-16 w-20 rounded object-cover" />
 									</div>
 								)}
 								<div className="min-w-0 flex-1">
-									<h4 className="mb-1 line-clamp-1 font-medium text-sm">
-										{item.title}
-									</h4>
-									<p className="mb-2 line-clamp-2 text-muted-foreground text-xs">
-										{item.content}
-									</p>
+									<h4 className="mb-1 line-clamp-1 font-medium text-sm">{item.title}</h4>
+									<p className="mb-2 line-clamp-2 text-muted-foreground text-xs">{item.content}</p>
 									<div className="flex items-center justify-between">
 										<div className="flex items-center gap-3 text-muted-foreground text-xs">
 											<span>{item.author}</span>
-											<span className="rounded bg-muted px-2 py-0.5">
-												{item.category}
-											</span>
-											<span>
-												{new Date(item.timestamp).toLocaleDateString()}
-											</span>
+											<span className="rounded bg-muted px-2 py-0.5">{item.category}</span>
+											<span>{new Date(item.timestamp).toLocaleDateString()}</span>
 										</div>
 										<div className="flex items-center gap-3 text-xs">
-											<span className="flex items-center gap-1">
-												❤️ {item.likes}
-											</span>
-											<span className="flex items-center gap-1">
-												💬 {item.comments}
-											</span>
+											<span className="flex items-center gap-1">❤️ {item.likes}</span>
+											<span className="flex items-center gap-1">💬 {item.comments}</span>
 										</div>
 									</div>
 								</div>
@@ -250,9 +202,7 @@ export function InfiniteScrollVirtualList() {
 				{/* 没有更多数据 */}
 				{!hasMore && !loading && (
 					<div className="absolute right-0 bottom-0 left-0 border-t bg-background/90 p-4 backdrop-blur-sm">
-						<div className="text-center text-muted-foreground text-sm">
-							已经到底了，没有更多内容了
-						</div>
+						<div className="text-center text-muted-foreground text-sm">已经到底了，没有更多内容了</div>
 					</div>
 				)}
 			</div>

@@ -27,8 +27,7 @@ export default function FirstVisitWelcome() {
 			colors: ["#ff6b6b", "#4ecdc4", "#45b7d1", "#ffda79", "#a77dc2"],
 		};
 
-		const randomInRange = (min: number, max: number) =>
-			Math.random() * (max - min) + min;
+		const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
 
 		const interval = setInterval(() => {
 			const timeLeft = end - Date.now();
@@ -66,9 +65,7 @@ export default function FirstVisitWelcome() {
 			<div className="flex items-center justify-between">
 				<div className="flex items-center gap-2">
 					<div className="text-blue-500">🎉</div>
-					<h3 className="font-medium text-gray-900 dark:text-white">
-						欢迎来到 React 场景实验室！
-					</h3>
+					<h3 className="font-medium text-gray-900 dark:text-white">欢迎来到 React 场景实验室！</h3>
 				</div>
 				<button
 					onClick={() => setShowWelcome(false)}

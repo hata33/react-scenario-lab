@@ -80,10 +80,7 @@ class SessionManager {
 	getUserActiveSessions(userId: string): LoginSession[] {
 		const now = Date.now();
 		return Array.from(this.sessions.values()).filter(
-			(session) =>
-				session.userId === userId &&
-				session.expiresAt > now &&
-				session.state === "confirmed",
+			(session) => session.userId === userId && session.expiresAt > now && session.state === "confirmed",
 		);
 	}
 
@@ -148,9 +145,7 @@ class SessionManager {
 	getStats() {
 		const now = Date.now();
 		const total = this.sessions.size;
-		const active = Array.from(this.sessions.values()).filter(
-			(s) => s.expiresAt > now,
-		).length;
+		const active = Array.from(this.sessions.values()).filter((s) => s.expiresAt > now).length;
 		const expired = total - active;
 
 		return {
@@ -158,18 +153,10 @@ class SessionManager {
 			active,
 			expired,
 			states: {
-				waiting: Array.from(this.sessions.values()).filter(
-					(s) => s.state === "waiting",
-				).length,
-				scanned: Array.from(this.sessions.values()).filter(
-					(s) => s.state === "scanned",
-				).length,
-				confirmed: Array.from(this.sessions.values()).filter(
-					(s) => s.state === "confirmed",
-				).length,
-				expired: Array.from(this.sessions.values()).filter(
-					(s) => s.state === "expired",
-				).length,
+				waiting: Array.from(this.sessions.values()).filter((s) => s.state === "waiting").length,
+				scanned: Array.from(this.sessions.values()).filter((s) => s.state === "scanned").length,
+				confirmed: Array.from(this.sessions.values()).filter((s) => s.state === "confirmed").length,
+				expired: Array.from(this.sessions.values()).filter((s) => s.state === "expired").length,
 			},
 		};
 	}

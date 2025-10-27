@@ -8,10 +8,7 @@ const all: Item[] = Array.from({ length: 30 }).map((_, i) => ({
 
 export default function SearchFilter() {
 	const [q, setQ] = useState("");
-	const list = useMemo(
-		() => all.filter((i) => i.name.toLowerCase().includes(q.toLowerCase())),
-		[q],
-	);
+	const list = useMemo(() => all.filter((i) => i.name.toLowerCase().includes(q.toLowerCase())), [q]);
 	return (
 		<div>
 			<h2 className="mb-4 font-semibold text-2xl">搜索/筛选</h2>

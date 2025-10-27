@@ -2,7 +2,7 @@
  * 文档格式导出功能
  */
 
-import { ExportConfig, ExportOptions } from "@/types/export";
+import { ExportConfig, type ExportOptions } from "@/types/export";
 
 // 动态导入库
 const importJsPDF = async () => {
@@ -34,16 +34,16 @@ export class DocumentExporter {
 
 			// 添加水印
 			if (options?.watermark) {
-				this.addWatermark(doc, options.watermark);
+				DocumentExporter.addWatermark(doc, options.watermark);
 			}
 
 			// 根据数据类型处理
 			if (Array.isArray(data)) {
-				this.exportTableToPdf(doc, data, options, autoTable);
+				DocumentExporter.exportTableToPdf(doc, data, options, autoTable);
 			} else if (typeof data === "object") {
-				this.exportObjectToPdf(doc, data, options, autoTable);
+				DocumentExporter.exportObjectToPdf(doc, data, options, autoTable);
 			} else {
-				this.exportTextToPdf(doc, String(data), options);
+				DocumentExporter.exportTextToPdf(doc, String(data), options);
 			}
 
 			return new Blob([doc.output("blob")], { type: "application/pdf" });
@@ -57,24 +57,16 @@ export class DocumentExporter {
 	 */
 	static async exportToDocx(data: any, options?: ExportOptions): Promise<Blob> {
 		try {
-			const {
-				Document,
-				Packer,
-				Paragraph,
-				TextRun,
-				Table,
-				TableRow,
-				TableCell,
-			} = await importDocx();
+			const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell } = await importDocx();
 
 			let doc: any;
 
 			if (Array.isArray(data)) {
-				doc = this.createTableDocument(data, options);
+				doc = DocumentExporter.createTableDocument(data, options);
 			} else if (typeof data === "object") {
-				doc = this.createObjectDocument(data, options);
+				doc = DocumentExporter.createObjectDocument(data, options);
 			} else {
-				doc = this.createTextDocument(String(data), options);
+				doc = DocumentExporter.createTextDocument(String(data), options);
 			}
 
 			const blob = await (Packer as any).toBlob(doc);
@@ -89,11 +81,11 @@ export class DocumentExporter {
 	 */
 	static exportToMarkdown(data: any, options?: ExportOptions): string {
 		if (Array.isArray(data)) {
-			return this.exportTableToMarkdown(data, options);
+			return DocumentExporter.exportTableToMarkdown(data, options);
 		} else if (typeof data === "object") {
-			return this.exportObjectToMarkdown(data, options);
+			return DocumentExporter.exportObjectToMarkdown(data, options);
 		} else {
-			return this.exportTextToMarkdown(String(data), options);
+			return DocumentExporter.exportTextToMarkdown(String(data), options);
 		}
 	}
 
@@ -116,12 +108,7 @@ export class DocumentExporter {
 	/**
 	 * 导出表格到PDF
 	 */
-	private static exportTableToPdf(
-		doc: any,
-		data: any[],
-		options?: ExportOptions,
-		autoTable?: any,
-	): void {
+	private static exportTableToPdf(doc: any, data: any[], options?: ExportOptions, autoTable?: any): void {
 		if (!autoTable) return;
 
 		const headers = Object.keys(data[0] || {});
@@ -149,12 +136,7 @@ export class DocumentExporter {
 	/**
 	 * 导出对象到PDF
 	 */
-	private static exportObjectToPdf(
-		doc: any,
-		data: any,
-		options?: ExportOptions,
-		autoTable?: any,
-	): void {
+	private static exportObjectToPdf(doc: any, data: any, options?: ExportOptions, autoTable?: any): void {
 		const entries = Object.entries(data);
 
 		if (autoTable && entries.length > 0) {
@@ -184,11 +166,7 @@ export class DocumentExporter {
 	/**
 	 * 导出文本到PDF
 	 */
-	private static exportTextToPdf(
-		doc: any,
-		text: string,
-		options?: ExportOptions,
-	): void {
+	private static exportTextToPdf(doc: any, text: string, options?: ExportOptions): void {
 		doc.setFontSize(12);
 		const lines = doc.splitTextToSize(text, 170);
 		doc.text(lines, 20, 20);
@@ -197,18 +175,8 @@ export class DocumentExporter {
 	/**
 	 * 创建Word表格文档
 	 */
-	private static createTableDocument(
-		data: any[],
-		options?: ExportOptions,
-	): any {
-		const {
-			Document,
-			Paragraph,
-			TextRun,
-			Table,
-			TableRow,
-			TableCell,
-		} = require("docx");
+	private static createTableDocument(data: any[], options?: ExportOptions): any {
+		const { Document, Paragraph, TextRun, Table, TableRow, TableCell } = require("docx");
 
 		const headers = Object.keys(data[0] || {});
 		const headerRow = new TableRow({
@@ -255,10 +223,7 @@ export class DocumentExporter {
 		const paragraphs = Object.entries(data).map(
 			([key, value]) =>
 				new Paragraph({
-					children: [
-						new TextRun({ text: `${key}: `, bold: true }),
-						new TextRun({ text: String(value) }),
-					],
+					children: [new TextRun({ text: `${key}: `, bold: true }), new TextRun({ text: String(value) })],
 				}),
 		);
 
@@ -275,10 +240,7 @@ export class DocumentExporter {
 	/**
 	 * 创建Word文本文档
 	 */
-	private static createTextDocument(
-		text: string,
-		options?: ExportOptions,
-	): any {
+	private static createTextDocument(text: string, options?: ExportOptions): any {
 		const { Document, Paragraph } = require("docx");
 
 		return new Document({
@@ -294,10 +256,7 @@ export class DocumentExporter {
 	/**
 	 * 导出表格到Markdown
 	 */
-	private static exportTableToMarkdown(
-		data: any[],
-		options?: ExportOptions,
-	): string {
+	private static exportTableToMarkdown(data: any[], options?: ExportOptions): string {
 		if (!Array.isArray(data) || data.length === 0) {
 			return "";
 		}
@@ -313,7 +272,7 @@ export class DocumentExporter {
 		data.forEach((row) => {
 			const values = headers.map((header) => {
 				const value = row[header];
-				return this.escapeMarkdown(String(value || ""));
+				return DocumentExporter.escapeMarkdown(String(value || ""));
 			});
 			markdown += "| " + values.join(" | ") + " |\n";
 		});
@@ -324,10 +283,7 @@ export class DocumentExporter {
 	/**
 	 * 导出对象到Markdown
 	 */
-	private static exportObjectToMarkdown(
-		data: any,
-		options?: ExportOptions,
-	): string {
+	private static exportObjectToMarkdown(data: any, options?: ExportOptions): string {
 		let markdown = "";
 
 		Object.entries(data).forEach(([key, value]) => {
@@ -335,9 +291,9 @@ export class DocumentExporter {
 
 			if (typeof value === "object" && value !== null) {
 				if (Array.isArray(value)) {
-					markdown += this.exportArrayToMarkdown(value);
+					markdown += DocumentExporter.exportArrayToMarkdown(value);
 				} else {
-					markdown += this.exportObjectToMarkdown(value);
+					markdown += DocumentExporter.exportObjectToMarkdown(value);
 				}
 			} else {
 				markdown += `${value}\n\n`;
@@ -355,7 +311,7 @@ export class DocumentExporter {
 
 		// 检查是否是对象数组
 		if (typeof data[0] === "object" && data[0] !== null) {
-			return this.exportTableToMarkdown(data);
+			return DocumentExporter.exportTableToMarkdown(data);
 		}
 
 		// 普通数组
@@ -365,10 +321,7 @@ export class DocumentExporter {
 	/**
 	 * 导出文本到Markdown
 	 */
-	private static exportTextToMarkdown(
-		text: string,
-		options?: ExportOptions,
-	): string {
+	private static exportTextToMarkdown(text: string, options?: ExportOptions): string {
 		return text;
 	}
 

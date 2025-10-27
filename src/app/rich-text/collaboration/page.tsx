@@ -1,5 +1,5 @@
-import { metadata } from "./metadata";
 import CollaborativePage from "./CollaborativePage";
+import { metadata } from "./metadata";
 
 export { metadata };
 

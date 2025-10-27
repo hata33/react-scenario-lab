@@ -64,11 +64,7 @@ export default function LanguageLoader({
 		</div>
 	);
 
-	const renderPulse = () => (
-		<div
-			className={`animate-pulse rounded-full bg-blue-600 ${sizeClasses[size].pulse}`}
-		/>
-	);
+	const renderPulse = () => <div className={`animate-pulse rounded-full bg-blue-600 ${sizeClasses[size].pulse}`} />;
 
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -76,11 +72,7 @@ export default function LanguageLoader({
 				{variant === "spinner" && renderSpinner()}
 				{variant === "dots" && renderDots()}
 				{variant === "pulse" && renderPulse()}
-				<p
-					className={`text-gray-700 dark:text-gray-300 ${messageSizeClasses[size]}`}
-				>
-					{message}
-				</p>
+				<p className={`text-gray-700 dark:text-gray-300 ${messageSizeClasses[size]}`}>{message}</p>
 			</div>
 		</div>
 	);

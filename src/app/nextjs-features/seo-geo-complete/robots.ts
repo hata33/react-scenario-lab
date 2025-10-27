@@ -1,24 +1,12 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
 	return {
 		rules: [
 			{
 				userAgent: "*",
-				allow: [
-					"/",
-					"/nextjs-features",
-					"/nextjs-features/seo-geo-complete",
-					"/blog",
-					"/sitemap.xml",
-				],
-				disallow: [
-					"/admin/",
-					"/private/",
-					"/api/private/",
-					"/_next/static/",
-					"/temp/",
-				],
+				allow: ["/", "/nextjs-features", "/nextjs-features/seo-geo-complete", "/blog", "/sitemap.xml"],
+				disallow: ["/admin/", "/private/", "/api/private/", "/_next/static/", "/temp/"],
 				crawlDelay: 1,
 			},
 			{

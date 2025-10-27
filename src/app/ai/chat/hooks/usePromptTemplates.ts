@@ -4,10 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 import {
 	DEFAULT_CATEGORIES,
 	DEFAULT_TEMPLATES,
-	PromptCategory,
-	PromptSearchFilters,
-	PromptTemplate,
-	PromptTemplateFormData,
+	type PromptCategory,
+	type PromptSearchFilters,
+	type PromptTemplate,
+	type PromptTemplateFormData,
 } from "../types/prompt";
 
 const TEMPLATES_STORAGE_KEY = "ai-prompt-templates";
@@ -30,10 +30,7 @@ export function usePromptTemplates() {
 					loadedCategories = JSON.parse(storedCategories);
 				} else {
 					loadedCategories = DEFAULT_CATEGORIES;
-					localStorage.setItem(
-						CATEGORIES_STORAGE_KEY,
-						JSON.stringify(loadedCategories),
-					);
+					localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(loadedCategories));
 				}
 
 				// 加载模板
@@ -41,13 +38,11 @@ export function usePromptTemplates() {
 				let loadedTemplates: PromptTemplate[] = [];
 
 				if (storedTemplates) {
-					loadedTemplates = JSON.parse(storedTemplates).map(
-						(template: any) => ({
-							...template,
-							createdAt: new Date(template.createdAt),
-							updatedAt: new Date(template.updatedAt),
-						}),
-					);
+					loadedTemplates = JSON.parse(storedTemplates).map((template: any) => ({
+						...template,
+						createdAt: new Date(template.createdAt),
+						updatedAt: new Date(template.updatedAt),
+					}));
 				} else {
 					// 创建默认模板
 					loadedTemplates = DEFAULT_TEMPLATES.map((template, index) => ({
@@ -57,10 +52,7 @@ export function usePromptTemplates() {
 						updatedAt: new Date(),
 						usageCount: 0,
 					}));
-					localStorage.setItem(
-						TEMPLATES_STORAGE_KEY,
-						JSON.stringify(loadedTemplates),
-					);
+					localStorage.setItem(TEMPLATES_STORAGE_KEY, JSON.stringify(loadedTemplates));
 				}
 
 				setCategories(loadedCategories);
@@ -108,10 +100,7 @@ export function usePromptTemplates() {
 	};
 
 	// 更新模板
-	const updateTemplate = (
-		id: string,
-		data: Partial<PromptTemplateFormData>,
-	) => {
+	const updateTemplate = (id: string, data: Partial<PromptTemplateFormData>) => {
 		setTemplates((prev) =>
 			prev.map((template) => {
 				if (template.id === id) {
@@ -174,18 +163,12 @@ export function usePromptTemplates() {
 	};
 
 	// 获取模板内容（替换变量）
-	const getProcessedContent = (
-		template: PromptTemplate,
-		variables: Record<string, string> = {},
-	) => {
+	const getProcessedContent = (template: PromptTemplate, variables: Record<string, string> = {}) => {
 		let content = template.content;
 
 		// 替换变量
 		template.variables?.forEach((variable) => {
-			const value =
-				variables[variable.name] ||
-				variable.defaultValue ||
-				`{{${variable.name}}}`;
+			const value = variables[variable.name] || variable.defaultValue || `{{${variable.name}}}`;
 			content = content.replace(new RegExp(`{{${variable.name}}}`, "g"), value);
 		});
 
@@ -224,16 +207,12 @@ export function usePromptTemplates() {
 
 	// 获取热门模板（按使用次数排序）
 	const getPopularTemplates = (limit = 10) => {
-		return [...templates]
-			.sort((a, b) => b.usageCount - a.usageCount)
-			.slice(0, limit);
+		return [...templates].sort((a, b) => b.usageCount - a.usageCount).slice(0, limit);
 	};
 
 	// 获取最近使用的模板
 	const getRecentTemplates = (limit = 10) => {
-		return [...templates]
-			.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
-			.slice(0, limit);
+		return [...templates].sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()).slice(0, limit);
 	};
 
 	// 搜索模板
@@ -246,17 +225,12 @@ export function usePromptTemplates() {
 
 			// 标签过滤
 			if (filters.tags && filters.tags.length > 0) {
-				const hasAllTags = filters.tags.every((tag) =>
-					template.tags.includes(tag),
-				);
+				const hasAllTags = filters.tags.every((tag) => template.tags.includes(tag));
 				if (!hasAllTags) return false;
 			}
 
 			// 收藏过滤
-			if (
-				filters.isFavorite !== undefined &&
-				template.isFavorite !== filters.isFavorite
-			) {
+			if (filters.isFavorite !== undefined && template.isFavorite !== filters.isFavorite) {
 				return false;
 			}
 
@@ -278,9 +252,7 @@ export function usePromptTemplates() {
 
 	// 导出模板
 	const exportTemplates = (ids?: string[]) => {
-		const templatesToExport = ids
-			? templates.filter((t) => ids.includes(t.id))
-			: templates;
+		const templatesToExport = ids ? templates.filter((t) => ids.includes(t.id)) : templates;
 
 		const exportData = {
 			version: "1.0",
@@ -307,15 +279,13 @@ export function usePromptTemplates() {
 	// 导入模板
 	const importTemplates = (data: any) => {
 		try {
-			const importedTemplates: PromptTemplate[] = data.templates.map(
-				(template: any) => ({
-					...template,
-					id: `imported-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-					createdAt: new Date(template.createdAt),
-					updatedAt: new Date(),
-					usageCount: 0,
-				}),
-			);
+			const importedTemplates: PromptTemplate[] = data.templates.map((template: any) => ({
+				...template,
+				id: `imported-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+				createdAt: new Date(template.createdAt),
+				updatedAt: new Date(),
+				usageCount: 0,
+			}));
 
 			setTemplates((prev) => [...importedTemplates, ...prev]);
 

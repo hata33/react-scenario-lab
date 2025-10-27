@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { FormConfig } from "../types";
+import type React from "react";
+import type { FormConfig } from "../types";
 import FormFieldRenderer from "./FormFieldRenderer";
 
 interface FormPreviewProps {
@@ -27,44 +27,37 @@ const FormPreview: React.FC<FormPreviewProps> = ({
 		const allFields = formConfig.sections.flatMap((section) => section.fields);
 		const filledFields = allFields.filter((field) => {
 			const value = formData[field.name];
-			return (
-				value &&
-				value !== "" &&
-				(Array.isArray(value) ? value.length > 0 : true)
-			);
+			return value && value !== "" && (Array.isArray(value) ? value.length > 0 : true);
 		});
-		return allFields.length > 0
-			? Math.round((filledFields.length / allFields.length) * 100)
-			: 0;
+		return allFields.length > 0 ? Math.round((filledFields.length / allFields.length) * 100) : 0;
 	};
 
 	const progress = calculateProgress();
 
 	return (
-		<div className="max-w-3xl mx-auto">
-			<div className="bg-white rounded-lg shadow-sm border">
-				<div className="p-6 border-b">
-					<h2 className="text-2xl font-bold text-gray-900">
-						{formConfig.title}
-					</h2>
-					{formConfig.description && (
-						<p className="text-gray-600 mt-2">{formConfig.description}</p>
-					)}
+		<div className="mx-auto max-w-3xl">
+			<div className="rounded-lg border bg-white shadow-sm">
+				<div className="border-b p-6">
+					<h2 className="font-bold text-2xl text-gray-900">{formConfig.title}</h2>
+					{formConfig.description && <p className="mt-2 text-gray-600">{formConfig.description}</p>}
 				</div>
 
-				<form onSubmit={(e) => {
-					e.preventDefault();
-					onSubmit?.(e);
-				}} className="p-6">
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						onSubmit?.(e);
+					}}
+					className="p-6"
+				>
 					{formConfig.settings.showProgressBar && (
 						<div className="mb-6">
-							<div className="flex justify-between text-sm text-gray-600 mb-2">
+							<div className="mb-2 flex justify-between text-gray-600 text-sm">
 								<span>完成进度</span>
 								<span>{progress}%</span>
 							</div>
-							<div className="w-full bg-gray-200 rounded-full h-2">
+							<div className="h-2 w-full rounded-full bg-gray-200">
 								<div
-									className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+									className="h-2 rounded-full bg-blue-600 transition-all duration-300"
 									style={{ width: `${progress}%` }}
 								/>
 							</div>
@@ -73,12 +66,8 @@ const FormPreview: React.FC<FormPreviewProps> = ({
 
 					{formConfig.sections.map((section) => (
 						<div key={section.id} className="mb-8">
-							<h3 className="text-lg font-semibold text-gray-900 mb-4">
-								{section.title}
-							</h3>
-							{section.description && (
-								<p className="text-gray-600 mb-4">{section.description}</p>
-							)}
+							<h3 className="mb-4 font-semibold text-gray-900 text-lg">{section.title}</h3>
+							{section.description && <p className="mb-4 text-gray-600">{section.description}</p>}
 
 							<div className="space-y-6">
 								{section.fields.map((field) => (
@@ -97,7 +86,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({
 					<div className="flex space-x-4">
 						<button
 							type="submit"
-							className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+							className="flex-1 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700"
 						>
 							{formConfig.settings.submitButtonText}
 						</button>
@@ -105,7 +94,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({
 						<button
 							type="button"
 							onClick={onReset}
-							className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors"
+							className="rounded-lg bg-gray-200 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-300"
 						>
 							{formConfig.settings.resetButtonText}
 						</button>

@@ -5,12 +5,7 @@ import { GroupedVirtualList } from "./GroupedVirtualList";
 import { InfiniteScrollVirtualList } from "./InfiniteScrollVirtualList";
 import { SearchFilterVirtualList } from "./SearchFilterVirtualList";
 
-export type VirtualListType =
-	| "fixed"
-	| "dynamic"
-	| "search"
-	| "grouped"
-	| "infinite";
+export type VirtualListType = "fixed" | "dynamic" | "search" | "grouped" | "infinite";
 
 const listTypes = [
 	{ id: "fixed", name: "固定高度", description: "基础虚拟列表，固定行高" },
@@ -35,9 +30,7 @@ export default function VirtualListDemo() {
 		<div className="space-y-6">
 			<div>
 				<h2 className="mb-4 font-semibold text-2xl">虚拟列表演示</h2>
-				<p className="mb-6 text-muted-foreground">
-					选择不同的虚拟列表实现方式，体验各种场景下的性能优化
-				</p>
+				<p className="mb-6 text-muted-foreground">选择不同的虚拟列表实现方式，体验各种场景下的性能优化</p>
 			</div>
 
 			<div className="flex flex-wrap gap-2">

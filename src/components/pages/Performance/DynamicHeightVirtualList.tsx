@@ -30,8 +30,7 @@ const generateRandomText = (minWords: number, maxWords: number) => {
 		"网络请求",
 	];
 
-	const wordCount =
-		Math.floor(Math.random() * (maxWords - minWords + 1)) + minWords;
+	const wordCount = Math.floor(Math.random() * (maxWords - minWords + 1)) + minWords;
 	const selectedWords = [];
 
 	for (let i = 0; i < wordCount; i++) {
@@ -46,9 +45,7 @@ const DATA = Array.from({ length: 5000 }).map((_, i) => ({
 	title: `动态内容 ${i + 1}`,
 	content: generateRandomText(3, 15),
 	author: ["张三", "李四", "王五", "赵六", "钱七"][i % 5],
-	timestamp: new Date(
-		Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000,
-	).toISOString(),
+	timestamp: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
 }));
 
 export function DynamicHeightVirtualList() {
@@ -133,13 +130,10 @@ export function DynamicHeightVirtualList() {
 				<div>
 					<h3 className="font-semibold">动态高度虚拟列表</h3>
 					<p className="text-muted-foreground text-sm">
-						共 {DATA.length.toLocaleString()} 条数据，已测量{" "}
-						{measuredItems.size} 项高度
+						共 {DATA.length.toLocaleString()} 条数据，已测量 {measuredItems.size} 项高度
 					</p>
 				</div>
-				<div className="text-muted-foreground text-sm">
-					总高度: {Math.round(totalHeight)}px
-				</div>
+				<div className="text-muted-foreground text-sm">总高度: {Math.round(totalHeight)}px</div>
 			</div>
 
 			<div
@@ -160,20 +154,12 @@ export function DynamicHeightVirtualList() {
 						>
 							<div className="mb-2 flex items-start justify-between">
 								<h4 className="font-medium">{item.title}</h4>
-								<span className="text-muted-foreground text-xs">
-									{new Date(item.timestamp).toLocaleDateString()}
-								</span>
+								<span className="text-muted-foreground text-xs">{new Date(item.timestamp).toLocaleDateString()}</span>
 							</div>
-							<p className="mb-2 text-muted-foreground text-sm leading-relaxed">
-								{item.content}
-							</p>
+							<p className="mb-2 text-muted-foreground text-sm leading-relaxed">{item.content}</p>
 							<div className="flex items-center justify-between">
-								<span className="rounded bg-muted px-2 py-1 text-xs">
-									作者: {item.author}
-								</span>
-								<span className="text-muted-foreground text-xs">
-									高度: {Math.round(item.height)}px
-								</span>
+								<span className="rounded bg-muted px-2 py-1 text-xs">作者: {item.author}</span>
+								<span className="text-muted-foreground text-xs">高度: {Math.round(item.height)}px</span>
 							</div>
 						</div>
 					))}

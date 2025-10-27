@@ -16,10 +16,7 @@ export default function Login() {
 					value={user}
 					onChange={(e) => setUser(e.target.value)}
 				/>
-				<button
-					className="mt-3 rounded bg-gray-900 px-3 py-2 text-white"
-					onClick={login}
-				>
+				<button className="mt-3 rounded bg-gray-900 px-3 py-2 text-white" onClick={login}>
 					登录
 				</button>
 			</div>

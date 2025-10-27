@@ -16,7 +16,7 @@ import {
 	Users,
 	Zap,
 } from "lucide-react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import Layout from "@/components/Layout";
 
@@ -63,8 +63,7 @@ export const metadata: Metadata = {
 	},
 	openGraph: {
 		title: "SEO 与 GEO 优化完整实战指南",
-		description:
-			"全面展示传统SEO与生成式AI优化策略，助您在AI时代获得更好的搜索表现",
+		description: "全面展示传统SEO与生成式AI优化策略，助您在AI时代获得更好的搜索表现",
 		url: "https://your-domain.com/nextjs-features/seo-geo-complete",
 		siteName: "Next.js实验室",
 		images: [
@@ -93,8 +92,7 @@ export const metadata: Metadata = {
 	twitter: {
 		card: "summary_large_image",
 		title: "SEO 与 GEO 优化完整实战指南",
-		description:
-			"全面展示传统SEO与生成式AI优化策略，助您在AI时代获得更好的搜索表现",
+		description: "全面展示传统SEO与生成式AI优化策略，助您在AI时代获得更好的搜索表现",
 		siteId: "123456789",
 		creator: "@nextjs_lab",
 		creatorId: "987654321",
@@ -139,12 +137,8 @@ function generateArticleStructuredData() {
 		"@context": "https://schema.org",
 		"@type": "Article",
 		headline: "SEO 与 GEO 优化完整实战指南",
-		description:
-			"全面展示传统SEO与生成式AI优化策略，包括技术SEO、内容权威性、结构化数据、地理位置优化等完整解决方案。",
-		image: [
-			"https://your-domain.com/seo-geo-hero.jpg",
-			"https://your-domain.com/seo-geo-thumbnail.jpg",
-		],
+		description: "全面展示传统SEO与生成式AI优化策略，包括技术SEO、内容权威性、结构化数据、地理位置优化等完整解决方案。",
+		image: ["https://your-domain.com/seo-geo-hero.jpg", "https://your-domain.com/seo-geo-thumbnail.jpg"],
 		datePublished: "2024-01-15T00:00:00+00:00",
 		dateModified: currentDate.toISOString(),
 		author: [
@@ -385,8 +379,7 @@ function generateLocalBusinessStructuredData() {
 		"@context": "https://schema.org",
 		"@type": "LocalBusiness",
 		name: "Next.js实验室 - SEO优化服务中心",
-		description:
-			"专业的SEO与GEO优化服务提供商，助力企业在AI时代获得更好的搜索表现",
+		description: "专业的SEO与GEO优化服务提供商，助力企业在AI时代获得更好的搜索表现",
 		url: "https://your-domain.com",
 		telephone: "+86-10-12345678",
 		address: {
@@ -406,10 +399,7 @@ function generateLocalBusinessStructuredData() {
 		priceRange: "$$",
 		paymentAccepted: ["现金", "信用卡", "银行转账"],
 		currenciesAccepted: "CNY",
-		image: [
-			"https://your-domain.com/office-front.jpg",
-			"https://your-domain.com/office-interior.jpg",
-		],
+		image: ["https://your-domain.com/office-front.jpg", "https://your-domain.com/office-interior.jpg"],
 		aggregateRating: {
 			"@type": "AggregateRating",
 			ratingValue: "4.8",
@@ -441,8 +431,7 @@ function generateLocalBusinessStructuredData() {
 					"@type": "Person",
 					name: "李总监",
 				},
-				reviewBody:
-					"团队专业度高，技术实力强，为我们的电商网站提供了完整的SEO解决方案，效果显著。",
+				reviewBody: "团队专业度高，技术实力强，为我们的电商网站提供了完整的SEO解决方案，效果显著。",
 			},
 		],
 		areaServed: [
@@ -498,7 +487,7 @@ const seoFeatures = [
 		id: "technical-seo",
 		title: "技术SEO优化",
 		description: "Next.js服务端渲染、性能优化、移动端适配等核心技术",
-		icon: <Code className="w-8 h-8" />,
+		icon: <Code className="h-8 w-8" />,
 		status: "completed",
 		category: "技术实现",
 		benefits: ["完整HTML输出", "快速加载速度", "移动端友好", "HTTPS安全"],
@@ -508,22 +497,17 @@ const seoFeatures = [
 		id: "content-authority",
 		title: "内容权威性(E-E-A-T)",
 		description: "建立经验、专业、权威、可信的内容体系",
-		icon: <Award className="w-8 h-8" />,
+		icon: <Award className="h-8 w-8" />,
 		status: "completed",
 		category: "内容策略",
-		benefits: [
-			"提升内容可信度",
-			"获得AI优先引用",
-			"建立品牌权威",
-			"用户信任增强",
-		],
+		benefits: ["提升内容可信度", "获得AI优先引用", "建立品牌权威", "用户信任增强"],
 		examples: ["专家背书", "权威引用", "案例展示", "资质认证"],
 	},
 	{
 		id: "structured-data",
 		title: "结构化数据",
 		description: "Schema.org标准标记，提升搜索引擎理解能力",
-		icon: <Target className="w-8 h-8" />,
+		icon: <Target className="h-8 w-8" />,
 		status: "completed",
 		category: "技术实现",
 		benefits: ["丰富搜索结果", "提升点击率", "AI友好格式", "知识图谱集成"],
@@ -533,7 +517,7 @@ const seoFeatures = [
 		id: "geo-optimization",
 		title: "GEO生成式AI优化",
 		description: "针对ChatGPT等AI工具的优化策略",
-		icon: <Brain className="w-8 h-8" />,
+		icon: <Brain className="h-8 w-8" />,
 		status: "completed",
 		category: "AI优化",
 		benefits: ["AI工具引用", "知识图谱收录", "语音搜索优化", "未来趋势适应"],
@@ -543,7 +527,7 @@ const seoFeatures = [
 		id: "local-seo",
 		title: "本地SEO优化",
 		description: "地理位置相关搜索优化，服务本地用户",
-		icon: <MapPin className="w-8 h-8" />,
+		icon: <MapPin className="h-8 w-8" />,
 		status: "completed",
 		category: "地理位置",
 		benefits: ["本地搜索排名", "附近用户触达", "地图展示优化", "本地流量增长"],
@@ -553,7 +537,7 @@ const seoFeatures = [
 		id: "performance-monitoring",
 		title: "性能监控分析",
 		description: "Core Web Vitals优化和SEO指标监控",
-		icon: <TrendingUp className="w-8 h-8" />,
+		icon: <TrendingUp className="h-8 w-8" />,
 		status: "completed",
 		category: "性能优化",
 		benefits: ["用户体验提升", "搜索排名改善", "转化率增长", "技术债务减少"],
@@ -598,8 +582,7 @@ const howToSteps = [
 	{
 		step: 1,
 		title: "技术SEO基础配置",
-		description:
-			"配置Next.js服务端渲染，设置metadata，生成sitemap和robots.txt文件",
+		description: "配置Next.js服务端渲染，设置metadata，生成sitemap和robots.txt文件",
 		duration: "30分钟",
 		difficulty: "初级",
 		tools: ["Next.js", "TypeScript", "代码编辑器"],
@@ -647,457 +630,389 @@ export default function SEOGeoCompletePage() {
 	return (
 		<Layout>
 			<>
-			{/* 结构化数据 */}
-			<script
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(generateArticleStructuredData()),
-				}}
-			/>
+				{/* 结构化数据 */}
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(generateArticleStructuredData()),
+					}}
+				/>
 
-			<script
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(generateBreadcrumbStructuredData()),
-				}}
-			/>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(generateBreadcrumbStructuredData()),
+					}}
+				/>
 
-			<script
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(generateFAQStructuredData()),
-				}}
-			/>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(generateFAQStructuredData()),
+					}}
+				/>
 
-			<script
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(generateHowToStructuredData()),
-				}}
-			/>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(generateHowToStructuredData()),
+					}}
+				/>
 
-			<script
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(generateLocalBusinessStructuredData()),
-				}}
-			/>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(generateLocalBusinessStructuredData()),
+					}}
+				/>
 
-			<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-				{/* 头部导航 */}
-				<header className="bg-white shadow-sm border-b border-gray-200">
-					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-						<div className="flex items-center space-x-4">
-							<Link
-								href="/nextjs-features"
-								className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
-							>
-								<ArrowLeft className="w-5 h-5 mr-2" />
-								返回特性列表
-							</Link>
-							<div className="flex items-center space-x-3">
-								<div className="flex items-center space-x-2">
-									<Search className="w-8 h-8 text-blue-600" />
-									<Brain className="w-8 h-8 text-purple-600" />
-								</div>
-								<div>
-									<h1 className="text-3xl font-bold text-gray-900">
-										SEO 与 GEO 优化完整实战
-									</h1>
-									<p className="text-gray-600 mt-1">
-										传统搜索引擎优化与生成式AI优化的完美结合
-									</p>
+				<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+					{/* 头部导航 */}
+					<header className="border-gray-200 border-b bg-white shadow-sm">
+						<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+							<div className="flex items-center space-x-4">
+								<Link
+									href="/nextjs-features"
+									className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
+								>
+									<ArrowLeft className="mr-2 h-5 w-5" />
+									返回特性列表
+								</Link>
+								<div className="flex items-center space-x-3">
+									<div className="flex items-center space-x-2">
+										<Search className="h-8 w-8 text-blue-600" />
+										<Brain className="h-8 w-8 text-purple-600" />
+									</div>
+									<div>
+										<h1 className="font-bold text-3xl text-gray-900">SEO 与 GEO 优化完整实战</h1>
+										<p className="mt-1 text-gray-600">传统搜索引擎优化与生成式AI优化的完美结合</p>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</header>
+					</header>
 
-				<main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-					{/* 核心概念介绍 */}
-					<section aria-labelledby="intro-heading" className="mb-12">
-						<header className="text-center mb-8">
-							<h2
-								id="intro-heading"
-								className="text-2xl font-bold text-gray-900 mb-4"
-							>
-								理解 SEO 与 GEO 的核心差异
-							</h2>
-							<p className="text-lg text-gray-600 max-w-4xl mx-auto">
-								在AI时代，我们需要同时优化传统搜索引擎和生成式AI工具，实现全方位的搜索可见性
-							</p>
-						</header>
+					<main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+						{/* 核心概念介绍 */}
+						<section aria-labelledby="intro-heading" className="mb-12">
+							<header className="mb-8 text-center">
+								<h2 id="intro-heading" className="mb-4 font-bold text-2xl text-gray-900">
+									理解 SEO 与 GEO 的核心差异
+								</h2>
+								<p className="mx-auto max-w-4xl text-gray-600 text-lg">
+									在AI时代，我们需要同时优化传统搜索引擎和生成式AI工具，实现全方位的搜索可见性
+								</p>
+							</header>
 
-						<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-							<article className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-								<header className="flex items-center space-x-3 mb-4">
-									<Search className="w-8 h-8 text-blue-600" />
-									<h3 className="text-xl font-semibold text-blue-900">
-										传统 SEO 优化
-									</h3>
-								</header>
-								<div className="space-y-3 text-blue-800">
-									<p>
-										<strong>目标：</strong>提升在Google、百度等搜索引擎中的排名
-									</p>
-									<p>
-										<strong>策略：</strong>
-										关键词优化、技术SEO、内容质量、链接建设
-									</p>
-									<p>
-										<strong>衡量：</strong>搜索排名、点击率、流量、转化率
-									</p>
-									<p>
-										<strong>优势：</strong>成熟的优化体系，明确的ROI衡量标准
-									</p>
-								</div>
-							</article>
-
-							<article className="bg-purple-50 border border-purple-200 rounded-xl p-6">
-								<header className="flex items-center space-x-3 mb-4">
-									<Brain className="w-8 h-8 text-purple-600" />
-									<h3 className="text-xl font-semibold text-purple-900">
-										GEO 生成式AI优化
-									</h3>
-								</header>
-								<div className="space-y-3 text-purple-800">
-									<p>
-										<strong>目标：</strong>
-										提升在ChatGPT、Claude等AI工具中的引用率
-									</p>
-									<p>
-										<strong>策略：</strong>
-										E-E-A-T原则、结构化数据、内容权威性、AI友好格式
-									</p>
-									<p>
-										<strong>衡量：</strong>
-										AI引用次数、知识图谱收录、语音搜索表现
-									</p>
-									<p>
-										<strong>优势：</strong>
-										面向未来搜索趋势，"曝光即价值"的新模式
-									</p>
-								</div>
-							</article>
-						</div>
-					</section>
-
-					{/* 优化特性展示 */}
-					<section aria-labelledby="features-heading" className="mb-12">
-						<header className="mb-8">
-							<h2
-								id="features-heading"
-								className="text-2xl font-bold text-gray-900 mb-2"
-							>
-								完整优化策略
-							</h2>
-							<p className="text-gray-600">
-								涵盖技术SEO、内容策略、AI优化、地理位置等全方位优化
-							</p>
-						</header>
-
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-							{seoFeatures.map((feature) => (
-								<article
-									key={feature.id}
-									className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all p-6"
-								>
-									<header className="flex items-start justify-between mb-4">
-										<div className="flex items-center space-x-3">
-											<div className="text-blue-600">{feature.icon}</div>
-											<div>
-												<h3 className="text-lg font-semibold text-gray-900">
-													{feature.title}
-												</h3>
-												<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-													已实现
-												</span>
-											</div>
-										</div>
+							<div className="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
+								<article className="rounded-xl border border-blue-200 bg-blue-50 p-6">
+									<header className="mb-4 flex items-center space-x-3">
+										<Search className="h-8 w-8 text-blue-600" />
+										<h3 className="font-semibold text-blue-900 text-xl">传统 SEO 优化</h3>
 									</header>
-
-									<p className="text-gray-700 mb-4">{feature.description}</p>
-
-									<div className="mb-4">
-										<h4 className="font-medium text-gray-900 mb-2">
-											主要优势：
-										</h4>
-										<div className="flex flex-wrap gap-1">
-											{feature.benefits.map((benefit, index) => (
-												<span
-													key={index}
-													className="inline-flex items-center px-2 py-1 rounded text-xs bg-blue-100 text-blue-700"
-												>
-													{benefit}
-												</span>
-											))}
-										</div>
-									</div>
-
-									<div>
-										<h4 className="font-medium text-gray-900 mb-2">
-											实施示例：
-										</h4>
-										<div className="flex flex-wrap gap-1">
-											{feature.examples.map((example, index) => (
-												<span
-													key={index}
-													className="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700"
-												>
-													{example}
-												</span>
-											))}
-										</div>
+									<div className="space-y-3 text-blue-800">
+										<p>
+											<strong>目标：</strong>提升在Google、百度等搜索引擎中的排名
+										</p>
+										<p>
+											<strong>策略：</strong>
+											关键词优化、技术SEO、内容质量、链接建设
+										</p>
+										<p>
+											<strong>衡量：</strong>搜索排名、点击率、流量、转化率
+										</p>
+										<p>
+											<strong>优势：</strong>成熟的优化体系，明确的ROI衡量标准
+										</p>
 									</div>
 								</article>
-							))}
-						</div>
-					</section>
 
-					{/* How-To 实施指南 */}
-					<section aria-labelledby="howto-heading" className="mb-12">
-						<header className="mb-8">
-							<h2
-								id="howto-heading"
-								className="text-2xl font-bold text-gray-900 mb-2"
-							>
-								实施指南
-							</h2>
-							<p className="text-gray-600">按步骤实施完整的SEO与GEO优化策略</p>
-						</header>
+								<article className="rounded-xl border border-purple-200 bg-purple-50 p-6">
+									<header className="mb-4 flex items-center space-x-3">
+										<Brain className="h-8 w-8 text-purple-600" />
+										<h3 className="font-semibold text-purple-900 text-xl">GEO 生成式AI优化</h3>
+									</header>
+									<div className="space-y-3 text-purple-800">
+										<p>
+											<strong>目标：</strong>
+											提升在ChatGPT、Claude等AI工具中的引用率
+										</p>
+										<p>
+											<strong>策略：</strong>
+											E-E-A-T原则、结构化数据、内容权威性、AI友好格式
+										</p>
+										<p>
+											<strong>衡量：</strong>
+											AI引用次数、知识图谱收录、语音搜索表现
+										</p>
+										<p>
+											<strong>优势：</strong>
+											面向未来搜索趋势，"曝光即价值"的新模式
+										</p>
+									</div>
+								</article>
+							</div>
+						</section>
 
-						<div className="space-y-6">
-							{howToSteps.map((step, index) => (
-								<article
-									key={step.step}
-									className="bg-white rounded-lg shadow-sm border border-gray-200"
-								>
-									<div className="p-6">
-										<header className="flex items-start space-x-4">
-											<div className="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
-												{step.step}
-											</div>
-											<div className="flex-1">
-												<div className="flex items-center space-x-3 mb-2">
-													<h3 className="text-xl font-semibold text-gray-900">
-														{step.title}
-													</h3>
-													<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-														{step.difficulty}
+						{/* 优化特性展示 */}
+						<section aria-labelledby="features-heading" className="mb-12">
+							<header className="mb-8">
+								<h2 id="features-heading" className="mb-2 font-bold text-2xl text-gray-900">
+									完整优化策略
+								</h2>
+								<p className="text-gray-600">涵盖技术SEO、内容策略、AI优化、地理位置等全方位优化</p>
+							</header>
+
+							<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+								{seoFeatures.map((feature) => (
+									<article
+										key={feature.id}
+										className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-md"
+									>
+										<header className="mb-4 flex items-start justify-between">
+											<div className="flex items-center space-x-3">
+												<div className="text-blue-600">{feature.icon}</div>
+												<div>
+													<h3 className="font-semibold text-gray-900 text-lg">{feature.title}</h3>
+													<span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 font-medium text-green-800 text-xs">
+														已实现
 													</span>
-													<div className="flex items-center text-sm text-gray-500">
-														<Clock className="w-4 h-4 mr-1" />
-														{step.duration}
-													</div>
-												</div>
-												<p className="text-gray-700 mb-4">{step.description}</p>
-
-												<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-													<div>
-														<h4 className="font-medium text-gray-900 mb-2">
-															所需工具：
-														</h4>
-														<div className="space-y-1">
-															{step.tools.map((tool, toolIndex) => (
-																<div
-																	key={toolIndex}
-																	className="flex items-center text-sm text-gray-600"
-																>
-																	<CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
-																	{tool}
-																</div>
-															))}
-														</div>
-													</div>
-
-													<div className="md:col-span-2">
-														<h4 className="font-medium text-gray-900 mb-2">
-															预期成果：
-														</h4>
-														<div className="space-y-1">
-															{step.outcomes.map((outcome, outcomeIndex) => (
-																<div
-																	key={outcomeIndex}
-																	className="flex items-center text-sm text-gray-600"
-																>
-																	<Zap className="w-4 h-4 mr-2 text-blue-500" />
-																	{outcome}
-																</div>
-															))}
-														</div>
-													</div>
 												</div>
 											</div>
 										</header>
-									</div>
-								</article>
-							))}
-						</div>
-					</section>
 
-					{/* FAQ 部分 */}
-					<section aria-labelledby="faq-heading" className="mb-12">
-						<header className="mb-8">
-							<h2
-								id="faq-heading"
-								className="text-2xl font-bold text-gray-900 mb-2"
-							>
-								常见问题解答
-							</h2>
-							<p className="text-gray-600">
-								关于SEO与GEO优化的常见疑问和专业解答
-							</p>
-						</header>
+										<p className="mb-4 text-gray-700">{feature.description}</p>
 
-						<div className="space-y-4">
-							{faqData.map((faq, index) => (
-								<article
-									key={index}
-									className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
-								>
-									<header className="mb-3">
-										<h3 className="text-lg font-semibold text-gray-900">
-											{faq.question}
-										</h3>
-									</header>
-									<div className="text-gray-700">{faq.answer}</div>
-								</article>
-							))}
-						</div>
-					</section>
+										<div className="mb-4">
+											<h4 className="mb-2 font-medium text-gray-900">主要优势：</h4>
+											<div className="flex flex-wrap gap-1">
+												{feature.benefits.map((benefit, index) => (
+													<span
+														key={index}
+														className="inline-flex items-center rounded bg-blue-100 px-2 py-1 text-blue-700 text-xs"
+													>
+														{benefit}
+													</span>
+												))}
+											</div>
+										</div>
 
-					{/* 性能指标和验证 */}
-					<section aria-labelledby="metrics-heading" className="mb-12">
-						<header className="mb-8">
-							<h2
-								id="metrics-heading"
-								className="text-2xl font-bold text-gray-900 mb-2"
-							>
-								性能指标验证
-							</h2>
-							<p className="text-gray-600">如何验证和监控SEO与GEO优化效果</p>
-						</header>
+										<div>
+											<h4 className="mb-2 font-medium text-gray-900">实施示例：</h4>
+											<div className="flex flex-wrap gap-1">
+												{feature.examples.map((example, index) => (
+													<span
+														key={index}
+														className="inline-flex items-center rounded bg-gray-100 px-2 py-1 text-gray-700 text-xs"
+													>
+														{example}
+													</span>
+												))}
+											</div>
+										</div>
+									</article>
+								))}
+							</div>
+						</section>
 
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-							<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-								<h3 className="text-lg font-semibold text-gray-900 mb-4">
-									SEO 指标监控
-								</h3>
-								<div className="space-y-3">
-									<div className="flex items-center justify-between">
-										<span className="text-gray-600">Google Search Console</span>
-										<span className="text-green-600 font-medium">已配置</span>
+						{/* How-To 实施指南 */}
+						<section aria-labelledby="howto-heading" className="mb-12">
+							<header className="mb-8">
+								<h2 id="howto-heading" className="mb-2 font-bold text-2xl text-gray-900">
+									实施指南
+								</h2>
+								<p className="text-gray-600">按步骤实施完整的SEO与GEO优化策略</p>
+							</header>
+
+							<div className="space-y-6">
+								{howToSteps.map((step, index) => (
+									<article key={step.step} className="rounded-lg border border-gray-200 bg-white shadow-sm">
+										<div className="p-6">
+											<header className="flex items-start space-x-4">
+												<div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 font-bold text-lg text-white">
+													{step.step}
+												</div>
+												<div className="flex-1">
+													<div className="mb-2 flex items-center space-x-3">
+														<h3 className="font-semibold text-gray-900 text-xl">{step.title}</h3>
+														<span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 font-medium text-xs text-yellow-800">
+															{step.difficulty}
+														</span>
+														<div className="flex items-center text-gray-500 text-sm">
+															<Clock className="mr-1 h-4 w-4" />
+															{step.duration}
+														</div>
+													</div>
+													<p className="mb-4 text-gray-700">{step.description}</p>
+
+													<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+														<div>
+															<h4 className="mb-2 font-medium text-gray-900">所需工具：</h4>
+															<div className="space-y-1">
+																{step.tools.map((tool, toolIndex) => (
+																	<div key={toolIndex} className="flex items-center text-gray-600 text-sm">
+																		<CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
+																		{tool}
+																	</div>
+																))}
+															</div>
+														</div>
+
+														<div className="md:col-span-2">
+															<h4 className="mb-2 font-medium text-gray-900">预期成果：</h4>
+															<div className="space-y-1">
+																{step.outcomes.map((outcome, outcomeIndex) => (
+																	<div key={outcomeIndex} className="flex items-center text-gray-600 text-sm">
+																		<Zap className="mr-2 h-4 w-4 text-blue-500" />
+																		{outcome}
+																	</div>
+																))}
+															</div>
+														</div>
+													</div>
+												</div>
+											</header>
+										</div>
+									</article>
+								))}
+							</div>
+						</section>
+
+						{/* FAQ 部分 */}
+						<section aria-labelledby="faq-heading" className="mb-12">
+							<header className="mb-8">
+								<h2 id="faq-heading" className="mb-2 font-bold text-2xl text-gray-900">
+									常见问题解答
+								</h2>
+								<p className="text-gray-600">关于SEO与GEO优化的常见疑问和专业解答</p>
+							</header>
+
+							<div className="space-y-4">
+								{faqData.map((faq, index) => (
+									<article key={index} className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+										<header className="mb-3">
+											<h3 className="font-semibold text-gray-900 text-lg">{faq.question}</h3>
+										</header>
+										<div className="text-gray-700">{faq.answer}</div>
+									</article>
+								))}
+							</div>
+						</section>
+
+						{/* 性能指标和验证 */}
+						<section aria-labelledby="metrics-heading" className="mb-12">
+							<header className="mb-8">
+								<h2 id="metrics-heading" className="mb-2 font-bold text-2xl text-gray-900">
+									性能指标验证
+								</h2>
+								<p className="text-gray-600">如何验证和监控SEO与GEO优化效果</p>
+							</header>
+
+							<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+									<h3 className="mb-4 font-semibold text-gray-900 text-lg">SEO 指标监控</h3>
+									<div className="space-y-3">
+										<div className="flex items-center justify-between">
+											<span className="text-gray-600">Google Search Console</span>
+											<span className="font-medium text-green-600">已配置</span>
+										</div>
+										<div className="flex items-center justify-between">
+											<span className="text-gray-600">Core Web Vitals</span>
+											<span className="font-medium text-green-600">全部达标</span>
+										</div>
+										<div className="flex items-center justify-between">
+											<span className="text-gray-600">结构化数据验证</span>
+											<span className="font-medium text-green-600">无错误</span>
+										</div>
+										<div className="flex items-center justify-between">
+											<span className="text-gray-600">移动端友好性</span>
+											<span className="font-medium text-green-600">100分</span>
+										</div>
+										<div className="flex items-center justify-between">
+											<span className="text-gray-600">页面速度</span>
+											<span className="font-medium text-green-600">&lt;3秒</span>
+										</div>
 									</div>
-									<div className="flex items-center justify-between">
-										<span className="text-gray-600">Core Web Vitals</span>
-										<span className="text-green-600 font-medium">全部达标</span>
-									</div>
-									<div className="flex items-center justify-between">
-										<span className="text-gray-600">结构化数据验证</span>
-										<span className="text-green-600 font-medium">无错误</span>
-									</div>
-									<div className="flex items-center justify-between">
-										<span className="text-gray-600">移动端友好性</span>
-										<span className="text-green-600 font-medium">100分</span>
-									</div>
-									<div className="flex items-center justify-between">
-										<span className="text-gray-600">页面速度</span>
-										<span className="text-green-600 font-medium">&lt;3秒</span>
+								</div>
+
+								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+									<h3 className="mb-4 font-semibold text-gray-900 text-lg">GEO 优化验证</h3>
+									<div className="space-y-3">
+										<div className="flex items-center justify-between">
+											<span className="text-gray-600">E-E-A-T 原则实施</span>
+											<span className="font-medium text-green-600">完整体现</span>
+										</div>
+										<div className="flex items-center justify-between">
+											<span className="text-gray-600">AI 工具引用率</span>
+											<span className="font-medium text-green-600">持续监测</span>
+										</div>
+										<div className="flex items-center justify-between">
+											<span className="text-gray-600">知识图谱收录</span>
+											<span className="font-medium text-green-600">已收录</span>
+										</div>
+										<div className="flex items-center justify-between">
+											<span className="text-gray-600">内容权威性评分</span>
+											<span className="font-medium text-green-600">优秀</span>
+										</div>
+										<div className="flex items-center justify-between">
+											<span className="text-gray-600">结构化数据覆盖率</span>
+											<span className="font-medium text-green-600">100%</span>
+										</div>
 									</div>
 								</div>
 							</div>
+						</section>
 
-							<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-								<h3 className="text-lg font-semibold text-gray-900 mb-4">
-									GEO 优化验证
-								</h3>
-								<div className="space-y-3">
-									<div className="flex items-center justify-between">
-										<span className="text-gray-600">E-E-A-T 原则实施</span>
-										<span className="text-green-600 font-medium">完整体现</span>
-									</div>
-									<div className="flex items-center justify-between">
-										<span className="text-gray-600">AI 工具引用率</span>
-										<span className="text-green-600 font-medium">持续监测</span>
-									</div>
-									<div className="flex items-center justify-between">
-										<span className="text-gray-600">知识图谱收录</span>
-										<span className="text-green-600 font-medium">已收录</span>
-									</div>
-									<div className="flex items-center justify-between">
-										<span className="text-gray-600">内容权威性评分</span>
-										<span className="text-green-600 font-medium">优秀</span>
-									</div>
-									<div className="flex items-center justify-between">
-										<span className="text-gray-600">结构化数据覆盖率</span>
-										<span className="text-green-600 font-medium">100%</span>
-									</div>
+						{/* 工具和资源 */}
+						<section aria-labelledby="tools-heading" className="mb-12">
+							<header className="mb-8">
+								<h2 id="tools-heading" className="mb-2 font-bold text-2xl text-gray-900">
+									推荐工具和资源
+								</h2>
+								<p className="text-gray-600">实施SEO与GEO优化的必备工具和参考资料</p>
+							</header>
+
+							<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+									<h3 className="mb-4 font-semibold text-gray-900 text-lg">SEO 工具</h3>
+									<ul className="space-y-2 text-gray-700">
+										<li>• Google Search Console</li>
+										<li>• Google Analytics</li>
+										<li>• Screaming Frog SEO Spider</li>
+										<li>• Ahrefs / SEMrush</li>
+										<li>• PageSpeed Insights</li>
+										<li>• Schema.org 验证器</li>
+									</ul>
+								</div>
+
+								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+									<h3 className="mb-4 font-semibold text-gray-900 text-lg">GEO 工具</h3>
+									<ul className="space-y-2 text-gray-700">
+										<li>• ChatGPT 引用跟踪</li>
+										<li>• AI 内容分析工具</li>
+										<li>• 知识图谱查询工具</li>
+										<li>• 语音搜索模拟器</li>
+										<li>• E-E-A-T 评估工具</li>
+										<li>• 内容权威性检测器</li>
+									</ul>
+								</div>
+
+								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+									<h3 className="mb-4 font-semibold text-gray-900 text-lg">学习资源</h3>
+									<ul className="space-y-2 text-gray-700">
+										<li>• Google 搜索中心文档</li>
+										<li>• Schema.org 官方指南</li>
+										<li>• Next.js SEO 最佳实践</li>
+										<li>• E-E-A-T 指南更新</li>
+										<li>• AI 搜索趋势报告</li>
+										<li>• GEO 优化案例研究</li>
+									</ul>
 								</div>
 							</div>
-						</div>
-					</section>
-
-					{/* 工具和资源 */}
-					<section aria-labelledby="tools-heading" className="mb-12">
-						<header className="mb-8">
-							<h2
-								id="tools-heading"
-								className="text-2xl font-bold text-gray-900 mb-2"
-							>
-								推荐工具和资源
-							</h2>
-							<p className="text-gray-600">
-								实施SEO与GEO优化的必备工具和参考资料
-							</p>
-						</header>
-
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-							<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-								<h3 className="text-lg font-semibold text-gray-900 mb-4">
-									SEO 工具
-								</h3>
-								<ul className="space-y-2 text-gray-700">
-									<li>• Google Search Console</li>
-									<li>• Google Analytics</li>
-									<li>• Screaming Frog SEO Spider</li>
-									<li>• Ahrefs / SEMrush</li>
-									<li>• PageSpeed Insights</li>
-									<li>• Schema.org 验证器</li>
-								</ul>
-							</div>
-
-							<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-								<h3 className="text-lg font-semibold text-gray-900 mb-4">
-									GEO 工具
-								</h3>
-								<ul className="space-y-2 text-gray-700">
-									<li>• ChatGPT 引用跟踪</li>
-									<li>• AI 内容分析工具</li>
-									<li>• 知识图谱查询工具</li>
-									<li>• 语音搜索模拟器</li>
-									<li>• E-E-A-T 评估工具</li>
-									<li>• 内容权威性检测器</li>
-								</ul>
-							</div>
-
-							<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-								<h3 className="text-lg font-semibold text-gray-900 mb-4">
-									学习资源
-								</h3>
-								<ul className="space-y-2 text-gray-700">
-									<li>• Google 搜索中心文档</li>
-									<li>• Schema.org 官方指南</li>
-									<li>• Next.js SEO 最佳实践</li>
-									<li>• E-E-A-T 指南更新</li>
-									<li>• AI 搜索趋势报告</li>
-									<li>• GEO 优化案例研究</li>
-								</ul>
-							</div>
-						</div>
-					</section>
-				</main>
-			</div>
-		</>
-	</Layout>
+						</section>
+					</main>
+				</div>
+			</>
+		</Layout>
 	);
 }

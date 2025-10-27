@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState } from "react";
 
 interface ControlPanelProps {
 	onScrubChange?: (scrub: boolean) => void;
@@ -10,12 +10,7 @@ interface ControlPanelProps {
 	onSpeedChange?: (speed: number) => void;
 }
 
-export default function ControlPanel({
-	onScrubChange,
-	onMarkersChange,
-	onRefresh,
-	onSpeedChange,
-}: ControlPanelProps) {
+export default function ControlPanel({ onScrubChange, onMarkersChange, onRefresh, onSpeedChange }: ControlPanelProps) {
 	const [scrubValue, setScrubValue] = useState(true);
 	const [markers, setMarkers] = useState(false);
 	const [speed, setSpeed] = useState(1);
@@ -386,9 +381,7 @@ export default function ControlPanel({
 						}}
 					>
 						<div>ScrollTrigger 实例: {ScrollTrigger.getAll().length}</div>
-						<div>
-							当前配置: {JSON.stringify({ scrub: scrubValue, markers, speed })}
-						</div>
+						<div>当前配置: {JSON.stringify({ scrub: scrubValue, markers, speed })}</div>
 					</div>
 				</div>
 			</div>

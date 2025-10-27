@@ -2,7 +2,7 @@
  * 图片格式导出功能
  */
 
-import { ExportOptions } from "@/types/export";
+import type { ExportOptions } from "@/types/export";
 
 // 动态导入库
 const importHtml2canvas = async () => {
@@ -14,10 +14,7 @@ export class ImageExporter {
 	/**
 	 * 导出为PNG格式
 	 */
-	static async exportToPng(
-		element: HTMLElement,
-		options?: ExportOptions,
-	): Promise<Blob> {
+	static async exportToPng(element: HTMLElement, options?: ExportOptions): Promise<Blob> {
 		try {
 			const html2canvas = await importHtml2canvas();
 
@@ -50,10 +47,7 @@ export class ImageExporter {
 	/**
 	 * 导出为JPG格式
 	 */
-	static async exportToJpg(
-		element: HTMLElement,
-		options?: ExportOptions,
-	): Promise<Blob> {
+	static async exportToJpg(element: HTMLElement, options?: ExportOptions): Promise<Blob> {
 		try {
 			const html2canvas = await importHtml2canvas();
 
@@ -87,7 +81,7 @@ export class ImageExporter {
 	 * 导出为SVG格式
 	 */
 	static exportToSvg(element: HTMLElement, options?: ExportOptions): string {
-		const svg = this.createSvgFromElement(element, options);
+		const svg = ImageExporter.createSvgFromElement(element, options);
 		return svg;
 	}
 
@@ -120,11 +114,8 @@ export class ImageExporter {
 	/**
 	 * 截图功能
 	 */
-	static async captureScreenshot(
-		element: HTMLElement,
-		options?: ExportOptions,
-	): Promise<Blob> {
-		return this.exportToPng(element, {
+	static async captureScreenshot(element: HTMLElement, options?: ExportOptions): Promise<Blob> {
+		return ImageExporter.exportToPng(element, {
 			...options,
 			scale: options?.scale || 1,
 			quality: options?.quality || 0.9,
@@ -134,11 +125,8 @@ export class ImageExporter {
 	/**
 	 * 高分辨率截图
 	 */
-	static async captureHighResScreenshot(
-		element: HTMLElement,
-		options?: ExportOptions,
-	): Promise<Blob> {
-		return this.exportToPng(element, {
+	static async captureHighResScreenshot(element: HTMLElement, options?: ExportOptions): Promise<Blob> {
+		return ImageExporter.exportToPng(element, {
 			...options,
 			scale: options?.scale || 4,
 			quality: options?.quality || 1.0,
@@ -148,10 +136,7 @@ export class ImageExporter {
 	/**
 	 * 创建SVG从HTML元素
 	 */
-	private static createSvgFromElement(
-		element: HTMLElement,
-		options?: ExportOptions,
-	): string {
+	private static createSvgFromElement(element: HTMLElement, options?: ExportOptions): string {
 		const rect = element.getBoundingClientRect();
 		const width = rect.width;
 		const height = rect.height;
@@ -179,12 +164,7 @@ export class ImageExporter {
 	/**
 	 * 调整图片尺寸
 	 */
-	static async resizeImage(
-		blob: Blob,
-		width: number,
-		height: number,
-		options?: ExportOptions,
-	): Promise<Blob> {
+	static async resizeImage(blob: Blob, width: number, height: number, options?: ExportOptions): Promise<Blob> {
 		return new Promise((resolve, reject) => {
 			const img = new Image();
 			img.onload = () => {
@@ -227,11 +207,7 @@ export class ImageExporter {
 	/**
 	 * 添加水印
 	 */
-	static async addWatermark(
-		imageBlob: Blob,
-		watermark: string,
-		options?: ExportOptions,
-	): Promise<Blob> {
+	static async addWatermark(imageBlob: Blob, watermark: string, options?: ExportOptions): Promise<Blob> {
 		return new Promise((resolve, reject) => {
 			const img = new Image();
 			img.onload = () => {
@@ -306,8 +282,7 @@ export class ImageExporter {
 				ctx.drawImage(img, 0, 0);
 
 				const mimeType = `image/${toFormat}`;
-				const quality =
-					toFormat === "png" ? undefined : options?.quality || 0.8;
+				const quality = toFormat === "png" ? undefined : options?.quality || 0.8;
 
 				canvas.toBlob(
 					(blob: Blob | null) => {
@@ -329,9 +304,7 @@ export class ImageExporter {
 	/**
 	 * 获取图片信息
 	 */
-	static async getImageInfo(
-		blob: Blob,
-	): Promise<{ width: number; height: number; size: number; type: string }> {
+	static async getImageInfo(blob: Blob): Promise<{ width: number; height: number; size: number; type: string }> {
 		return new Promise((resolve, reject) => {
 			const img = new Image();
 			img.onload = () => {

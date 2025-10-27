@@ -76,16 +76,7 @@ const getBrowserInfo = (): string => {
 const detectBot = (): boolean => {
 	if (typeof window === "undefined") return false;
 
-	const botPatterns = [
-		/bot/i,
-		/crawler/i,
-		/spider/i,
-		/scraper/i,
-		/curl/i,
-		/wget/i,
-		/postman/i,
-		/insomnia/i,
-	];
+	const botPatterns = [/bot/i, /crawler/i, /spider/i, /scraper/i, /curl/i, /wget/i, /postman/i, /insomnia/i];
 
 	return botPatterns.some((pattern) => pattern.test(navigator.userAgent));
 };
@@ -99,20 +90,11 @@ export const collectDeviceInfo = async (): Promise<DeviceInfo> => {
 		name: `${getPlatformInfo()} - ${getBrowserInfo()}`,
 		userAgent: typeof window !== "undefined" ? navigator.userAgent : "server",
 		platform: typeof window !== "undefined" ? navigator.platform : "server",
-		screenResolution:
-			typeof window !== "undefined"
-				? `${screen.width}x${screen.height}`
-				: "unknown",
+		screenResolution: typeof window !== "undefined" ? `${screen.width}x${screen.height}` : "unknown",
 		colorDepth: typeof window !== "undefined" ? screen.colorDepth : 24,
-		timezone:
-			typeof window !== "undefined"
-				? Intl.DateTimeFormat().resolvedOptions().timeZone
-				: "UTC",
+		timezone: typeof window !== "undefined" ? Intl.DateTimeFormat().resolvedOptions().timeZone : "UTC",
 		language: typeof window !== "undefined" ? navigator.language : "en",
-		isMobile:
-			typeof window !== "undefined"
-				? /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
-				: false,
+		isMobile: typeof window !== "undefined" ? /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) : false,
 		isBot: detectBot(),
 	};
 };
@@ -125,17 +107,12 @@ export const findUser = (userId: string) => {
 // 查找用户 by username/email
 export const findUserByCredentials = (username: string, password: string) => {
 	// 在实际应用中，这里应该验证密码哈希
-	const user = mockUsers.find(
-		(u) => u.username === username || u.email === username,
-	);
+	const user = mockUsers.find((u) => u.username === username || u.email === username);
 	return user && password === "password123" ? user : null;
 };
 
 // 生成安全的JWT token
-export const generateAuthToken = (
-	userId: string,
-	deviceInfo: DeviceInfo,
-): string => {
+export const generateAuthToken = (userId: string, deviceInfo: DeviceInfo): string => {
 	const payload = {
 		userId,
 		deviceId: deviceInfo.id,

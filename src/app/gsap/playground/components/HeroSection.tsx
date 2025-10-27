@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,9 +10,7 @@ interface HeroSectionProps {
 	onScrollTriggerUpdate?: (progress: number) => void;
 }
 
-export default function HeroSection({
-	onScrollTriggerUpdate,
-}: HeroSectionProps) {
+export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps) {
 	const heroRef = useRef<HTMLDivElement>(null);
 	const titleRef = useRef<HTMLHeadingElement>(null);
 	const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -229,8 +227,7 @@ export default function HeroSection({
 			style={{
 				minHeight: "100vh",
 				position: "relative",
-				background:
-					"linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
+				background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
@@ -247,8 +244,7 @@ export default function HeroSection({
 					right: "-20%",
 					width: "80%",
 					height: "160%",
-					background:
-						"radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)",
+					background: "radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)",
 					borderRadius: "50%",
 					filter: "blur(40px)",
 				}}
@@ -262,8 +258,7 @@ export default function HeroSection({
 					left: "-10%",
 					width: "40%",
 					height: "40%",
-					background:
-						"radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%)",
+					background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%)",
 					borderRadius: "50%",
 					filter: "blur(30px)",
 				}}
@@ -316,12 +311,9 @@ export default function HeroSection({
 						textShadow: "0 2px 10px rgba(0,0,0,0.2)",
 					}}
 				>
-					体验 GSAP ScrollTrigger
-					带来的极致滚动体验，包含视差、固定、时间轴等多种效果。
+					体验 GSAP ScrollTrigger 带来的极致滚动体验，包含视差、固定、时间轴等多种效果。
 					<br />
-					<span style={{ fontSize: "0.9em", opacity: 0.8 }}>
-						向下滚动开始探索无限可能 ✨
-					</span>
+					<span style={{ fontSize: "0.9em", opacity: 0.8 }}>向下滚动开始探索无限可能 ✨</span>
 				</p>
 
 				<div

@@ -9,39 +9,21 @@ import SimpleGlass from "./SimpleGlass";
 const images = [img1, img2, img3];
 
 export default function BasicLiquidGlass() {
-	const [activeEffect, setActiveEffect] = useState<"simple" | "frosted">(
-		"simple",
-	);
+	const [activeEffect, setActiveEffect] = useState<"simple" | "frosted">("simple");
 
 	return (
 		<div className="absolute top-0 left-0 w-full">
 			{/* 三张背景图纵向平铺，每张占满一屏高度，无边距 */}
 			<section className="relative h-screen w-full">
-				<Image
-					src={images[0]}
-					alt="liquid-glass-bg-1"
-					fill
-					priority
-					className="object-cover"
-				/>
+				<Image src={images[0]} alt="liquid-glass-bg-1" fill priority className="object-cover" />
 			</section>
 
 			<section className="relative h-screen w-full">
-				<Image
-					src={images[1]}
-					alt="liquid-glass-bg-2"
-					fill
-					className="object-cover"
-				/>
+				<Image src={images[1]} alt="liquid-glass-bg-2" fill className="object-cover" />
 			</section>
 
 			<section className="relative h-screen w-full">
-				<Image
-					src={images[2]}
-					alt="liquid-glass-bg-3"
-					fill
-					className="object-cover"
-				/>
+				<Image src={images[2]} alt="liquid-glass-bg-3" fill className="object-cover" />
 			</section>
 
 			{/* 顶部效果选择器 */}
@@ -51,9 +33,7 @@ export default function BasicLiquidGlass() {
 						type="button"
 						onClick={() => setActiveEffect("simple")}
 						className={`rounded-xl px-6 py-3 font-medium transition-all ${
-							activeEffect === "simple"
-								? "bg-blue-600 text-white shadow-lg"
-								: "text-gray-700 hover:text-gray-900"
+							activeEffect === "simple" ? "bg-blue-600 text-white shadow-lg" : "text-gray-700 hover:text-gray-900"
 						}`}
 					>
 						简单玻璃
@@ -62,9 +42,7 @@ export default function BasicLiquidGlass() {
 						type="button"
 						onClick={() => setActiveEffect("frosted")}
 						className={`rounded-xl px-6 py-3 font-medium transition-all ${
-							activeEffect === "frosted"
-								? "bg-blue-600 text-white shadow-lg"
-								: "text-gray-700 hover:text-gray-900"
+							activeEffect === "frosted" ? "bg-blue-600 text-white shadow-lg" : "text-gray-700 hover:text-gray-900"
 						}`}
 					>
 						磨砂玻璃

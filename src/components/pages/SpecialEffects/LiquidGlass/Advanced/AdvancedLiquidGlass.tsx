@@ -11,31 +11,15 @@ export default function AdvancedLiquidGlass() {
 		<div className="absolute top-0 left-0 w-full">
 			{/* 三张背景图纵向平铺，每张占满一屏高度，无边距 */}
 			<section className="relative h-screen w-full">
-				<Image
-					src={images[0]}
-					alt="liquid-glass-bg-1"
-					fill
-					priority
-					className="object-cover"
-				/>
+				<Image src={images[0]} alt="liquid-glass-bg-1" fill priority className="object-cover" />
 			</section>
 
 			<section className="relative h-screen w-full">
-				<Image
-					src={images[1]}
-					alt="liquid-glass-bg-2"
-					fill
-					className="object-cover"
-				/>
+				<Image src={images[1]} alt="liquid-glass-bg-2" fill className="object-cover" />
 			</section>
 
 			<section className="relative h-screen w-full">
-				<Image
-					src={images[2]}
-					alt="liquid-glass-bg-3"
-					fill
-					className="object-cover"
-				/>
+				<Image src={images[2]} alt="liquid-glass-bg-3" fill className="object-cover" />
 			</section>
 			<LiquidGlass
 				width={380}

@@ -46,12 +46,7 @@ export default function I18n() {
 				<div>{t("hello")}</div>
 				<div>{t("welcome")}</div>
 			</div>
-			<LanguageLoader
-				isLoading={isLoading}
-				message="正在切换语言..."
-				variant="spinner"
-				size="medium"
-			/>
+			<LanguageLoader isLoading={isLoading} message="正在切换语言..." variant="spinner" size="medium" />
 		</div>
 	);
 }

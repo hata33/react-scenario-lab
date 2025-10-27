@@ -1,4 +1,4 @@
-import { FieldType, FieldTypeConfig, FormTemplate } from "./types";
+import { FieldType, type FieldTypeConfig, type FormTemplate } from "./types";
 
 // 字段类型配置
 export const FIELD_TYPES: FieldTypeConfig[] = [

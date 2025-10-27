@@ -3,10 +3,8 @@ import { type NextRequest, NextResponse } from "next/server";
 import { join } from "path";
 
 // 配置上传目录
-const UPLOAD_BASE_DIR =
-	process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
-const TEMP_BASE_DIR =
-	process.env.TEMP_BASE_DIR || join(process.cwd(), "..", "temp");
+const UPLOAD_BASE_DIR = process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
+const TEMP_BASE_DIR = process.env.TEMP_BASE_DIR || join(process.cwd(), "..", "temp");
 
 export async function POST(request: NextRequest) {
 	try {
@@ -18,10 +16,7 @@ export async function POST(request: NextRequest) {
 		const fileName = formData.get("fileName") as string;
 
 		if (!chunk || !fileHash || !fileName) {
-			return NextResponse.json(
-				{ success: false, message: "缺少必要参数" },
-				{ status: 400 },
-			);
+			return NextResponse.json({ success: false, message: "缺少必要参数" }, { status: 400 });
 		}
 
 		// 创建临时目录
@@ -46,9 +41,6 @@ export async function POST(request: NextRequest) {
 		});
 	} catch (error) {
 		console.error("分片上传失败:", error);
-		return NextResponse.json(
-			{ success: false, message: "分片上传失败" },
-			{ status: 500 },
-		);
+		return NextResponse.json({ success: false, message: "分片上传失败" }, { status: 500 });
 	}
 }

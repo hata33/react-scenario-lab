@@ -1,18 +1,23 @@
 "use client";
 
-import React, { useState, useCallback, useEffect, useMemo } from "react";
-import { useFormManager } from "./hooks/useFormManager";
-import FormHeader from "./components/FormHeader";
-import FieldLibrary from "./components/FieldLibrary";
-import FormBuilder from "./components/FormBuilder";
-import FieldProperties from "./components/FieldProperties";
-import FormPreview from "./components/FormPreview";
-import Layout from "@/components/Layout";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { OptimizedDndProvider } from "@/components/forms/builder/drag-drop-system";
-import { validationEngine, builtInRules } from "@/components/forms/validation/validation-engine";
-import { FormSchema, FormField as DynamicFormField, ConditionEvaluator, SchemaValidator } from "@/components/forms/dynamic-form/form-schema";
-import { FormField as BuilderFormField } from "./types";
+import {
+	ConditionEvaluator,
+	type FormField as DynamicFormField,
+	type FormSchema,
+	SchemaValidator,
+} from "@/components/forms/dynamic-form/form-schema";
+import { builtInRules, validationEngine } from "@/components/forms/validation/validation-engine";
 import VirtualFormRenderer from "@/components/forms/virtualization/virtual-form-renderer";
+import Layout from "@/components/Layout";
+import FieldLibrary from "./components/FieldLibrary";
+import FieldProperties from "./components/FieldProperties";
+import FormBuilder from "./components/FormBuilder";
+import FormHeader from "./components/FormHeader";
+import FormPreview from "./components/FormPreview";
+import { useFormManager } from "./hooks/useFormManager";
+import type { FormField as BuilderFormField } from "./types";
 
 export default function DynamicFormBuilder() {
 	const {
@@ -53,50 +58,56 @@ export default function DynamicFormBuilder() {
 				id: section.id,
 				title: section.title,
 				description: section.description,
-				fields: section.fields.map((field: BuilderFormField): DynamicFormField => ({
-					id: field.id,
-					type: field.type as any,
-					name: field.name,
-					label: field.label,
-					placeholder: field.placeholder,
-					description: field.description,
-					defaultValue: field.defaultValue,
-					options: field.options,
-					validation: field.validation && Array.isArray(field.validation) ? undefined : field.validation,
-					dependency: field.conditional ? {
-						showWhen: field.conditional ? [{
-							field: field.conditional.field,
-							operator: field.conditional.operator as any,
-							value: field.conditional.value
-						}] : undefined
-					} : undefined,
-					props: field.advanced || {}
-				}))
-			}))
+				fields: section.fields.map(
+					(field: BuilderFormField): DynamicFormField => ({
+						id: field.id,
+						type: field.type as any,
+						name: field.name,
+						label: field.label,
+						placeholder: field.placeholder,
+						description: field.description,
+						defaultValue: field.defaultValue,
+						options: field.options,
+						validation: field.validation && Array.isArray(field.validation) ? undefined : field.validation,
+						dependency: field.conditional
+							? {
+									showWhen: field.conditional
+										? [
+												{
+													field: field.conditional.field,
+													operator: field.conditional.operator as any,
+													value: field.conditional.value,
+												},
+											]
+										: undefined,
+								}
+							: undefined,
+						props: field.advanced || {},
+					}),
+				),
+			})),
 		};
 	}, []);
 
 	// 计算表单复杂度指标
 	const complexityMetrics = useMemo(() => {
-		const totalFields = formConfig.sections?.reduce((sum, section) =>
-			sum + (section.fields?.length || 0), 0
-		) || 0;
+		const totalFields = formConfig.sections?.reduce((sum, section) => sum + (section.fields?.length || 0), 0) || 0;
 
-		const hasComplexValidation = formConfig.sections?.some(section =>
-			section.fields?.some(field =>
-				(field.validation && 'custom' in field.validation && field.validation.custom) || field.conditional
-			)
-		) || false;
+		const hasComplexValidation =
+			formConfig.sections?.some((section) =>
+				section.fields?.some(
+					(field) => (field.validation && "custom" in field.validation && field.validation.custom) || field.conditional,
+				),
+			) || false;
 
-		const hasDependencies = formConfig.sections?.some(section =>
-			section.fields?.some(field => field.conditional)
-		) || false;
+		const hasDependencies =
+			formConfig.sections?.some((section) => section.fields?.some((field) => field.conditional)) || false;
 
 		return {
 			totalFields,
 			isComplex: totalFields > 50 || hasComplexValidation,
 			hasDependencies,
-			estimatedRenderTime: totalFields > 100 ? totalFields * 2 : totalFields
+			estimatedRenderTime: totalFields > 100 ? totalFields * 2 : totalFields,
 		};
 	}, [formConfig]);
 
@@ -119,8 +130,8 @@ export default function DynamicFormBuilder() {
 				const context = {
 					formData,
 					fieldPath: field.name,
-					triggerType: 'submit' as const,
-					globalContext: {}
+					triggerType: "submit" as const,
+					globalContext: {},
 				};
 
 				// 注册验证规则
@@ -128,19 +139,21 @@ export default function DynamicFormBuilder() {
 
 				// 检查validation规则是否为数组格式
 				const validationRules = Array.isArray(field.validation) ? field.validation : [];
-				const hasRequired = validationRules.some((rule: any) => rule.type === 'required');
+				const hasRequired = validationRules.some((rule: any) => rule.type === "required");
 
 				if (hasRequired) {
 					rules.push(builtInRules.required);
 				}
 
-				if (field.type === 'email' && hasRequired) {
+				if (field.type === "email" && hasRequired) {
 					rules.push(builtInRules.email);
 				}
 
 				// 添加自定义验证规则 - 支持新的验证格式
-				if (field.validation && 'custom' in field.validation && field.validation.custom) {
-					const customRules = Array.isArray(field.validation.custom) ? field.validation.custom : [field.validation.custom];
+				if (field.validation && "custom" in field.validation && field.validation.custom) {
+					const customRules = Array.isArray(field.validation.custom)
+						? field.validation.custom
+						: [field.validation.custom];
 					for (const customRule of customRules) {
 						try {
 							// 动态加载自定义验证器
@@ -151,15 +164,19 @@ export default function DynamicFormBuilder() {
 									const result = customValidator(value, context);
 									return {
 										isValid: result.isValid,
-										errors: result.isValid ? [] : [{
-											field: context.fieldPath,
-											message: customRule.message,
-											code: customRule.name,
-											severity: 'error' as const
-										}]
+										errors: result.isValid
+											? []
+											: [
+													{
+														field: context.fieldPath,
+														message: customRule.message,
+														code: customRule.name,
+														severity: "error" as const,
+													},
+												],
 									};
 								},
-								async: customRule.async || false
+								async: customRule.async || false,
 							});
 						} catch (error) {
 							console.warn(`Failed to load custom validator: ${customRule.name}`, error);
@@ -173,7 +190,7 @@ export default function DynamicFormBuilder() {
 					results[field.name] = result;
 
 					if (!result.isValid) {
-						enhancedErrors[field.name] = result.errors.map(e => e.message);
+						enhancedErrors[field.name] = result.errors.map((e) => e.message);
 					}
 				}
 			}
@@ -187,38 +204,39 @@ export default function DynamicFormBuilder() {
 			// 示例：密码确认验证
 			crossFieldRules.push({
 				rule: {
-					name: 'password-confirm',
+					name: "password-confirm",
 					validate: (values: any) => {
 						const isValid = values.password === values.confirmPassword;
 						return {
 							isValid,
-							errors: isValid ? [] : [{
-								field: 'confirmPassword',
-								message: '两次输入的密码不一致',
-								code: 'PASSWORD_MISMATCH',
-								severity: 'error' as const
-							}]
+							errors: isValid
+								? []
+								: [
+										{
+											field: "confirmPassword",
+											message: "两次输入的密码不一致",
+											code: "PASSWORD_MISMATCH",
+											severity: "error" as const,
+										},
+									],
 						};
-					}
+					},
 				},
-				fields: ['password', 'confirmPassword']
+				fields: ["password", "confirmPassword"],
 			});
 		}
 
 		if (crossFieldRules.length > 0) {
-			const crossFieldResult = await validationEngine.validateCrossFields?.(
-				crossFieldRules,
-				{
-					formData,
-					fieldPath: 'cross-field-validation',
-					triggerType: 'submit',
-					globalContext: {}
-				}
-			);
+			const crossFieldResult = await validationEngine.validateCrossFields?.(crossFieldRules, {
+				formData,
+				fieldPath: "cross-field-validation",
+				triggerType: "submit",
+				globalContext: {},
+			});
 
 			if (!crossFieldResult.isValid) {
-				crossFieldResult.errors.forEach(error => {
-					const fieldName = error.field.split(',')[0];
+				crossFieldResult.errors.forEach((error) => {
+					const fieldName = error.field.split(",")[0];
 					if (!enhancedErrors[fieldName]) {
 						enhancedErrors[fieldName] = [];
 					}
@@ -232,11 +250,11 @@ export default function DynamicFormBuilder() {
 
 		// 更新错误状态
 		const finalErrors: Record<string, string[]> = {};
-		Object.keys(errors).forEach(key => {
+		Object.keys(errors).forEach((key) => {
 			finalErrors[key] = enhancedErrors[key] || errors[key] || [];
 		});
 
-		Object.keys(enhancedErrors).forEach(key => {
+		Object.keys(enhancedErrors).forEach((key) => {
 			finalErrors[key] = enhancedErrors[key];
 		});
 
@@ -244,14 +262,17 @@ export default function DynamicFormBuilder() {
 	}, [formConfig, formData, errors]);
 
 	// 拖拽增强功能
-	const handleComponentDrop = useCallback((item: any, position: { x: number; y: number }) => {
-		// 这里可以添加更复杂的拖拽逻辑，比如碰撞检测、自动布局等
-		console.log('Enhanced drop:', item, position);
-		// 调用原有的 addField 函数
-		if (item.componentType) {
-			addField(item.componentType as any);
-		}
-	}, [addField]);
+	const handleComponentDrop = useCallback(
+		(item: any, position: { x: number; y: number }) => {
+			// 这里可以添加更复杂的拖拽逻辑，比如碰撞检测、自动布局等
+			console.log("Enhanced drop:", item, position);
+			// 调用原有的 addField 函数
+			if (item.componentType) {
+				addField(item.componentType as any);
+			}
+		},
+		[addField],
+	);
 
 	// 性能监控
 	const performanceMetrics = useMemo(() => {
@@ -259,9 +280,9 @@ export default function DynamicFormBuilder() {
 
 		return {
 			...complexityMetrics,
-			validationTime: Object.keys(validationResults).length > 0 ? '已计算' : '未计算',
-			renderTime: isVirtualMode ? '虚拟化渲染' : '标准渲染',
-			lastUpdated: new Date().toLocaleTimeString()
+			validationTime: Object.keys(validationResults).length > 0 ? "已计算" : "未计算",
+			renderTime: isVirtualMode ? "虚拟化渲染" : "标准渲染",
+			lastUpdated: new Date().toLocaleTimeString(),
 		};
 	}, [complexityMetrics, validationResults, isVirtualMode]);
 
@@ -281,30 +302,27 @@ export default function DynamicFormBuilder() {
 						onToggleVirtualMode={() => setIsVirtualMode(!isVirtualMode)}
 					/>
 
-					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+					<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 						{/* 性能指标显示 */}
 						{(complexityMetrics.isComplex || complexValidation) && (
-							<div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+							<div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
 								<div className="flex items-center justify-between">
 									<div>
-										<h3 className="text-sm font-medium text-blue-900">性能指标</h3>
-										<div className="text-xs text-blue-700 mt-1">
-											总字段: {complexityMetrics.totalFields} |
-											渲染模式: {performanceMetrics.renderTime} |
-											复杂验证: {complexValidation ? '启用' : '禁用'}
+										<h3 className="font-medium text-blue-900 text-sm">性能指标</h3>
+										<div className="mt-1 text-blue-700 text-xs">
+											总字段: {complexityMetrics.totalFields} | 渲染模式: {performanceMetrics.renderTime} | 复杂验证:{" "}
+											{complexValidation ? "启用" : "禁用"}
 										</div>
 									</div>
 									{complexityMetrics.totalFields > 100 && (
-										<div className="text-xs text-blue-600">
-											提示: 字段较多，已启用虚拟化渲染
-										</div>
+										<div className="text-blue-600 text-xs">提示: 字段较多，已启用虚拟化渲染</div>
 									)}
 								</div>
 							</div>
 						)}
 
 						{mode === "builder" ? (
-							<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+							<div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
 								{/* 左侧：字段选择器 */}
 								<div className="lg:col-span-1">
 									<FieldLibrary
@@ -318,25 +336,28 @@ export default function DynamicFormBuilder() {
 								{/* 中间：表单构建区 */}
 								<div className="lg:col-span-2">
 									{isVirtualMode ? (
-										<div className="bg-white rounded-lg shadow-sm p-4">
-											<h3 className="text-lg font-semibold text-gray-900 mb-2">虚拟化渲染模式</h3>
+										<div className="rounded-lg bg-white p-4 shadow-sm">
+											<h3 className="mb-2 font-semibold text-gray-900 text-lg">虚拟化渲染模式</h3>
 											<VirtualFormRenderer
 												schema={convertToFormSchema(formConfig)}
 												state={{
 													values: formData,
-													errors: Object.keys(errors).reduce((acc, key) => ({
-														...acc,
-														[key]: Array.isArray(errors[key]) ? errors[key] : [errors[key]]
-													}), {}),
+													errors: Object.keys(errors).reduce(
+														(acc, key) => ({
+															...acc,
+															[key]: Array.isArray(errors[key]) ? errors[key] : [errors[key]],
+														}),
+														{},
+													),
 													touched: {},
 													isValidating: {},
 													isVisible: {},
 													isDisabled: {},
-													sections: {}
+													sections: {},
 												}}
 												onFieldChange={handleFieldChange}
-												onFieldBlur={(fieldId) => console.log('Field blur:', fieldId)}
-												onFieldFocus={(fieldId) => console.log('Field focus:', fieldId)}
+												onFieldBlur={(fieldId) => console.log("Field blur:", fieldId)}
+												onFieldFocus={(fieldId) => console.log("Field focus:", fieldId)}
 											/>
 										</div>
 									) : (

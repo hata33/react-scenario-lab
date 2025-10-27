@@ -4,11 +4,7 @@ import { sessionManager, validateSceneId } from "@/lib/session";
 
 export async function POST(request: NextRequest) {
 	try {
-		const {
-			sceneId,
-			userId,
-			deviceInfo: clientDeviceInfo,
-		} = await request.json();
+		const { sceneId, userId, deviceInfo: clientDeviceInfo } = await request.json();
 
 		// 验证参数
 		if (!sceneId || !userId) {

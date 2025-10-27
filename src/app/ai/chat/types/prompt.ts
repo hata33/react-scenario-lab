@@ -97,10 +97,7 @@ export const DEFAULT_CATEGORIES: PromptCategory[] = [
 ];
 
 // 默认模板
-export const DEFAULT_TEMPLATES: Omit<
-	PromptTemplate,
-	"id" | "createdAt" | "updatedAt" | "usageCount"
->[] = [
+export const DEFAULT_TEMPLATES: Omit<PromptTemplate, "id" | "createdAt" | "updatedAt" | "usageCount">[] = [
 	{
 		title: "代码解释器",
 		content: `请解释以下代码的功能和工作原理：
