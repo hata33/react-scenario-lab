@@ -430,6 +430,11 @@ function ComplexComponentTreeDemo() {
 
 // 性能分析演示组件
 function PerformanceAnalysisDemo() {
+	type RenderTimeData = { component: string; time: number; status: string };
+	type ReRenderData = { component: string; count: number; status: string };
+	type PropsSizeData = { component: string; size: string; status: string };
+	type PerformanceData = RenderTimeData | ReRenderData | PropsSizeData;
+
 	const [analysisMode, setAnalysisMode] = useState(false);
 	const [selectedMetric, setSelectedMetric] = useState<"render-time" | "re-renders" | "props-size">("render-time");
 
@@ -476,6 +481,17 @@ function PerformanceAnalysisDemo() {
 	};
 
 	const currentData = performanceData[selectedMetric];
+
+	const getItemValue = (item: PerformanceData) => {
+		if (selectedMetric === "render-time" && "time" in item) {
+			return `${item.time}ms`;
+		} else if (selectedMetric === "re-renders" && "count" in item) {
+			return `${item.count}次`;
+		} else if (selectedMetric === "props-size" && "size" in item) {
+			return item.size;
+		}
+		return "";
+	};
 
 	return (
 		<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
@@ -529,8 +545,7 @@ function PerformanceAnalysisDemo() {
 										{item.component}
 									</span>
 									<span className={`font-bold ${getStatusColor(item.status)}`}>
-										{selectedMetric === "render-time" ? `${item.time}ms` :
-										 selectedMetric === "re-renders" ? `${item.count}次` : item.size}
+										{getItemValue(item)}
 									</span>
 								</div>
 								{item.status !== "good" && (

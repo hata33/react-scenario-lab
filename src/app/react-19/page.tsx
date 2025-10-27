@@ -237,7 +237,7 @@ export default function React19Overview() {
   const [selectedFeature, setSelectedFeature] = useState<string | null>(null);
   const [hoveredAdvantage, setHoveredAdvantage] = useState<string | null>(null);
 
-  const renderFeatureSection = (title, version, features) => (
+  const renderFeatureSection = (title: string, version: string, features: any[]) => (
     <div className="version-section" key={version}>
       <div className="version-header">
         <h2 className="version-title">
@@ -253,7 +253,7 @@ export default function React19Overview() {
       </div>
 
       <div className="features-grid">
-        {features.map((feature) => (
+        {features.map((feature: any) => (
           <div
             key={feature.id}
             className={`feature-card ${selectedFeature === feature.id ? 'selected' : ''}`}
@@ -276,7 +276,7 @@ export default function React19Overview() {
             <p>{feature.description}</p>
 
             <div className="feature-tags">
-              {feature.tags.map((tag, index) => (
+              {feature.tags.map((tag: any, index: number) => (
                 <span key={index} className="tag">{tag}</span>
               ))}
             </div>

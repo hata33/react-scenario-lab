@@ -920,10 +920,34 @@ function ProductMetadataDemo() {
 
 // 博客 SEO Demo
 function BlogSEODemo() {
-  const [blogPost, setBlogPost] = useState(null);
+  type BlogPost = {
+    title: string;
+    description: string;
+    author: string;
+    publishDate: string;
+    modifiedDate: string;
+    category: string;
+    tags: string[];
+    readTime: number;
+    wordCount: number;
+    language: string;
+    coverImage: string;
+    thumbnailImage: string;
+    featuredImage: string;
+    altText: string;
+    tableOfContents: string[];
+    codeLanguages: string[];
+    difficulty: string;
+    estimatedReading: number;
+    authorBio: string;
+    authorTwitter: string;
+    canonicalUrl: string;
+  };
+
+  const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
   const [seoScore, setSeoScore] = useState(0);
 
-  const defaultPost = {
+  const defaultPost: BlogPost = {
     title: '深入理解 React 19 的 use() Hook',
     description: '全面解析 React 19 中新引入的 use() Hook，了解其工作原理、使用场景和最佳实践。',
     author: 'React 专家',
@@ -957,7 +981,7 @@ function BlogSEODemo() {
     calculateSeoScore(defaultPost);
   }, []);
 
-  const calculateSeoScore = (post) => {
+  const calculateSeoScore = (post: BlogPost) => {
     let score = 0;
 
     // 标题长度检查 (30-60 字符最佳)
@@ -997,13 +1021,13 @@ function BlogSEODemo() {
     setSeoScore(score);
   };
 
-  const getScoreColor = (score) => {
+  const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-green-600';
     if (score >= 60) return 'text-yellow-600';
     return 'text-red-600';
   };
 
-  const getScoreMessage = (score) => {
+  const getScoreMessage = (score: number) => {
     if (score >= 80) return 'SEO 优化优秀';
     if (score >= 60) return 'SEO 优化良好';
     return '需要改进 SEO';

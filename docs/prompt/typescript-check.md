@@ -74,7 +74,7 @@ echo "🎉 所有检查通过，项目可以正常打包！"
 ## 成功标准
 
 - ✅ TypeScript检查无错误
-- ✅ `npx next build` 构建成功
+- ✅ 执行pnpm run type-check 然后解决对应的问题，直到执行后没有错误 
 - ✅ 项目可以正常启动和运行
 
 ---
