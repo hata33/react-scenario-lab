@@ -1,5 +1,5 @@
 # 使用 Node.js 作为基础镜像
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 
 # 设置工作目录
 WORKDIR /app
