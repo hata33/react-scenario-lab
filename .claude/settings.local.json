@@ -59,7 +59,9 @@
       "Bash(PORT=3002 pnpm dev:*)",
       "Bash(pnpm next dev:*)",
       "Bash(npx next dev:*)",
-      "Bash(pnpm type-check:*)"
+      "Bash(pnpm type-check:*)",
+      "Bash(find:*)",
+      "Bash(npx next build:*)"
     ],
     "deny": [],
     "ask": []

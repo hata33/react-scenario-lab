@@ -85,3 +85,104 @@ body {
 	overflow-y: auto;
 	min-height: 100vh;
 }
+
+/* 提升日间模式下文字对比度 */
+@media (prefers-color-scheme: light) {
+	/* 针对灰色文字增强对比度 */
+	.text-gray-600 {
+		color: #4b5563 !important;
+		font-weight: 500;
+	}
+
+	.text-gray-500 {
+		color: #6b7280 !important;
+		font-weight: 500;
+	}
+
+	/* 针对蓝色系文字增强对比度 */
+	.text-blue-600 {
+		color: #1d4ed8 !important;
+	}
+
+	.text-blue-700 {
+		color: #1d4ed8 !important;
+	}
+
+	.text-blue-800 {
+		color: #1e40af !important;
+	}
+
+	/* 针对绿色系文字增强对比度 */
+	.text-green-600 {
+		color: #059669 !important;
+	}
+
+	.text-green-700 {
+		color: #059669 !important;
+	}
+
+	.text-green-800 {
+		color: #065f46 !important;
+	}
+
+	/* 针对红色系文字增强对比度 */
+	.text-red-600 {
+		color: #dc2626 !important;
+	}
+
+	.text-red-700 {
+		color: #dc2626 !important;
+	}
+
+	.text-red-800 {
+		color: #991b1b !important;
+	}
+
+	/* 针对紫色系文字增强对比度 */
+	.text-purple-600 {
+		color: #7c3aed !important;
+	}
+
+	.text-purple-700 {
+		color: #7c3aed !important;
+	}
+
+	.text-purple-800 {
+		color: #6b21a8 !important;
+	}
+
+	/* 针对青色系文字增强对比度 */
+	.text-teal-600 {
+		color: #0d9488 !important;
+	}
+
+	.text-teal-700 {
+		color: #0d9488 !important;
+	}
+
+	.text-teal-800 {
+		color: #115e59 !important;
+	}
+}
+
+/* 暗色模式下不应用这些增强 */
+.dark .text-gray-600,
+.dark .text-gray-500,
+.dark .text-blue-600,
+.dark .text-blue-700,
+.dark .text-blue-800,
+.dark .text-green-600,
+.dark .text-green-700,
+.dark .text-green-800,
+.dark .text-red-600,
+.dark .text-red-700,
+.dark .text-red-800,
+.dark .text-purple-600,
+.dark .text-purple-700,
+.dark .text-purple-800,
+.dark .text-teal-600,
+.dark .text-teal-700,
+.dark .text-teal-800 {
+	color: revert !important;
+	font-weight: revert !important;
+}

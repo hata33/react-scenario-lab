@@ -114,6 +114,24 @@ export const routeGroups: RouteGroup[] = [
 		],
 	},
 	{
+		path: "react-19",
+		title: "React 19 新特性",
+		children: [
+			{ path: "actions", title: "Actions & Hooks" },
+			{ path: "use-hook", title: "use() Hook" },
+			{ path: "server-components", title: "服务端组件 (RSC)" },
+			{ path: "metadata", title: "文档元数据标签" },
+			{ path: "ref-as-prop", title: "ref 作为属性" },
+			{ path: "resource-preload", title: "资源预加载 API" },
+			{ path: "owner-stack", title: "Owner Stack 调试" },
+			{ path: "suspense-enhanced", title: "Suspense 增强" },
+			{ path: "activity-api", title: "Activity API" },
+			{ path: "use-effect-event", title: "useEffectEvent Hook" },
+			{ path: "cache-signals", title: "缓存信号" },
+			{ path: "compiler", title: "React Compiler" },
+		],
+	},
+	{
 		path: "rich-text",
 		title: "富文本编辑器",
 		children: [

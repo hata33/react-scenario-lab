@@ -164,6 +164,9 @@ importers:
       zod:
         specifier: ^4.1.12
         version: 4.1.12
+      zod-form-data:
+        specifier: ^3.0.1
+        version: 3.0.1(zod@4.1.12)
       zustand:
         specifier: ^5.0.8
         version: 5.0.8(@types/react@19.1.10)(react@19.1.1)
@@ -1912,6 +1915,9 @@ packages:
     resolution: {integrity: sha512-TAcgQh2sSkykPRWLrdyy2AiceMckNf5loITqXxFI5VuQjS5tSuw3WlwdN8qv8vzjLAUTvYaH/mVjSFpbkFbpTg==}
     cpu: [x64]
     os: [win32]
+
+  '@rvf/set-get@7.0.1':
+    resolution: {integrity: sha512-GkTSn9K1GrTYoTUqlUs36k6nJnzjQaFBTTEIqUYmzBcsGsoJM8xG7EAx2WLHWAA4QzFjcwWUSHQ3vM3Fbw50Tg==}
 
   '@sentry-internal/browser-utils@10.20.0':
     resolution: {integrity: sha512-9+NybrYs+dEM2iW5uRAYEhKkNK0XhDea5jovtDUXEvdSCMJFcdR88uztkftnCur45/hpvbgSULsGPUdHPb5ITw==}
@@ -6504,6 +6510,11 @@ packages:
   zeebe-bpmn-moddle@1.11.0:
     resolution: {integrity: sha512-v2PkIAjyZEnzuFHrm9ZhpbEGMgNjYZkUw+H17JxkA7Da+dcbPHbD7fWuBWSbPzNSCOyYYmrH+PL6wp9407ptMg==}
 
+  zod-form-data@3.0.1:
+    resolution: {integrity: sha512-uwSrDzpLDoXeAxePjPHrjjMelE5pk5zL5JcwLFISvqidGjtPl7hcheH584xGcS76c9IRHq6tqdGkf+A4eKO6Cw==}
+    peerDependencies:
+      zod: '>= 3.25.0'
+
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
@@ -8817,6 +8828,8 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.52.5':
     optional: true
 
+  '@rvf/set-get@7.0.1': {}
+
   '@sentry-internal/browser-utils@10.20.0':
     dependencies:
       '@sentry/core': 10.20.0
@@ -9682,7 +9695,7 @@ snapshots:
     dependencies:
       '@vitest/spy': 3.2.4
       estree-walker: 3.0.3
-      magic-string: 0.30.17
+      magic-string: 0.30.19
 
   '@vitest/pretty-format@3.2.4':
     dependencies:
@@ -14437,6 +14450,11 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zeebe-bpmn-moddle@1.11.0: {}
+
+  zod-form-data@3.0.1(zod@4.1.12):
+    dependencies:
+      '@rvf/set-get': 7.0.1
+      zod: 4.1.12
 
   zod@3.25.76: {}
 

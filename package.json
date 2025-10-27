@@ -9,6 +9,7 @@
 		"lint": "biome lint .",
 		"fix": "biome check --fix .",
 		"format": "biome format . --write",
+		"type-check": "tsc --noEmit --skipLibCheck",
 		"check": "biome check .",
 		"test": "jest",
 		"test:watch": "jest --watch",
@@ -74,6 +75,7 @@
 		"remark-gfm": "^4.0.1",
 		"styled-components": "^6.1.19",
 		"zod": "^4.1.12",
+		"zod-form-data": "^3.0.1",
 		"zustand": "^5.0.8"
 	},
 	"devDependencies": {
