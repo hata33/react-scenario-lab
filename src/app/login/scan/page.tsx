@@ -12,26 +12,11 @@ function ScanPage() {
 	const [status, setStatus] = useState<"loading" | "valid" | "invalid" | "confirmed">("loading");
 	const [userInfo, setUserInfo] = useState<any>(null);
 
-	useEffect(() => {
-		const sceneId = searchParams.get("scene");
-		const timestamp = searchParams.get("t");
-		const nonce = searchParams.get("n");
-		const signature = searchParams.get("s");
-
-		if (!sceneId || !timestamp || !nonce || !signature) {
-			setStatus("invalid");
-			return;
-		}
-
-		// 验证二维码有效性
-		validateQRCode(sceneId, timestamp, nonce, signature);
-	}, [searchParams]);
-
 	const validateQRCode = async (sceneId: string, timestamp: string, nonce: string, signature: string) => {
 		try {
 			// 验证时间戳
 			const now = Date.now();
-			const timestampNum = parseInt(timestamp);
+			const timestampNum = parseInt(timestamp, 10);
 			if (now - timestampNum > 1800000) {
 				// 30分钟过期
 				setStatus("invalid");
@@ -80,6 +65,24 @@ function ScanPage() {
 		}
 	};
 
+	useEffect(() => {
+		const sceneId = searchParams.get("scene");
+		const timestamp = searchParams.get("t");
+		const nonce = searchParams.get("n");
+		const signature = searchParams.get("s");
+
+		if (!sceneId || !timestamp || !nonce || !signature) {
+			setStatus("invalid");
+			return;
+		}
+
+		// 验证二维码有效性
+		validateQRCode(sceneId, timestamp, nonce, signature);
+	}, [
+		searchParams, // 验证二维码有效性
+		validateQRCode,
+	]);
+
 	const handleConfirm = async () => {
 		const sceneId = searchParams.get("scene");
 		if (!sceneId) return;
@@ -102,7 +105,7 @@ function ScanPage() {
 				setStatus("confirmed");
 				setUserInfo(data.userInfo);
 			} else {
-				alert("确认失败: " + data.message);
+				alert(`确认失败: ${data.message}`);
 			}
 		} catch (error) {
 			console.error("确认失败:", error);
@@ -132,7 +135,7 @@ function ScanPage() {
 			if (data.success) {
 				alert("扫码成功，请在电脑上查看");
 			} else {
-				alert("扫码失败: " + data.message);
+				alert(`扫码失败: ${data.message}`);
 			}
 		} catch (error) {
 			console.error("扫码失败:", error);

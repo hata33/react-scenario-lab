@@ -5,7 +5,6 @@ import {
 	Database,
 	FileText,
 	Globe,
-	Image,
 	Layers,
 	Palette,
 	Router,

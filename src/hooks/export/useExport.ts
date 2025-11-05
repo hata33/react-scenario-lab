@@ -59,7 +59,7 @@ export function useExport(options: UseExportOptions = {}): UseExportReturn {
 		if (autoSaveHistory) {
 			loadHistory();
 		}
-	}, [autoSaveHistory]);
+	}, [autoSaveHistory, loadHistory]);
 
 	const loadHistory = useCallback(() => {
 		try {
@@ -157,7 +157,7 @@ export function useExport(options: UseExportOptions = {}): UseExportReturn {
 					if (Array.isArray(data) && data.length > 0) {
 						const headers = Object.keys(data[0]);
 						const sampleRow = data[0];
-						return headers.join(",") + "\n" + headers.map((h) => sampleRow[h]).join(",");
+						return `${headers.join(",")}\n${headers.map((h) => sampleRow[h]).join(",")}`;
 					}
 					return "No data available";
 				case "json":

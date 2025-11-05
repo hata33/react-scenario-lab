@@ -3,7 +3,7 @@
 
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Layout from "@/components/Layout";
 
 export default function RefAsPropPage() {
@@ -546,7 +546,7 @@ function ComplexComponentsDemo() {
 // TypeScript 集成 Demo
 function TypeScriptIntegrationDemo() {
 	const [selectedComponent, setSelectedComponent] = useState("input");
-	const [showCode, setShowCode] = useState(false);
+	const [_showCode, _setShowCode] = useState(false);
 
 	const components = {
 		input: {
@@ -790,7 +790,7 @@ function PerformanceComparisonDemo() {
 	};
 
 	const renderTraditionalComponents = () => {
-		const startTime = performance.now();
+		const _startTime = performance.now();
 		const refs = Array.from({ length: componentCount }, () => React.createRef());
 
 		return (
@@ -803,7 +803,7 @@ function PerformanceComparisonDemo() {
 	};
 
 	const renderModernComponents = () => {
-		const startTime = performance.now();
+		const _startTime = performance.now();
 		const refs = Array.from({ length: componentCount }, () => React.createRef());
 
 		return (
@@ -815,7 +815,7 @@ function PerformanceComparisonDemo() {
 		);
 	};
 
-	const measureRenderTime = async (renderer) => {
+	const measureRenderTime = async (_renderer) => {
 		const startTime = performance.now();
 		await new Promise((resolve) => setTimeout(resolve, 100));
 		const endTime = performance.now();
@@ -849,7 +849,7 @@ function PerformanceComparisonDemo() {
 						max="500"
 						step="10"
 						value={componentCount}
-						onChange={(e) => setComponentCount(parseInt(e.target.value))}
+						onChange={(e) => setComponentCount(parseInt(e.target.value, 10))}
 						className="w-full"
 					/>
 					<div className="flex justify-between text-gray-500 text-xs">

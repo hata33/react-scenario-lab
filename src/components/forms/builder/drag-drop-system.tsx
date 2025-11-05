@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -277,7 +277,7 @@ export function DraggableField({
 
 	const [{ isOver }, drop] = useDrop({
 		accept: ItemType.FIELD,
-		drop: (item: DragItem, monitor) => {
+		drop: (item: DragItem, _monitor) => {
 			if (item.id !== field.id) {
 				// 实现字段移动逻辑
 				console.log("Move field:", item.id, "to position of", field.id);

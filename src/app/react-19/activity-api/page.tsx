@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 
 export default function ActivityAPIPage() {
@@ -159,9 +159,9 @@ function ActivityBasicDemo() {
 	});
 
 	// 模拟 React 19 的 Activity API
-	const saveActivityState = () => {
+	const saveActivityState = useCallback(() => {
 		sessionStorage.setItem("activity-demo-state", JSON.stringify(componentState));
-	};
+	}, [componentState]);
 
 	const restoreActivityState = () => {
 		const savedState = sessionStorage.getItem("activity-demo-state");
@@ -183,7 +183,7 @@ function ActivityBasicDemo() {
 		if (isActive) {
 			saveActivityState();
 		}
-	}, [componentState, isActive]);
+	}, [isActive, saveActivityState]);
 
 	return (
 		<div className="space-y-4">
@@ -292,11 +292,11 @@ function FormPersistenceDemo() {
 	});
 
 	// 模拟表单状态的 Activity API 保存和恢复
-	const saveFormState = () => {
+	const saveFormState = useCallback(() => {
 		if (formActive) {
 			sessionStorage.setItem("form-demo-state", JSON.stringify(formData));
 		}
-	};
+	}, [formActive, formData]);
 
 	const restoreFormState = () => {
 		const savedFormState = sessionStorage.getItem("form-demo-state");
@@ -319,7 +319,7 @@ function FormPersistenceDemo() {
 
 	useEffect(() => {
 		saveFormState();
-	}, [formData, formActive]);
+	}, [saveFormState]);
 
 	const togglePreference = (preference: string) => {
 		setFormData((prev) => ({
@@ -491,11 +491,11 @@ function PageStateDemo() {
 	});
 
 	// 模拟页面状态的 Activity API 管理
-	const savePageState = () => {
+	const savePageState = useCallback(() => {
 		if (pageActive) {
 			sessionStorage.setItem("page-demo-state", JSON.stringify(pageState));
 		}
-	};
+	}, [pageState, pageActive]);
 
 	const restorePageState = () => {
 		const savedPageState = sessionStorage.getItem("page-demo-state");
@@ -522,7 +522,7 @@ function PageStateDemo() {
 
 	useEffect(() => {
 		savePageState();
-	}, [pageState, pageActive]);
+	}, [savePageState]);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -739,7 +739,7 @@ function ComplexStateDemo() {
 	});
 
 	// 模拟复杂状态的 Activity API 管理
-	const saveComplexState = () => {
+	const saveComplexState = useCallback(() => {
 		if (complexActive) {
 			const stateToSave = {
 				...complexState,
@@ -750,7 +750,7 @@ function ComplexStateDemo() {
 			};
 			sessionStorage.setItem("complex-demo-state", JSON.stringify(stateToSave));
 		}
-	};
+	}, [complexState, complexActive]);
 
 	const restoreComplexState = () => {
 		const savedComplexState = sessionStorage.getItem("complex-demo-state");
@@ -771,7 +771,7 @@ function ComplexStateDemo() {
 
 	useEffect(() => {
 		saveComplexState();
-	}, [complexState, complexActive]);
+	}, [saveComplexState]);
 
 	const simulateUserActivity = () => {
 		setComplexState((prev) => ({

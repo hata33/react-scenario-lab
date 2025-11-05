@@ -1,22 +1,6 @@
 "use client";
 
-import {
-	Calendar,
-	Check,
-	CheckCircle,
-	Clock,
-	CreditCard,
-	FileText,
-	Grid3x3,
-	List,
-	MapPin,
-	Star,
-	Target,
-	Trash2,
-	Type,
-	UploadIcon,
-	Users,
-} from "lucide-react";
+import { Star, Trash2, UploadIcon } from "lucide-react";
 import type React from "react";
 import type { FormField } from "../types";
 

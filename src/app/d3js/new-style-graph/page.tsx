@@ -2,7 +2,7 @@
 
 import type { Selection, Simulation } from "d3";
 import * as d3 from "d3";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Layout from "@/components/Layout";
 
 // 图形节点接口定义
@@ -718,7 +718,7 @@ export default function NewStyleGraphPage() {
 		tooltipRef.current = tooltip as any;
 
 		svg.on("click", (event) => {
-			if (event && event.defaultPrevented) return;
+			if (event?.defaultPrevented) return;
 			resetHighlight();
 		});
 
@@ -801,14 +801,14 @@ export default function NewStyleGraphPage() {
 			.attr("stroke", getNodeStroke)
 			.attr("stroke-width", getNodeStrokeWidth)
 			.style("cursor", "pointer")
-			.on("mouseover", (event, d) => {
+			.on("mouseover", (_event, d) => {
 				if (tooltipRef.current) {
 					tooltipRef.current.html(createTooltipContent(d)).style("visibility", "visible");
 				}
 			})
 			.on("mousemove", (event) => {
 				if (tooltipRef.current) {
-					tooltipRef.current.style("top", event.pageY - 10 + "px").style("left", event.pageX + 10 + "px");
+					tooltipRef.current.style("top", `${event.pageY - 10}px`).style("left", `${event.pageX + 10}px`);
 				}
 			})
 			.on("mouseout", () => {
@@ -865,6 +865,7 @@ export default function NewStyleGraphPage() {
 		highlightRelatedNodes,
 		centerNode,
 		isMainNode,
+		resetHighlight,
 	]);
 
 	// 重新生成数据
@@ -943,7 +944,7 @@ export default function NewStyleGraphPage() {
 											onChange={(e) =>
 												setConfig({
 													...config,
-													nodeCount: parseInt(e.target.value),
+													nodeCount: parseInt(e.target.value, 10),
 												})
 											}
 											className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
@@ -960,7 +961,7 @@ export default function NewStyleGraphPage() {
 											onChange={(e) =>
 												setConfig({
 													...config,
-													levels: parseInt(e.target.value),
+													levels: parseInt(e.target.value, 10),
 												})
 											}
 											className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
@@ -999,7 +1000,7 @@ export default function NewStyleGraphPage() {
 											onChange={(e) =>
 												setConfig({
 													...config,
-													branchingFactor: parseInt(e.target.value),
+													branchingFactor: parseInt(e.target.value, 10),
 												})
 											}
 											className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"

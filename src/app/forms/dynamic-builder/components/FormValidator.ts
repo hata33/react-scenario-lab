@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { type FormField, ValidationRule } from "../types";
+import type { FormField } from "../types";
 
 export const useFormValidator = () => {
 	// 验证单个字段

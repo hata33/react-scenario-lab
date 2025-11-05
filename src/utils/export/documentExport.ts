@@ -2,7 +2,7 @@
  * 文档格式导出功能
  */
 
-import { ExportConfig, type ExportOptions } from "@/types/export";
+import type { ExportOptions } from "@/types/export";
 
 // 动态导入库
 const importJsPDF = async () => {
@@ -47,7 +47,7 @@ export class DocumentExporter {
 			}
 
 			return new Blob([doc.output("blob")], { type: "application/pdf" });
-		} catch (error) {
+		} catch (_error) {
 			throw new Error("PDF导出功能暂时禁用");
 		}
 	}
@@ -71,7 +71,7 @@ export class DocumentExporter {
 
 			const blob = await (Packer as any).toBlob(doc);
 			return blob;
-		} catch (error) {
+		} catch (_error) {
 			throw new Error("Word导出功能暂时禁用");
 		}
 	}
@@ -108,7 +108,7 @@ export class DocumentExporter {
 	/**
 	 * 导出表格到PDF
 	 */
-	private static exportTableToPdf(doc: any, data: any[], options?: ExportOptions, autoTable?: any): void {
+	private static exportTableToPdf(doc: any, data: any[], _options?: ExportOptions, autoTable?: any): void {
 		if (!autoTable) return;
 
 		const headers = Object.keys(data[0] || {});
@@ -136,7 +136,7 @@ export class DocumentExporter {
 	/**
 	 * 导出对象到PDF
 	 */
-	private static exportObjectToPdf(doc: any, data: any, options?: ExportOptions, autoTable?: any): void {
+	private static exportObjectToPdf(doc: any, data: any, _options?: ExportOptions, autoTable?: any): void {
 		const entries = Object.entries(data);
 
 		if (autoTable && entries.length > 0) {
@@ -166,7 +166,7 @@ export class DocumentExporter {
 	/**
 	 * 导出文本到PDF
 	 */
-	private static exportTextToPdf(doc: any, text: string, options?: ExportOptions): void {
+	private static exportTextToPdf(doc: any, text: string, _options?: ExportOptions): void {
 		doc.setFontSize(12);
 		const lines = doc.splitTextToSize(text, 170);
 		doc.text(lines, 20, 20);
@@ -175,7 +175,7 @@ export class DocumentExporter {
 	/**
 	 * 创建Word表格文档
 	 */
-	private static createTableDocument(data: any[], options?: ExportOptions): any {
+	private static createTableDocument(data: any[], _options?: ExportOptions): any {
 		const { Document, Paragraph, TextRun, Table, TableRow, TableCell } = require("docx");
 
 		const headers = Object.keys(data[0] || {});
@@ -217,7 +217,7 @@ export class DocumentExporter {
 	/**
 	 * 创建Word对象文档
 	 */
-	private static createObjectDocument(data: any, options?: ExportOptions): any {
+	private static createObjectDocument(data: any, _options?: ExportOptions): any {
 		const { Document, Paragraph, TextRun } = require("docx");
 
 		const paragraphs = Object.entries(data).map(
@@ -240,7 +240,7 @@ export class DocumentExporter {
 	/**
 	 * 创建Word文本文档
 	 */
-	private static createTextDocument(text: string, options?: ExportOptions): any {
+	private static createTextDocument(text: string, _options?: ExportOptions): any {
 		const { Document, Paragraph } = require("docx");
 
 		return new Document({
@@ -256,7 +256,7 @@ export class DocumentExporter {
 	/**
 	 * 导出表格到Markdown
 	 */
-	private static exportTableToMarkdown(data: any[], options?: ExportOptions): string {
+	private static exportTableToMarkdown(data: any[], _options?: ExportOptions): string {
 		if (!Array.isArray(data) || data.length === 0) {
 			return "";
 		}
@@ -265,8 +265,8 @@ export class DocumentExporter {
 		let markdown = "";
 
 		// 表头
-		markdown += "| " + headers.join(" | ") + " |\n";
-		markdown += "|" + headers.map(() => "---").join("|") + "|\n";
+		markdown += `| ${headers.join(" | ")} |\n`;
+		markdown += `|${headers.map(() => "---").join("|")}|\n`;
 
 		// 数据行
 		data.forEach((row) => {
@@ -274,7 +274,7 @@ export class DocumentExporter {
 				const value = row[header];
 				return DocumentExporter.escapeMarkdown(String(value || ""));
 			});
-			markdown += "| " + values.join(" | ") + " |\n";
+			markdown += `| ${values.join(" | ")} |\n`;
 		});
 
 		return markdown;
@@ -283,7 +283,7 @@ export class DocumentExporter {
 	/**
 	 * 导出对象到Markdown
 	 */
-	private static exportObjectToMarkdown(data: any, options?: ExportOptions): string {
+	private static exportObjectToMarkdown(data: any, _options?: ExportOptions): string {
 		let markdown = "";
 
 		Object.entries(data).forEach(([key, value]) => {
@@ -315,13 +315,13 @@ export class DocumentExporter {
 		}
 
 		// 普通数组
-		return data.map((item) => `- ${item}`).join("\n") + "\n\n";
+		return `${data.map((item) => `- ${item}`).join("\n")}\n\n`;
 	}
 
 	/**
 	 * 导出文本到Markdown
 	 */
-	private static exportTextToMarkdown(text: string, options?: ExportOptions): string {
+	private static exportTextToMarkdown(text: string, _options?: ExportOptions): string {
 		return text;
 	}
 

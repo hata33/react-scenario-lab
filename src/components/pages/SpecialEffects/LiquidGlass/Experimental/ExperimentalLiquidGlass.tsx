@@ -3,7 +3,7 @@ import { Github, LogOutIcon } from "lucide-react";
 import { Geist } from "next/font/google";
 import Image from "next/image";
 import type React from "react";
-import { useEffect, useId, useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import img1 from "@/assets/imgs/LiquidGlass-bg/1.webp";
 import img2 from "@/assets/imgs/LiquidGlass-bg/2.webp";
 import img3 from "@/assets/imgs/LiquidGlass-bg/3.webp";

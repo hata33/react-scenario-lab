@@ -73,8 +73,8 @@ export async function generateLoginQRCode(request?: Request): Promise<{
 	console.log("生成二维码:", {
 		sceneId,
 		timestamp,
-		nonce: nonce?.substring(0, 8) + "...",
-		signature: signature?.substring(0, 8) + "...",
+		nonce: `${nonce?.substring(0, 8)}...`,
+		signature: `${signature?.substring(0, 8)}...`,
 		finalUrl,
 		secretKey: process.env.QR_CODE_SECRET ? process.env.QR_CODE_SECRET : "未设置（使用默认值）",
 	});
@@ -99,7 +99,7 @@ export async function generateLoginQRCode(request?: Request): Promise<{
 // 生成数字签名
 const generateSignature = (payload: Omit<QRCodePayload, "signature">): string => {
 	const data = `${payload.sceneId}:${payload.timestamp}:${payload.nonce}`;
-	const crypto = require("crypto");
+	const crypto = require("node:crypto");
 	return crypto
 		.createHmac("sha256", process.env.QR_CODE_SECRET || "default-secret")
 		.update(data)
@@ -130,10 +130,10 @@ export const validateQRCodeSignature = (payload: QRCodePayload): boolean => {
 // 验证sceneId时效性
 export const validateSceneId = (sceneId: string): boolean => {
 	try {
-		const timestamp = parseInt(sceneId.split("-")[0]);
+		const timestamp = parseInt(sceneId.split("-")[0], 10);
 		const now = Date.now();
 		const isValid = now - timestamp < 1800000; // 30分钟内有效
-		return isValid && !isNaN(timestamp);
+		return isValid && !Number.isNaN(timestamp);
 	} catch {
 		return false;
 	}

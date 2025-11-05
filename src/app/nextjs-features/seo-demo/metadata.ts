@@ -1,5 +1,3 @@
-import { Metadata } from "next";
-
 // 动态生成面包屑结构化数据
 export function generateBreadcrumbSchema(items: { name: string; url: string }[]) {
 	return {

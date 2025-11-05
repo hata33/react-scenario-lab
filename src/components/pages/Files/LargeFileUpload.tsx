@@ -22,8 +22,8 @@ interface ChunkInfo {
 
 export default function LargeFileUpload() {
 	const [files, setFiles] = useState<UploadFile[]>([]);
-	const [isDragging, setIsDragging] = useState(false);
-	const fileInputRef = useRef<HTMLInputElement>(null);
+	const [isDragging, _setIsDragging] = useState(false);
+	const _fileInputRef = useRef<HTMLInputElement>(null);
 	const CHUNK_SIZE = 5 * 1024 * 1024; // 5MB
 	const MAX_CONCURRENT_UPLOADS = 3;
 
@@ -98,7 +98,7 @@ export default function LargeFileUpload() {
 
 	const uploadChunk = async (
 		chunk: ChunkInfo,
-		fileId: string,
+		_fileId: string,
 		fileHash: string,
 		totalChunks: number,
 		fileName: string,
@@ -110,23 +110,18 @@ export default function LargeFileUpload() {
 		formData.append("fileHash", fileHash);
 		formData.append("fileName", fileName);
 		formData.append("fileSize", chunk.end.toString());
+		const response = await fetch("/api/upload/chunk", {
+			method: "POST",
+			body: formData,
+		});
 
-		try {
-			const response = await fetch("/api/upload/chunk", {
-				method: "POST",
-				body: formData,
-			});
+		if (!response.ok) {
+			throw new Error(`上传失败: ${response.status}`);
+		}
 
-			if (!response.ok) {
-				throw new Error(`上传失败: ${response.status}`);
-			}
-
-			const result = await response.json();
-			if (!result.success) {
-				throw new Error(result.message || "上传失败");
-			}
-		} catch (error) {
-			throw error;
+		const result = await response.json();
+		if (!result.success) {
+			throw new Error(result.message || "上传失败");
 		}
 	};
 
@@ -162,32 +157,28 @@ export default function LargeFileUpload() {
 				const batchChunks = chunks.slice(i, i + MAX_CONCURRENT_UPLOADS);
 
 				const uploadPromises = batchChunks.map(async (chunk) => {
-					try {
-						await uploadChunk(chunk, uploadFile.id, fileHash, chunks.length, uploadFile.file.name);
-						uploadedChunks.add(chunk.index);
+					await uploadChunk(chunk, uploadFile.id, fileHash, chunks.length, uploadFile.file.name);
+					uploadedChunks.add(chunk.index);
 
-						// 更新进度
-						const progress = (uploadedChunks.size / chunks.length) * 100;
-						const elapsed = Date.now() - startTime;
-						const speed = (uploadedChunks.size * CHUNK_SIZE) / (elapsed / 1000);
-						const remainingBytes = (chunks.length - uploadedChunks.size) * CHUNK_SIZE;
-						const remainingTime = remainingBytes / speed;
+					// 更新进度
+					const progress = (uploadedChunks.size / chunks.length) * 100;
+					const elapsed = Date.now() - startTime;
+					const speed = (uploadedChunks.size * CHUNK_SIZE) / (elapsed / 1000);
+					const remainingBytes = (chunks.length - uploadedChunks.size) * CHUNK_SIZE;
+					const remainingTime = remainingBytes / speed;
 
-						setFiles((prev) =>
-							prev.map((f) =>
-								f.id === uploadFile.id
-									? {
-											...f,
-											progress,
-											speed,
-											remainingTime: remainingTime || 0,
-										}
-									: f,
-							),
-						);
-					} catch (error) {
-						throw error;
-					}
+					setFiles((prev) =>
+						prev.map((f) =>
+							f.id === uploadFile.id
+								? {
+										...f,
+										progress,
+										speed,
+										remainingTime: remainingTime || 0,
+									}
+								: f,
+						),
+					);
 				});
 
 				await Promise.all(uploadPromises);

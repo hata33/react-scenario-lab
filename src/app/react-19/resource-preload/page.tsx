@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useState } from "react";
 import Layout from "@/components/Layout";
 
 export default function ResourcePreloadPage() {
@@ -265,7 +265,7 @@ function PrefetchDemo() {
 		}, 3000);
 	};
 
-	const handleNavigate = (pageName: string) => {
+	const handleNavigate = (_pageName: string) => {
 		const startTime = Date.now();
 
 		// 模拟页面导航

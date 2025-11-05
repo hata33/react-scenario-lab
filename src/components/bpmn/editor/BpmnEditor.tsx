@@ -138,7 +138,7 @@ export default function BpmnEditor({
 	// 暴露获取 XML 的方法到 window 对象（用于调试）
 	useEffect(() => {
 		(window as any).getBpmnXml = getXml;
-	}, []);
+	}, [getXml]);
 
 	return (
 		<>

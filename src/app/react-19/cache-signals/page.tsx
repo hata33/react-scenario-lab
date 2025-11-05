@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Layout from "@/components/Layout";
 
 export default function CacheSignalsPage() {
@@ -347,7 +347,7 @@ function DependencyTrackingDemo() {
 		// 模拟 API 调用
 		await new Promise((resolve) => setTimeout(resolve, 500));
 
-		let data;
+		let data: any;
 		switch (type) {
 			case "user":
 				data = { id, name: `用户${id}`, email: `user${id}@example.com` };
@@ -386,7 +386,7 @@ function DependencyTrackingDemo() {
 
 		await new Promise((resolve) => setTimeout(resolve, 500));
 
-		let data;
+		let data: any;
 		switch (type) {
 			case "user":
 				data = { id, name: `用户${id}`, email: `user${id}@example.com` };
@@ -607,7 +607,7 @@ function CacheStrategiesDemo() {
 				case "lru":
 					// LRU 策略
 					if (lruCache.current.size >= 3) {
-						const lruKey = accessOrder.current.shift()!;
+						const lruKey = accessOrder.current.shift();
 						lruCache.current.delete(lruKey);
 						setStats((prev) => ({ ...prev, evictions: prev.evictions + 1 }));
 					}
@@ -674,7 +674,7 @@ function CacheStrategiesDemo() {
 
 				case "ttl": {
 					const now = Date.now();
-					if (ttlCache.current.has(key) && timestamps.current.get(key)! > now) {
+					if (ttlCache.current.has(key) && (timestamps.current.get(key) ?? 0) > now) {
 						setStats((prev) => ({ ...prev, hits: prev.hits + 1 }));
 						return ttlCache.current.get(key);
 					} else if (ttlCache.current.has(key)) {
@@ -700,10 +700,10 @@ function CacheStrategiesDemo() {
 	);
 
 	const generateData = useCallback(() => {
-		const id = Math.random().toString(36).substr(2, 9);
+		const id = Math.random().toString(36).substring(2, 11);
 		const item = {
 			id,
-			data: `数据块 ${Math.random().toString(36).substr(2, 5)}`.repeat(10),
+			data: `数据块 ${Math.random().toString(36).substring(2, 7)}`.repeat(10),
 			timestamp: Date.now(),
 		};
 
@@ -834,7 +834,6 @@ function CacheStrategiesDemo() {
 // 高级缓存应用演示组件
 function AdvancedCacheDemo() {
 	const [scenario, setScenario] = useState<"pagination" | "realtime" | "computed">("pagination");
-	const [cacheState, setCacheState] = useState<any>({});
 
 	// 分页缓存演示
 	const PaginationDemo = () => {
@@ -935,13 +934,13 @@ function AdvancedCacheDemo() {
 
 		const connect = () => {
 			setConnectionStatus("connected");
-			subscriptionId.current = Math.random().toString(36).substr(2, 9);
+			subscriptionId.current = Math.random().toString(36).substring(2, 11);
 
 			// 模拟实时数据推送
 			const interval = setInterval(() => {
 				const message = {
 					id: `msg-${Date.now()}`,
-					text: `实时消息 ${Math.random().toString(36).substr(2, 5)}`,
+					text: `实时消息 ${Math.random().toString(36).substring(2, 7)}`,
 					timestamp: new Date().toLocaleTimeString(),
 					subscriptionId: subscriptionId.current,
 				};
@@ -965,7 +964,7 @@ function AdvancedCacheDemo() {
 		const replayLatest = () => {
 			const latest = realtimeCache.current.get("latest");
 			if (latest) {
-				setMessages((prev) => [...prev, { ...latest, text: latest.text + " (重播)" }]);
+				setMessages((prev) => [...prev, { ...latest, text: `${latest.text} (重播)` }]);
 			}
 		};
 

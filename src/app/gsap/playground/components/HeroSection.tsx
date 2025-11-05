@@ -215,7 +215,7 @@ export default function HeroSection({ onScrollTriggerUpdate }: HeroSectionProps)
 
 		return () => {
 			ScrollTrigger.getAll().forEach((st) => st.kill());
-			if (particlesContainer && particlesContainer.parentNode) {
+			if (particlesContainer?.parentNode) {
 				particlesContainer.parentNode.removeChild(particlesContainer);
 			}
 		};

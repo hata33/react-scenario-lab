@@ -1,16 +1,9 @@
 "use client";
 
-import { BarChart3, Check, ChevronDown, ChevronUp, Code, Copy, Lightbulb, Target, Zap } from "lucide-react";
+import { BarChart3, Check, ChevronDown, ChevronUp, Copy, Lightbulb, Target, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
-import {
-	generateBreadcrumbSchema,
-	generateEventSchema,
-	generateFAQSchema,
-	generateHowToSchema,
-	generateServiceSchema,
-	generateVideoSchema,
-} from "./metadata";
+import { generateFAQSchema } from "./metadata";
 
 interface SEOFeature {
 	id: string;

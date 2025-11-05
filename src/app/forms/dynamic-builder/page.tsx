@@ -1,13 +1,8 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { OptimizedDndProvider } from "@/components/forms/builder/drag-drop-system";
-import {
-	ConditionEvaluator,
-	type FormField as DynamicFormField,
-	type FormSchema,
-	SchemaValidator,
-} from "@/components/forms/dynamic-form/form-schema";
+import type { FormField as DynamicFormField, FormSchema } from "@/components/forms/dynamic-form/form-schema";
 import { builtInRules, validationEngine } from "@/components/forms/validation/validation-engine";
 import VirtualFormRenderer from "@/components/forms/virtualization/virtual-form-renderer";
 import Layout from "@/components/Layout";
@@ -126,7 +121,7 @@ export default function DynamicFormBuilder() {
 		// 基础验证
 		for (const section of formConfig.sections || []) {
 			for (const field of section.fields || []) {
-				const value = formData[field.name];
+				const _value = formData[field.name];
 				const context = {
 					formData,
 					fieldPath: field.name,
@@ -276,7 +271,7 @@ export default function DynamicFormBuilder() {
 
 	// 性能监控
 	const performanceMetrics = useMemo(() => {
-		const startTime = performance.now();
+		const _startTime = performance.now();
 
 		return {
 			...complexityMetrics,

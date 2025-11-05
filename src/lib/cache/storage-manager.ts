@@ -110,7 +110,7 @@ export class LocalStorageAdapter implements StorageAdapter {
 			const keys: string[] = [];
 			for (let i = 0; i < localStorage.length; i++) {
 				const key = localStorage.key(i);
-				if (key && key.startsWith(this.prefix)) {
+				if (key?.startsWith(this.prefix)) {
 					keys.push(key.slice(this.prefix.length));
 				}
 			}
@@ -150,7 +150,7 @@ export class LocalStorageAdapter implements StorageAdapter {
 							localStorage.removeItem(this.getKey(key));
 							removed++;
 						}
-					} catch (e) {
+					} catch (_e) {
 						// 清理损坏的数据
 						localStorage.removeItem(this.getKey(key));
 						removed++;
@@ -273,7 +273,7 @@ export class SessionStorageAdapter implements StorageAdapter {
 			const keys: string[] = [];
 			for (let i = 0; i < sessionStorage.length; i++) {
 				const key = sessionStorage.key(i);
-				if (key && key.startsWith(this.prefix)) {
+				if (key?.startsWith(this.prefix)) {
 					keys.push(key.slice(this.prefix.length));
 				}
 			}
@@ -311,7 +311,7 @@ export class SessionStorageAdapter implements StorageAdapter {
 						if (parsed.ttl && now > parsed.timestamp + parsed.ttl) {
 							sessionStorage.removeItem(this.getKey(key));
 						}
-					} catch (e) {
+					} catch (_e) {
 						sessionStorage.removeItem(this.getKey(key));
 					}
 				}

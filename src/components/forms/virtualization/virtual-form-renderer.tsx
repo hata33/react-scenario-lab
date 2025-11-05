@@ -182,7 +182,7 @@ async function loadFieldComponent(fieldType: string): Promise<React.ComponentTyp
 }
 
 // React lazy的简单实现
-function lazy<T extends React.ComponentType<any>>(factory: () => Promise<{ default: T }>): React.ComponentType<any> {
+function _lazy<T extends React.ComponentType<any>>(factory: () => Promise<{ default: T }>): React.ComponentType<any> {
 	let Component: T | null = null;
 	let promise: Promise<void> | null = null;
 
@@ -427,7 +427,7 @@ export default function VirtualFormRenderer({
 	}, [schema, state]);
 
 	// 创建字段引用
-	const createFieldRef = useCallback((fieldId: string) => {
+	const _createFieldRef = useCallback((fieldId: string) => {
 		if (!fieldRefs.current.has(fieldId)) {
 			fieldRefs.current.set(fieldId, React.createRef());
 		}
@@ -455,10 +455,10 @@ export default function VirtualFormRenderer({
 				window.removeEventListener("resize", checkVisibility);
 			};
 		}
-	}, [flatFields]);
+	}, []);
 
 	// 渲染单个表单项
-	const renderItem = useCallback(
+	const _renderItem = useCallback(
 		({ index, style }: { index: number; style: React.CSSProperties }) => {
 			const item = flatFields[index];
 			if (!item) return null;
@@ -481,10 +481,10 @@ export default function VirtualFormRenderer({
 	useEffect(() => {
 		PerformanceMonitor.startRender();
 		return () => {
-			const renderTime = PerformanceMonitor.endRender();
+			const _renderTime = PerformanceMonitor.endRender();
 			console.log("Render performance:", PerformanceMonitor.getMetrics());
 		};
-	}, [schema]);
+	}, []);
 
 	return (
 		<div className="virtual-form-renderer">

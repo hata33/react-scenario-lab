@@ -13,7 +13,6 @@ import {
 	FiItalic,
 	FiLink,
 	FiList,
-	FiSave,
 	FiType,
 	FiUpload,
 } from "react-icons/fi";
@@ -150,6 +149,19 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 		},
 	];
 
+	// 保存功能
+	const handleSave = useCallback(() => {
+		const blob = new Blob([value], { type: "text/markdown" });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = `document-${Date.now()}.md`;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+	}, [value]);
+
 	// 键盘快捷键
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -184,20 +196,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 			textarea.addEventListener("keydown", handleKeyDown);
 			return () => textarea.removeEventListener("keydown", handleKeyDown);
 		}
-	}, [insertText]);
-
-	// 保存功能
-	const handleSave = useCallback(() => {
-		const blob = new Blob([value], { type: "text/markdown" });
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement("a");
-		a.href = url;
-		a.download = `document-${Date.now()}.md`;
-		document.body.appendChild(a);
-		a.click();
-		document.body.removeChild(a);
-		URL.revokeObjectURL(url);
-	}, [value]);
+	}, [insertText, handleSave]);
 
 	// 导出为HTML
 	const handleExportHTML = useCallback(() => {

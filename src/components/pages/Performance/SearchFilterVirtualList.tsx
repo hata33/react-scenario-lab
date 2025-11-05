@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 const generateRandomData = (count: number) => {
 	const names = ["张三", "李四", "王五", "赵六", "钱七", "孙八", "周九", "吴十"];
@@ -140,7 +140,7 @@ export function SearchFilterVirtualList() {
 						min="0"
 						max="10"
 						value={minExperience}
-						onChange={(e) => setMinExperience(parseInt(e.target.value))}
+						onChange={(e) => setMinExperience(parseInt(e.target.value, 10))}
 						className="w-full"
 					/>
 				</div>
@@ -153,7 +153,7 @@ export function SearchFilterVirtualList() {
 						max="50000"
 						step="1000"
 						value={maxSalary}
-						onChange={(e) => setMaxSalary(parseInt(e.target.value))}
+						onChange={(e) => setMaxSalary(parseInt(e.target.value, 10))}
 						className="w-full"
 					/>
 				</div>

@@ -1,6 +1,6 @@
-import { access, constants } from "fs/promises";
+import { access, constants } from "node:fs/promises";
+import { join } from "node:path";
 import { type NextRequest, NextResponse } from "next/server";
-import { join } from "path";
 
 // 配置上传目录
 const UPLOAD_BASE_DIR = process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 				exists: true,
 				message: "文件已存在",
 			});
-		} catch (error) {
+		} catch (_error) {
 			// 文件不存在
 			return NextResponse.json({
 				success: true,

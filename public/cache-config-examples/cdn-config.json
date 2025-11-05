@@ -1,321 +1,300 @@
 {
-  "cdnConfiguration": {
-    "provider": "CloudFlare",
-    "description": "CDN 缓存配置示例，用于配合前端缓存系统",
-    "cacheRules": [
-      {
-        "name": "静态资源长期缓存",
-        "pattern": "/*.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|webp|avif)$",
-        "cacheTTL": 31536000,
-        "browserCacheTTL": 86400,
-        "cacheLevel": "edge",
-        "settings": {
-          "cacheKey": "scheme+host+path+querystring",
-          "respectStrongETags": true,
-          "cacheEverything": true,
-          "cacheByDeviceType": false,
-          "edgeCacheTime": 31536000,
-          "browserCacheTime": 86400,
-          "serveStale": {
-            "enabled": true,
-            "staleTime": 86400
-          },
-          "bypassCacheOnCookie": []
-        }
-      },
-      {
-        "name": "HTML 页面缓存",
-        "pattern": "/*.html",
-        "cacheTTL": 3600,
-        "browserCacheTTL": 300,
-        "cacheLevel": "edge",
-        "settings": {
-          "cacheKey": "scheme+host+path",
-          "respectStrongETags": true,
-          "cacheEverything": true,
-          "edgeCacheTime": 3600,
-          "browserCacheTime": 300,
-          "serveStale": {
-            "enabled": true,
-            "staleTime": 600
-          }
-        }
-      },
-      {
-        "name": "API 动态响应",
-        "pattern": "/api/*",
-        "cacheTTL": 300,
-        "browserCacheTTL": 60,
-        "cacheLevel": "edge",
-        "settings": {
-          "cacheKey": "scheme+host+path+querystring+cookie",
-          "respectStrongETags": true,
-          "cacheEverything": false,
-          "cacheByStatus": [200, 201, 301, 302],
-          "edgeCacheTime": 300,
-          "browserCacheTime": 60,
-          "serveStale": {
-            "enabled": true,
-            "staleTime": 120
-          },
-          "bypassCacheOnCookie": ["*"],
-          "cacheByDeviceType": false
-        }
-      },
-      {
-        "name": "公共 API 缓存",
-        "pattern": "/api/public/*",
-        "cacheTTL": 600,
-        "browserCacheTTL": 300,
-        "cacheLevel": "edge",
-        "settings": {
-          "cacheKey": "scheme+host+path+querystring",
-          "respectStrongETags": true,
-          "cacheEverything": true,
-          "cacheByStatus": [200, 201, 304],
-          "edgeCacheTime": 600,
-          "browserCacheTime": 300,
-          "serveStale": {
-            "enabled": true,
-            "staleTime": 300
-          }
-        }
-      },
-      {
-        "name": "用户相关 API",
-        "pattern": "/api/user/*",
-        "cacheTTL": 0,
-        "browserCacheTTL": 0,
-        "cacheLevel": "bypass",
-        "settings": {
-          "cacheEverything": false,
-          "bypassCacheOnCookie": ["sessionid", "token"],
-          "edgeCacheTime": 0,
-          "browserCacheTime": 0
-        }
-      },
-      {
-        "name": "图片资源优化",
-        "pattern": "/*.(png|jpg|jpeg|gif|webp|avif)$",
-        "cacheTTL": 2592000,
-        "browserCacheTTL": 86400,
-        "cacheLevel": "edge",
-        "settings": {
-          "cacheKey": "scheme+host+path",
-          "respectStrongETags": true,
-          "cacheEverything": true,
-          "edgeCacheTime": 2592000,
-          "browserCacheTime": 86400,
-          "serveStale": {
-            "enabled": true,
-            "staleTime": 604800
-          },
-          "optimization": {
-            "autoWebp": true,
-            "autoAvif": true,
-            "quality": 85,
-            "lossless": false
-          }
-        }
-      }
-    ],
-    "pageRules": [
-      {
-        "name": "缓存控制头设置",
-        "pattern": "https://your-domain.com/*",
-        "settings": [
-          {
-            "id": "cache_control_headers",
-            "value": {
-              "cache-control": {
-                "value": "public, max-age=31536000, immutable",
-                "override": true
-              },
-              "expires": {
-                "value": "access 1 year",
-                "override": true
-              },
-              "etag": {
-                "value": "on",
-                "override": true
-              }
-            }
-          }
-        ]
-      },
-      {
-        "name": "HTML 文件特殊处理",
-        "pattern": "https://your-domain.com/*.html",
-        "settings": [
-          {
-            "id": "html_cache_headers",
-            "value": {
-              "cache-control": {
-                "value": "public, max-age=0, must-revalidate",
-                "override": true
-              },
-              "expires": {
-                "value": "access 0 seconds",
-                "override": true
-              }
-            }
-          }
-        ]
-      },
-      {
-        "name": "API 不缓存规则",
-        "pattern": "https://your-domain.com/api/*",
-        "settings": [
-          {
-            "id": "api_bypass_cache",
-            "value": {
-              "cache-level": {
-                "value": "bypass",
-                "override": true
-              }
-            }
-          }
-        ]
-      }
-    ],
-    "transformRules": {
-      "urlRewrites": [
-        {
-          "source": "/api/v1/(.*)",
-          "target": "/api/$1"
-        },
-        {
-          "source": "/old-app/(.*)",
-          "target": "/new-app/$1"
-        }
-      ],
-      "responseHeaders": {
-        "add": [
-          {
-            "name": "X-Cache-Status",
-            "value": "CDN-CACHED"
-          },
-          {
-            "name": "X-CDN-Cache-Time",
-            "value": "{cache-time}"
-          }
-        ],
-        "remove": ["x-powered-by"],
-        "modify": [
-          {
-            "name": "server",
-            "value": "cloudflare"
-          }
-        ]
-      }
-    },
-    "securityHeaders": {
-      "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-      "x-frame-options": "DENY",
-      "x-content-type-options": "nosniff",
-      "referrer-policy": "strict-origin-when-cross-origin",
-      "permissions-policy": "geolocation=(), microphone=(), camera=()"
-    },
-    "performanceOptimization": {
-      "brotli": true,
-      "gzip": true,
-      "minify": {
-        "html": true,
-        "css": true,
-        "js": true
-      },
-      "rocketLoader": true,
-      "mirage": true,
-      "polish": "lossy"
-    },
-    "analytics": {
-      "enabled": true,
-      "cacheAnalytics": true,
-      "realUserMonitoring": true
-    }
-  },
-  "configurationExamples": {
-    "cloudflare": {
-      "zoneSettings": {
-        "cacheLevel": "standard",
-        "browserCacheTtl": 86400,
-        "edgeCacheTtl": 2592000,
-        "developmentMode": false,
-        "cacheEverything": false,
-        "alwaysOnline": true,
-        "originMaxHttpVersion": 2
-      }
-    },
-    "awsCloudFront": {
-      "distributionConfig": {
-        "cacheBehaviors": [
-          {
-            "pathPattern": "/api/public/*",
-            "allowedMethods": ["GET", "HEAD", "OPTIONS"],
-            "cachedMethods": ["GET", "HEAD"],
-            "targetOriginId": "api-origin",
-            "forwardedValues": {
-              "queryString": true,
-              "cookies": ["none"]
-            },
-            "minTTL": 600,
-            "maxTTL": 600,
-            "defaultTTL": 600,
-            "compress": true
-          }
-        ],
-        "defaultCacheBehavior": {
-          "allowedMethods": ["GET", "HEAD"],
-          "cachedMethods": ["GET", "HEAD"],
-          "targetOriginId": "web-origin",
-          "forwardedValues": {
-            "queryString": false,
-            "cookies": ["none"]
-          },
-          "minTTL": 86400,
-          "maxTTL": 31536000,
-          "defaultTTL": 86400,
-          "compress": true
-        }
-      }
-    },
-    "fastly": {
-      "vclConfig": `
-# 静态资源缓存
-if (req.url ~ "\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$") {
-    set beresp.ttl = 365d;
-    set beresp.grace = 1d;
-    set beresp.stale_while_revalidate = 1d;
-}
-
-# API 缓存
-if (req.url ~ "^/api/public/") {
-    set beresp.ttl = 10m;
-    set beresp.grace = 1m;
-    set beresp.stale_while_revalidate = 5m;
-}
-
-# HTML 文件
-if (req.url ~ "\\.html$") {
-    set beresp.ttl = 1h;
-    set beresp.grace = 10m;
-    set beresp.stale_while_revalidate = 30m;
-}
-      `
-    }
-  },
-  "monitoring": {
-    "purgeAPI": {
-      "baseUrl": "https://api.cloudflare.com/client/v4",
-      "endpoints": {
-        "purgeByUrl": "/zones/{zone_id}/purge_cache",
-        "purgeByTag": "/zones/{zone_id}/purge_cache",
-        "purgeAll": "/zones/{zone_id}/purge_cache"
-      }
-    },
-    "cacheStatus": {
-      "headers": ["X-Cache-Status", "X-CDN-Cache-Time", "CF-Cache-Status"],
-      "logFormat": "{timestamp} {method} {url} {cache-status} {cache-time}"
-    }
-  }
+	"cdnConfiguration": {
+		"provider": "CloudFlare",
+		"description": "CDN 缓存配置示例，用于配合前端缓存系统",
+		"cacheRules": [
+			{
+				"name": "静态资源长期缓存",
+				"pattern": "/*.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|webp|avif)$",
+				"cacheTTL": 31536000,
+				"browserCacheTTL": 86400,
+				"cacheLevel": "edge",
+				"settings": {
+					"cacheKey": "scheme+host+path+querystring",
+					"respectStrongETags": true,
+					"cacheEverything": true,
+					"cacheByDeviceType": false,
+					"edgeCacheTime": 31536000,
+					"browserCacheTime": 86400,
+					"serveStale": {
+						"enabled": true,
+						"staleTime": 86400
+					},
+					"bypassCacheOnCookie": []
+				}
+			},
+			{
+				"name": "HTML 页面缓存",
+				"pattern": "/*.html",
+				"cacheTTL": 3600,
+				"browserCacheTTL": 300,
+				"cacheLevel": "edge",
+				"settings": {
+					"cacheKey": "scheme+host+path",
+					"respectStrongETags": true,
+					"cacheEverything": true,
+					"edgeCacheTime": 3600,
+					"browserCacheTime": 300,
+					"serveStale": {
+						"enabled": true,
+						"staleTime": 600
+					}
+				}
+			},
+			{
+				"name": "API 动态响应",
+				"pattern": "/api/*",
+				"cacheTTL": 300,
+				"browserCacheTTL": 60,
+				"cacheLevel": "edge",
+				"settings": {
+					"cacheKey": "scheme+host+path+querystring+cookie",
+					"respectStrongETags": true,
+					"cacheEverything": false,
+					"cacheByStatus": [200, 201, 301, 302],
+					"edgeCacheTime": 300,
+					"browserCacheTime": 60,
+					"serveStale": {
+						"enabled": true,
+						"staleTime": 120
+					},
+					"bypassCacheOnCookie": ["*"],
+					"cacheByDeviceType": false
+				}
+			},
+			{
+				"name": "公共 API 缓存",
+				"pattern": "/api/public/*",
+				"cacheTTL": 600,
+				"browserCacheTTL": 300,
+				"cacheLevel": "edge",
+				"settings": {
+					"cacheKey": "scheme+host+path+querystring",
+					"respectStrongETags": true,
+					"cacheEverything": true,
+					"cacheByStatus": [200, 201, 304],
+					"edgeCacheTime": 600,
+					"browserCacheTime": 300,
+					"serveStale": {
+						"enabled": true,
+						"staleTime": 300
+					}
+				}
+			},
+			{
+				"name": "用户相关 API",
+				"pattern": "/api/user/*",
+				"cacheTTL": 0,
+				"browserCacheTTL": 0,
+				"cacheLevel": "bypass",
+				"settings": {
+					"cacheEverything": false,
+					"bypassCacheOnCookie": ["sessionid", "token"],
+					"edgeCacheTime": 0,
+					"browserCacheTime": 0
+				}
+			},
+			{
+				"name": "图片资源优化",
+				"pattern": "/*.(png|jpg|jpeg|gif|webp|avif)$",
+				"cacheTTL": 2592000,
+				"browserCacheTTL": 86400,
+				"cacheLevel": "edge",
+				"settings": {
+					"cacheKey": "scheme+host+path",
+					"respectStrongETags": true,
+					"cacheEverything": true,
+					"edgeCacheTime": 2592000,
+					"browserCacheTime": 86400,
+					"serveStale": {
+						"enabled": true,
+						"staleTime": 604800
+					},
+					"optimization": {
+						"autoWebp": true,
+						"autoAvif": true,
+						"quality": 85,
+						"lossless": false
+					}
+				}
+			}
+		],
+		"pageRules": [
+			{
+				"name": "缓存控制头设置",
+				"pattern": "https://your-domain.com/*",
+				"settings": [
+					{
+						"id": "cache_control_headers",
+						"value": {
+							"cache-control": {
+								"value": "public, max-age=31536000, immutable",
+								"override": true
+							},
+							"expires": {
+								"value": "access 1 year",
+								"override": true
+							},
+							"etag": {
+								"value": "on",
+								"override": true
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "HTML 文件特殊处理",
+				"pattern": "https://your-domain.com/*.html",
+				"settings": [
+					{
+						"id": "html_cache_headers",
+						"value": {
+							"cache-control": {
+								"value": "public, max-age=0, must-revalidate",
+								"override": true
+							},
+							"expires": {
+								"value": "access 0 seconds",
+								"override": true
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "API 不缓存规则",
+				"pattern": "https://your-domain.com/api/*",
+				"settings": [
+					{
+						"id": "api_bypass_cache",
+						"value": {
+							"cache-level": {
+								"value": "bypass",
+								"override": true
+							}
+						}
+					}
+				]
+			}
+		],
+		"transformRules": {
+			"urlRewrites": [
+				{
+					"source": "/api/v1/(.*)",
+					"target": "/api/$1"
+				},
+				{
+					"source": "/old-app/(.*)",
+					"target": "/new-app/$1"
+				}
+			],
+			"responseHeaders": {
+				"add": [
+					{
+						"name": "X-Cache-Status",
+						"value": "CDN-CACHED"
+					},
+					{
+						"name": "X-CDN-Cache-Time",
+						"value": "{cache-time}"
+					}
+				],
+				"remove": ["x-powered-by"],
+				"modify": [
+					{
+						"name": "server",
+						"value": "cloudflare"
+					}
+				]
+			}
+		},
+		"securityHeaders": {
+			"strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+			"x-frame-options": "DENY",
+			"x-content-type-options": "nosniff",
+			"referrer-policy": "strict-origin-when-cross-origin",
+			"permissions-policy": "geolocation=(), microphone=(), camera=()"
+		},
+		"performanceOptimization": {
+			"brotli": true,
+			"gzip": true,
+			"minify": {
+				"html": true,
+				"css": true,
+				"js": true
+			},
+			"rocketLoader": true,
+			"mirage": true,
+			"polish": "lossy"
+		},
+		"analytics": {
+			"enabled": true,
+			"cacheAnalytics": true,
+			"realUserMonitoring": true
+		}
+	},
+	"configurationExamples": {
+		"cloudflare": {
+			"zoneSettings": {
+				"cacheLevel": "standard",
+				"browserCacheTtl": 86400,
+				"edgeCacheTtl": 2592000,
+				"developmentMode": false,
+				"cacheEverything": false,
+				"alwaysOnline": true,
+				"originMaxHttpVersion": 2
+			}
+		},
+		"awsCloudFront": {
+			"distributionConfig": {
+				"cacheBehaviors": [
+					{
+						"pathPattern": "/api/public/*",
+						"allowedMethods": ["GET", "HEAD", "OPTIONS"],
+						"cachedMethods": ["GET", "HEAD"],
+						"targetOriginId": "api-origin",
+						"forwardedValues": {
+							"queryString": true,
+							"cookies": ["none"]
+						},
+						"minTTL": 600,
+						"maxTTL": 600,
+						"defaultTTL": 600,
+						"compress": true
+					}
+				],
+				"defaultCacheBehavior": {
+					"allowedMethods": ["GET", "HEAD"],
+					"cachedMethods": ["GET", "HEAD"],
+					"targetOriginId": "web-origin",
+					"forwardedValues": {
+						"queryString": false,
+						"cookies": ["none"]
+					},
+					"minTTL": 86400,
+					"maxTTL": 31536000,
+					"defaultTTL": 86400,
+					"compress": true
+				}
+			}
+		},
+		"fastly": {
+			"vclConfig": "# 静态资源缓存\nif (req.url ~ \"\\\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$\") {\n    set beresp.ttl = 365d;\n    set beresp.grace = 1d;\n    set beresp.stale_while_revalidate = 1d;\n}\n\n# API 缓存\nif (req.url ~ \"^/api/public/\") {\n    set beresp.ttl = 10m;\n    set beresp.grace = 1m;\n    set beresp.stale_while_revalidate = 5m;\n}\n\n# HTML 文件\nif (req.url ~ \"\\\\.html$\") {\n    set beresp.ttl = 1h;\n    set beresp.grace = 10m;\n    set beresp.stale_while_revalidate = 30m;\n}"
+		}
+	},
+	"monitoring": {
+		"purgeAPI": {
+			"baseUrl": "https://api.cloudflare.com/client/v4",
+			"endpoints": {
+				"purgeByUrl": "/zones/{zone_id}/purge_cache",
+				"purgeByTag": "/zones/{zone_id}/purge_cache",
+				"purgeAll": "/zones/{zone_id}/purge_cache"
+			}
+		},
+		"cacheStatus": {
+			"headers": ["X-Cache-Status", "X-CDN-Cache-Time", "CF-Cache-Status"],
+			"logFormat": "{timestamp} {method} {url} {cache-status} {cache-time}"
+		}
+	}
 }

@@ -87,7 +87,7 @@ class SessionManager {
 	// 终止用户的所有会话
 	terminateUserSessions(userId: string): number {
 		let terminatedCount = 0;
-		for (const [sceneId, session] of this.sessions.entries()) {
+		for (const [_sceneId, session] of this.sessions.entries()) {
 			if (session.userId === userId) {
 				session.state = "expired";
 				session.expiresAt = Date.now();
@@ -165,10 +165,10 @@ class SessionManager {
 // 验证sceneId格式
 export const validateSceneId = (sceneId: string): boolean => {
 	try {
-		const timestamp = parseInt(sceneId.split("-")[0]);
+		const timestamp = parseInt(sceneId.split("-")[0], 10);
 		const now = Date.now();
 		const isValid = now - timestamp < 1800000; // 30分钟内有效
-		return isValid && !isNaN(timestamp);
+		return isValid && !Number.isNaN(timestamp);
 	} catch {
 		return false;
 	}

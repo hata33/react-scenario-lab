@@ -1,26 +1,9 @@
 "use client";
 
-import {
-	Check,
-	ChevronDown,
-	Clock,
-	Copy,
-	Download,
-	Edit,
-	Filter,
-	Heart,
-	Plus,
-	Search,
-	Star,
-	StarOff,
-	Trash2,
-	TrendingUp,
-	Upload,
-	X,
-} from "lucide-react";
+import { Copy, Download, Edit, Heart, Plus, Search, Star, StarOff, Trash2, Upload, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { usePromptTemplates } from "../hooks/usePromptTemplates";
-import { PromptCategory, type PromptTemplate, type PromptTemplateFormData } from "../types/prompt";
+import type { PromptTemplate, PromptTemplateFormData } from "../types/prompt";
 
 interface PromptTemplateLibraryProps {
 	visible: boolean;
@@ -82,14 +65,13 @@ export default function PromptTemplateLibrary({ visible, onClose, onSelectTempla
 			case "name":
 				filtered.sort((a, b) => a.title.localeCompare(b.title));
 				break;
-			case "recent":
 			default:
 				filtered.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
 				break;
 		}
 
 		return filtered;
-	}, [templates, searchText, selectedCategory, showFavoritesOnly, sortBy, searchTemplates]);
+	}, [searchText, selectedCategory, showFavoritesOnly, sortBy, searchTemplates]);
 
 	// 重置表单
 	const resetForm = () => {
@@ -153,7 +135,7 @@ export default function PromptTemplateLibrary({ visible, onClose, onSelectTempla
 				const data = JSON.parse(event.target?.result as string);
 				const result = importTemplates(data);
 				alert(`成功导入 ${result.imported} 个模板`);
-			} catch (error) {
+			} catch (_error) {
 				alert("导入失败：文件格式不正确");
 			}
 		};

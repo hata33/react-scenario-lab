@@ -3,7 +3,7 @@
 import { defaultValueCtx, Editor, rootCtx } from "@milkdown/core";
 import { commonmark } from "@milkdown/preset-commonmark";
 import { nord } from "@milkdown/theme-nord";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "@milkdown/theme-nord/style.css";
 
 const MilkdownEditorPage = () => {
@@ -29,7 +29,7 @@ const MilkdownEditorPage = () => {
 			document.head.removeChild(style);
 		};
 	}, []);
-	const [content, setContent] = useState(
+	const [content, _setContent] = useState(
 		"# Milkdown 编辑器\n\n欢迎使用 **Milkdown** 编辑器！\n\n## 特性\n\n- 🎨 美观的主题\n- ⚡ 实时渲染\n- 🔧 可扩展插件\n\n试试编辑一些内容吧！",
 	);
 	const editorRef = useRef<HTMLDivElement>(null);

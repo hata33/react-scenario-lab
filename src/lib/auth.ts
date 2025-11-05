@@ -133,7 +133,7 @@ export const verifyAuthToken = (token: string): any => {
 			algorithms: ["HS256"],
 			clockTolerance: 30, // 30秒时钟容差
 		});
-	} catch (error) {
+	} catch (_error) {
 		throw new Error("Invalid token");
 	}
 };
@@ -152,7 +152,7 @@ export const getCurrentUser = async (token: string) => {
 			...user,
 			deviceId: decoded.deviceId,
 		};
-	} catch (error) {
+	} catch (_error) {
 		throw new Error("Invalid token");
 	}
 };

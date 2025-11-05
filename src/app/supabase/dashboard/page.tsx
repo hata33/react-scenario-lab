@@ -65,7 +65,7 @@ export default function DashboardPage() {
 		});
 
 		return () => subscription.unsubscribe();
-	}, [router]);
+	}, [router, fetchTodosForStats]);
 
 	// 计算统计数据
 	const stats = {

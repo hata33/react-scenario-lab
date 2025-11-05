@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertCircle, CheckCircle, Code, Eye, Search, XCircle } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface ComparisonItem {
 	feature: string;

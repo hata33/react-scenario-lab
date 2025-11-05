@@ -1,9 +1,8 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase";
 
 // 临时禁用 middleware 以解决循环重定向问题
-export async function proxy(req: NextRequest) {
+export async function proxy(_req: NextRequest) {
 	// 直接放行所有请求，不进行任何检查
 	return NextResponse.next();
 }

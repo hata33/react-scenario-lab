@@ -1,0 +1,25 @@
+{
+	"mcpServers": {
+		"doc": {
+			"command": "node",
+			"args": ["D:/Project/AASelf/my-context/dist/src/index.js"],
+			"cwd": "D:/Project/AASelf/my-context"
+		},
+		"ddoc2": {
+			"type": "http",
+			"url": "http://localhost:3001/mcp",
+			"headers": {
+				"Content-Type": "application/json"
+			},
+			"timeout": 30
+		},
+		"z-server": {
+			"type": "http",
+			"url": "http://localhost:8000/mcp",
+			"headers": {
+				"Content-Type": "application/json"
+			},
+			"timeout": 30
+		}
+	}
+}

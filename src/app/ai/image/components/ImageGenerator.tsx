@@ -1,21 +1,6 @@
 "use client";
 
-import {
-	AlertCircle,
-	CheckCircle,
-	Copy,
-	Download,
-	Heart,
-	Image,
-	Loader2,
-	RefreshCw,
-	Settings,
-	Share2,
-	Sparkles,
-	Trash2,
-	Wand2,
-	X,
-} from "lucide-react";
+import { AlertCircle, Copy, Download, Image, RefreshCw, Settings, Sparkles, Wand2, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { checkApiConfiguration, getAvailableModels } from "../api/imageApiService";
 import { useImageGeneration } from "../hooks/useImageGeneration";
@@ -47,11 +32,11 @@ export default function ImageGenerator({ onImageGenerated, onImageSelect }: Imag
 	const [style, setStyle] = useState<"vivid" | "natural">("vivid");
 	const [showAdvanced, setShowAdvanced] = useState(false);
 	const [generatedImage, setGeneratedImage] = useState<string | null>(null);
-	const [showApiConfig, setShowApiConfig] = useState(false);
+	const [_showApiConfig, _setShowApiConfig] = useState(false);
 	const [showScrollTop, setShowScrollTop] = useState(false);
 	const [showProgress, setShowProgress] = useState(false);
 	const [displayProgress, setDisplayProgress] = useState(0);
-	const fileInputRef = useRef<HTMLInputElement>(null);
+	const _fileInputRef = useRef<HTMLInputElement>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	// 使用真实的 API 调用
@@ -79,7 +64,7 @@ export default function ImageGenerator({ onImageGenerated, onImageSelect }: Imag
 		onError: (error) => {
 			console.error("Image generation error:", error);
 		},
-		onProgress: (progressValue, statusText) => {
+		onProgress: (progressValue, _statusText) => {
 			// 更新显示进度
 			setDisplayProgress(progressValue);
 			setShowProgress(true);
@@ -317,7 +302,7 @@ export default function ImageGenerator({ onImageGenerated, onImageSelect }: Imag
 			container.addEventListener("scroll", handleScroll);
 			return () => container.removeEventListener("scroll", handleScroll);
 		}
-	}, []);
+	}, [handleScroll]);
 
 	return (
 		<>

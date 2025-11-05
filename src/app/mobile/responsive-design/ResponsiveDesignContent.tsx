@@ -16,7 +16,7 @@ export default function ResponsiveDesignContent() {
 	const [screenSize, setScreenSize] = useState<string>("");
 	const [breakpoint, setBreakpoint] = useState<Breakpoint>("md");
 	const [selectedDemo, setSelectedDemo] = useState<DemoType>("grid");
-	const containerRef = useRef<HTMLDivElement>(null);
+	const _containerRef = useRef<HTMLDivElement>(null);
 
 	// 获取断点
 	const getBreakpoint = useCallback((width: number): Breakpoint => {

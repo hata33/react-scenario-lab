@@ -7,7 +7,7 @@ import Layout from "@/components/Layout";
 export default function SentryPage() {
 	const [testResults, setTestResults] = useState<string[]>([]);
 
-	const addResult = (message: string, type: "info" | "success" | "error" | "warning" = "info") => {
+	const addResult = (message: string, _type: "info" | "success" | "error" | "warning" = "info") => {
 		const timestamp = new Date().toLocaleTimeString();
 		setTestResults((prev) => [`${timestamp}: ${message}`, ...prev].slice(0, 10));
 	};
@@ -46,7 +46,7 @@ export default function SentryPage() {
 
 	const triggerAsyncError = async () => {
 		try {
-			await new Promise((resolve, reject) => {
+			await new Promise((_resolve, reject) => {
 				setTimeout(() => {
 					reject(new Error("异步操作失败"));
 				}, 100);

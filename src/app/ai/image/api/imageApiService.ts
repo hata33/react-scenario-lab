@@ -1,10 +1,9 @@
-import { API_CONFIG, APIError, APIErrorType, DEFAULT_CONFIG } from "./config";
+import { API_CONFIG, APIError, APIErrorType } from "./config";
 import type {
 	ImageGenerationRequest,
 	ImageGenerationResponse,
 	MidjourneyRequest,
 	MidjourneyResponse,
-	OpenAIErrorResponse,
 	ProgressCallback,
 	SiliconFlowRequest,
 	SiliconFlowResponse,

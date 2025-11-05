@@ -13,7 +13,7 @@ import { useImageHistory } from "./hooks/useImageHistory";
 export default function AIImagePage() {
 	const [activeTab, setActiveTab] = useState<"generate" | "gallery">("generate");
 	const [selectedImage, setSelectedImage] = useState<GeneratedImage | null>(null);
-	const [galleryUpdateTrigger, setGalleryUpdateTrigger] = useState(0);
+	const [_galleryUpdateTrigger, setGalleryUpdateTrigger] = useState(0);
 
 	const { images, addImage, deleteImage, toggleFavorite } = useImageHistory();
 

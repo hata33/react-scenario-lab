@@ -260,7 +260,10 @@ function DynamicSEODemo() {
 	useEffect(() => {
 		// 初始化时加载第一篇文章
 		handleArticleChange(articles[0]);
-	}, []);
+	}, [
+		// 初始化时加载第一篇文章
+		handleArticleChange,
+	]);
 
 	return (
 		<div>
@@ -981,7 +984,7 @@ function BlogSEODemo() {
 	useEffect(() => {
 		setBlogPost(defaultPost);
 		calculateSeoScore(defaultPost);
-	}, []);
+	}, [calculateSeoScore]);
 
 	const calculateSeoScore = (post: BlogPost) => {
 		let score = 0;

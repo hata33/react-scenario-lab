@@ -82,7 +82,7 @@ const CollaborativeEditor: React.FC<{
 	// 处理选择变化
 	const handleSelectionChange = useCallback(() => {
 		const selection = window.getSelection();
-		if (selection && selection.toString()) {
+		if (selection?.toString()) {
 			// 可以在这里处理文本选择的逻辑
 		}
 	}, []);
@@ -91,7 +91,7 @@ const CollaborativeEditor: React.FC<{
 	const handleContextMenu = useCallback((e: React.MouseEvent) => {
 		e.preventDefault();
 		const selection = window.getSelection();
-		if (selection && selection.toString()) {
+		if (selection?.toString()) {
 			const range = selection.getRangeAt(0);
 			const position = range.startOffset;
 			setCommentPosition(position);

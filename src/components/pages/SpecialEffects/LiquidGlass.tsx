@@ -7,9 +7,9 @@ import img3 from "@/assets/imgs/LiquidGlass-bg/3.webp";
 const images = [img1, img2, img3];
 
 export default function LiquidGlass() {
-	const [index, setIndex] = useState(0);
+	const [index, _setIndex] = useState(0);
 	const [intensity, setIntensity] = useState(16);
-	const bg = images[index % images.length];
+	const _bg = images[index % images.length];
 	const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null);
 	const [hovering, setHovering] = useState(false);
 	const lensSize = 160;

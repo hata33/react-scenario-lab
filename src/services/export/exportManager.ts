@@ -389,22 +389,6 @@ export class ExportManager {
 	}
 
 	/**
-	 * 从localStorage加载历史记录
-	 */
-	private loadHistoryFromStorage(): void {
-		if (typeof localStorage !== "undefined") {
-			try {
-				const stored = localStorage.getItem("export_history");
-				if (stored) {
-					this.exportHistory = JSON.parse(stored);
-				}
-			} catch (error) {
-				console.error("加载导出历史失败:", error);
-			}
-		}
-	}
-
-	/**
 	 * 获取导出历史
 	 */
 	getHistory(): ExportHistory[] {

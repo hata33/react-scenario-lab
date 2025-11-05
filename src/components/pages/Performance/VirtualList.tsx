@@ -23,7 +23,7 @@ export default function VirtualList() {
 			>
 				<div style={{ height: DATA.length * rowHeight }}>
 					<div style={{ transform: `translateY(${offsetyoY}px)` }}>
-						{visibleData.map((text, i) => (
+						{visibleData.map((text, _i) => (
 							<div key={startIndex + text} className="px-3" style={{ height: rowHeight, lineHeight: `${rowHeight}px` }}>
 								{text}
 							</div>

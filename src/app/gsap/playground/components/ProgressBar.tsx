@@ -86,7 +86,7 @@ export default function ProgressBar({
 			ScrollTrigger.getAll().forEach((st) => st.kill());
 			pulseTimeline.kill();
 		};
-	}, [color, showPercentage, scrollerRef, scrubValue]);
+	}, [showPercentage, scrollerRef, scrubValue]);
 
 	// 样式计算
 	const positionStyles = position === "top" ? { top: 0 } : { bottom: 0 };

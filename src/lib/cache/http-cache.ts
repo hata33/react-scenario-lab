@@ -111,7 +111,7 @@ export class HttpCacheManager {
 	}
 
 	// 缓存响应
-	private cacheResponse(key: string, response: AxiosResponse, config: AxiosRequestConfig): void {
+	private cacheResponse(key: string, response: AxiosResponse, _config: AxiosRequestConfig): void {
 		if (!this.config.cacheableStatusCodes.includes(response.status)) {
 			return;
 		}
@@ -150,11 +150,11 @@ export class HttpCacheManager {
 		}
 
 		const queryString = params.toString();
-		return `${urlObj.pathname}${queryString ? "?" + queryString : ""}`;
+		return `${urlObj.pathname}${queryString ? `?${queryString}` : ""}`;
 	}
 
 	// 默认缓存判断
-	private defaultShouldCache(url: string, response: AxiosResponse): boolean {
+	private defaultShouldCache(url: string, _response: AxiosResponse): boolean {
 		// 不缓存 API 调用（通常包含 /api/）
 		if (url.includes("/api/")) {
 			return false;
@@ -172,7 +172,7 @@ export class HttpCacheManager {
 
 		const maxAgeMatch = cacheControl.match(/max-age=(\d+)/);
 		if (maxAgeMatch) {
-			return parseInt(maxAgeMatch[1]) * 1000; // 转换为毫秒
+			return parseInt(maxAgeMatch[1], 10) * 1000; // 转换为毫秒
 		}
 
 		return null;

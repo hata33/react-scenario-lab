@@ -35,7 +35,7 @@ export default function ReleasesPage() {
 	const [selectedEnvironment, setSelectedEnvironment] = useState("production");
 	const [releases, setReleases] = useState<Release[]>([]);
 	const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
-	const [mockData, setMockData] = useState<any>({});
+	const [_mockData, _setMockData] = useState<any>({});
 
 	// 模拟版本数据
 	const mockReleases: Release[] = [

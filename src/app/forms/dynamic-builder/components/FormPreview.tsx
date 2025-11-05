@@ -8,7 +8,7 @@ interface FormPreviewProps {
 	formConfig: FormConfig;
 	formData: Record<string, any>;
 	onFieldChange: (fieldName: string, value: any) => void;
-	onSubmit: (e?: React.FormEvent) => void | Promise<boolean>;
+	onSubmit: (e?: React.FormEvent) => undefined | Promise<boolean>;
 	onReset: () => void;
 	errors: Record<string, string>;
 	validationResults?: Record<string, any>;

@@ -2,7 +2,7 @@
  * 导出功能工具类
  */
 
-import { ExportConfig, type ExportFilter, ExportOptions } from "@/types/export";
+import type { ExportFilter } from "@/types/export";
 
 export class ExportUtils {
 	/**
@@ -86,7 +86,7 @@ export class ExportUtils {
 			case "csv":
 				if (Array.isArray(data) && data.length > 0) {
 					const headers = Object.keys(data[0]);
-					content = headers.join(",") + "\n";
+					content = `${headers.join(",")}\n`;
 					content += data.map((row) => headers.map((h) => row[h]).join(",")).join("\n");
 				} else {
 					content = "";
@@ -96,7 +96,7 @@ export class ExportUtils {
 				content = JSON.stringify(data);
 				break;
 			case "xml":
-				content = '<?xml version="1.0" encoding="UTF-8"?>\n<data>\n' + JSON.stringify(data, null, 2) + "\n</data>";
+				content = `<?xml version="1.0" encoding="UTF-8"?>\n<data>\n${JSON.stringify(data, null, 2)}\n</data>`;
 				break;
 			default:
 				content = JSON.stringify(data);
@@ -143,7 +143,7 @@ export class ExportUtils {
 		const k = 1024;
 		const sizes = ["B", "KB", "MB", "GB"];
 		const i = Math.floor(Math.log(bytes) / Math.log(k));
-		return parseFloat((bytes / k ** i).toFixed(2)) + " " + sizes[i];
+		return `${parseFloat((bytes / k ** i).toFixed(2))} ${sizes[i]}`;
 	}
 
 	/**
@@ -294,7 +294,7 @@ export class ExportUtils {
 
 		const cloned = {} as T;
 		for (const key in data) {
-			if (Object.hasOwn(data, key)) {
+			if (Object.prototype.hasOwnProperty.call(data, key)) {
 				cloned[key] = ExportUtils.deepClone(data[key]);
 			}
 		}

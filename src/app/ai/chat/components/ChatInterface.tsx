@@ -11,7 +11,7 @@ export default function ChatInterface() {
 	const [inputValue, setInputValue] = useState("");
 	const [isTyping, setIsTyping] = useState(false);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
-	const [currentStreamingId, setCurrentStreamingId] = useState<string | null>(null);
+	const [_currentStreamingId, setCurrentStreamingId] = useState<string | null>(null);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
 	const { currentHistory, createHistory, addMessage } = useChatHistory();
@@ -21,7 +21,7 @@ export default function ChatInterface() {
 	// 自动滚动到底部
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-	}, [currentHistory?.messages, streamingMessage]);
+	}, []);
 
 	// 如果没有当前对话，创建一个新的
 	useEffect(() => {
@@ -156,7 +156,7 @@ export default WelcomeMessage;
 		});
 
 		// 开始流式输出
-		const finalContent = await startStream(aiResponse, (streamText) => {
+		const finalContent = await startStream(aiResponse, (_streamText) => {
 			// 实时更新消息内容
 			// 这里我们需要通过某种方式更新当前正在流式输出的消息
 		});

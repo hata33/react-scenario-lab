@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 const generateRandomText = (minWords: number, maxWords: number) => {
 	const words = [
@@ -37,7 +37,7 @@ const generateRandomText = (minWords: number, maxWords: number) => {
 		selectedWords.push(words[Math.floor(Math.random() * words.length)]);
 	}
 
-	return selectedWords.join("，") + "。";
+	return `${selectedWords.join("，")}。`;
 };
 
 const DATA = Array.from({ length: 5000 }).map((_, i) => ({

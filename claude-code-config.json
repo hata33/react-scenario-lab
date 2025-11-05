@@ -1,0 +1,9 @@
+{
+	"mcpServers": {
+		"tech-docs-reader": {
+			"command": "node",
+			"args": ["D:/Project/AASelf/my-context/dist/src/index.js"],
+			"cwd": "D:/Project/AASelf/my-context"
+		}
+	}
+}

@@ -1,21 +1,6 @@
 "use client";
 
-import {
-	Calendar,
-	Download,
-	Edit3,
-	Filter,
-	Grid3X3,
-	Heart,
-	HeartOff,
-	Image as ImageIcon,
-	List,
-	Search,
-	Share2,
-	Trash2,
-	X,
-	ZoomIn,
-} from "lucide-react";
+import { Download, Filter, Grid3X3, Heart, HeartOff, Image as ImageIcon, List, Search, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useImageHistory } from "../hooks/useImageHistory";
 import type { GeneratedImage } from "./ImageGenerator";
@@ -31,7 +16,7 @@ export default function ImageGallery({ images, onImageSelect, onImageUpdate }: I
 	const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 	const [selectedModel, setSelectedModel] = useState("");
 	const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-	const [selectedImage, setSelectedImage] = useState<GeneratedImage | null>(null);
+	const [_selectedImage, setSelectedImage] = useState<GeneratedImage | null>(null);
 	const [showFilters, setShowFilters] = useState(false);
 
 	const { deleteImage, toggleFavorite, exportHistory, getStats } = useImageHistory();

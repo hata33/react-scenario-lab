@@ -2,7 +2,7 @@ import { HttpCacheManager } from "./http-cache";
 import { MemoryCache } from "./memory-cache";
 import { LocalStorageAdapter, SessionStorageAdapter } from "./storage-manager";
 import { StrategyFactory } from "./strategies";
-import { type CacheConfig, type CacheStrategy, StorageAdapter } from "./types";
+import type { CacheConfig, CacheStrategy } from "./types";
 
 export class UnifiedCacheManager {
 	private memoryCache: MemoryCache;

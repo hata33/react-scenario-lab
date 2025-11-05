@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, CheckCircle, Code, Image as ImageIcon, Monitor, Type, Zap } from "lucide-react";
+import { ArrowLeft, CheckCircle, Code, Image as ImageIcon, Monitor, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type React from "react";

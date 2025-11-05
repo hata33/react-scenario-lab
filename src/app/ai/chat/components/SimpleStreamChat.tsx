@@ -25,7 +25,7 @@ export default function SimpleStreamChat() {
 	// 自动滚动到底部
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-	}, [currentHistory?.messages, streamingText]);
+	}, []);
 
 	// 自动调整 textarea 高度
 	useEffect(() => {
@@ -38,7 +38,7 @@ export default function SimpleStreamChat() {
 			textarea.style.height = `${newHeight}px`;
 			setTextareaHeight(`${newHeight}px`);
 		}
-	}, [inputValue]);
+	}, []);
 
 	// 如果没有当前对话，创建一个新的
 	useEffect(() => {
@@ -430,7 +430,6 @@ export default WelcomeMessage;
 										scrollbarColor: "#E5E7EB transparent",
 									}}
 									rows={1}
-									autoFocus
 								/>
 							</div>
 

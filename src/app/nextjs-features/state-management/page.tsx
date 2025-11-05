@@ -2,7 +2,7 @@
 
 import { ArrowLeft, CheckCircle, Cloud, Database, HardDrive, Share2, Zap } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 import Layout from "@/components/Layout";
 
 interface StateManagementExample {

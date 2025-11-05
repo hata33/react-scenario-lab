@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase-client";
-import { Database } from "@/types/database";
 import type { Todo, TodoFilters, TodoFormData } from "@/types/todo";
 
 export function useTodos() {
@@ -108,7 +107,7 @@ export function useTodos() {
 
 	useEffect(() => {
 		fetchTodos();
-	}, [filters]);
+	}, [fetchTodos]);
 
 	// 实时订阅
 	useEffect(() => {
@@ -131,7 +130,7 @@ export function useTodos() {
 		return () => {
 			supabase.removeChannel(channel);
 		};
-	}, []);
+	}, [fetchTodos]);
 
 	return {
 		todos,

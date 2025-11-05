@@ -3,7 +3,7 @@
 
 const express = require("express");
 const redis = require("redis");
-const crypto = require("crypto");
+const crypto = require("node:crypto");
 const app = express();
 
 // Redis 客户端配置
@@ -88,7 +88,7 @@ function setCacheHeaders(req, res, next) {
 
 // 缓存响应中间件
 function cacheResponse() {
-	return (req, res, next) => {
+	return (_req, res, next) => {
 		const originalJson = res.json;
 
 		res.json = function (data) {
@@ -155,7 +155,7 @@ app.get(
 		ttl: 600, // 10分钟
 		keyGenerator: () => "products:hot",
 	}),
-	async (req, res) => {
+	async (_req, res) => {
 		// 模拟热门商品数据
 		const hotProducts = [
 			{ id: 1, name: "商品1", price: 99.99, views: 1000 },
@@ -220,7 +220,7 @@ app.get(
 );
 
 // 5. 文件上传 (不缓存)
-app.post("/api/upload", (req, res) => {
+app.post("/api/upload", (_req, res) => {
 	// 文件上传逻辑
 	res.set("Cache-Control", "no-cache");
 	res.json({ success: true, message: "File uploaded successfully" });
@@ -275,7 +275,7 @@ app.post("/api/admin/cache/clear", async (req, res) => {
 });
 
 // 8. 缓存统计接口
-app.get("/api/admin/cache/stats", async (req, res) => {
+app.get("/api/admin/cache/stats", async (_req, res) => {
 	try {
 		const info = await redisClient.info("memory");
 		const keyspace = await redisClient.info("keyspace");
@@ -291,13 +291,13 @@ app.get("/api/admin/cache/stats", async (req, res) => {
 });
 
 // 错误处理
-app.use((error, req, res, next) => {
+app.use((error, _req, res, _next) => {
 	console.error("Server error:", error);
 	res.status(500).json({ error: "Internal server error" });
 });
 
 // 404 处理
-app.use((req, res) => {
+app.use((_req, res) => {
 	res.status(404).json({ error: "Not found" });
 });
 

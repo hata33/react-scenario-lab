@@ -158,7 +158,7 @@ export default function MultiLevelNodesPage() {
 			.enter()
 			.append("g")
 			.call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended) as any)
-			.on("click", (event, d) => {
+			.on("click", (_event, d) => {
 				setSelectedNode(d);
 			});
 
@@ -178,10 +178,10 @@ export default function MultiLevelNodesPage() {
 			.attr("stroke", "#fff")
 			.attr("stroke-width", 2)
 			.style("cursor", "pointer")
-			.on("mouseover", function (event, d) {
+			.on("mouseover", function (_event, _d) {
 				d3.select(this).attr("r", (d: any) => 12 + d.group * 3);
 			})
-			.on("mouseout", function (event, d) {
+			.on("mouseout", function (_event, _d) {
 				d3.select(this).attr("r", (d: any) => 10 + d.group * 3);
 			});
 
@@ -227,7 +227,7 @@ export default function MultiLevelNodesPage() {
 		return () => {
 			simulation.stop();
 		};
-	}, []);
+	}, [generateData]);
 
 	// 处理搜索
 	const handleSearch = (term: string) => {
@@ -239,7 +239,7 @@ export default function MultiLevelNodesPage() {
 		// 只选择有数据的节点组（包含圆圈的g元素）
 		const nodes = svg.selectAll("g").filter((d: any) => {
 			// 过滤掉没有数据的g元素（如连接线的容器g）
-			return d && d.name; // 确保有数据且包含name属性
+			return d?.name; // 确保有数据且包含name属性
 		});
 
 		console.log("找到节点数量:", nodes.size());

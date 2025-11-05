@@ -1,7 +1,7 @@
 "use client";
 
-import { Download, Eye, File, FileSpreadsheet, FileText, Image, Loader2 } from "lucide-react";
-import React, { useRef, useState } from "react";
+import { Download, FileText, Loader2 } from "lucide-react";
+import { useRef, useState } from "react";
 import { ExportButton, ExportHistoryComponent } from "@/components/export";
 import { useExport } from "@/hooks/export/useExport";
 

@@ -29,6 +29,13 @@ export default function ActionsPage() {
 			difficulty: "初级",
 		},
 		{
+			id: "serverFunctions",
+			title: "Server Functions",
+			description: "服务端函数与客户端组件集成",
+			emoji: "🖥️",
+			difficulty: "中级",
+		},
+		{
 			id: "useTransition",
 			title: "useTransition",
 			description: "并发渲染，避免界面阻塞",
@@ -177,7 +184,174 @@ export default function ActionsPage() {
 					{selectedDemo === "useActionState" && <UseActionStateDemo />}
 					{selectedDemo === "useOptimistic" && <UseOptimisticDemo />}
 					{selectedDemo === "useFormStatus" && <UseFormStatusDemo />}
+					{selectedDemo === "serverFunctions" && <ServerFunctionsDemo />}
 					{selectedDemo === "useTransition" && <UseTransitionDemo />}
+				</div>
+			</div>
+
+			{/* 官方代码示例 */}
+			<div className="mt-12 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
+				<h2 className="mb-6 font-bold text-2xl text-gray-900 dark:text-white">📚 官方代码示例</h2>
+				<p className="mb-6 text-gray-600 dark:text-gray-300">
+					以下示例来自 React 官方文档，展示了 Actions 生态系统的最佳实践
+				</p>
+
+				<div className="grid gap-6 lg:grid-cols-2">
+					{/* 渐进增强示例 */}
+					<div className="rounded-lg border border-gray-200 p-4 dark:border-gray-600">
+						<h3 className="mb-3 font-semibold text-gray-800 dark:text-gray-200">🚀 渐进增强支持</h3>
+						<pre className="mb-2 overflow-x-auto rounded bg-gray-900 p-3 text-gray-100 text-xs">
+							{`// useActionState 支持 permalink
+"use client";
+import {updateName} from './actions';
+
+function UpdateName() {
+  const [, submitAction] = useActionState(
+    updateName,
+    null,
+    '/name/update'  // JavaScript 加载前的回退 URL
+  );
+
+  return (
+    <form action={submitAction}>
+      <input name="name" />
+      <button type="submit">更新</button>
+    </form>
+  );
+}`}
+						</pre>
+						<p className="text-gray-600 text-xs dark:text-gray-400">即使 JavaScript 未加载，表单也能正常工作</p>
+					</div>
+
+					{/* 多按钮表单示例 */}
+					<div className="rounded-lg border border-gray-200 p-4 dark:border-gray-600">
+						<h3 className="mb-3 font-semibold text-gray-800 dark:text-gray-200">🎯 多按钮表单处理</h3>
+						<pre className="mb-2 overflow-x-auto rounded bg-gray-900 p-3 text-gray-100 text-xs">
+							{`function ArticleEditor() {
+  function publish(formData) {
+    const content = formData.get("content");
+    const button = formData.get("button");
+    // 根据按钮类型执行不同操作
+    if (button === "publish") {
+      return publishArticle(content);
+    }
+    return saveDraft(content);
+  }
+
+  return (
+    <form action={publish}>
+      <textarea name="content" />
+      <button name="button" value="publish">发布</button>
+      <button formAction={save}>保存草稿</button>
+    </form>
+  );
+}`}
+						</pre>
+						<p className="text-gray-600 text-xs dark:text-gray-400">使用 formAction 处理不同的提交类型</p>
+					</div>
+
+					{/* useTransition 与 Actions 结合 */}
+					<div className="rounded-lg border border-gray-200 p-4 dark:border-gray-600">
+						<h3 className="mb-3 font-semibold text-gray-800 dark:text-gray-200">⚡ useTransition + Actions</h3>
+						<pre className="mb-2 overflow-x-auto rounded bg-gray-900 p-3 text-gray-100 text-xs">
+							{`function LikeButton() {
+  const [isPending, startTransition] = useTransition();
+
+  const onClick = () => {
+    startTransition(async () => {
+      await incrementLike(); // Server Function
+      // UI 会在后台更新，不阻塞用户交互
+    });
+  };
+
+  return (
+    <button onClick={onClick} disabled={isPending}>
+      {isPending ? "点赞中..." : "👍 点赞"}
+    </button>
+  );
+}`}
+						</pre>
+						<p className="text-gray-600 text-xs dark:text-gray-400">非表单操作的异步状态管理</p>
+					</div>
+
+					{/* 传递额外参数 */}
+					<div className="rounded-lg border border-gray-200 p-4 dark:border-gray-600">
+						<h3 className="mb-3 font-semibold text-gray-800 dark:text-gray-200">📦 传递额外参数</h3>
+						<pre className="mb-2 overflow-x-auto rounded bg-gray-900 p-3 text-gray-100 text-xs">
+							{`function AddToCart({productId}) {
+  async function addToCart(productId, formData) {
+    "use server";
+    const quantity = formData.get("quantity");
+    await updateCart(productId, quantity);
+  }
+
+  // 使用 bind 预设参数
+  const addProductToCart = addToCart.bind(null, productId);
+
+  return (
+    <form action={addProductToCart}>
+      <input name="quantity" type="number" defaultValue="1" />
+      <button type="submit">加入购物车</button>
+    </form>
+  );
+}`}
+						</pre>
+						<p className="text-gray-600 text-xs dark:text-gray-400">使用 bind 方法传递额外参数给 Server Function</p>
+					</div>
+
+					{/* 表单数据访问 */}
+					<div className="rounded-lg border border-gray-200 p-4 dark:border-gray-600">
+						<h3 className="mb-3 font-semibold text-gray-800 dark:text-gray-200">📊 访问表单数据</h3>
+						<pre className="mb-2 overflow-x-auto rounded bg-gray-900 p-3 text-gray-100 text-xs">
+							{`function SubmitButton() {
+  const { pending, data } = useFormStatus();
+
+  return (
+    <button disabled={pending}>
+      {pending ? "提交中..." : "提交"}
+      {data && (
+        <p className="text-sm text-gray-500">
+          正在提交: {data.get("username")}
+        </p>
+      )}
+    </button>
+  );
+}`}
+						</pre>
+						<p className="text-gray-600 text-xs dark:text-gray-400">useFormStatus 可以访问表单提交的数据</p>
+					</div>
+
+					{/* 错误处理 */}
+					<div className="rounded-lg border border-gray-200 p-4 dark:border-gray-600">
+						<h3 className="mb-3 font-semibold text-gray-800 dark:text-gray-200">⚠️ 错误处理最佳实践</h3>
+						<pre className="mb-2 overflow-x-auto rounded bg-gray-900 p-3 text-gray-100 text-xs">
+							{`// Server Function
+"use server";
+export async function signup(prevState, formData) {
+  const email = formData.get("email");
+  try {
+    await createUser(email);
+    return { success: true };
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+// Client Component
+function SignupForm() {
+  const [state, formAction, isPending] = useActionState(signup, null);
+
+  return (
+    <form action={formAction}>
+      <input name="email" />
+      <button disabled={isPending}>注册</button>
+      {state?.error && <p className="error">{state.error}</p>}
+    </form>
+  );
+}`}
+						</pre>
+						<p className="text-gray-600 text-xs dark:text-gray-400">统一的错误处理模式</p>
+					</div>
 				</div>
 			</div>
 		</Layout>
@@ -186,33 +360,29 @@ export default function ActionsPage() {
 
 // useActionState Demo 组件
 function UseActionStateDemo() {
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [isPending, setIsPending] = useState(false);
-	const [result, setResult] = useState<{ error?: string; success?: boolean; message?: string } | null>(null);
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setIsPending(true);
-
+	// 模拟 Server Function
+	async function submitForm(
+		_previousState: { error?: string; success?: boolean; message?: string } | null,
+		formData: FormData,
+	) {
 		// 模拟异步提交
 		await new Promise((resolve) => setTimeout(resolve, 1500));
 
+		const name = formData.get("name") as string;
+		const email = formData.get("email") as string;
+
 		if (!name || !email) {
-			setResult({ error: "请填写所有字段" });
-			setIsPending(false);
-			return;
+			return { error: "请填写所有字段" };
 		}
 
 		if (!email.includes("@")) {
-			setResult({ error: "请输入有效的邮箱地址" });
-			setIsPending(false);
-			return;
+			return { error: "请输入有效的邮箱地址" };
 		}
 
-		setResult({ success: true, message: `欢迎 ${name}！注册成功` });
-		setIsPending(false);
-	};
+		return { success: true, message: `欢迎 ${name}！注册成功` };
+	}
+
+	const [state, formAction, isPending] = React.useActionState(submitForm, null);
 
 	return (
 		<div>
@@ -221,13 +391,12 @@ function UseActionStateDemo() {
 				useActionState Hook 帮助管理异步操作的状态，包括 pending、error、success 状态。
 			</p>
 
-			<form onSubmit={handleSubmit} className="max-w-md space-y-4">
+			<form action={formAction} className="max-w-md space-y-4">
 				<div>
 					<label className="mb-2 block font-medium text-gray-700 text-sm dark:text-gray-300">姓名</label>
 					<input
 						type="text"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
+						name="name"
 						disabled={isPending}
 						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
 						placeholder="请输入姓名"
@@ -238,8 +407,7 @@ function UseActionStateDemo() {
 					<label className="mb-2 block font-medium text-gray-700 text-sm dark:text-gray-300">邮箱</label>
 					<input
 						type="email"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						name="email"
 						disabled={isPending}
 						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
 						placeholder="请输入邮箱"
@@ -256,15 +424,15 @@ function UseActionStateDemo() {
 					{isPending ? "提交中..." : "注册"}
 				</button>
 
-				{result?.error && (
+				{state?.error && (
 					<div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-300">
-						{result.error}
+						{state.error}
 					</div>
 				)}
 
-				{result?.success && (
+				{state?.success && (
 					<div className="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-green-700 dark:border-green-800 dark:bg-green-900/20 dark:text-green-300">
-						{result.message}
+						{state.message}
 					</div>
 				)}
 			</form>
@@ -404,6 +572,13 @@ function UseOptimisticDemo() {
 
 // useFormStatus Demo 组件
 function UseFormStatusDemo() {
+	// 模拟 Server Function
+	async function sendMessage(formData: FormData) {
+		await new Promise((resolve) => setTimeout(resolve, 2000));
+		const message = formData.get("message") as string;
+		console.log("消息已发送:", message);
+	}
+
 	return (
 		<div>
 			<h3 className="mb-4 font-bold text-2xl text-gray-900 dark:text-white">📊 useFormStatus 演示</h3>
@@ -411,10 +586,11 @@ function UseFormStatusDemo() {
 				useFormStatus Hook 提供表单提交状态信息，用于在子组件中获取父表单的状态。
 			</p>
 
-			<form className="max-w-md space-y-4">
+			<form action={sendMessage} className="max-w-md space-y-4">
 				<div>
 					<label className="mb-2 block font-medium text-gray-700 text-sm dark:text-gray-300">消息内容</label>
 					<textarea
+						name="message"
 						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
 						rows={4}
 						placeholder="输入你的消息..."
@@ -425,7 +601,7 @@ function UseFormStatusDemo() {
 
 				<div className="rounded-md bg-blue-50 p-4 dark:bg-blue-900/20">
 					<p className="text-blue-700 text-sm dark:text-blue-300">
-						💡 注意：SubmitButton 组件通过 useFormStatus Hook 获取表单的 pending 状态， 不需要通过 props
+						💡 注意：SubmitButton 组件通过 useFormStatus Hook 获取表单的 pending 状态，不需要通过 props
 						传递状态，简化了组件间的通信。
 					</p>
 				</div>
@@ -434,9 +610,9 @@ function UseFormStatusDemo() {
 			<div className="mt-6 rounded-md bg-gray-50 p-4 dark:bg-gray-700">
 				<h4 className="mb-2 font-semibold text-gray-900 dark:text-white">useFormStatus 的优势：</h4>
 				<ul className="space-y-1 text-gray-600 text-sm dark:text-gray-300">
-					<li>• 自动获取表单状态</li>
-					<li>• 简化组件间通信</li>
-					<li>• 无需手动状态传递</li>
+					<li>• 自动获取表单状态（pending、data、method、action）</li>
+					<li>• 简化组件间通信，无需 prop drilling</li>
+					<li>• 自动处理表单禁用状态</li>
 					<li>• 与 Actions 完美集成</li>
 				</ul>
 			</div>
@@ -444,30 +620,159 @@ function UseFormStatusDemo() {
 	);
 }
 
-// SubmitButton 子组件
+// SubmitButton 子组件 - 使用真正的 useFormStatus Hook
 function SubmitButton() {
-	const [isPending, setIsPending] = useState(false);
-
-	const handleSubmit = async (e: React.MouseEvent) => {
-		e.preventDefault();
-		setIsPending(true);
-
-		// 模拟提交
-		await new Promise((resolve) => setTimeout(resolve, 2000));
-		setIsPending(false);
-	};
+	// @ts-ignore - React 19 Hook，类型定义可能还不完善
+	const { pending, data } = (React as any).useFormStatus?.() || { pending: false, data: null };
 
 	return (
 		<button
 			type="submit"
-			disabled={isPending}
-			onClick={handleSubmit}
+			disabled={pending}
 			className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
-				isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
+				pending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
 			}`}
 		>
-			{isPending ? "发送中..." : "发送消息"}
+			{pending ? "发送中..." : "发送消息"}
 		</button>
+	);
+}
+
+// Server Functions Demo 组件
+function ServerFunctionsDemo() {
+	const [messages, setMessages] = useState<Array<{ id: number; text: string; sender: string; time: string }>>([
+		{ id: 1, text: "欢迎来到聊天室！", sender: "系统", time: "10:00" },
+	]);
+	const [_result, _setResult] = useState<{ success?: boolean; message?: string } | null>(null);
+
+	// 模拟 Server Function - 在实际应用中，这会是一个带有 'use server' 指令的函数
+	async function sendMessage(formData: FormData) {
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+		const message = formData.get("message") as string;
+
+		if (!message.trim()) {
+			return { success: false, message: "消息不能为空" };
+		}
+
+		// 模拟消息发送成功
+		const newMessage = {
+			id: Date.now(),
+			text: message,
+			sender: "用户",
+			time: new Date().toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" }),
+		};
+
+		setMessages((prev) => [...prev, newMessage]);
+		return { success: true, message: "消息发送成功" };
+	}
+
+	// @ts-ignore - React 19 Hook，类型定义可能还不完善
+	const [state, formAction, isPending] = (React as any).useActionState?.(sendMessage, null) || [
+		null,
+		sendMessage,
+		false,
+	];
+
+	return (
+		<div>
+			<h3 className="mb-4 font-bold text-2xl text-gray-900 dark:text-white">🖥️ Server Functions 演示</h3>
+			<p className="mb-6 text-gray-600 dark:text-gray-300">
+				Server Functions 允许客户端组件直接调用服务端函数，实现无缝的客户端-服务端交互。
+			</p>
+
+			{/* 聊天界面 */}
+			<div className="mx-auto max-w-2xl">
+				<div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700">
+					<h4 className="mb-3 font-semibold text-gray-800 dark:text-gray-200">💬 聊天室</h4>
+					<div className="mb-4 h-64 overflow-y-auto rounded border border-gray-200 bg-white p-3 dark:border-gray-600 dark:bg-gray-800">
+						{messages.map((msg) => (
+							<div key={msg.id} className="mb-2">
+								<div className="flex items-baseline gap-2">
+									<span className="font-medium text-gray-500 text-xs dark:text-gray-400">{msg.time}</span>
+									<span
+										className={`font-medium text-sm ${msg.sender === "系统" ? "text-blue-600 dark:text-blue-400" : "text-green-600 dark:text-green-400"}`}
+									>
+										{msg.sender}:
+									</span>
+								</div>
+								<p className="text-gray-800 dark:text-gray-200">{msg.text}</p>
+							</div>
+						))}
+					</div>
+
+					<form action={formAction} className="space-y-3">
+						<div className="flex gap-2">
+							<input
+								type="text"
+								name="message"
+								disabled={isPending}
+								className="flex-1 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+								placeholder="输入消息..."
+							/>
+							<button
+								type="submit"
+								disabled={isPending}
+								className={`rounded-md px-4 py-2 font-medium transition-colors ${
+									isPending
+										? "cursor-not-allowed bg-gray-400 text-gray-200"
+										: "bg-blue-500 text-white hover:bg-blue-600"
+								}`}
+							>
+								{isPending ? "发送中..." : "发送"}
+							</button>
+						</div>
+
+						{state?.success === false && (
+							<div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-red-700 text-sm dark:border-red-800 dark:bg-red-900/20 dark:text-red-300">
+								{state.message}
+							</div>
+						)}
+
+						{state?.success === true && (
+							<div className="rounded-md border border-green-200 bg-green-50 px-3 py-2 text-green-700 text-sm dark:border-green-800 dark:bg-green-900/20 dark:text-green-300">
+								{state.message}
+							</div>
+						)}
+					</form>
+				</div>
+
+				<div className="mt-6 rounded-md bg-gray-50 p-4 dark:bg-gray-700">
+					<h4 className="mb-2 font-semibold text-gray-900 dark:text-white">Server Functions 的优势：</h4>
+					<ul className="space-y-1 text-gray-600 text-sm dark:text-gray-300">
+						<li>• 客户端组件可直接调用服务端函数</li>
+						<li>• 无需手动 API 路由和请求处理</li>
+						<li>• 自动处理序列化和反序列化</li>
+						<li>• 支持渐进增强，JavaScript 加载前也能工作</li>
+						<li>• 类型安全，支持 TypeScript</li>
+						<li>• 与 React Hooks 完美集成</li>
+					</ul>
+				</div>
+
+				<div className="mt-4 rounded-md border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
+					<h4 className="mb-2 font-semibold text-blue-800 dark:text-blue-200">📝 实际使用示例：</h4>
+					<pre className="mb-2 overflow-x-auto rounded bg-gray-900 p-3 text-gray-100 text-xs">
+						{`// 服务端函数 (server.js)
+'use server';
+export async function sendMessage(message) {
+  await db.messages.create({ text: message });
+  return { success: true };
+}
+
+// 客户端组件
+import { sendMessage } from './server';
+
+function ChatForm() {
+  return (
+    <form action={sendMessage}>
+      <input name="message" />
+      <button type="submit">发送</button>
+    </form>
+  );
+}`}
+					</pre>
+				</div>
+			</div>
+		</div>
 	);
 }
 

@@ -24,21 +24,21 @@
 
 /* 覆盖 Tailwind CSS 4 的默认边框颜色 */
 .border {
-	border-color: var(--border-200) !important;
-	border-style: var(--tw-border-style) !important;
-	border-width: var(--tw-border-width) !important;
+	border-color: var(--border-200);
+	border-style: var(--tw-border-style);
+	border-width: var(--tw-border-width);
 }
 
 .border-gray-200 {
-	border-color: var(--border-200) !important;
+	border-color: var(--border-200);
 }
 
 .border-gray-300 {
-	border-color: var(--border-300) !important;
+	border-color: var(--border-300);
 }
 
 .border-gray-400 {
-	border-color: var(--border-400) !important;
+	border-color: var(--border-400);
 }
 
 /* 全局边框样式调整 */
@@ -48,28 +48,28 @@
 
 /* 确保所有边框都使用更柔和的颜色 */
 .border-white\/70 {
-	border-color: rgba(255, 255, 255, 0.7) !important;
+	border-color: rgba(255, 255, 255, 0.7);
 }
 
 .border-white\/30 {
-	border-color: rgba(255, 255, 255, 0.3) !important;
+	border-color: rgba(255, 255, 255, 0.3);
 }
 
 .border-white\/40 {
-	border-color: rgba(255, 255, 255, 0.4) !important;
+	border-color: rgba(255, 255, 255, 0.4);
 }
 
 /* 自定义边框样式类 */
 .border-soft {
-	border-color: var(--border-200) !important;
-	border-style: solid !important;
-	border-width: 1px !important;
+	border-color: var(--border-200);
+	border-style: solid;
+	border-width: 1px;
 }
 
 .border-very-soft {
-	border-color: var(--border-100) !important;
-	border-style: solid !important;
-	border-width: 1px !important;
+	border-color: var(--border-100);
+	border-style: solid;
+	border-width: 1px;
 }
 
 html,
@@ -90,78 +90,78 @@ body {
 @media (prefers-color-scheme: light) {
 	/* 针对灰色文字增强对比度 */
 	.text-gray-600 {
-		color: #4b5563 !important;
+		color: #4b5563;
 		font-weight: 500;
 	}
 
 	.text-gray-500 {
-		color: #6b7280 !important;
+		color: #6b7280;
 		font-weight: 500;
 	}
 
 	/* 针对蓝色系文字增强对比度 */
 	.text-blue-600 {
-		color: #1d4ed8 !important;
+		color: #1d4ed8;
 	}
 
 	.text-blue-700 {
-		color: #1d4ed8 !important;
+		color: #1d4ed8;
 	}
 
 	.text-blue-800 {
-		color: #1e40af !important;
+		color: #1e40af;
 	}
 
 	/* 针对绿色系文字增强对比度 */
 	.text-green-600 {
-		color: #059669 !important;
+		color: #059669;
 	}
 
 	.text-green-700 {
-		color: #059669 !important;
+		color: #059669;
 	}
 
 	.text-green-800 {
-		color: #065f46 !important;
+		color: #065f46;
 	}
 
 	/* 针对红色系文字增强对比度 */
 	.text-red-600 {
-		color: #dc2626 !important;
+		color: #dc2626;
 	}
 
 	.text-red-700 {
-		color: #dc2626 !important;
+		color: #dc2626;
 	}
 
 	.text-red-800 {
-		color: #991b1b !important;
+		color: #991b1b;
 	}
 
 	/* 针对紫色系文字增强对比度 */
 	.text-purple-600 {
-		color: #7c3aed !important;
+		color: #7c3aed;
 	}
 
 	.text-purple-700 {
-		color: #7c3aed !important;
+		color: #7c3aed;
 	}
 
 	.text-purple-800 {
-		color: #6b21a8 !important;
+		color: #6b21a8;
 	}
 
 	/* 针对青色系文字增强对比度 */
 	.text-teal-600 {
-		color: #0d9488 !important;
+		color: #0d9488;
 	}
 
 	.text-teal-700 {
-		color: #0d9488 !important;
+		color: #0d9488;
 	}
 
 	.text-teal-800 {
-		color: #115e59 !important;
+		color: #115e59;
 	}
 }
 
@@ -183,6 +183,6 @@ body {
 .dark .text-teal-600,
 .dark .text-teal-700,
 .dark .text-teal-800 {
-	color: revert !important;
-	font-weight: revert !important;
+	color: revert;
+	font-weight: revert;
 }

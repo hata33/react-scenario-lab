@@ -17,7 +17,7 @@ const TableGenerator: React.FC<{
 		// 表头
 		tableHtml += "<thead><tr>";
 		for (let i = 0; i < cols; i++) {
-			tableHtml += '<th class="border border-gray-300 px-4 py-2 bg-gray-50">标题 ' + (i + 1) + "</th>";
+			tableHtml += `<th class="border border-gray-300 px-4 py-2 bg-gray-50">标题 ${i + 1}</th>`;
 		}
 		tableHtml += "</tr></thead>";
 
@@ -26,7 +26,7 @@ const TableGenerator: React.FC<{
 		for (let i = 0; i < rows; i++) {
 			tableHtml += "<tr>";
 			for (let j = 0; j < cols; j++) {
-				tableHtml += '<td class="border border-gray-300 px-4 py-2">单元格 ' + (i * cols + j + 1) + "</td>";
+				tableHtml += `<td class="border border-gray-300 px-4 py-2">单元格 ${i * cols + j + 1}</td>`;
 			}
 			tableHtml += "</tr>";
 		}
@@ -59,7 +59,7 @@ const TableGenerator: React.FC<{
 								min="1"
 								max="10"
 								value={rows}
-								onChange={(e) => setRows(parseInt(e.target.value) || 1)}
+								onChange={(e) => setRows(parseInt(e.target.value, 10) || 1)}
 								className="w-20 rounded border border-gray-300 px-2 py-1"
 							/>
 						</div>
@@ -70,7 +70,7 @@ const TableGenerator: React.FC<{
 								min="1"
 								max="10"
 								value={cols}
-								onChange={(e) => setCols(parseInt(e.target.value) || 1)}
+								onChange={(e) => setCols(parseInt(e.target.value, 10) || 1)}
 								className="w-20 rounded border border-gray-300 px-2 py-1"
 							/>
 						</div>
@@ -284,7 +284,7 @@ const AdvancedRichTextEditor: React.FC<{
 				document.execCommand("insertHTML", false, value);
 			} else if (command === "insertLink") {
 				const selection = window.getSelection();
-				if (selection && selection.toString()) {
+				if (selection?.toString()) {
 					document.execCommand("createLink", false, value);
 				} else {
 					const linkHtml = `<a href="${value}" target="_blank">${value}</a>`;
@@ -359,7 +359,7 @@ const AdvancedRichTextEditor: React.FC<{
 					{/* 高级元素 */}
 					<div className="flex items-center gap-1 border-gray-300 border-r pr-2">
 						<TableGenerator onInsert={(html) => executeCommand("insertHTML", html)} />
-						<LinkDialog onInsert={(url, text) => executeCommand("insertLink", url)} />
+						<LinkDialog onInsert={(url, _text) => executeCommand("insertLink", url)} />
 						<ImageUploader onInsert={(url, alt) => executeCommand("insertImage", { url, alt })} />
 					</div>
 

@@ -39,7 +39,7 @@ export class ImageExporter {
 					options?.quality || 0.9,
 				);
 			});
-		} catch (error) {
+		} catch (_error) {
 			throw new Error("PNG导出功能暂时禁用");
 		}
 	}
@@ -72,7 +72,7 @@ export class ImageExporter {
 					options?.quality || 0.8,
 				);
 			});
-		} catch (error) {
+		} catch (_error) {
 			throw new Error("JPG导出功能暂时禁用");
 		}
 	}
@@ -262,7 +262,7 @@ export class ImageExporter {
 	 */
 	static async convertFormat(
 		blob: Blob,
-		fromFormat: string,
+		_fromFormat: string,
 		toFormat: "png" | "jpg" | "webp",
 		options?: ExportOptions,
 	): Promise<Blob> {

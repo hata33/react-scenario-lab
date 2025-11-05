@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useFormValidator } from "../components/FormValidator";
 import { DEFAULT_FORM_CONFIG, FIELD_TYPES } from "../constants";
 import type { ActiveTab, BuilderMode, FieldType, FormConfig, FormField } from "../types";
@@ -121,7 +121,7 @@ export const useFormManager = () => {
 	// 导出表单配置
 	const exportForm = useCallback(() => {
 		const dataStr = JSON.stringify(formConfig, null, 2);
-		const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+		const dataUri = `data:application/json;charset=utf-8,${encodeURIComponent(dataStr)}`;
 
 		const exportFileDefaultName = `form-config-${Date.now()}.json`;
 
@@ -141,7 +141,7 @@ export const useFormManager = () => {
 					const config = JSON.parse(e.target?.result as string);
 					setFormConfig(config);
 					setSelectedField(null);
-				} catch (error) {
+				} catch (_error) {
 					alert("文件格式错误，请选择有效的配置文件");
 				}
 			};

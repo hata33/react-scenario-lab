@@ -317,7 +317,7 @@ ScrollTrigger.addEventListener("refreshInit", () => {
 		return () => {
 			ScrollTrigger.getAll().forEach((st) => st.kill());
 			tl.kill();
-			if (particlesContainer && particlesContainer.parentNode) {
+			if (particlesContainer?.parentNode) {
 				particlesContainer.parentNode.removeChild(particlesContainer);
 			}
 		};

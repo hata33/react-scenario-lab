@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, Eye, File, FileSpreadsheet, FileText, Image, Loader2, Settings, X } from "lucide-react";
+import { Download, Eye, File, FileSpreadsheet, FileText, Image, Loader2, X } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import { ExportManager } from "@/services/export/exportManager";
@@ -125,7 +125,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
 				case "csv":
 					if (Array.isArray(data) && data.length > 0) {
 						const headers = Object.keys(data[0]);
-						preview = headers.join(",") + "\n";
+						preview = `${headers.join(",")}\n`;
 						preview += Object.values(data[0]).join(",");
 					}
 					break;
@@ -134,7 +134,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
 					break;
 				case "markdown":
 					if (Array.isArray(data)) {
-						preview = "| " + Object.keys(data[0] || {}).join(" | ") + " |\n";
+						preview = `| ${Object.keys(data[0] || {}).join(" | ")} |\n`;
 						preview +=
 							"|" +
 							Object.keys(data[0] || {})
@@ -167,7 +167,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
 		}
 	};
 
-	const IconComponent = formatOptions.find((opt) => opt.value === selectedFormat)?.icon || FileText;
+	const _IconComponent = formatOptions.find((opt) => opt.value === selectedFormat)?.icon || FileText;
 
 	return (
 		<>

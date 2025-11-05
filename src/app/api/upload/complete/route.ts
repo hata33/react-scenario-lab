@@ -1,6 +1,6 @@
-import { mkdir, readdir, readFile, unlink, writeFile } from "fs/promises";
+import { mkdir, readdir, readFile, unlink, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import { type NextRequest, NextResponse } from "next/server";
-import { join } from "path";
 
 // 配置上传目录
 const UPLOAD_BASE_DIR = process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
@@ -26,8 +26,8 @@ export async function POST(request: NextRequest) {
 		const chunkFilesSorted = chunkFiles
 			.filter((file) => file.endsWith(".chunk"))
 			.sort((a, b) => {
-				const aIndex = parseInt(a.replace(".chunk", ""));
-				const bIndex = parseInt(b.replace(".chunk", ""));
+				const aIndex = parseInt(a.replace(".chunk", ""), 10);
+				const bIndex = parseInt(b.replace(".chunk", ""), 10);
 				return aIndex - bIndex;
 			});
 
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
 		// 删除临时目录
 		try {
 			await unlink(tempDir);
-		} catch (error) {
+		} catch (_error) {
 			// 如果目录不为空，删除失败也没关系
 		}
 

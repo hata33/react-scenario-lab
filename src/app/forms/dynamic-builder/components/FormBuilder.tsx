@@ -3,7 +3,7 @@
 import { ChevronDown, ChevronRight, GripVertical, Trash2 } from "lucide-react";
 import type React from "react";
 import { FIELD_TYPES } from "../constants";
-import { type FormConfig, type FormField, FormSection } from "../types";
+import type { FormConfig, FormField } from "../types";
 import FieldIcon from "./FieldIcon";
 import FormFieldRenderer from "./FormFieldRenderer";
 
@@ -69,7 +69,7 @@ const FormBuilder: React.FC<FormBuilderProps> = ({
 			</div>
 
 			<div className="p-6">
-				{formConfig.sections.map((section, sectionIndex) => (
+				{formConfig.sections.map((section, _sectionIndex) => (
 					<div key={section.id} className="mb-6">
 						<div className="mb-4 flex items-center justify-between">
 							<h3 className="font-medium text-gray-900 text-lg">{section.title}</h3>

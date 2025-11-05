@@ -1,17 +1,17 @@
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import { type NextRequest, NextResponse } from "next/server";
-import { join } from "path";
 
 // 配置上传目录
-const UPLOAD_BASE_DIR = process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
+const _UPLOAD_BASE_DIR = process.env.UPLOAD_BASE_DIR || join(process.cwd(), "..", "uploads");
 const TEMP_BASE_DIR = process.env.TEMP_BASE_DIR || join(process.cwd(), "..", "temp");
 
 export async function POST(request: NextRequest) {
 	try {
 		const formData = await request.formData();
 		const chunk = formData.get("chunk") as File;
-		const chunkIndex = parseInt(formData.get("chunkIndex") as string);
-		const totalChunks = parseInt(formData.get("totalChunks") as string);
+		const chunkIndex = parseInt(formData.get("chunkIndex") as string, 10);
+		const totalChunks = parseInt(formData.get("totalChunks") as string, 10);
 		const fileHash = formData.get("fileHash") as string;
 		const fileName = formData.get("fileName") as string;
 

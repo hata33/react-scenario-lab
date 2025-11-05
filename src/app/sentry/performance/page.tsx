@@ -27,7 +27,7 @@ export default function PerformancePage() {
 	const [testResults, setTestResults] = useState<string[]>([]);
 	const [customTransactions, setCustomTransactions] = useState<string[]>([]);
 
-	const addResult = (message: string, type: "info" | "success" | "warning" | "error" = "info") => {
+	const addResult = (message: string, _type: "info" | "success" | "warning" | "error" = "info") => {
 		const timestamp = new Date().toLocaleTimeString();
 		setTestResults((prev) => [`${timestamp}: ${message}`, ...prev].slice(0, 10));
 	};
@@ -171,9 +171,9 @@ export default function PerformancePage() {
 			case "计算密集型":
 				// 模拟计算密集型操作
 				await new Promise((resolve) => {
-					let result = 0;
+					let _result = 0;
 					for (let i = 0; i < 100000000; i++) {
-						result += Math.random();
+						_result += Math.random();
 					}
 					setTimeout(resolve, 100);
 				});
@@ -208,7 +208,7 @@ export default function PerformancePage() {
 
 			case "内存分配": {
 				// 模拟内存分配
-				const largeArray = new Array(1000000).fill(0).map(() => ({
+				const _largeArray = new Array(1000000).fill(0).map(() => ({
 					id: Math.random(),
 					data: new Array(100).fill(Math.random()),
 				}));

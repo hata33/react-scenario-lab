@@ -67,30 +67,6 @@ export class ValidationEngine {
 		}
 	}
 
-	// 防抖验证
-	private debounceValidation(
-		fieldPath: string,
-		context: ValidationContext,
-		delay: number = 300,
-	): Promise<ValidationResult> {
-		return new Promise((resolve) => {
-			// 清除之前的定时器
-			const existingTimer = this.debounceTimers.get(fieldPath);
-			if (existingTimer) {
-				clearTimeout(existingTimer);
-			}
-
-			// 设置新的定时器
-			const timer = setTimeout(async () => {
-				this.debounceTimers.delete(fieldPath);
-				const result = await this.validateField(fieldPath, context);
-				resolve(result);
-			}, delay);
-
-			this.debounceTimers.set(fieldPath, timer);
-		});
-	}
-
 	// 验证单个字段
 	async validateField(fieldPath: string, context: ValidationContext): Promise<ValidationResult> {
 		const cacheKey = `${fieldPath}-${JSON.stringify(context.formData[fieldPath])}`;

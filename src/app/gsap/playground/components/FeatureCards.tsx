@@ -194,7 +194,7 @@ export default function FeatureCards() {
 
 			// 技术标签动画
 			const techTags = card.querySelectorAll(".tech-tag");
-			techTags.forEach((tag, idx) => {
+			techTags.forEach((tag, _idx) => {
 				tl.fromTo(
 					tag,
 					{ scale: 0, opacity: 0 },

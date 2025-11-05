@@ -18,7 +18,7 @@ export default function FilePreview() {
 			<input type="file" accept="image/*,application/pdf" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
 			{url && (
 				<div className="mt-4">
-					{file && file.type.startsWith("image/") ? (
+					{file?.type.startsWith("image/") ? (
 						<Image src={url} alt="preview" className="max-w-md rounded border" />
 					) : (
 						<iframe title="preview" src={url} className="h-96 w-full max-w-2xl rounded border" />

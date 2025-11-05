@@ -9,8 +9,8 @@ export async function POST(request: NextRequest) {
 		console.log("验证请求参数:", {
 			sceneId,
 			timestamp,
-			nonce: nonce?.substring(0, 8) + "...",
-			signature: signature?.substring(0, 8) + "...",
+			nonce: `${nonce?.substring(0, 8)}...`,
+			signature: `${signature?.substring(0, 8)}...`,
 		});
 
 		// 验证参数
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
 		// 验证时间戳
 		const now = Date.now();
-		const timestampNum = parseInt(timestamp);
+		const timestampNum = parseInt(timestamp, 10);
 		if (now - timestampNum > 1800000) {
 			// 30分钟过期
 			console.log("二维码已过期:", {
@@ -66,8 +66,8 @@ export async function POST(request: NextRequest) {
 		const isValid = signature === expectedSignature;
 
 		console.log("签名验证:", {
-			received: signature?.substring(0, 8) + "...",
-			expected: expectedSignature?.substring(0, 8) + "...",
+			received: `${signature?.substring(0, 8)}...`,
+			expected: `${expectedSignature?.substring(0, 8)}...`,
 			isValid,
 			secretKey: process.env.QR_CODE_SECRET ? "已设置" : "未设置（使用默认值）",
 		});
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
 // 生成简单签名（实际应用中应该使用HMAC）
 const generateSignature = (sceneId: string, timestamp: string, nonce: string): string => {
 	const data = `${sceneId}:${timestamp}:${nonce}`;
-	const crypto = require("crypto");
+	const crypto = require("node:crypto");
 	return crypto
 		.createHmac("sha256", process.env.QR_CODE_SECRET || "default-secret")
 		.update(data)

@@ -4,9 +4,9 @@ import type { CacheEntry, CacheStrategy } from "./types";
 export class TTLStrategy implements CacheStrategy {
 	name = "TTL";
 
-	constructor(private defaultTTL: number = 5 * 60 * 1000) {} // 默认5分钟
+	constructor(_defaultTTL: number = 5 * 60 * 1000) {} // 默认5分钟
 
-	shouldCache(key: string, data: any): boolean {
+	shouldCache(_key: string, _data: any): boolean {
 		return true; // TTL 策略缓存所有数据
 	}
 
@@ -15,7 +15,7 @@ export class TTLStrategy implements CacheStrategy {
 		return Date.now() - entry.timestamp > entry.ttl;
 	}
 
-	onAccess(entry: CacheEntry): void {
+	onAccess(_entry: CacheEntry): void {
 		// TTL 策略在访问时不需要特殊处理
 	}
 }
@@ -24,18 +24,18 @@ export class TTLStrategy implements CacheStrategy {
 export class LRUStrategy implements CacheStrategy {
 	name = "LRU";
 
-	constructor(private maxSize: number = 100) {}
+	constructor(_maxSize: number = 100) {}
 
-	shouldCache(key: string, data: any): boolean {
+	shouldCache(_key: string, _data: any): boolean {
 		return true; // LRU 策略缓存所有数据
 	}
 
-	shouldEvict(entry: CacheEntry): boolean {
+	shouldEvict(_entry: CacheEntry): boolean {
 		// LRU 的驱逐逻辑在缓存层实现
 		return false;
 	}
 
-	onAccess(entry: CacheEntry): void {
+	onAccess(_entry: CacheEntry): void {
 		// LRU 策略的访问逻辑在缓存层实现
 	}
 }
@@ -44,18 +44,18 @@ export class LRUStrategy implements CacheStrategy {
 export class LFUStrategy implements CacheStrategy {
 	name = "LFU";
 
-	constructor(private minFrequency: number = 1) {}
+	constructor(_minFrequency: number = 1) {}
 
-	shouldCache(key: string, data: any): boolean {
+	shouldCache(_key: string, _data: any): boolean {
 		return true; // LFU 策略缓存所有数据
 	}
 
-	shouldEvict(entry: CacheEntry): boolean {
+	shouldEvict(_entry: CacheEntry): boolean {
 		// LFU 的驱逐逻辑基于访问频率
 		return false;
 	}
 
-	onAccess(entry: CacheEntry): void {
+	onAccess(_entry: CacheEntry): void {
 		// LFU 策略的访问逻辑在缓存层实现
 	}
 }
@@ -69,17 +69,17 @@ export class SizeBasedStrategy implements CacheStrategy {
 		private sizeCalculator: (data: any) => number = this.defaultSizeCalculator,
 	) {}
 
-	shouldCache(key: string, data: any): boolean {
+	shouldCache(_key: string, data: any): boolean {
 		const size = this.sizeCalculator(data);
 		return size <= this.maxSize;
 	}
 
-	shouldEvict(entry: CacheEntry): boolean {
+	shouldEvict(_entry: CacheEntry): boolean {
 		// 大小策略的驱逐逻辑在缓存层实现
 		return false;
 	}
 
-	onAccess(entry: CacheEntry): void {
+	onAccess(_entry: CacheEntry): void {
 		// 大小策略在访问时不需要特殊处理
 	}
 
@@ -101,16 +101,16 @@ export class TypeBasedStrategy implements CacheStrategy {
 		this.cacheableTypes = new Set(cacheableTypes);
 	}
 
-	shouldCache(key: string, data: any): boolean {
+	shouldCache(_key: string, data: any): boolean {
 		const dataType = Array.isArray(data) ? "array" : typeof data;
 		return this.cacheableTypes.has(dataType);
 	}
 
-	shouldEvict(entry: CacheEntry): boolean {
+	shouldEvict(_entry: CacheEntry): boolean {
 		return false;
 	}
 
-	onAccess(entry: CacheEntry): void {
+	onAccess(_entry: CacheEntry): void {
 		// 类型策略在访问时不需要特殊处理
 	}
 }
@@ -124,7 +124,7 @@ export class PatternBasedStrategy implements CacheStrategy {
 		private excludePatterns: RegExp[] = [],
 	) {}
 
-	shouldCache(key: string, data: any): boolean {
+	shouldCache(key: string, _data: any): boolean {
 		// 检查排除模式
 		for (const pattern of this.excludePatterns) {
 			if (pattern.test(key)) {
@@ -142,11 +142,11 @@ export class PatternBasedStrategy implements CacheStrategy {
 		return false;
 	}
 
-	shouldEvict(entry: CacheEntry): boolean {
+	shouldEvict(_entry: CacheEntry): boolean {
 		return false;
 	}
 
-	onAccess(entry: CacheEntry): void {
+	onAccess(_entry: CacheEntry): void {
 		// 模式策略在访问时不需要特殊处理
 	}
 }
@@ -181,7 +181,7 @@ export class AdaptiveStrategy implements CacheStrategy {
 	private accessThreshold = 3; // 访问次数阈值
 	private timeWindow = 5 * 60 * 1000; // 5分钟时间窗口
 
-	shouldCache(key: string, data: any): boolean {
+	shouldCache(_key: string, _data: any): boolean {
 		return true; // 自适应策略先缓存，然后根据访问模式调整
 	}
 

@@ -3,7 +3,7 @@
 
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 
 export default function UseHookPage() {
@@ -328,7 +328,7 @@ function ModernUserDisplay({ userPromise, theme }) {
 
 // Promise 消费 Demo
 function PromiseConsumeDemo() {
-	const [data, setData] = useState(null);
+	const [_data, setData] = useState(null);
 	const [selectedId, setSelectedId] = useState(null);
 
 	const fetchData = async (id) => {
@@ -631,7 +631,7 @@ function ConditionalRenderDemo() {
 	const [userId, setUserId] = useState(null);
 	const [hasPermission, setHasPermission] = useState(false);
 
-	const fetchUserData = async (id) => {
+	const _fetchUserData = async (id) => {
 		await new Promise((resolve) => setTimeout(resolve, 1000));
 		return {
 			id,
@@ -762,7 +762,7 @@ function ConditionalAdvancedFeatures({ userId, hasPermission }) {
 		};
 
 		loadFeatures();
-	}, [userId, hasPermission]);
+	}, [hasPermission]);
 
 	if (loading) {
 		return <div>加载功能列表中...</div>;
@@ -803,7 +803,7 @@ function LoopRenderExample({ userId }) {
 		};
 
 		loadActivities();
-	}, [userId]);
+	}, []);
 
 	if (loading) {
 		return <div>加载活动记录中...</div>;

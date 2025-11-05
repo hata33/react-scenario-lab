@@ -175,15 +175,18 @@ function ClosureTrapDemo() {
 	};
 
 	// 模拟 useEffectEvent 的解决方案
-	const onCountUpdate = useCallback(() => {
+	const _onCountUpdate = useCallback(() => {
 		// 使用 useEffectEvent 可以访问最新的 count 值
 		addLog(`useEffectEvent 读取的 count: ${count} (最新值)`);
-	}, [count]);
+	}, [
+		count, // 使用 useEffectEvent 可以访问最新的 count 值
+		addLog,
+	]);
 
 	// 模拟 useEffectEvent - 在实际 React 19 中会是这样的用法
 	const eventHandler = useCallback(() => {
 		addLog(`事件处理器读取的 count: ${count} (最新值)`);
-	}, [count]);
+	}, [count, addLog]);
 
 	useEffect(() => {
 		if (useEffectEventMode) {
@@ -196,7 +199,7 @@ function ClosureTrapDemo() {
 		} else {
 			return traditionalEffect();
 		}
-	}, [useEffectEventMode, eventHandler]);
+	}, [useEffectEventMode, eventHandler, traditionalEffect]);
 
 	const incrementCount = () => {
 		setCount((prev) => prev + 1);
@@ -212,10 +215,11 @@ function ClosureTrapDemo() {
 			<div className="flex gap-4">
 				<button
 					onClick={() => setUseEffectEventMode(!useEffectEventMode)}
-					className={`rounded-lg px-4 py-2 transition-colors ${useEffectEventMode
+					className={`rounded-lg px-4 py-2 transition-colors ${
+						useEffectEventMode
 							? "bg-orange-600 text-white hover:bg-orange-700"
 							: "bg-gray-600 text-white hover:bg-gray-700"
-						}`}
+					}`}
 				>
 					{useEffectEventMode ? "useEffectEvent 模式" : "传统模式"}
 				</button>
@@ -296,7 +300,7 @@ function RealWorldDemo() {
 		const [logs, setLogs] = useState<string[]>([]);
 
 		// 传统方式 - 有闭包陷阱
-		const traditionalTimer = () => {
+		const _traditionalTimer = () => {
 			const timer = setInterval(() => {
 				setSeconds((prev) => {
 					const newSeconds = prev + 1;
@@ -327,15 +331,16 @@ function RealWorldDemo() {
 				const timer = setInterval(onTick, 1000);
 				return () => clearInterval(timer);
 			}
-		}, [active, onTick]);
+		}, [onTick]);
 
 		return (
 			<div className="space-y-4">
 				<div className="flex gap-4">
 					<button
 						onClick={() => setActive(!active)}
-						className={`rounded-lg px-4 py-2 transition-colors ${active ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-600 text-white hover:bg-gray-700"
-							}`}
+						className={`rounded-lg px-4 py-2 transition-colors ${
+							active ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-600 text-white hover:bg-gray-700"
+						}`}
 					>
 						{active ? "停止" : "开始"} 计时器
 					</button>
@@ -382,7 +387,7 @@ function RealWorldDemo() {
 		const [logs, setLogs] = useState<string[]>([]);
 
 		// 传统方式 - 可能有闭包问题
-		const handleMouseMoveTraditional = (e: MouseEvent) => {
+		const _handleMouseMoveTraditional = (e: MouseEvent) => {
 			setPosition({
 				x: e.clientX * sensitivity,
 				y: e.clientY * sensitivity,
@@ -408,15 +413,16 @@ function RealWorldDemo() {
 				window.addEventListener("mousemove", handleMouseMove);
 				return () => window.removeEventListener("mousemove", handleMouseMove);
 			}
-		}, [active, handleMouseMove]);
+		}, [handleMouseMove]);
 
 		return (
 			<div className="space-y-4">
 				<div className="flex gap-4">
 					<button
 						onClick={() => setActive(!active)}
-						className={`rounded-lg px-4 py-2 transition-colors ${active ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-600 text-white hover:bg-gray-700"
-							}`}
+						className={`rounded-lg px-4 py-2 transition-colors ${
+							active ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-600 text-white hover:bg-gray-700"
+						}`}
 					>
 						{active ? "停止" : "开始"} 追踪
 					</button>
@@ -493,15 +499,16 @@ function RealWorldDemo() {
 			if (active) {
 				fetchData();
 			}
-		}, [active, fetchData]);
+		}, [fetchData]);
 
 		return (
 			<div className="space-y-4">
 				<div className="flex gap-4">
 					<button
 						onClick={() => setActive(!active)}
-						className={`rounded-lg px-4 py-2 transition-colors ${active ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-600 text-white hover:bg-gray-700"
-							}`}
+						className={`rounded-lg px-4 py-2 transition-colors ${
+							active ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-600 text-white hover:bg-gray-700"
+						}`}
 					>
 						{active ? "停止" : "开始"} 请求
 					</button>
@@ -567,10 +574,11 @@ function RealWorldDemo() {
 								setDemoType(key as any);
 								setActive(false);
 							}}
-							className={`rounded-lg px-4 py-2 transition-colors ${demoType === key
+							className={`rounded-lg px-4 py-2 transition-colors ${
+								demoType === key
 									? "bg-orange-600 text-white"
 									: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-								}`}
+							}`}
 						>
 							{icon} {label}
 						</button>
@@ -619,7 +627,7 @@ function PerformanceComparison() {
 			const endTime = performance.now();
 			setPerformanceData((prev) => [...prev.slice(-9), endTime - startTime]);
 		}
-	}, [testMode, renderCount]);
+	}, [testMode]);
 
 	// useEffectEvent 方式 - effect 只运行一次
 	const expensiveOperation = useCallback(() => {
@@ -662,10 +670,11 @@ function PerformanceComparison() {
 				<div className="mb-4 flex gap-4">
 					<button
 						onClick={() => setTestMode(testMode === "traditional" ? "useEffectEvent" : "traditional")}
-						className={`rounded-lg px-4 py-2 transition-colors ${testMode === "useEffectEvent"
+						className={`rounded-lg px-4 py-2 transition-colors ${
+							testMode === "useEffectEvent"
 								? "bg-green-600 text-white hover:bg-green-700"
 								: "bg-orange-600 text-white hover:bg-orange-700"
-							}`}
+						}`}
 					>
 						{testMode === "traditional" ? "传统模式" : "useEffectEvent 模式"}
 					</button>
@@ -694,10 +703,11 @@ function PerformanceComparison() {
 					<div className="rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-700">
 						<p className="mb-1 text-gray-600 text-sm dark:text-gray-400">Effect 运行次数</p>
 						<p
-							className={`font-bold text-2xl ${testMode === "traditional" && effectRuns > 1
+							className={`font-bold text-2xl ${
+								testMode === "traditional" && effectRuns > 1
 									? "text-red-600 dark:text-red-400"
 									: "text-green-600 dark:text-green-400"
-								}`}
+							}`}
 						>
 							{effectRuns}
 						</p>
@@ -809,7 +819,7 @@ function AdvancedPatterns() {
 
 	// 节流模式
 	const ThrottlePattern = () => {
-		const [scrollPosition, setScrollPosition] = useState(0);
+		const [scrollPosition, _setScrollPosition] = useState(0);
 		const [throttledPosition, setThrottledPosition] = useState(0);
 		const [logs, setLogs] = useState<string[]>([]);
 
@@ -949,10 +959,11 @@ function AdvancedPatterns() {
 						<button
 							key={key}
 							onClick={() => setPattern(key as any)}
-							className={`rounded-lg px-4 py-2 transition-colors ${pattern === key
+							className={`rounded-lg px-4 py-2 transition-colors ${
+								pattern === key
 									? "bg-orange-600 text-white"
 									: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-								}`}
+							}`}
 						>
 							{icon} {label}
 						</button>

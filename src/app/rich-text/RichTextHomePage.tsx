@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
-import Layout from "@/components/Layout";
+import { useState } from "react";
 
 const RichTextHomePage = () => {
 	const [activeDemo, setActiveDemo] = useState<string | null>(null);

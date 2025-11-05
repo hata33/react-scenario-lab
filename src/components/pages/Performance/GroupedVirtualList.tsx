@@ -75,8 +75,8 @@ export function GroupedVirtualList() {
 	const { totalHeight, visibleItems } = useMemo(() => {
 		const containerHeight = 400;
 		let currentHeight = 0;
-		const startIndex = 0;
-		const endIndex = 0;
+		const _startIndex = 0;
+		const _endIndex = 0;
 		const visibleItems: Array<{
 			type: "group" | "item";
 			data: any;
@@ -123,7 +123,7 @@ export function GroupedVirtualList() {
 
 	// 统计信息
 	const totalGroups = groups.length;
-	const expandedGroups = groups.filter((g) => !g.collapsed).length;
+	const _expandedGroups = groups.filter((g) => !g.collapsed).length;
 	const totalItems = groups.reduce((sum, group) => sum + group.items.length, 0);
 	const visibleItemsCount = groups.reduce((sum, group) => sum + (group.collapsed ? 0 : group.items.length), 0);
 
@@ -152,7 +152,7 @@ export function GroupedVirtualList() {
 				className="relative h-[400px] overflow-auto rounded border bg-background"
 			>
 				<div style={{ height: totalHeight }}>
-					{visibleItems.map((item, index) => {
+					{visibleItems.map((item, _index) => {
 						if (item.type === "group") {
 							const group = item.data as Group;
 							return (
@@ -174,7 +174,7 @@ export function GroupedVirtualList() {
 										<div className="flex items-center gap-2">
 											<span className="text-muted-foreground text-xs">{group.collapsed ? "已折叠" : "已展开"}</span>
 											<div className="-space-x-2 flex">
-												{group.items.slice(0, 3).map((member, idx) => (
+												{group.items.slice(0, 3).map((member, _idx) => (
 													<div
 														key={member.id}
 														className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-background bg-primary/20 text-xs"

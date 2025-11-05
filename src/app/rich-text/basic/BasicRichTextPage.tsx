@@ -17,6 +17,15 @@ const BasicRichTextEditor: React.FC<{
 		future: [],
 	});
 
+	// 更新历史记录
+	const updateHistory = useCallback((newContent: string) => {
+		setHistory((prev) => ({
+			past: [...prev.past.slice(-19), prev.present], // 保留最近20条
+			present: newContent,
+			future: [],
+		}));
+	}, []);
+
 	// 命令模式 - 撤销/重做
 	const executeCommand = useCallback(
 		(command: string, value?: any) => {
@@ -27,17 +36,10 @@ const BasicRichTextEditor: React.FC<{
 			onChange(content);
 			updateHistory(content);
 		},
-		[onChange],
+		[onChange, updateHistory],
 	);
 
-	// 更新历史记录
-	const updateHistory = useCallback((newContent: string) => {
-		setHistory((prev) => ({
-			past: [...prev.past.slice(-19), prev.present], // 保留最近20条
-			present: newContent,
-			future: [],
-		}));
-	}, []);
+
 
 	// 处理输入变化
 	const handleInput = useCallback(() => {

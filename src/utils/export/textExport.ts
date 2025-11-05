@@ -2,14 +2,14 @@
  * 文本格式导出功能
  */
 
-import { ExportConfig, type ExportOptions } from "@/types/export";
+import type { ExportOptions } from "@/types/export";
 
 export class TextExporter {
 	/**
 	 * 导出为TXT格式
 	 */
 	static exportToTxt(data: any, options?: ExportOptions): string {
-		const encoding = options?.encoding || "utf-8";
+		const _encoding = options?.encoding || "utf-8";
 		let content = "";
 
 		if (typeof data === "string") {
@@ -47,7 +47,7 @@ export class TextExporter {
 
 		// 添加表头
 		if (includeHeaders) {
-			csv += headers.map((header) => TextExporter.escapeCsvValue(header)).join(delimiter) + "\n";
+			csv += `${headers.map((header) => TextExporter.escapeCsvValue(header)).join(delimiter)}\n`;
 		}
 
 		// 添加数据行
@@ -56,7 +56,7 @@ export class TextExporter {
 				const value = row[header];
 				return TextExporter.escapeCsvValue(value);
 			});
-			csv += values.join(delimiter) + "\n";
+			csv += `${values.join(delimiter)}\n`;
 		});
 
 		return csv;

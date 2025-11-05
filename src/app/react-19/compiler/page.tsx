@@ -174,7 +174,7 @@ function CompilerBasicDemo() {
 	);
 
 	// 模拟编译器自动应用 React.memo
-	const MemoizedComponent = useMemo(() => {
+	const _MemoizedComponent = useMemo(() => {
 		if (compilerEnabled) {
 			addOptimizationLog("自动应用 React.memo 到组件");
 		}
@@ -193,7 +193,7 @@ function CompilerBasicDemo() {
 			result += Math.sqrt(i);
 		}
 		return result;
-	}, [count, compilerEnabled, addOptimizationLog]);
+	}, [compilerEnabled, addOptimizationLog]);
 
 	// 模拟编译器自动优化事件处理器
 	const optimizedHandler = useCallback(() => {
@@ -307,8 +307,8 @@ function CompilerBasicDemo() {
 // 智能优化演示组件
 function SmartOptimizationDemo() {
 	const [strategy, setStrategy] = useState<"memo" | "callback" | "dependency">("memo");
-	const [data, setData] = useState<any>({});
-	const [optimizationReport, setOptimizationReport] = useState<any>({});
+	const [_data, _setData] = useState<any>({});
+	const [_optimizationReport, _setOptimizationReport] = useState<any>({});
 
 	// React.memo 自动优化演示
 	const MemoDemo = () => {
@@ -321,7 +321,7 @@ function SmartOptimizationDemo() {
 			const hasComplexRendering = true;
 			const propsChangeFrequency = "low";
 			return hasComplexRendering && propsChangeFrequency === "low";
-		}, [props]);
+		}, []);
 
 		const updateProps = () => {
 			setProps((prev) => ({ ...prev, value: prev.value + 10 }));
@@ -798,7 +798,7 @@ function RealWorldApplications() {
 	// 电商应用演示
 	const EcommerceDemo = () => {
 		const [products, setProducts] = useState<any[]>([]);
-		const [cart, setCart] = useState<any[]>([]);
+		const [_cart, _setCart] = useState<any[]>([]);
 		const [filters, setFilters] = useState({ category: "", priceRange: "" });
 
 		// 模拟编译器优化电商应用
@@ -901,11 +901,11 @@ function RealWorldApplications() {
 
 		const loadMetrics = () => {
 			const mockMetrics = {
-				revenue: Array.from({ length: 30 }, (_, i) => ({ amount: Math.random() * 10000 + 1000 })),
-				orders: Array.from({ length: 50 }, (_, i) => ({ total: Math.random() * 500 + 50 })),
+				revenue: Array.from({ length: 30 }, (_, _i) => ({ amount: Math.random() * 10000 + 1000 })),
+				orders: Array.from({ length: 50 }, (_, _i) => ({ total: Math.random() * 500 + 50 })),
 				visitors: 10000,
 				conversions: 250,
-				users: Array.from({ length: 100 }, (_, i) => ({
+				users: Array.from({ length: 100 }, (_, _i) => ({
 					lastActive: Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000,
 				})),
 			};

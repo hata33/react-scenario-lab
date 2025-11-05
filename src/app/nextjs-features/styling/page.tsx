@@ -1,8 +1,8 @@
 "use client";
 
-import { ArrowLeft, Brush, CheckCircle, Monitor, Palette, Settings, Smartphone } from "lucide-react";
+import { ArrowLeft, Brush, CheckCircle, Monitor, Palette, Settings } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 import Layout from "@/components/Layout";
 
 interface StylingExample {

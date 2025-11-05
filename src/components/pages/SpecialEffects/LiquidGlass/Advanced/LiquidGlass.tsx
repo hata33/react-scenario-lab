@@ -39,7 +39,7 @@ function texture(x: number, y: number): { type: "t"; x: number; y: number } {
 
 // 生成唯一ID
 function generateId(): string {
-	return "liquid-glass-" + Math.random().toString(36).substr(2, 9);
+	return `liquid-glass-${Math.random().toString(36).substr(2, 9)}`;
 }
 
 export const LiquidGlass: React.FC<LiquidGlassProps> = ({
@@ -191,8 +191,8 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
 
 				const constrained = constrainPosition(newX, newY);
 
-				container.style.left = constrained.x + "px";
-				container.style.top = constrained.y + "px";
+				container.style.left = `${constrained.x}px`;
+				container.style.top = `${constrained.y}px`;
 				container.style.transform = "none";
 			}
 
@@ -224,8 +224,8 @@ export const LiquidGlass: React.FC<LiquidGlassProps> = ({
 		const constrained = constrainPosition(rect.left, rect.top);
 
 		if (rect.left !== constrained.x || rect.top !== constrained.y) {
-			container.style.left = constrained.x + "px";
-			container.style.top = constrained.y + "px";
+			container.style.left = `${constrained.x}px`;
+			container.style.top = `${constrained.y}px`;
 			container.style.transform = "none";
 		}
 	}, [constrainPosition]);

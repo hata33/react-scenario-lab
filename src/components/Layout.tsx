@@ -7,7 +7,7 @@ import BackButton from "./BackButton";
 import FirstVisitConfetti from "./FirstVisitConfetti";
 import Sidebar, { type MenuItem } from "./Sidebar";
 
-function flattenRoutesForMenu(routesInput: any[], basePath = ""): MenuItem[] {
+function _flattenRoutesForMenu(routesInput: any[], basePath = ""): MenuItem[] {
 	return routesInput.filter(Boolean).map((route) => {
 		const currentPath = route.index
 			? basePath
@@ -18,7 +18,7 @@ function flattenRoutesForMenu(routesInput: any[], basePath = ""): MenuItem[] {
 			children: [],
 		};
 		if (route.children?.length) {
-			item.children = flattenRoutesForMenu(route.children, currentPath === "/" ? "" : currentPath);
+			item.children = _flattenRoutesForMenu(route.children, currentPath === "/" ? "" : currentPath);
 		}
 		return item;
 	});
@@ -46,7 +46,7 @@ export default function Layout({ children, showBackButton = true }: LayoutProps)
 	const [pinnedOpen, setPinnedOpen] = useState<boolean>(false);
 	const [hoverOpen, setHoverOpen] = useState(true);
 	const isOpen = pinnedOpen || hoverOpen;
-	const initialPathRef = useRef(activePath);
+	const _initialPathRef = useRef(activePath);
 	const hasAutoClosedRef = useRef(false);
 
 	// 关键修复：在客户端hydration完成后再读取localStorage
@@ -94,7 +94,7 @@ export default function Layout({ children, showBackButton = true }: LayoutProps)
 			} catch {}
 			hasAutoClosedRef.current = true;
 		}
-	}, [activePath]);
+	}, []);
 
 	return (
 		<div className={`relative grid h-screen grid-cols-[auto_1fr] bg-gray-50`}>

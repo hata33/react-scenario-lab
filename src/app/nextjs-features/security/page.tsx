@@ -2,7 +2,7 @@
 
 import { AlertTriangle, ArrowLeft, CheckCircle, Database, Eye, Key, Lock, Shield } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 import Layout from "@/components/Layout";
 
 interface SecurityExample {
