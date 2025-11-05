@@ -43,7 +43,8 @@
 				"noStaticElementInteractions": "off",
 				"noLabelWithoutControl": "off",
 				"noSvgWithoutTitle": "off",
-				"useButtonType": "off"
+				"useButtonType": "off",
+				"useHtmlLang": "off"
 			}
 		}
 	},
