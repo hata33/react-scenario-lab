@@ -268,21 +268,59 @@ export default function CacheSignalsPage() {
 
 	return (
 		<Layout>
-			<div className="container mx-auto py-8">
-				<div className="mb-8">
-					<h1 className="mb-4 font-bold text-3xl">React 19 Cache Signals</h1>
-					<p className="mb-6 text-gray-600">
-						Cache Signals 是 React 19 中的新特性，提供智能缓存和依赖追踪机制。
-						通过自动化的缓存管理，显著提升应用性能和用户体验。
-					</p>
+			<div className="min-h-screen bg-gray-50">
+				{/* 头部 */}
+				<div className="bg-white shadow-sm">
+					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+						<div className="flex items-center space-x-4">
+							<div className="flex items-center space-x-3">
+								<Database className="h-8 w-8 text-blue-600" />
+								<div>
+									<h1 className="font-bold text-3xl text-gray-900">React 19 Cache Signals</h1>
+									<p className="text-gray-600">智能缓存与依赖追踪系统</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-					{/* 3W 规则部分 */}
-					<div className="mb-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
-						<h2 className="mb-4 text-xl font-semibold text-blue-800">📖 3W 规则：Cache Signals</h2>
+				{/* Cache Signals 架构概览 */}
+				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+						<h2 className="mb-6 font-semibold text-gray-900 text-xl">Cache Signals 生态系统</h2>
+						<div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+							<div className="rounded-lg bg-blue-50 p-4 text-center">
+								<Database className="mx-auto mb-2 h-6 w-6 text-blue-600" />
+								<h3 className="mb-1 font-semibold text-blue-900">智能缓存</h3>
+								<p className="text-blue-700 text-sm">自动管理数据缓存</p>
+							</div>
+							<div className="rounded-lg bg-green-50 p-4 text-center">
+								<Target className="mx-auto mb-2 h-6 w-6 text-green-600" />
+								<h3 className="mb-1 font-semibold text-green-900">依赖追踪</h3>
+								<p className="text-green-700 text-sm">精确追踪数据关系</p>
+							</div>
+							<div className="rounded-lg bg-purple-50 p-4 text-center">
+								<Zap className="mx-auto mb-2 h-6 w-6 text-purple-600" />
+								<h3 className="mb-1 font-semibold text-purple-900">智能失效</h3>
+								<p className="text-purple-700 text-sm">自动失效过期缓存</p>
+							</div>
+							<div className="rounded-lg bg-orange-50 p-4 text-center">
+								<Clock className="mx-auto mb-2 h-6 w-6 text-orange-600" />
+								<h3 className="mb-1 font-semibold text-orange-900">性能优化</h3>
+								<p className="text-orange-700 text-sm">减少重复渲染</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* 3W 法则解析 */}
+				<div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+					<div className="rounded-lg border border-blue-200 bg-blue-50 p-6 shadow-sm">
+						<h2 className="mb-6 font-bold text-2xl text-blue-800">📖 3W 法则：Cache Signals</h2>
 						<div className="grid gap-6 md:grid-cols-3">
-							<div className="space-y-3">
-								<div className="flex items-center gap-2">
-									<div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold">
+							<div className="rounded-lg border border-blue-200 bg-white p-4 shadow-sm">
+								<div className="mb-3 flex items-center gap-2">
+									<div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 font-bold text-white">
 										W
 									</div>
 									<h3 className="font-semibold text-blue-800">What - 什么是 Cache Signals</h3>
@@ -292,9 +330,9 @@ export default function CacheSignalsPage() {
 									并在数据发生变化时智能地更新相关缓存。它结合了缓存机制和信号系统，
 									为开发者提供了一个既高效又易用的状态管理解决方案。
 								</p>
-								<div className="rounded border border-blue-200 bg-white p-3">
+								<div className="mt-3 rounded border border-blue-200 bg-white p-3">
 									<h4 className="mb-2 font-medium text-blue-800">核心特性</h4>
-									<ul className="space-y-1 text-sm text-blue-700">
+									<ul className="space-y-1 text-blue-700 text-sm">
 										<li>• 自动依赖追踪</li>
 										<li>• 智能缓存失效</li>
 										<li>• 精确更新机制</li>
@@ -303,21 +341,20 @@ export default function CacheSignalsPage() {
 								</div>
 							</div>
 
-							<div className="space-y-3">
-								<div className="flex items-center gap-2">
-									<div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-600 text-white font-bold">
+							<div className="rounded-lg border border-green-200 bg-white p-4 shadow-sm">
+								<div className="mb-3 flex items-center gap-2">
+									<div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-600 font-bold text-white">
 										W
 									</div>
 									<h3 className="font-semibold text-green-800">Why - 为什么使用 Cache Signals</h3>
 								</div>
 								<p className="text-green-700 leading-relaxed">
-									传统的缓存方案往往需要手动管理依赖关系，容易出现过度渲染或缓存失效不及时的问题。
-									Cache Signals 通过自动化的依赖追踪和智能更新机制，解决了这些痛点，
-									让开发者能够专注于业务逻辑而不用担忕性能问题。
+									传统的缓存方案往往需要手动管理依赖关系，容易出现过度渲染或缓存失效不及时的问题。 Cache Signals
+									通过自动化的依赖追踪和智能更新机制，解决了这些痛点， 让开发者能够专注于业务逻辑而不用担忕性能问题。
 								</p>
-								<div className="rounded border border-green-200 bg-white p-3">
+								<div className="mt-3 rounded border border-green-200 bg-white p-3">
 									<h4 className="mb-2 font-medium text-green-800">解决的问题</h4>
-									<ul className="space-y-1 text-sm text-green-700">
+									<ul className="space-y-1 text-green-700 text-sm">
 										<li>• 减少不必要的重新渲染</li>
 										<li>• 避免缓存失效不及时</li>
 										<li>• 简化状态管理逻辑</li>
@@ -326,21 +363,20 @@ export default function CacheSignalsPage() {
 								</div>
 							</div>
 
-							<div className="space-y-3">
-								<div className="flex items-center gap-2">
-									<div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-600 text-white font-bold">
+							<div className="rounded-lg border border-purple-200 bg-white p-4 shadow-sm">
+								<div className="mb-3 flex items-center gap-2">
+									<div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
 										W
 									</div>
 									<h3 className="font-semibold text-purple-800">When - 何时使用 Cache Signals</h3>
 								</div>
 								<p className="text-purple-700 leading-relaxed">
-									当你的应用需要处理复杂的数据依赖关系、频繁的数据更新或需要优化性能时，
-									Cache Signals 就是一个理想的选择。特别适合数据密集型应用、实时数据同步、
-									以及需要精确控制缓存失效策略的场景。
+									当你的应用需要处理复杂的数据依赖关系、频繁的数据更新或需要优化性能时， Cache Signals
+									就是一个理想的选择。特别适合数据密集型应用、实时数据同步、 以及需要精确控制缓存失效策略的场景。
 								</p>
-								<div className="rounded border border-purple-200 bg-white p-3">
+								<div className="mt-3 rounded border border-purple-200 bg-white p-3">
 									<h4 className="mb-2 font-medium text-purple-800">最佳使用场景</h4>
-									<ul className="space-y-1 text-sm text-purple-700">
+									<ul className="space-y-1 text-purple-700 text-sm">
 										<li>• 复杂数据依赖关系</li>
 										<li>• 实时数据同步</li>
 										<li>• 大数据量缓存</li>
@@ -350,206 +386,190 @@ export default function CacheSignalsPage() {
 							</div>
 						</div>
 					</div>
+				</div>
 
-					<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-						{cacheSignalExamples.map((example) => (
-							<button
-								key={example.id}
-								onClick={() => setSelectedExample(example)}
-								className={`rounded-lg border p-4 text-left transition-all ${selectedExample.id === example.id
-										? "border-blue-500 bg-blue-50 shadow-md"
-										: "border-gray-200 bg-white hover:border-gray-300 hover:shadow"
-									}`}
-							>
-								<div className="mb-2 flex items-center gap-2">
-									{example.icon}
-									<h3 className="font-semibold">{example.title}</h3>
-								</div>
-								<p className="mb-3 text-gray-600 text-sm">{example.description}</p>
-								<div className="flex items-center justify-between">
-									<span
-										className={`rounded px-2 py-1 font-medium text-xs ${example.category === "State Management"
-												? "bg-blue-100 text-blue-800"
-												: example.category === "Performance"
-													? "bg-orange-100 text-orange-800"
-													: "bg-gray-100 text-gray-800"
-											}`}
+				{/* 示例选择器 - 吸顶区域 */}
+				<div className="sticky top-0 z-10 border-gray-200 border-b bg-white">
+					<div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+						<div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
+							<h2 className="font-semibold text-gray-900 text-sm">选择示例:</h2>
+							<div className="flex flex-wrap justify-center gap-2">
+								{cacheSignalExamples.map((example) => (
+									<button
+										key={example.id}
+										onClick={() => setSelectedExample(example)}
+										className={`rounded-lg px-3 py-1.5 font-medium text-sm transition-all ${
+											selectedExample?.id === example.id
+												? "bg-blue-500 text-white shadow-sm"
+												: "border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+										}`}
 									>
-										{example.category}
-									</span>
-									<span
-										className={`rounded px-2 py-1 font-medium text-xs ${example.difficulty === "初级"
-												? "bg-green-100 text-green-800"
-												: example.difficulty === "中级"
-													? "bg-yellow-100 text-yellow-800"
-													: "bg-red-100 text-red-800"
+										<span className="mr-1">{example.icon}</span>
+										{example.title}
+										<span
+											className={`ml-1.5 rounded px-1.5 py-0.5 text-xs ${
+												example.difficulty === "初级"
+													? "bg-green-100 text-green-700"
+													: example.difficulty === "中级"
+														? "bg-yellow-100 text-yellow-700"
+														: "bg-red-100 text-red-700"
 											}`}
-									>
-										{example.difficulty}
-									</span>
-								</div>
-							</button>
-						))}
+										>
+											{example.difficulty}
+										</span>
+									</button>
+								))}
+							</div>
+						</div>
 					</div>
 				</div>
 
-				<div className="grid gap-8 lg:grid-cols-3">
-					<div className="lg:col-span-2">
-						<div className="rounded-lg border border-gray-200 bg-white p-6">
-							<div className="mb-4 flex items-center justify-between">
-								<h2 className="font-semibold text-xl">{selectedExample.title}</h2>
-								<div className="flex items-center gap-2">
-									{selectedExample.icon}
-									<span
-										className={`rounded px-2 py-1 font-medium text-xs ${selectedExample.status === "completed"
-												? "bg-green-100 text-green-800"
-												: selectedExample.status === "in-progress"
-													? "bg-yellow-100 text-yellow-800"
-													: "bg-gray-100 text-gray-800"
-											}`}
-									>
-										{selectedExample.status === "completed"
-											? "已完成"
-											: selectedExample.status === "in-progress"
-												? "进行中"
-												: "待完成"}
-									</span>
-								</div>
-							</div>
-
-							<p className="mb-6 text-gray-600">{selectedExample.description}</p>
-
-							<div className="mb-6">
-								<div className="mb-3 flex items-center justify-between">
-									<h3 className="font-medium">示例代码</h3>
-									<button
-										onClick={() => handleCopyCode(selectedExample.codeSnippet)}
-										className="flex items-center gap-1 rounded px-3 py-1 text-gray-600 text-sm hover:bg-gray-100"
-									>
-										<Code className="h-4 w-4" />
-										{copiedCode === selectedExample.codeSnippet ? "已复制!" : "复制代码"}
-									</button>
-								</div>
-								<div className="overflow-auto rounded-lg bg-gray-900 p-4">
-									<pre className="text-gray-100 text-sm">
-										<code>{selectedExample.codeSnippet}</code>
-									</pre>
-								</div>
-							</div>
-
-							{selectedExample.details && (
-								<div className="mb-6">
-									<h3 className="mb-3 font-medium">核心特性</h3>
-									<ul className="list-inside list-disc space-y-1">
-										{selectedExample.details.map((detail, index) => (
-											<li key={index} className="text-gray-600">
-												{detail}
-											</li>
-										))}
-									</ul>
-								</div>
-							)}
-
-							{selectedExample.useCases && (
-								<div>
-									<h3 className="mb-3 font-medium">使用场景</h3>
-									<div className="flex flex-wrap gap-2">
-										{selectedExample.useCases.map((useCase, index) => (
-											<span key={index} className="rounded bg-blue-50 px-3 py-1 text-blue-800 text-sm">
-												{useCase}
-											</span>
-										))}
+				{/* 详细展示区域 - 下方内容 */}
+				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+					{selectedExample && (
+						<div className="space-y-8">
+							{/* 示例详细信息 */}
+							<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+								<div className="border-gray-200 border-b p-6">
+									<div className="flex items-center space-x-4">
+										<div className="rounded-lg bg-blue-100 p-3 text-blue-600">{selectedExample.icon}</div>
+										<div>
+											<h3 className="font-semibold text-2xl text-gray-900">{selectedExample.title}</h3>
+											<p className="text-gray-600">{selectedExample.description}</p>
+										</div>
 									</div>
 								</div>
-							)}
-						</div>
-					</div>
 
-					<div className="lg:col-span-1">
-						<div className="space-y-6">
-							<div className="rounded-lg border border-gray-200 bg-white p-6">
-								<h3 className="mb-4 font-semibold">快速操作</h3>
-								<div className="space-y-3">
-									<button
-										onClick={handleCacheToggle}
-										className="w-full rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-									>
-										<Database className="mr-2 inline h-4 w-4" />
-										模拟缓存操作
-									</button>
-									<button
-										onClick={handleSearch}
-										className="w-full rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-									>
-										<Target className="mr-2 inline h-4 w-4" />
-										执行搜索
-									</button>
-									<button
-										onClick={clearCache}
-										className="w-full rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-									>
-										<Zap className="mr-2 inline h-4 w-4" />
-										清空缓存
-									</button>
-								</div>
-							</div>
+								<div className="p-6">
+									<div className="mb-6">
+										<h4 className="mb-3 font-semibold text-gray-900">🎮 交互式演示</h4>
+										<div className="space-y-6">
+											{selectedExample.id === "basic-caching" && <BasicCachingDemo />}
+											{selectedExample.id === "dependency-tracking" && <DependencyTrackingDemo />}
+											{selectedExample.id === "cache-strategies" && <CacheStrategiesDemo />}
+											{selectedExample.id === "advanced-applications" && <AdvancedApplicationsDemo />}
+										</div>
+									</div>
 
-							<div className="rounded-lg border border-gray-200 bg-white p-6">
-								<h3 className="mb-4 font-semibold">官方示例</h3>
-								<div className="space-y-4">
-									{getOfficialExamples().map((example, index) => (
-										<div key={index} className="border-gray-100 border-b pb-4 last:border-0">
-											<h4 className="mb-2 font-medium text-sm">{example.title}</h4>
-											<div className="overflow-auto rounded bg-gray-50 p-3">
-												<pre className="text-gray-700 text-xs">
-													<code>{example.code}</code>
-												</pre>
+									<div className="mb-6">
+										<div className="mb-3 flex items-center justify-between">
+											<h4 className="font-semibold text-gray-900">📝 代码示例</h4>
+											<button
+												onClick={() => handleCopyCode(selectedExample.codeSnippet)}
+												className="flex items-center space-x-1 text-gray-600 text-sm hover:text-gray-900"
+											>
+												<Copy className="h-4 w-4" />
+												<span>{copiedCode === selectedExample.codeSnippet ? "已复制" : "复制"}</span>
+											</button>
+										</div>
+										<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
+											<pre className="text-sm">
+												<code>{selectedExample.codeSnippet}</code>
+											</pre>
+										</div>
+									</div>
+
+									{/* 主要优势和使用场景 */}
+									<div className="grid gap-6 md:grid-cols-2">
+										<div>
+											<h5 className="mb-3 font-medium text-gray-900">✨ 核心特性</h5>
+											<div className="flex flex-wrap gap-2">
+												{selectedExample.details?.map((detail, index) => (
+													<span
+														key={index}
+														className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm"
+													>
+														{detail}
+													</span>
+												))}
 											</div>
+										</div>
+
+										<div>
+											<h5 className="mb-3 font-medium text-gray-900">🎯 使用场景</h5>
+											<div className="flex flex-wrap gap-2">
+												{selectedExample.useCases?.map((useCase, index) => (
+													<span
+														key={index}
+														className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-blue-700 text-sm"
+													>
+														{useCase}
+													</span>
+												))}
+											</div>
+										</div>
+									</div>
+								</div>
+
+								{selectedExample.status === "completed" && (
+									<div className="border-green-200 border-t bg-green-50 p-6">
+										<div className="flex items-center space-x-2 text-green-800">
+											<CheckCircle className="h-5 w-5" />
+											<span className="font-medium">该功能已在 React 19 中正式发布</span>
+										</div>
+									</div>
+								)}
+							</div>
+						</div>
+					)}
+				</div>
+
+				{/* 快速操作和官方示例 */}
+				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+					<div className="grid gap-8 lg:grid-cols-3">
+						<div className="lg:col-span-2">
+							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+								<h2 className="mb-6 font-bold text-2xl text-gray-900">📚 官方示例</h2>
+								<p className="mb-6 text-gray-600">以下示例展示了 Cache Signals 的最佳实践</p>
+
+								<div className="grid gap-6 lg:grid-cols-2">
+									{getOfficialExamples().map((example, index) => (
+										<div key={index} className="rounded-lg border border-gray-200 p-4">
+											<h3 className="mb-3 font-semibold text-gray-800">{example.title}</h3>
+											<pre className="mb-2 overflow-x-auto rounded bg-gray-900 p-3 text-gray-100 text-xs">
+												{example.code}
+											</pre>
 										</div>
 									))}
 								</div>
 							</div>
-
-							<div className="rounded-lg border border-blue-200 bg-blue-50 p-6">
-								<h3 className="mb-3 font-semibold text-blue-800">💡 提示</h3>
-								<p className="text-blue-700 text-sm">
-									Cache Signals 自动管理缓存依赖，当数据发生变化时会智能地更新相关组件， 确保 UI 始终显示最新的数据。
-								</p>
-							</div>
 						</div>
-					</div>
-				</div>
 
-				<div className="mt-12">
-					<div className="rounded-lg border border-gray-200 bg-gray-50 p-8">
-						<h2 className="mb-4 font-bold text-2xl">开始使用 Cache Signals</h2>
-						<div className="grid gap-6 md:grid-cols-3">
-							<div className="text-center">
-								<div className="mb-4 flex justify-center">
-									<div className="rounded-full bg-blue-100 p-3">
-										<Database className="h-6 w-6 text-blue-600" />
+						<div className="lg:col-span-1">
+							<div className="space-y-6">
+								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+									<h3 className="mb-4 font-semibold">快速操作</h3>
+									<div className="space-y-3">
+										<button
+											onClick={handleCacheToggle}
+											className="w-full rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+										>
+											<Database className="mr-2 inline h-4 w-4" />
+											模拟缓存操作
+										</button>
+										<button
+											onClick={handleSearch}
+											className="w-full rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+										>
+											<Target className="mr-2 inline h-4 w-4" />
+											执行搜索
+										</button>
+										<button
+											onClick={clearCache}
+											className="w-full rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+										>
+											<Zap className="mr-2 inline h-4 w-4" />
+											清空缓存
+										</button>
 									</div>
 								</div>
-								<h3 className="mb-2 font-semibold">1. 定义缓存</h3>
-								<p className="text-gray-600 text-sm">使用 cache.use() 定义需要缓存的数据和获取函数</p>
-							</div>
-							<div className="text-center">
-								<div className="mb-4 flex justify-center">
-									<div className="rounded-full bg-green-100 p-3">
-										<Target className="h-6 w-6 text-green-600" />
-									</div>
+
+								<div className="rounded-lg border border-blue-200 bg-blue-50 p-6 shadow-sm">
+									<h3 className="mb-3 font-semibold text-blue-800">💡 提示</h3>
+									<p className="text-blue-700 text-sm">
+										Cache Signals 自动管理缓存依赖，当数据发生变化时会智能地更新相关组件， 确保 UI 始终显示最新的数据。
+									</p>
 								</div>
-								<h3 className="mb-2 font-semibold">2. 自动追踪</h3>
-								<p className="text-gray-600 text-sm">Cache Signals 自动追踪数据依赖关系</p>
-							</div>
-							<div className="text-center">
-								<div className="mb-4 flex justify-center">
-									<div className="rounded-full bg-purple-100 p-3">
-										<Zap className="h-6 w-6 text-purple-600" />
-									</div>
-								</div>
-								<h3 className="mb-2 font-semibold">3. 智能更新</h3>
-								<p className="text-gray-600 text-sm">当依赖数据变化时自动更新缓存</p>
 							</div>
 						</div>
 					</div>
@@ -893,8 +913,9 @@ function AdvancedApplicationsDemo() {
 						<button
 							key={key}
 							onClick={() => handleScenarioChange(key)}
-							className={`rounded px-3 py-2 font-medium text-sm transition-colors ${scenario === key ? "bg-blue-600 text-white" : "bg-white text-gray-700 hover:bg-gray-100"
-								}`}
+							className={`rounded px-3 py-2 font-medium text-sm transition-colors ${
+								scenario === key ? "bg-blue-600 text-white" : "bg-white text-gray-700 hover:bg-gray-100"
+							}`}
 						>
 							{icon} {label}
 						</button>
@@ -925,8 +946,9 @@ function AdvancedApplicationsDemo() {
 						<div className="mb-3">
 							<h4 className="mb-2 font-medium text-gray-800 text-sm">实时消息流</h4>
 							<span
-								className={`rounded px-2 py-1 text-sm ${connectionStatus === "connected" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-									}`}
+								className={`rounded px-2 py-1 text-sm ${
+									connectionStatus === "connected" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+								}`}
 							>
 								{connectionStatus === "connected" ? "🟢 已连接" : "🔴 已断开"}
 							</span>

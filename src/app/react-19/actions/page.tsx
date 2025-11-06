@@ -2,96 +2,40 @@
 
 import { AlertCircle, ArrowLeft, CheckCircle, Clock, Code, Copy, Target, Zap } from "lucide-react";
 import type React from "react";
-import { createContext, useContext, useState } from "react";
+import { useState } from "react";
 import Layout from "@/components/Layout";
+// Import utils
+import { copyWithFeedback } from "@/utils";
 
-// 临时模拟 React 19 Actions Hooks
-// 由于 React 19 的一些新 Hooks 可能还未完全稳定，这里提供模拟实现
-
-const FormStatusContext = createContext<{
-	pending: boolean;
-	data: FormData | null;
-}>({
-	pending: false,
-	data: null,
-});
-
-// 模拟 useFormStatus Hook
-function useFormStatus() {
-	return useContext(FormStatusContext);
-}
-
-// 模拟 useTransition Hook
-function useTransition(): [boolean, (callback: () => void) => void] {
-	const [isPending, setIsPending] = useState(false);
-
-	const startTransition = (callback: () => void) => {
-		setIsPending(true);
-		setTimeout(() => {
-			callback();
-			setIsPending(false);
-		}, 0);
-	};
-
-	return [isPending, startTransition];
-}
-
-// 模拟 useActionState Hook
-function useActionState<State>(
-	action: (prevState: State | null, formData: FormData) => Promise<State> | State,
-	initialState: State | null,
-	permalink?: string,
-): [State, (formData: FormData) => void, boolean] {
-	const [state, setState] = useState<State | null>(initialState);
-	const [isPending, setIsPending] = useState(false);
-
-	const formAction = async (formData: FormData) => {
-		setIsPending(true);
-		try {
-			const result = await action(state, formData);
-			setState(result);
-		} catch (error) {
-			console.error("Action failed:", error);
-		} finally {
-			setIsPending(false);
-		}
-	};
-
-	return [state as State, formAction, isPending];
-}
-
-// 模拟 useOptimistic Hook
-function useOptimistic<State>(
-	pastState: State,
-	updateFn: (state: State, optimisticValue: any) => State,
-): [State, (optimisticValue: any) => void] {
-	const [optimisticState, setOptimisticState] = useState(pastState);
-
-	const addOptimistic = (optimisticValue: any) => {
-		const newOptimisticState = updateFn(optimisticState, optimisticValue);
-		setOptimisticState(newOptimisticState);
-	};
-
-	return [optimisticState, addOptimistic];
-}
-
-interface ActionExample {
-	id: string;
-	title: string;
-	description: string;
-	category: "State Management" | "UI Enhancement" | "Form Handling" | "Performance";
-	difficulty: "初级" | "中级" | "高级";
-	status: "completed" | "in-progress" | "planned";
-	icon: React.ReactNode;
-	codeSnippet: string;
-	benefits: string[];
-	useCases: string[];
-	problemsSolved: Array<{
-		problem: string;
-		description: string;
-		solution: string;
-	}>;
-}
+// Import extracted components from index files
+import {
+	ArchitectureOverview,
+	ExampleDetail,
+	ExampleSelector,
+	Header,
+	OfficialExamples,
+	ThreeWRule,
+} from "../(components)";
+// Import types
+import type { ActionExample, WSection } from "../(types)";
+// Import demo components from index file
+import {
+	ServerFunctionsDemo,
+	ServerFunctionsFileUploadDemo,
+	ServerFunctionsSearchDemo,
+	UseActionStateCommentDemo,
+	UseActionStateDemo,
+	UseActionStateLoginDemo,
+	UseFormStatusDemo,
+	UseFormStatusMultiButtonDemo,
+	UseFormStatusProgressDemo,
+	UseOptimisticCartDemo,
+	UseOptimisticDemo,
+	UseOptimisticLikeDemo,
+	UseTransitionDataSyncDemo,
+	UseTransitionDemo,
+	UseTransitionFilterDemo,
+} from "./(components)";
 
 const actionExamples: ActionExample[] = [
 	{
@@ -410,84 +354,65 @@ function SearchComponent() {
 
 export default function ActionsPage() {
 	const [copiedCode, setCopiedCode] = useState(false);
+	const [selectedExample, setSelectedExample] = useState(actionExamples[0]);
 
-	const copyToClipboard = async (text: string) => {
-		try {
-			await navigator.clipboard.writeText(text);
-			setCopiedCode(true);
-			setTimeout(() => setCopiedCode(false), 2000);
-		} catch (error) {
-			console.error("复制失败:", error);
-		}
-	};
-
-	const demos = [
+	const architectureFeatures = [
 		{
-			id: "useActionState",
-			title: "useActionState",
-			description: "处理异步操作状态和结果",
-			emoji: "📝",
-			difficulty: "初级",
+			icon: <Code className="h-6 w-6 text-blue-600" />,
+			title: "状态管理",
+			description: "自动处理异步状态",
+			bgColor: "bg-blue-50",
+			iconColor: "text-blue-600",
+			titleColor: "text-blue-900",
+			descriptionColor: "text-blue-700",
 		},
 		{
-			id: "useOptimistic",
-			title: "useOptimistic",
-			description: "实现乐观更新，提升用户体验",
-			emoji: "🚀",
-			difficulty: "中级",
+			icon: <Zap className="h-6 w-6 text-green-600" />,
+			title: "乐观更新",
+			description: "即时响应用户操作",
+			bgColor: "bg-green-50",
+			iconColor: "text-green-600",
+			titleColor: "text-green-900",
+			descriptionColor: "text-green-700",
 		},
 		{
-			id: "useFormStatus",
-			title: "useFormStatus",
-			description: "获取表单提交状态",
-			emoji: "📊",
-			difficulty: "初级",
+			icon: <Target className="h-6 w-6 text-purple-600" />,
+			title: "表单处理",
+			description: "简化表单状态管理",
+			bgColor: "bg-purple-50",
+			iconColor: "text-purple-600",
+			titleColor: "text-purple-900",
+			descriptionColor: "text-purple-700",
 		},
 		{
-			id: "serverFunctions",
-			title: "Server Functions",
-			description: "服务端函数与客户端组件集成",
-			emoji: "🖥️",
-			difficulty: "中级",
-		},
-		{
-			id: "useTransition",
-			title: "useTransition",
-			description: "并发渲染，避免界面阻塞",
-			emoji: "🔄",
-			difficulty: "高级",
+			icon: <Clock className="h-6 w-6 text-orange-600" />,
+			title: "性能优化",
+			description: "并发渲染不阻塞",
+			bgColor: "bg-orange-50",
+			iconColor: "text-orange-600",
+			titleColor: "text-orange-900",
+			descriptionColor: "text-orange-700",
 		},
 	];
 
-	const getDifficultyColor = (difficulty: string) => {
-		switch (difficulty) {
-			case "初级":
-				return "text-green-600 bg-green-100";
-			case "中级":
-				return "text-yellow-600 bg-yellow-100";
-			case "高级":
-				return "text-red-600 bg-red-100";
-			default:
-				return "text-gray-600 bg-gray-100";
-		}
-	};
-
-	const getCategoryColor = (category: string) => {
-		switch (category) {
-			case "State Management":
-				return "text-blue-600 bg-blue-100";
-			case "UI Enhancement":
-				return "text-green-600 bg-green-100";
-			case "Form Handling":
-				return "text-purple-600 bg-purple-100";
-			case "Performance":
-				return "text-orange-600 bg-orange-100";
-			default:
-				return "text-gray-600 bg-gray-100";
-		}
-	};
-
-	const [selectedExample, setSelectedExample] = useState(actionExamples[0]);
+	// 3W Rule data
+	const threeWSections: WSection[] = [
+		{
+			description:
+				"Actions 是 React 19 中简化异步数据变更的新机制，配套提供 useActionState、useOptimistic、useFormStatus、useTransition 等 Hook，形成完整的异步操作生态系统。",
+			features: ["自动状态管理", "统一的 Hook 接口", "服务端集成", "渐进增强支持"],
+		},
+		{
+			description:
+				"解决传统表单处理复杂、状态管理繁琐、用户体验不佳的问题。通过提供标准化的异步操作模式和内置的 pending 状态管理，大幅简化了开发复杂度。",
+			features: ["减少样板代码", "统一处理模式", "改善用户体验", "提升开发效率"],
+		},
+		{
+			description:
+				"处理表单提交、数据变更、乐观更新、并发渲染场景。特别适合需要良好用户体验的交互式应用，如社交平台、电商系统、协作工具等。",
+			features: ["表单操作", "异步数据变更", "实时 UI 更新", "性能敏感场景"],
+		},
+	];
 
 	// 官方代码示例数据
 	const getOfficialExamples = (hookId: string) => {
@@ -734,1614 +659,90 @@ function SignUpForm() {
 		return examples[hookId as keyof typeof examples] || [];
 	};
 
+	// Get demo components based on selected example
+	const getDemoComponents = () => {
+		switch (selectedExample.id) {
+			case "useActionState":
+				return [
+					<UseActionStateDemo key="signup" />,
+					<UseActionStateLoginDemo key="login" />,
+					<UseActionStateCommentDemo key="comment" />,
+				];
+			case "useOptimistic":
+				return [
+					<UseOptimisticDemo key="todo" />,
+					<UseOptimisticLikeDemo key="like" />,
+					<UseOptimisticCartDemo key="cart" />,
+				];
+			case "useFormStatus":
+				return [
+					<UseFormStatusDemo key="basic" />,
+					<UseFormStatusMultiButtonDemo key="multi" />,
+					<UseFormStatusProgressDemo key="progress" />,
+				];
+			case "serverFunctions":
+				return [
+					<ServerFunctionsDemo key="chat" />,
+					<ServerFunctionsFileUploadDemo key="upload" />,
+					<ServerFunctionsSearchDemo key="search" />,
+				];
+			case "useTransition":
+				return [
+					<UseTransitionDemo key="search" />,
+					<UseTransitionFilterDemo key="filter" />,
+					<UseTransitionDataSyncDemo key="sync" />,
+				];
+			default:
+				return [];
+		}
+	};
+
 	return (
 		<Layout>
 			<div className="min-h-screen bg-gray-50">
-				{/* 头部 */}
-				<div className="bg-white shadow-sm">
-					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-						<div className="flex items-center space-x-4">
-							<div className="flex items-center space-x-3">
-								<Zap className="h-8 w-8 text-blue-600" />
-								<div>
-									<h1 className="font-bold text-3xl text-gray-900">React 19 Actions</h1>
-									<p className="text-gray-600">现代 React 应用的异步操作生态系统</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				{/* Header */}
+				<Header
+					icon={<Zap className="h-8 w-8 text-blue-600" />}
+					title="React 19 Actions"
+					subtitle="现代 React 应用的异步操作生态系统"
+				/>
 
 				{/* Actions 架构概览 */}
-				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-						<h2 className="mb-6 font-semibold text-gray-900 text-xl">Actions 生态系统</h2>
-						<div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-							<div className="rounded-lg bg-blue-50 p-4 text-center">
-								<Code className="mx-auto mb-2 h-6 w-6 text-blue-600" />
-								<h3 className="mb-1 font-semibold text-blue-900">状态管理</h3>
-								<p className="text-blue-700 text-sm">自动处理异步状态</p>
-							</div>
-							<div className="rounded-lg bg-green-50 p-4 text-center">
-								<Zap className="mx-auto mb-2 h-6 w-6 text-green-600" />
-								<h3 className="mb-1 font-semibold text-green-900">乐观更新</h3>
-								<p className="text-green-700 text-sm">即时响应用户操作</p>
-							</div>
-							<div className="rounded-lg bg-purple-50 p-4 text-center">
-								<Target className="mx-auto mb-2 h-6 w-6 text-purple-600" />
-								<h3 className="mb-1 font-semibold text-purple-900">表单处理</h3>
-								<p className="text-purple-700 text-sm">简化表单状态管理</p>
-							</div>
-							<div className="rounded-lg bg-orange-50 p-4 text-center">
-								<Clock className="mx-auto mb-2 h-6 w-6 text-orange-600" />
-								<h3 className="mb-1 font-semibold text-orange-900">性能优化</h3>
-								<p className="text-orange-700 text-sm">并发渲染不阻塞</p>
-							</div>
-						</div>
-					</div>
-				</div>
+				<ArchitectureOverview title="Actions 生态系统" features={architectureFeatures} />
 
 				{/* 3W 法则解析 */}
-				<div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-					<div className="rounded-lg border border-blue-200 bg-blue-50 p-6 shadow-sm">
-						<h2 className="mb-6 font-bold text-2xl text-blue-800">🎯 3W 法则解析</h2>
-						<div className="grid gap-6 md:grid-cols-3">
-							<div className="rounded-lg border border-blue-200 bg-white p-4 shadow-sm">
-								<h3 className="mb-3 font-semibold text-blue-700 text-lg">📋 What (是什么)</h3>
-								<p className="font-medium text-gray-800">
-									Actions 是 React 19 中简化异步数据变更的新机制，配套提供
-									useActionState、useOptimistic、useFormStatus、useTransition 等 Hook，形成完整的异步操作生态系统。
-								</p>
-							</div>
-							<div className="rounded-lg border border-blue-200 bg-white p-4 shadow-sm">
-								<h3 className="mb-3 font-semibold text-blue-700 text-lg">🎯 Why (为什么)</h3>
-								<p className="font-medium text-gray-800">
-									解决传统表单处理复杂、状态管理繁琐、用户体验不佳的问题。通过提供标准化的异步操作模式和内置的 pending
-									状态管理，大幅简化了开发复杂度。
-								</p>
-							</div>
-							<div className="rounded-lg border border-blue-200 bg-white p-4 shadow-sm">
-								<h3 className="mb-3 font-semibold text-blue-700 text-lg">⏰ When (何时用)</h3>
-								<p className="font-medium text-gray-800">
-									处理表单提交、数据变更、乐观更新、并发渲染场景。特别适合需要良好用户体验的交互式应用，如社交平台、电商系统、协作工具等。
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
+				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
 
 				{/* Hook 选择器 - 吸顶区域 */}
-				<div className="sticky top-0 z-10 border-gray-200 border-b bg-white">
-					<div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
-						<div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
-							<h2 className="font-semibold text-gray-900 text-sm">选择 Hook:</h2>
-							<div className="flex flex-wrap justify-center gap-2">
-								{actionExamples.map((example) => (
-									<button
-										key={example.id}
-										onClick={() => setSelectedExample(example)}
-										className={`rounded-lg px-3 py-1.5 font-medium text-sm transition-all ${
-											selectedExample?.id === example.id
-												? "bg-blue-500 text-white shadow-sm"
-												: "border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-										}`}
-									>
-										<span className="mr-1">{example.icon}</span>
-										{example.title}
-										<span
-											className={`ml-1.5 rounded px-1.5 py-0.5 text-xs ${
-												example.difficulty === "初级"
-													? "bg-green-100 text-green-700"
-													: example.difficulty === "中级"
-														? "bg-yellow-100 text-yellow-700"
-														: "bg-red-100 text-red-700"
-											}`}
-										>
-											{example.difficulty}
-										</span>
-									</button>
-								))}
-							</div>
-						</div>
-					</div>
-				</div>
+				<ExampleSelector
+					selectorLabel="选择 Hook:"
+					examples={actionExamples}
+					selectedExampleId={selectedExample.id}
+					onExampleSelect={(exampleId) => {
+						const example = actionExamples.find((ex) => ex.id === exampleId);
+						if (example) setSelectedExample(example);
+					}}
+				/>
 
 				{/* 详细展示区域 - 下方内容 */}
 				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
 					{selectedExample && (
-						<div className="space-y-8">
-							{/* Hook 详细信息 */}
-							<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
-								<div className="border-gray-200 border-b p-6">
-									<div className="flex items-center space-x-4">
-										<div className="rounded-lg bg-blue-100 p-3 text-blue-600">{selectedExample.icon}</div>
-										<div>
-											<h3 className="font-semibold text-2xl text-gray-900">{selectedExample.title}</h3>
-											<p className="text-gray-600">{selectedExample.description}</p>
-										</div>
-									</div>
-								</div>
-
-								<div className="p-6">
-									<div className="mb-6">
-										<h4 className="mb-3 font-semibold text-gray-900">🎮 交互式演示</h4>
-										<div className="space-y-6">
-											{selectedExample.id === "useActionState" && (
-												<>
-													<UseActionStateDemo />
-													<UseActionStateLoginDemo />
-													<UseActionStateCommentDemo />
-												</>
-											)}
-											{selectedExample.id === "useOptimistic" && (
-												<>
-													<UseOptimisticDemo />
-													<UseOptimisticLikeDemo />
-													<UseOptimisticCartDemo />
-												</>
-											)}
-											{selectedExample.id === "useFormStatus" && (
-												<>
-													<UseFormStatusDemo />
-													<UseFormStatusMultiButtonDemo />
-													<UseFormStatusProgressDemo />
-												</>
-											)}
-											{selectedExample.id === "serverFunctions" && (
-												<>
-													<ServerFunctionsDemo />
-													<ServerFunctionsFileUploadDemo />
-													<ServerFunctionsSearchDemo />
-												</>
-											)}
-											{selectedExample.id === "useTransition" && (
-												<>
-													<UseTransitionDemo />
-													<UseTransitionFilterDemo />
-													<UseTransitionDataSyncDemo />
-												</>
-											)}
-										</div>
-									</div>
-
-									<div className="mb-6">
-										<div className="mb-3 flex items-center justify-between">
-											<h4 className="font-semibold text-gray-900">📝 代码示例</h4>
-											<button
-												onClick={() => copyToClipboard(selectedExample.codeSnippet)}
-												className="flex items-center space-x-1 text-gray-600 text-sm hover:text-gray-900"
-											>
-												<Copy className="h-4 w-4" />
-												<span>{copiedCode ? "已复制" : "复制"}</span>
-											</button>
-										</div>
-										<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
-											<pre className="text-sm">
-												<code>{selectedExample.codeSnippet}</code>
-											</pre>
-										</div>
-									</div>
-
-									{/* 主要优势和使用场景 */}
-									<div className="grid gap-6 md:grid-cols-2">
-										<div>
-											<h5 className="mb-3 font-medium text-gray-900">✨ 主要优势</h5>
-											<div className="flex flex-wrap gap-2">
-												{selectedExample.benefits.map((benefit, index) => (
-													<span
-														key={index}
-														className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm"
-													>
-														{benefit}
-													</span>
-												))}
-											</div>
-										</div>
-
-										<div>
-											<h5 className="mb-3 font-medium text-gray-900">🎯 使用场景</h5>
-											<div className="flex flex-wrap gap-2">
-												{selectedExample.useCases.map((useCase, index) => (
-													<span
-														key={index}
-														className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-blue-700 text-sm"
-													>
-														{useCase}
-													</span>
-												))}
-											</div>
-										</div>
-									</div>
-
-									{/* 解决的具体问题 */}
-									<div className="border-gray-200 border-t pt-6">
-										<h5 className="mb-4 font-medium text-gray-900">🔧 解决的具体问题</h5>
-										<div className="space-y-4">
-											{selectedExample.problemsSolved.map((item, index) => (
-												<div key={index} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-													<div className="mb-2 flex items-start justify-between">
-														<div className="flex items-center space-x-2">
-															<span className="inline-flex items-center rounded bg-red-100 px-2 py-1 font-medium text-red-700 text-xs">
-																问题
-															</span>
-															<strong className="text-red-800">{item.problem}</strong>
-														</div>
-													</div>
-													<p className="mb-3 text-gray-600 text-sm">{item.description}</p>
-													<div className="rounded border border-green-200 bg-green-50 p-3">
-														<div className="mb-1 flex items-center space-x-2">
-															<span className="inline-flex items-center rounded bg-green-100 px-2 py-1 font-medium text-green-700 text-xs">
-																解决方案
-															</span>
-															<strong className="text-green-800">React 19</strong>
-														</div>
-														<p className="text-gray-700 text-sm">{item.solution}</p>
-													</div>
-												</div>
-											))}
-										</div>
-									</div>
-								</div>
-
-								{selectedExample.status === "completed" && (
-									<div className="border-green-200 border-t bg-green-50 p-6">
-										<div className="flex items-center space-x-2 text-green-800">
-											<CheckCircle className="h-5 w-5" />
-											<span className="font-medium">该 Hook 已在 React 19 中正式发布</span>
-										</div>
-									</div>
-								)}
-							</div>
-						</div>
+						<ExampleDetail
+							example={selectedExample}
+							demoComponents={getDemoComponents()}
+							onCopyCode={(code) => copyWithFeedback(code, setCopiedCode)}
+							copiedCode={copiedCode}
+						/>
 					)}
 				</div>
 
 				{/* 官方代码示例 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-						<h2 className="mb-6 font-bold text-2xl text-gray-900">📚 {selectedExample?.title} 官方示例</h2>
-						<p className="mb-6 text-gray-600">
-							以下示例来自 React 官方文档，展示了 {selectedExample?.title} 的最佳实践
-						</p>
-
-						{selectedExample && getOfficialExamples(selectedExample.id).length > 0 ? (
-							<div className="grid gap-6 lg:grid-cols-2">
-								{getOfficialExamples(selectedExample.id).map((example, index) => (
-									<div key={index} className="rounded-lg border border-gray-200 p-4">
-										<h3 className="mb-3 font-semibold text-gray-800">{example.title}</h3>
-										<pre className="mb-2 overflow-x-auto rounded bg-gray-900 p-3 text-gray-100 text-xs">
-											{example.code}
-										</pre>
-										<p className="text-gray-600 text-xs">{example.description}</p>
-									</div>
-								))}
-							</div>
-						) : (
-							<div className="py-12 text-center">
-								<Code className="mx-auto mb-4 h-16 w-16 text-gray-400" />
-								<h3 className="mb-2 font-semibold text-gray-900 text-lg">暂无官方示例</h3>
-								<p className="text-gray-600">{selectedExample?.title} 的官方代码示例正在整理中，敬请期待</p>
-							</div>
-						)}
-					</div>
-				</div>
+				<OfficialExamples
+					title={`📚 ${selectedExample?.title} 官方示例`}
+					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+					examples={getOfficialExamples(selectedExample?.id || "")}
+				/>
 			</div>
 		</Layout>
-	);
-}
-
-// useActionState Demo 组件 - 注册表单
-function UseActionStateDemo() {
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [state, setState] = useState<{ error?: string; success?: boolean; message?: string } | null>(null);
-	const [isPending, setIsPending] = useState(false);
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setIsPending(true);
-		setState(null);
-
-		// 模拟异步提交
-		await new Promise((resolve) => setTimeout(resolve, 1500));
-
-		if (!name || !email) {
-			setState({ error: "请填写所有字段" });
-		} else if (!email.includes("@")) {
-			setState({ error: "请输入有效的邮箱地址" });
-		} else {
-			setState({ success: true, message: `欢迎 ${name}！注册成功` });
-		}
-
-		setIsPending(false);
-	};
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<h5 className="mb-3 font-semibold text-gray-800">📝 用户注册场景</h5>
-			<form onSubmit={handleSubmit} className="max-w-md space-y-4">
-				<div>
-					<label className="mb-2 block font-medium text-gray-700 text-sm">姓名</label>
-					<input
-						type="text"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						disabled={isPending}
-						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						placeholder="请输入姓名"
-					/>
-				</div>
-
-				<div>
-					<label className="mb-2 block font-medium text-gray-700 text-sm">邮箱</label>
-					<input
-						type="email"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						disabled={isPending}
-						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						placeholder="请输入邮箱"
-					/>
-				</div>
-
-				<button
-					type="submit"
-					disabled={isPending}
-					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
-						isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
-					}`}
-				>
-					{isPending ? "提交中..." : "注册"}
-				</button>
-
-				{state?.error && (
-					<div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-700">{state.error}</div>
-				)}
-
-				{state?.success && (
-					<div className="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-green-700">{state.message}</div>
-				)}
-			</form>
-		</div>
-	);
-}
-
-// useActionState Demo 组件 - 登录场景
-function UseActionStateLoginDemo() {
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
-	const [state, setState] = useState<{ error?: string; success?: boolean; message?: string; attempts?: number } | null>(
-		null,
-	);
-	const [isPending, setIsPending] = useState(false);
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setIsPending(true);
-		setState(null);
-
-		// 模拟异步登录
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-
-		if (!username || !password) {
-			setState({ error: "请填写用户名和密码", attempts: 1 });
-		} else if (username !== "admin" || password !== "123456") {
-			setState({ error: "用户名或密码错误", attempts: (state?.attempts || 0) + 1 });
-		} else {
-			setState({ success: true, message: `登录成功！欢迎回来，${username}` });
-		}
-
-		setIsPending(false);
-	};
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<h5 className="mb-3 font-semibold text-gray-800">🔐 用户登录场景</h5>
-			<form onSubmit={handleSubmit} className="max-w-md space-y-4">
-				<div>
-					<label className="mb-2 block font-medium text-gray-700 text-sm">用户名</label>
-					<input
-						type="text"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-						disabled={isPending}
-						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						placeholder="试试：admin"
-					/>
-				</div>
-
-				<div>
-					<label className="mb-2 block font-medium text-gray-700 text-sm">密码</label>
-					<input
-						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						disabled={isPending}
-						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						placeholder="试试：123456"
-					/>
-				</div>
-
-				<button
-					type="submit"
-					disabled={isPending}
-					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
-						isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
-					}`}
-				>
-					{isPending ? "登录中..." : "登录"}
-				</button>
-
-				{state?.error && (
-					<div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-700">
-						{state.error}
-						{state.attempts && state.attempts > 1 && (
-							<p className="mt-1 text-red-600 text-xs">尝试次数：{state.attempts}</p>
-						)}
-					</div>
-				)}
-
-				{state?.success && (
-					<div className="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-green-700">{state.message}</div>
-				)}
-
-				<div className="text-gray-500 text-xs">💡 提示：使用 admin/123456 可以成功登录</div>
-			</form>
-		</div>
-	);
-}
-
-// useActionState Demo 组件 - 评论发布场景
-function UseActionStateCommentDemo() {
-	const [comment, setComment] = useState("");
-	const [author, setAuthor] = useState("");
-	const [state, setState] = useState<{
-		error?: string;
-		success?: boolean;
-		message?: string;
-		commentId?: number;
-	} | null>(null);
-	const [isPending, setIsPending] = useState(false);
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setIsPending(true);
-		setState(null);
-
-		// 模拟异步评论提交
-		await new Promise((resolve) => setTimeout(resolve, 800));
-
-		if (!author.trim()) {
-			setState({ error: "请输入您的昵称" });
-		} else if (!comment.trim()) {
-			setState({ error: "请输入评论内容" });
-		} else if (comment.length < 10) {
-			setState({ error: "评论内容至少需要10个字符" });
-		} else {
-			setState({
-				success: true,
-				message: "评论发布成功！",
-				commentId: Date.now(),
-			});
-			setComment("");
-		}
-
-		setIsPending(false);
-	};
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<h5 className="mb-3 font-semibold text-gray-800">💬 评论发布场景</h5>
-			<form onSubmit={handleSubmit} className="max-w-md space-y-4">
-				<div>
-					<label className="mb-2 block font-medium text-gray-700 text-sm">昵称</label>
-					<input
-						type="text"
-						value={author}
-						onChange={(e) => setAuthor(e.target.value)}
-						disabled={isPending}
-						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						placeholder="请输入昵称"
-					/>
-				</div>
-
-				<div>
-					<label className="mb-2 block font-medium text-gray-700 text-sm">评论内容</label>
-					<textarea
-						value={comment}
-						onChange={(e) => setComment(e.target.value)}
-						disabled={isPending}
-						rows={4}
-						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						placeholder="分享您的想法..."
-					/>
-					<div className="mt-1 text-gray-500 text-xs">{comment.length}/10 字符</div>
-				</div>
-
-				<button
-					type="submit"
-					disabled={isPending}
-					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
-						isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
-					}`}
-				>
-					{isPending ? "发布中..." : "发布评论"}
-				</button>
-
-				{state?.error && (
-					<div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-700">{state.error}</div>
-				)}
-
-				{state?.success && (
-					<div className="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-green-700">
-						{state.message}
-						{state.commentId && <p className="mt-1 text-green-600 text-xs">评论ID：#{state.commentId}</p>}
-					</div>
-				)}
-			</form>
-		</div>
-	);
-}
-
-// useOptimistic Demo 组件 - 待办事项场景
-function UseOptimisticDemo() {
-	type Todo = { id: number; text: string; completed: boolean; optimistic?: boolean };
-
-	const [todos, setTodos] = useState<Todo[]>([{ id: 1, text: "学习 React 19 新特性", completed: false }]);
-	const [optimisticTodos, setOptimisticTodos] = useState<Todo[]>(todos);
-	const [newTodo, setNewTodo] = useState("");
-	const [isPending, setIsPending] = useState(false);
-
-	const addTodo = async (e: React.FormEvent) => {
-		e.preventDefault();
-		if (!newTodo.trim()) return;
-
-		setIsPending(true);
-
-		// 乐观更新：立即显示新项目
-		const optimisticItem = {
-			id: Date.now(),
-			text: newTodo,
-			completed: false,
-			optimistic: true,
-		};
-
-		setOptimisticTodos((prev) => [...prev, optimisticItem]);
-
-		// 模拟实际异步操作
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-
-		// 实际更新
-		setTodos((prev) => [...prev, { id: Date.now(), text: newTodo, completed: false }]);
-		setOptimisticTodos((prev) =>
-			prev.map((item) => (item.id === optimisticItem.id ? { ...item, optimistic: false } : item)),
-		);
-
-		setNewTodo("");
-		setIsPending(false);
-	};
-
-	const toggleTodo = async (id: number) => {
-		// 乐观更新：立即切换状态
-		setOptimisticTodos((prev) => prev.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo)));
-		setTodos((prev) => prev.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo)));
-
-		// 模拟异步操作
-		await new Promise((resolve) => setTimeout(resolve, 500));
-	};
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<h5 className="mb-3 font-semibold text-gray-800">📝 待办事项管理</h5>
-			<form onSubmit={addTodo} className="mb-4">
-				<div className="flex gap-2">
-					<input
-						type="text"
-						value={newTodo}
-						onChange={(e) => setNewTodo(e.target.value)}
-						disabled={isPending}
-						className="flex-1 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						placeholder="添加新任务..."
-					/>
-					<button
-						type="submit"
-						disabled={isPending || !newTodo.trim()}
-						className={`rounded-md px-4 py-2 font-medium transition-colors ${
-							isPending || !newTodo.trim()
-								? "cursor-not-allowed bg-gray-400 text-gray-200"
-								: "bg-blue-500 text-white hover:bg-blue-600"
-						}`}
-					>
-						{isPending ? "添加中..." : "添加"}
-					</button>
-				</div>
-			</form>
-
-			<div className="space-y-2">
-				{optimisticTodos.map((todo) => (
-					<div
-						key={todo.id}
-						className={`flex items-center gap-3 rounded-md border p-3 ${
-							todo.optimistic ? "border-yellow-200 bg-yellow-50" : "border-gray-200 bg-white"
-						}`}
-					>
-						<input
-							type="checkbox"
-							checked={todo.completed}
-							onChange={() => toggleTodo(todo.id)}
-							className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-						/>
-						<span className={`flex-1 ${todo.completed ? "text-gray-500 line-through" : "text-gray-900"}`}>
-							{todo.text}
-						</span>
-						{todo.optimistic && <span className="font-medium text-xs text-yellow-600">乐观更新中...</span>}
-					</div>
-				))}
-			</div>
-		</div>
-	);
-}
-
-// useOptimistic Demo 组件 - 点赞场景
-function UseOptimisticLikeDemo() {
-	type Post = { id: number; content: string; likes: number; isLiked: boolean; optimistic?: boolean };
-
-	const [posts, setPosts] = useState<Post[]>([
-		{ id: 1, content: "React 19 的新特性真是太棒了！", likes: 42, isLiked: false },
-		{ id: 2, content: "useActionState 让表单处理变得如此简单", likes: 28, isLiked: false },
-		{ id: 3, content: "乐观更新大大提升了用户体验", likes: 15, isLiked: true },
-	]);
-	const [optimisticPosts, setOptimisticPosts] = useState<Post[]>(posts);
-
-	const handleLike = async (postId: number) => {
-		// 乐观更新：立即更新点赞状态
-		setOptimisticPosts((prev) =>
-			prev.map((post) =>
-				post.id === postId
-					? {
-							...post,
-							isLiked: !post.isLiked,
-							likes: post.isLiked ? post.likes - 1 : post.likes + 1,
-							optimistic: true,
-						}
-					: post,
-			),
-		);
-
-		// 模拟网络请求
-		await new Promise((resolve) => setTimeout(resolve, 800));
-
-		// 实际更新状态
-		setPosts((prev) =>
-			prev.map((post) =>
-				post.id === postId
-					? {
-							...post,
-							isLiked: !post.isLiked,
-							likes: post.isLiked ? post.likes - 1 : post.likes + 1,
-						}
-					: post,
-			),
-		);
-
-		// 移除乐观状态
-		setOptimisticPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, optimistic: false } : post)));
-	};
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<h5 className="mb-3 font-semibold text-gray-800">👍 社交点赞场景</h5>
-			<div className="space-y-3">
-				{optimisticPosts.map((post) => (
-					<div
-						key={post.id}
-						className={`rounded-lg border p-4 ${
-							post.optimistic ? "border-yellow-200 bg-yellow-50" : "border-gray-200 bg-white"
-						}`}
-					>
-						<p className="mb-3 text-gray-800">{post.content}</p>
-						<div className="flex items-center justify-between">
-							<button
-								onClick={() => handleLike(post.id)}
-								className={`flex items-center gap-2 rounded-full px-3 py-1 font-medium text-sm transition-colors ${
-									post.isLiked
-										? "bg-red-100 text-red-700 hover:bg-red-200"
-										: "bg-gray-100 text-gray-700 hover:bg-gray-200"
-								}`}
-							>
-								<span>{post.isLiked ? "❤️" : "🤍"}</span>
-								<span>{post.likes}</span>
-							</button>
-							{post.optimistic && <span className="font-medium text-xs text-yellow-600">更新中...</span>}
-						</div>
-					</div>
-				))}
-			</div>
-		</div>
-	);
-}
-
-// useOptimistic Demo 组件 - 购物车场景
-function UseOptimisticCartDemo() {
-	type CartItem = { id: number; name: string; price: number; quantity: number; optimistic?: boolean };
-
-	const [items, setItems] = useState<CartItem[]>([
-		{ id: 1, name: "React 19 完全指南", price: 89, quantity: 1 },
-		{ id: 2, name: "现代前端开发实战", price: 128, quantity: 2 },
-	]);
-	const [optimisticItems, setOptimisticItems] = useState<CartItem[]>(items);
-
-	const updateQuantity = async (itemId: number, newQuantity: number) => {
-		if (newQuantity < 0) return;
-
-		// 乐观更新：立即更新数量
-		setOptimisticItems((prev) =>
-			prev.map((item) => (item.id === itemId ? { ...item, quantity: newQuantity, optimistic: true } : item)),
-		);
-
-		// 模拟网络请求
-		await new Promise((resolve) => setTimeout(resolve, 600));
-
-		// 实际更新
-		setItems((prev) => prev.map((item) => (item.id === itemId ? { ...item, quantity: newQuantity } : item)));
-
-		// 移除乐观状态
-		setOptimisticItems((prev) => prev.map((item) => (item.id === itemId ? { ...item, optimistic: false } : item)));
-	};
-
-	const removeItem = async (itemId: number) => {
-		// 乐观更新：立即移除
-		setOptimisticItems((prev) =>
-			prev.map((item) => (item.id === itemId ? { ...item, quantity: 0, optimistic: true } : item)),
-		);
-
-		// 模拟网络请求
-		await new Promise((resolve) => setTimeout(resolve, 500));
-
-		// 实际移除
-		setItems((prev) => prev.filter((item) => item.id !== itemId));
-		setOptimisticItems((prev) => prev.filter((item) => item.id !== itemId));
-	};
-
-	const totalPrice = optimisticItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<h5 className="mb-3 font-semibold text-gray-800">🛒 购物车场景</h5>
-			<div className="space-y-3">
-				{optimisticItems.map((item) => (
-					<div
-						key={item.id}
-						className={`rounded-lg border p-3 ${
-							item.optimistic ? "border-yellow-200 bg-yellow-50" : "border-gray-200 bg-white"
-						}`}
-					>
-						<div className="mb-2 flex items-center justify-between">
-							<div>
-								<h6 className="font-medium text-gray-900">{item.name}</h6>
-								<p className="text-gray-600 text-sm">¥{item.price}</p>
-							</div>
-							{item.optimistic && <span className="font-medium text-xs text-yellow-600">更新中...</span>}
-						</div>
-						<div className="flex items-center gap-2">
-							<button
-								onClick={() => updateQuantity(item.id, item.quantity - 1)}
-								disabled={item.quantity <= 0}
-								className="h-8 w-8 rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
-							>
-								-
-							</button>
-							<span className="w-12 text-center font-medium">{item.quantity}</span>
-							<button
-								onClick={() => updateQuantity(item.id, item.quantity + 1)}
-								className="h-8 w-8 rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50"
-							>
-								+
-							</button>
-							<button onClick={() => removeItem(item.id)} className="ml-auto text-red-600 text-sm hover:text-red-700">
-								删除
-							</button>
-						</div>
-					</div>
-				))}
-			</div>
-			<div className="mt-4 border-gray-200 border-t pt-3">
-				<div className="flex items-center justify-between">
-					<span className="font-semibold text-gray-900">总计：</span>
-					<span className="font-bold text-blue-600 text-lg">¥{totalPrice}</span>
-				</div>
-			</div>
-		</div>
-	);
-}
-
-// useFormStatus Demo 组件
-function UseFormStatusDemo() {
-	const [message, setMessage] = useState("");
-	const [isPending, setIsPending] = useState(false);
-
-	const sendMessage = async (formData: FormData) => {
-		await new Promise((resolve) => setTimeout(resolve, 2000));
-		const msg = formData.get("message") as string;
-		console.log("消息已发送:", msg);
-	};
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setIsPending(true);
-		const formData = new FormData();
-		formData.append("message", message);
-		await sendMessage(formData);
-		setIsPending(false);
-		setMessage("");
-	};
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<form onSubmit={handleSubmit} className="max-w-md space-y-4">
-				<div>
-					<label className="mb-2 block font-medium text-gray-700 text-sm">消息内容</label>
-					<textarea
-						value={message}
-						onChange={(e) => setMessage(e.target.value)}
-						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						rows={4}
-						placeholder="输入你的消息..."
-					/>
-				</div>
-
-				<button
-					type="submit"
-					disabled={isPending || !message.trim()}
-					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
-						isPending || !message.trim()
-							? "cursor-not-allowed bg-gray-400 text-gray-200"
-							: "bg-blue-500 text-white hover:bg-blue-600"
-					}`}
-				>
-					{isPending ? "发送中..." : "发送消息"}
-				</button>
-
-				<div className="rounded-md bg-blue-50 p-4">
-					<p className="text-blue-700 text-sm">
-						💡 注意：按钮会根据表单状态自动禁用/启用，这就是 useFormStatus 的作用！
-					</p>
-				</div>
-			</form>
-		</div>
-	);
-}
-
-// Server Functions Demo 组件
-function ServerFunctionsDemo() {
-	const [messages, setMessages] = useState<Array<{ id: number; text: string; sender: string; time: string }>>([
-		{ id: 1, text: "欢迎来到聊天室！", sender: "系统", time: "10:00" },
-	]);
-	const [newMessage, setNewMessage] = useState("");
-	const [isPending, setIsPending] = useState(false);
-
-	const sendMessage = async (message: string) => {
-		// 模拟 Server Function 调用
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-
-		if (!message.trim()) {
-			return { success: false, message: "消息不能为空" };
-		}
-
-		// 模拟消息发送成功
-		const newMsg = {
-			id: Date.now(),
-			text: message,
-			sender: "用户",
-			time: new Date().toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" }),
-		};
-
-		setMessages((prev) => [...prev, newMsg]);
-		return { success: true, message: "消息发送成功" };
-	};
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setIsPending(true);
-
-		const result = await sendMessage(newMessage);
-		console.log(result);
-
-		if (result.success) {
-			setNewMessage("");
-		}
-
-		setIsPending(false);
-	};
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<div className="mb-4">
-				<h4 className="mb-3 font-semibold text-gray-800">💬 模拟聊天室</h4>
-				<div className="mb-4 h-48 overflow-y-auto rounded border border-gray-200 bg-white p-3">
-					{messages.map((msg) => (
-						<div key={msg.id} className="mb-2">
-							<div className="flex items-baseline gap-2">
-								<span className="font-medium text-gray-500 text-xs">{msg.time}</span>
-								<span className={`font-medium text-sm ${msg.sender === "系统" ? "text-blue-600" : "text-green-600"}`}>
-									{msg.sender}:
-								</span>
-							</div>
-							<p className="text-gray-800">{msg.text}</p>
-						</div>
-					))}
-				</div>
-
-				<form onSubmit={handleSubmit} className="space-y-3">
-					<div className="flex gap-2">
-						<input
-							type="text"
-							value={newMessage}
-							onChange={(e) => setNewMessage(e.target.value)}
-							disabled={isPending}
-							className="flex-1 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-							placeholder="输入消息..."
-						/>
-						<button
-							type="submit"
-							disabled={isPending}
-							className={`rounded-md px-4 py-2 font-medium transition-colors ${
-								isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
-							}`}
-						>
-							{isPending ? "发送中..." : "发送"}
-						</button>
-					</div>
-				</form>
-			</div>
-
-			<div className="mt-4 rounded-md border border-blue-200 bg-blue-50 p-3">
-				<p className="text-blue-700 text-xs">
-					📝 这里模拟了 Server Functions 的效果。在实际应用中，这些函数会在服务端执行并自动处理序列化。
-				</p>
-			</div>
-		</div>
-	);
-}
-
-// useTransition Demo 组件
-function UseTransitionDemo() {
-	type SearchResult = { id: number; title: string; description: string; category: string };
-
-	const [isPending, setIsPending] = useState(false);
-	const [input, setInput] = useState("");
-	const [results, setResults] = useState<SearchResult[]>([]);
-	const [query, setQuery] = useState("");
-
-	const handleSearch = (value: string) => {
-		setInput(value);
-
-		// 使用 transition 模拟非阻塞更新
-		setIsPending(true);
-		setQuery(value);
-
-		setTimeout(async () => {
-			if (!value.trim()) {
-				setResults([]);
-				setIsPending(false);
-				return;
-			}
-
-			// 模拟大量数据搜索
-			await new Promise((resolve) => setTimeout(resolve, 800));
-
-			// 生成模拟搜索结果
-			const mockResults = Array.from({ length: 5 }, (_, i) => ({
-				id: i + 1,
-				title: `搜索结果 ${i + 1}: ${value}`,
-				description: `这是关于 "${value}" 的详细描述内容`,
-				category: ["技术", "教程", "文档", "示例"][Math.floor(Math.random() * 4)],
-			}));
-
-			setResults(mockResults);
-			setIsPending(false);
-		}, 100);
-	};
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<div className="mb-4">
-				<input
-					type="text"
-					value={input}
-					onChange={(e) => handleSearch(e.target.value)}
-					className={`w-full rounded-md border px-3 py-2 shadow-sm transition-colors focus:border-blue-500 focus:outline-none focus:ring-blue-500 ${
-						isPending ? "border-blue-500" : "border-gray-300"
-					}`}
-					placeholder="搜索大量数据..."
-				/>
-				{isPending && (
-					<div className="mt-2 flex items-center text-blue-600 text-sm">
-						<div className="mr-2 h-4 w-4 animate-spin rounded-full border-blue-600 border-b-2"></div>
-						正在搜索...
-					</div>
-				)}
-			</div>
-
-			<div
-				className={`max-h-64 space-y-2 overflow-y-auto transition-opacity ${isPending ? "opacity-60" : "opacity-100"}`}
-			>
-				{results.length > 0 ? (
-					<>
-						<p className="text-gray-600 text-sm">
-							找到 {results.length} 个结果 for "{query}"
-						</p>
-						{results.map((result) => (
-							<div
-								key={result.id}
-								className="rounded-md border border-gray-200 bg-white p-3 transition-shadow hover:shadow-md"
-							>
-								<h4 className="font-medium text-gray-900">{result.title}</h4>
-								<p className="mt-1 text-gray-600 text-sm">{result.description}</p>
-								<span className="mt-2 inline-block rounded-md bg-blue-100 px-2 py-1 text-blue-800 text-xs">
-									{result.category}
-								</span>
-							</div>
-						))}
-					</>
-				) : (
-					<p className="py-8 text-center text-gray-500">{query ? "没有找到相关结果" : "输入关键词开始搜索"}</p>
-				)}
-			</div>
-
-			<div className="mt-4 rounded-md border border-orange-200 bg-orange-50 p-3">
-				<p className="text-orange-700 text-xs">
-					⚡ 注意：输入框立即响应，搜索在后台进行。这就是 useTransition 的并发渲染效果！
-				</p>
-			</div>
-		</div>
-	);
-}
-
-// useFormStatus Demo 组件 - 多按钮表单场景
-function UseFormStatusMultiButtonDemo() {
-	const [message, setMessage] = useState("");
-	const [isPending, setIsPending] = useState(false);
-	const [formContextData, setFormContextData] = useState<FormData | null>(null);
-
-	const publishPost = async (formData: FormData) => {
-		await new Promise((resolve) => setTimeout(resolve, 2000));
-		const msg = formData.get("message") as string;
-		console.log("发布文章:", msg);
-	};
-
-	const saveDraft = async (formData: FormData) => {
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-		const msg = formData.get("message") as string;
-		console.log("保存草稿:", msg);
-	};
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setIsPending(true);
-		const formData = new FormData();
-		formData.append("message", message);
-		setFormContextData(formData);
-		await publishPost(formData);
-		setIsPending(false);
-		setFormContextData(null);
-	};
-
-	return (
-		<FormStatusContext.Provider value={{ pending: isPending, data: formContextData }}>
-			<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-				<h5 className="mb-3 font-semibold text-gray-800">📝 多按钮表单场景</h5>
-				<form onSubmit={handleSubmit} className="max-w-md space-y-4">
-					<div>
-						<label className="mb-2 block font-medium text-gray-700 text-sm">文章内容</label>
-						<textarea
-							value={message}
-							onChange={(e) => setMessage(e.target.value)}
-							className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-							rows={4}
-							placeholder="写下您的想法..."
-						/>
-					</div>
-
-					<div className="flex gap-2">
-						<PublishButton />
-						<button
-							onClick={async (e) => {
-								e.preventDefault();
-								setIsPending(true);
-								const formData = new FormData();
-								formData.append("message", message);
-								setFormContextData(formData);
-								await saveDraft(formData);
-								setIsPending(false);
-								setFormContextData(null);
-							}}
-							disabled={isPending}
-							className={`flex-1 rounded-md px-4 py-2 font-medium transition-colors ${
-								isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-gray-500 text-white hover:bg-gray-600"
-							}`}
-						>
-							💾 保存草稿
-						</button>
-					</div>
-
-					<div className="rounded-md bg-blue-50 p-4">
-						<p className="text-blue-700 text-sm">
-							💡 注意：发布按钮会显示表单状态，保存草稿按钮使用 formAction 处理不同操作！
-						</p>
-					</div>
-				</form>
-			</div>
-		</FormStatusContext.Provider>
-	);
-}
-
-// SubmitButton 子组件
-function PublishButton() {
-	const { pending, data } = useFormStatus();
-
-	return (
-		<button
-			type="submit"
-			disabled={pending}
-			className={`flex-1 rounded-md px-4 py-2 font-medium transition-colors ${
-				pending ? "cursor-not-allowed bg-blue-400 text-white" : "bg-blue-500 text-white hover:bg-blue-600"
-			}`}
-		>
-			{pending ? "发布中..." : "🚀 发布文章"}
-			{data && (
-				<p className="mt-1 text-blue-100 text-xs">正在发布: {(data.get("message") as string)?.substring(0, 20)}...</p>
-			)}
-		</button>
-	);
-}
-
-// useFormStatus Demo 组件 - 进度指示场景
-function UseFormStatusProgressDemo() {
-	const [file, setFile] = useState<File | null>(null);
-	const [uploadProgress, setUploadProgress] = useState(0);
-	const [isPending, setIsPending] = useState(false);
-	const [formContextData, setFormContextData] = useState<FormData | null>(null);
-
-	const uploadFile = async (formData: FormData) => {
-		const file = formData.get("file") as File;
-
-		// 模拟文件上传进度
-		for (let i = 0; i <= 100; i += 10) {
-			await new Promise((resolve) => setTimeout(resolve, 200));
-			setUploadProgress(i);
-		}
-
-		console.log("文件上传完成:", file.name);
-		return { success: true, message: "文件上传成功！" };
-	};
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		if (!file) return;
-
-		const formData = new FormData();
-		formData.append("file", file);
-		setFormContextData(formData);
-		setIsPending(true);
-		setUploadProgress(0);
-
-		await uploadFile(formData);
-
-		setIsPending(false);
-		setFormContextData(null);
-	};
-
-	return (
-		<FormStatusContext.Provider value={{ pending: isPending, data: formContextData }}>
-			<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-				<h5 className="mb-3 font-semibold text-gray-800">📤 文件上传进度场景</h5>
-				<form onSubmit={handleSubmit} className="max-w-md space-y-4">
-					<div>
-						<label className="mb-2 block font-medium text-gray-700 text-sm">选择文件</label>
-						<input
-							type="file"
-							onChange={(e) => setFile(e.target.files?.[0] || null)}
-							className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						/>
-					</div>
-
-					<UploadButton />
-
-					{uploadProgress > 0 && (
-						<div className="mt-4">
-							<div className="mb-2 flex items-center justify-between">
-								<span className="font-medium text-gray-700 text-sm">上传进度</span>
-								<span className="text-gray-600 text-sm">{uploadProgress}%</span>
-							</div>
-							<div className="h-2 w-full rounded-full bg-gray-200">
-								<div
-									className="h-2 rounded-full bg-blue-600 transition-all duration-300"
-									style={{ width: `${uploadProgress}%` }}
-								></div>
-							</div>
-						</div>
-					)}
-
-					<div className="rounded-md bg-green-50 p-4">
-						<p className="text-green-700 text-sm">💡 注意：上传按钮基于表单状态自动禁用/启用，并显示上传进度！</p>
-					</div>
-				</form>
-			</div>
-		</FormStatusContext.Provider>
-	);
-}
-
-// UploadButton 子组件
-function UploadButton() {
-	const { pending } = useFormStatus();
-
-	return (
-		<button
-			type="submit"
-			disabled={pending}
-			className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
-				pending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-green-500 text-white hover:bg-green-600"
-			}`}
-		>
-			{pending ? "上传中..." : "📤 开始上传"}
-		</button>
-	);
-}
-
-// ServerFunctions Demo 组件 - 文件上传场景
-function ServerFunctionsFileUploadDemo() {
-	const [file, setFile] = useState<File | null>(null);
-	const [uploadResult, setUploadResult] = useState<{ success?: boolean; message?: string; url?: string } | null>(null);
-	const [isPending, setIsPending] = useState(false);
-
-	const uploadFile = async (file: File) => {
-		// 模拟 Server Function 文件上传
-		await new Promise((resolve) => setTimeout(resolve, 2000));
-
-		if (!file) {
-			return { success: false, message: "请选择文件" };
-		}
-
-		if (file.size > 5 * 1024 * 1024) {
-			return { success: false, message: "文件大小不能超过 5MB" };
-		}
-
-		// 模拟成功上传
-		return {
-			success: true,
-			message: "文件上传成功！",
-			url: `https://example.com/files/${file.name}`,
-		};
-	};
-
-	const handleUpload = async (e: React.FormEvent) => {
-		e.preventDefault();
-		if (!file) return;
-
-		setIsPending(true);
-		setUploadResult(null);
-
-		const result = await uploadFile(file);
-		setUploadResult(result);
-		setIsPending(false);
-	};
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<h5 className="mb-3 font-semibold text-gray-800">📁 服务端文件上传</h5>
-			<form onSubmit={handleUpload} className="max-w-md space-y-4">
-				<div>
-					<label className="mb-2 block font-medium text-gray-700 text-sm">选择文件</label>
-					<input
-						type="file"
-						onChange={(e) => setFile(e.target.files?.[0] || null)}
-						disabled={isPending}
-						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-					/>
-					{file && (
-						<p className="mt-1 text-gray-500 text-xs">
-							已选择: {file.name} ({(file.size / 1024).toFixed(2)} KB)
-						</p>
-					)}
-				</div>
-
-				<button
-					type="submit"
-					disabled={isPending || !file}
-					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
-						isPending || !file
-							? "cursor-not-allowed bg-gray-400 text-gray-200"
-							: "bg-blue-500 text-white hover:bg-blue-600"
-					}`}
-				>
-					{isPending ? "上传中..." : "🚀 上传文件"}
-				</button>
-
-				{uploadResult && (
-					<div
-						className={`rounded-md px-4 py-3 ${
-							uploadResult.success
-								? "border-green-200 bg-green-50 text-green-700"
-								: "border-red-200 bg-red-50 text-red-700"
-						}`}
-					>
-						{uploadResult.message}
-						{uploadResult.success && uploadResult.url && <p className="mt-1 text-xs">访问地址: {uploadResult.url}</p>}
-					</div>
-				)}
-
-				<div className="text-gray-500 text-xs">💡 提示：文件大小限制为 5MB</div>
-			</form>
-		</div>
-	);
-}
-
-// ServerFunctions Demo 组件 - 数据搜索场景
-function ServerFunctionsSearchDemo() {
-	const [query, setQuery] = useState("");
-	const [results, setResults] = useState<Array<{ id: number; title: string; description: string }>>([]);
-	const [isSearching, setIsSearching] = useState(false);
-
-	const searchData = async (searchQuery: string) => {
-		// 模拟 Server Function 搜索
-		await new Promise((resolve) => setTimeout(resolve, 1200));
-
-		if (!searchQuery.trim()) {
-			return [];
-		}
-
-		// 模拟搜索结果
-		const mockData = [
-			{ id: 1, title: "React 19 完整指南", description: "深入学习 React 19 的新特性和最佳实践" },
-			{ id: 2, title: "现代前端开发", description: "掌握现代前端开发的核心技术和工具" },
-			{ id: 3, title: "TypeScript 高级用法", description: "探索 TypeScript 的高级类型系统和应用" },
-			{ id: 4, title: "性能优化实战", description: "学习 Web 应用性能优化的实用技巧" },
-		];
-
-		return mockData.filter(
-			(item) =>
-				item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				item.description.toLowerCase().includes(searchQuery.toLowerCase()),
-		);
-	};
-
-	const handleSearch = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setIsSearching(true);
-
-		const searchResults = await searchData(query);
-		setResults(searchResults);
-		setIsSearching(false);
-	};
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<h5 className="mb-3 font-semibold text-gray-800">🔍 服务端数据搜索</h5>
-			<form onSubmit={handleSearch} className="max-w-md space-y-4">
-				<div>
-					<label className="mb-2 block font-medium text-gray-700 text-sm">搜索关键词</label>
-					<input
-						type="text"
-						value={query}
-						onChange={(e) => setQuery(e.target.value)}
-						disabled={isSearching}
-						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						placeholder="输入搜索关键词..."
-					/>
-				</div>
-
-				<button
-					type="submit"
-					disabled={isSearching || !query.trim()}
-					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
-						isSearching || !query.trim()
-							? "cursor-not-allowed bg-gray-400 text-gray-200"
-							: "bg-blue-500 text-white hover:bg-blue-600"
-					}`}
-				>
-					{isSearching ? "搜索中..." : "🔍 搜索"}
-				</button>
-
-				{results.length > 0 && (
-					<div className="mt-4 space-y-2">
-						<h6 className="font-medium text-gray-900">搜索结果：</h6>
-						{results.map((result) => (
-							<div key={result.id} className="rounded-md border border-gray-200 bg-white p-3">
-								<h6 className="font-medium text-gray-900">{result.title}</h6>
-								<p className="text-gray-600 text-sm">{result.description}</p>
-							</div>
-						))}
-					</div>
-				)}
-
-				<div className="text-gray-500 text-xs">💡 提示：试试搜索 "React" 或 "TypeScript"</div>
-			</form>
-		</div>
-	);
-}
-
-// useTransition Demo 组件 - 数据过滤场景
-function UseTransitionFilterDemo() {
-	const [isPending, startTransition] = useTransition();
-	const [products] = useState([
-		{ id: 1, name: "React 19 完全指南", price: 89, category: "前端" },
-		{ id: 2, name: "TypeScript 高级编程", price: 128, category: "前端" },
-		{ id: 3, name: "Node.js 实战", price: 98, category: "后端" },
-		{ id: 4, name: "Vue 3 深入浅出", price: 76, category: "前端" },
-		{ id: 5, name: "Python 数据分析", price: 118, category: "数据" },
-		{ id: 6, name: "Docker 容器技术", price: 108, category: "运维" },
-	]);
-	const [filteredProducts, setFilteredProducts] = useState(products);
-	const [selectedCategory, setSelectedCategory] = useState("全部");
-
-	const filterProducts = (category: string) => {
-		setSelectedCategory(category);
-
-		startTransition(() => {
-			// 模拟大量数据过滤
-			setTimeout(() => {
-				if (category === "全部") {
-					setFilteredProducts(products);
-				} else {
-					setFilteredProducts(products.filter((p) => p.category === category));
-				}
-			}, 500);
-		});
-	};
-
-	const categories = ["全部", "前端", "后端", "数据", "运维"];
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<h5 className="mb-3 font-semibold text-gray-800">🏷️ 产品分类过滤</h5>
-
-			<div className="mb-4">
-				<div className="flex flex-wrap gap-2">
-					{categories.map((category) => (
-						<button
-							key={category}
-							onClick={() => filterProducts(category)}
-							className={`rounded-full px-3 py-1 font-medium text-sm transition-colors ${
-								selectedCategory === category ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-							}`}
-						>
-							{category}
-						</button>
-					))}
-				</div>
-				{isPending && (
-					<div className="mt-2 flex items-center text-blue-600 text-sm">
-						<div className="mr-2 h-4 w-4 animate-spin rounded-full border-blue-600 border-b-2"></div>
-						筛选中...
-					</div>
-				)}
-			</div>
-
-			<div className={`space-y-2 transition-opacity ${isPending ? "opacity-60" : "opacity-100"}`}>
-				{filteredProducts.map((product) => (
-					<div key={product.id} className="rounded-md border border-gray-200 bg-white p-3">
-						<div className="flex items-start justify-between">
-							<div>
-								<h6 className="font-medium text-gray-900">{product.name}</h6>
-								<span className="text-gray-500 text-xs">{product.category}</span>
-							</div>
-							<span className="font-medium text-blue-600">¥{product.price}</span>
-						</div>
-					</div>
-				))}
-			</div>
-
-			<div className="mt-4 rounded-md border border-blue-200 bg-blue-50 p-3">
-				<p className="text-blue-700 text-xs">⚡ 注意：分类按钮立即响应，数据筛选在后台进行，界面不会卡顿！</p>
-			</div>
-		</div>
-	);
-}
-
-// useTransition Demo 组件 - 数据同步场景
-function UseTransitionDataSyncDemo() {
-	const [isPending, startTransition] = useTransition();
-	const [localData, setLocalData] = useState({
-		name: "张三",
-		email: "zhangsan@example.com",
-		phone: "13800138000",
-	});
-	const [serverData, setServerData] = useState(localData);
-	const [syncStatus, setSyncStatus] = useState<"已同步" | "同步中" | "有未保存更改">("已同步");
-
-	const handleChange = (field: keyof typeof localData, value: string) => {
-		setLocalData((prev) => ({ ...prev, [field]: value }));
-		setSyncStatus("有未保存更改");
-	};
-
-	const saveToServer = async () => {
-		// 立即更新UI状态
-		setSyncStatus("同步中");
-
-		startTransition(async () => {
-			// 模拟网络延迟
-			await new Promise((resolve) => setTimeout(resolve, 1500));
-
-			// 模拟服务端保存
-			setServerData(localData);
-			setSyncStatus("已同步");
-		});
-	};
-
-	const hasChanges = JSON.stringify(localData) !== JSON.stringify(serverData);
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<h5 className="mb-3 font-semibold text-gray-800">🔄 数据同步场景</h5>
-
-			<div className="max-w-md space-y-4">
-				<div className="mb-4 flex items-center justify-between">
-					<span className="font-medium text-gray-700 text-sm">同步状态：</span>
-					<span
-						className={`font-medium text-sm ${
-							syncStatus === "已同步" ? "text-green-600" : syncStatus === "同步中" ? "text-blue-600" : "text-orange-600"
-						}`}
-					>
-						{syncStatus === "已同步" && "✅ "}
-						{syncStatus === "同步中" && "🔄 "}
-						{syncStatus === "有未保存更改" && "⚠️ "}
-						{syncStatus}
-					</span>
-				</div>
-
-				<div className="space-y-3">
-					<div>
-						<label className="mb-1 block font-medium text-gray-700 text-sm">姓名</label>
-						<input
-							type="text"
-							value={localData.name}
-							onChange={(e) => handleChange("name", e.target.value)}
-							className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						/>
-					</div>
-					<div>
-						<label className="mb-1 block font-medium text-gray-700 text-sm">邮箱</label>
-						<input
-							type="email"
-							value={localData.email}
-							onChange={(e) => handleChange("email", e.target.value)}
-							className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						/>
-					</div>
-					<div>
-						<label className="mb-1 block font-medium text-gray-700 text-sm">电话</label>
-						<input
-							type="tel"
-							value={localData.phone}
-							onChange={(e) => handleChange("phone", e.target.value)}
-							className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-						/>
-					</div>
-				</div>
-
-				<button
-					onClick={saveToServer}
-					disabled={!hasChanges || syncStatus === "同步中"}
-					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
-						!hasChanges || syncStatus === "同步中"
-							? "cursor-not-allowed bg-gray-400 text-gray-200"
-							: "bg-blue-500 text-white hover:bg-blue-600"
-					}`}
-				>
-					{syncStatus === "同步中" ? "保存中..." : "💾 保存到服务器"}
-				</button>
-
-				<div
-					className={`rounded-md p-3 text-sm ${
-						isPending ? "border-blue-200 bg-blue-50 text-blue-700" : "border-gray-200 bg-gray-50 text-gray-600"
-					}`}
-				>
-					{isPending
-						? "🔄 正在同步数据到服务器，您可以继续编辑其他字段..."
-						: "💡 修改数据后会显示未保存状态，点击保存按钮使用 transition 同步到服务器"}
-				</div>
-			</div>
-		</div>
 	);
 }

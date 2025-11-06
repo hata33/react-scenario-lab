@@ -77,7 +77,9 @@
       "Read(//d/Project/AASelf/my-context/**)",
       "mcp__ide__getDiagnostics",
       "Bash(git checkout:*)",
-      "Bash(pnpm biome check:*)"
+      "Bash(pnpm biome check:*)",
+      "Bash(temp_file)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []

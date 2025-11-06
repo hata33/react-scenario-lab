@@ -468,20 +468,22 @@ async function ProductPage({ id }) {
 									<button
 										key={example.id}
 										onClick={() => setSelectedExample(example)}
-										className={`rounded-lg px-3 py-1.5 font-medium text-sm transition-all ${selectedExample?.id === example.id
+										className={`rounded-lg px-3 py-1.5 font-medium text-sm transition-all ${
+											selectedExample?.id === example.id
 												? "bg-blue-500 text-white shadow-sm"
 												: "border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-											}`}
+										}`}
 									>
 										<span className="mr-1">{example.icon}</span>
 										<span>{example.title}</span>
 										<span
-											className={`ml-1.5 rounded px-1.5 py-0.5 text-xs ${example.difficulty === "初级"
+											className={`ml-1.5 rounded px-1.5 py-0.5 text-xs ${
+												example.difficulty === "初级"
 													? "bg-green-100 text-green-700"
 													: example.difficulty === "中级"
 														? "bg-yellow-100 text-yellow-700"
 														: "bg-red-100 text-red-700"
-												}`}
+											}`}
 										>
 											{example.difficulty}
 										</span>
@@ -673,15 +675,17 @@ function BasicRSCDemo() {
 				<div className="flex gap-2">
 					<button
 						onClick={() => handleRenderModeChange("server")}
-						className={`rounded-md px-4 py-2 font-medium transition-colors ${renderMode === "server" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-							}`}
+						className={`rounded-md px-4 py-2 font-medium transition-colors ${
+							renderMode === "server" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+						}`}
 					>
 						服务端渲染 (RSC)
 					</button>
 					<button
 						onClick={() => handleRenderModeChange("client")}
-						className={`rounded-md px-4 py-2 font-medium transition-colors ${renderMode === "client" ? "bg-purple-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-							}`}
+						className={`rounded-md px-4 py-2 font-medium transition-colors ${
+							renderMode === "client" ? "bg-purple-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+						}`}
 					>
 						客户端渲染 (CSR)
 					</button>
@@ -703,8 +707,9 @@ function BasicRSCDemo() {
 							{renderMode === "server" ? <ServerProductCard /> : <ClientProductCard />}
 							<div className="mt-3">
 								<span
-									className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${renderMode === "server" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
-										}`}
+									className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${
+										renderMode === "server" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
+									}`}
 								>
 									{renderMode === "server" ? "✅ 零JavaScript" : "⚠️ 需要JavaScript"}
 								</span>
@@ -881,17 +886,17 @@ function PerformanceMetrics({ renderMode }: { renderMode: string }) {
 	const metrics =
 		renderMode === "server"
 			? {
-				bundleSize: "0KB",
-				timeToInteractive: "0.8s",
-				firstContentfulPaint: "0.3s",
-				javascriptSize: "0KB",
-			}
+					bundleSize: "0KB",
+					timeToInteractive: "0.8s",
+					firstContentfulPaint: "0.3s",
+					javascriptSize: "0KB",
+				}
 			: {
-				bundleSize: "245KB",
-				timeToInteractive: "2.1s",
-				firstContentfulPaint: "1.2s",
-				javascriptSize: "198KB",
-			};
+					bundleSize: "245KB",
+					timeToInteractive: "2.1s",
+					firstContentfulPaint: "1.2s",
+					javascriptSize: "198KB",
+				};
 
 	return (
 		<div className="space-y-3">
@@ -965,15 +970,17 @@ function DataFetchingDemo() {
 				<div className="mb-3 flex gap-2">
 					<button
 						onClick={() => handleFetchModeChange("server")}
-						className={`rounded-md px-3 py-2 font-medium text-sm transition-colors ${fetchMode === "server" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-							}`}
+						className={`rounded-md px-3 py-2 font-medium text-sm transition-colors ${
+							fetchMode === "server" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+						}`}
 					>
 						服务端获取
 					</button>
 					<button
 						onClick={() => handleFetchModeChange("client")}
-						className={`rounded-md px-3 py-2 font-medium text-sm transition-colors ${fetchMode === "client" ? "bg-purple-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-							}`}
+						className={`rounded-md px-3 py-2 font-medium text-sm transition-colors ${
+							fetchMode === "client" ? "bg-purple-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+						}`}
 					>
 						客户端获取
 					</button>
@@ -1158,24 +1165,27 @@ function MixedRenderingDemo() {
 				<div className="flex gap-2">
 					<button
 						onClick={() => handleStrategyChange("server")}
-						className={`rounded-md px-3 py-2 font-medium text-sm transition-colors ${renderStrategy === "server" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-							}`}
+						className={`rounded-md px-3 py-2 font-medium text-sm transition-colors ${
+							renderStrategy === "server" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+						}`}
 					>
 						服务端优先
 					</button>
 					<button
 						onClick={() => handleStrategyChange("balanced")}
-						className={`rounded-md px-3 py-2 font-medium text-sm transition-colors ${renderStrategy === "balanced"
+						className={`rounded-md px-3 py-2 font-medium text-sm transition-colors ${
+							renderStrategy === "balanced"
 								? "bg-emerald-500 text-white"
 								: "bg-gray-100 text-gray-700 hover:bg-gray-200"
-							}`}
+						}`}
 					>
 						混合平衡
 					</button>
 					<button
 						onClick={() => handleStrategyChange("client")}
-						className={`rounded-md px-3 py-2 font-medium text-sm transition-colors ${renderStrategy === "client" ? "bg-purple-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-							}`}
+						className={`rounded-md px-3 py-2 font-medium text-sm transition-colors ${
+							renderStrategy === "client" ? "bg-purple-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+						}`}
 					>
 						客户端优先
 					</button>
@@ -1390,26 +1400,29 @@ function PerformanceOptimizationDemo() {
 				<div className="flex gap-2">
 					<button
 						onClick={() => handleOptimizationChange("basic")}
-						className={`rounded-lg px-4 py-2 font-medium transition-colors ${optimizationLevel === "basic" ? "bg-gray-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-							}`}
+						className={`rounded-lg px-4 py-2 font-medium transition-colors ${
+							optimizationLevel === "basic" ? "bg-gray-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+						}`}
 					>
 						基础优化
 					</button>
 					<button
 						onClick={() => handleOptimizationChange("optimized")}
-						className={`rounded-lg px-4 py-2 font-medium transition-colors ${optimizationLevel === "optimized"
+						className={`rounded-lg px-4 py-2 font-medium transition-colors ${
+							optimizationLevel === "optimized"
 								? "bg-blue-600 text-white"
 								: "bg-gray-100 text-gray-700 hover:bg-gray-200"
-							}`}
+						}`}
 					>
 						服务端优化
 					</button>
 					<button
 						onClick={() => handleOptimizationChange("advanced")}
-						className={`rounded-lg px-4 py-2 font-medium transition-colors ${optimizationLevel === "advanced"
+						className={`rounded-lg px-4 py-2 font-medium transition-colors ${
+							optimizationLevel === "advanced"
 								? "bg-emerald-600 text-white"
 								: "bg-gray-100 text-gray-700 hover:bg-gray-200"
-							}`}
+						}`}
 					>
 						高级优化
 					</button>
@@ -1475,12 +1488,13 @@ function PerformanceMetricsDisplay({ metrics, optimizationLevel }: { metrics: an
 				<div className="flex items-center justify-between">
 					<span className="font-medium text-sm">优化级别</span>
 					<span
-						className={`font-bold text-sm ${optimizationLevel === "basic"
+						className={`font-bold text-sm ${
+							optimizationLevel === "basic"
 								? "text-gray-600"
 								: optimizationLevel === "optimized"
 									? "text-blue-600"
 									: "text-emerald-600"
-							}`}
+						}`}
 					>
 						{optimizationLevel === "basic" ? "基础" : optimizationLevel === "optimized" ? "服务端优化" : "高级优化"}
 					</span>
