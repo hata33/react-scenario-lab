@@ -17,7 +17,7 @@ import {
 	ThreeWRule,
 } from "../(components)";
 // Import types
-import type { CacheSignalExample, WSection, FeatureCard } from "../(types)";
+import type { CacheSignalExample, FeatureCard, WSection } from "../(types)";
 // Import demo components from index file
 import {
 	AdvancedApplicationsDemo,

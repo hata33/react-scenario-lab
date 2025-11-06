@@ -2,31 +2,33 @@
 
 import React, { useState } from "react";
 
+// 传统 forwardRef 组件
+const TraditionalComponent = React.forwardRef<HTMLDivElement, { index: number }>(({ index }, ref) => {
+	return (
+		<div ref={ref} className="m-1 bg-red-100 p-2">
+			传统组件 {index}
+		</div>
+	);
+});
+
+// React 19 新组件
+const ModernComponent = ({ index, ref }: { index: number; ref: React.Ref<HTMLDivElement> }) => {
+	return (
+		<div ref={ref} className="m-1 bg-green-100 p-2">
+			现代组件 {index}
+		</div>
+	);
+};
+
 export default function PerformanceComparisonDemo() {
 	const [componentCount, setComponentCount] = useState(100);
 	const [useForwardRef, setUseForwardRef] = useState(true);
-	const [renderTime, setRenderTime] = useState<{ traditional: number; modern: number; improvement?: string }>({ traditional: 0, modern: 0 });
-
-	// 传统 forwardRef 组件
-	const TraditionalComponent = React.forwardRef<HTMLDivElement, { index: number }>(({ index }, ref) => {
-		return (
-			<div ref={ref} className="m-1 bg-red-100 p-2">
-				传统组件 {index}
-			</div>
-		);
+	const [renderTime, setRenderTime] = useState<{ traditional: number; modern: number; improvement?: string }>({
+		traditional: 0,
+		modern: 0,
 	});
 
-	// React 19 新组件
-	const ModernComponent = ({ index, ref }: { index: number; ref: React.Ref<HTMLDivElement> }) => {
-		return (
-			<div ref={ref} className="m-1 bg-green-100 p-2">
-				现代组件 {index}
-			</div>
-		);
-	};
-
 	const renderTraditionalComponents = () => {
-		const _startTime = performance.now();
 		const refs = Array.from({ length: componentCount }, () => React.createRef<HTMLDivElement>());
 
 		return (
@@ -39,7 +41,6 @@ export default function PerformanceComparisonDemo() {
 	};
 
 	const renderModernComponents = () => {
-		const _startTime = performance.now();
 		const refs = Array.from({ length: componentCount }, () => React.createRef<HTMLDivElement>());
 
 		return (
@@ -73,9 +74,7 @@ export default function PerformanceComparisonDemo() {
 		<div className="space-y-6">
 			<div className="mb-6 space-y-4">
 				<div>
-					<label className="mb-2 block font-medium text-gray-700 text-sm">
-						组件数量: {componentCount}
-					</label>
+					<label className="mb-2 block font-medium text-gray-700 text-sm">组件数量: {componentCount}</label>
 					<input
 						type="range"
 						min="10"

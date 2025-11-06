@@ -1,605 +1,390 @@
-// @ts-nocheck
 "use client";
 
-// 演示代码暂时禁用类型检查以确保构建成功
-export const dynamic = "force-dynamic";
-
-import { Suspense, useEffect, useState } from "react";
+import { AlertCircle, Clock, Target, Zap } from "lucide-react";
+import { useState } from "react";
 import Layout from "@/components/Layout";
+// Import utils
+import { copyWithFeedback } from "@/utils";
+// Import extracted components from index files
+import {
+	ArchitectureOverview,
+	ExampleDetail,
+	ExampleSelector,
+	Header,
+	OfficialExamples,
+	ThreeWRule,
+} from "../(components)";
+// Import types
+import type { ActionExample, WSection } from "../(types)";
+// Import demo components from index file
+import { BasicSuspenseDemo, ConcurrentRenderingDemo, ErrorBoundaryDemo, StreamingDemo } from "./(components)";
+
+const suspenseExamples: ActionExample[] = [
+	{
+		id: "basic-suspense",
+		title: "基础 Suspense",
+		description: "优雅处理异步组件加载，提供流畅的用户体验",
+		category: "Core Features",
+		difficulty: "初级",
+		status: "completed",
+		icon: <Clock className="h-5 w-5" />,
+		codeSnippet: `import { Suspense } from 'react';
+
+function UserProfile({ userId }) {
+  return (
+    <div>
+      <h1>用户资料</h1>
+      <Suspense fallback={<Loading />}>
+        <UserDetails userId={userId} />
+      </Suspense>
+    </div>
+  );
+}`,
+		benefits: ["优雅加载状态", "防止布局偏移", "代码简洁", "用户体验提升"],
+		useCases: ["数据加载", "图片懒加载", "异步组件", "路由切换"],
+		problemsSolved: [
+			{
+				problem: "加载状态处理复杂",
+				description: "传统方式需要手动管理loading状态，容易出现布局偏移",
+				solution: "Suspense自动处理加载状态，提供流畅的过渡体验",
+			},
+		],
+	},
+	{
+		id: "streaming",
+		title: "流式渲染",
+		description: "逐步发送HTML到客户端，用户可以更快看到页面内容",
+		category: "Performance",
+		difficulty: "中级",
+		status: "completed",
+		icon: <Zap className="h-5 w-5" />,
+		codeSnippet: `import { Suspense } from 'react';
+
+function StreamingPage() {
+  return (
+    <html>
+      <body>
+        <Header /> {/* 立即渲染 */}
+        <Suspense fallback={<MainLoading />}>
+          <MainContent /> {/* 流式渲染 */}
+        </Suspense>
+        <Footer /> {/* 立即渲染 */}
+      </body>
+    </html>
+  );
+}`,
+		benefits: ["更快首屏显示", "渐进式加载", "改善感知性能", "更好的用户体验"],
+		useCases: ["长页面", "数据密集页面", "电商产品页", "仪表板"],
+		problemsSolved: [
+			{
+				problem: "首屏加载时间长",
+				description: "传统方式需要等待所有内容加载完成才能显示页面",
+				solution: "流式渲染先显示已准备好的内容，其余内容逐步加载",
+			},
+		],
+	},
+	{
+		id: "error-boundaries",
+		title: "错误边界",
+		description: "优雅处理组件错误，提供错误恢复机制",
+		category: "Error Handling",
+		difficulty: "中级",
+		status: "completed",
+		icon: <AlertCircle className="h-5 w-5" />,
+		codeSnippet: `import { Suspense } from 'react';
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <ErrorFallback />;
+    }
+    return this.props.children;
+  }
+}
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <Suspense fallback={<Loading />}>
+        <AsyncComponent />
+      </Suspense>
+    </ErrorBoundary>
+  );
+}`,
+		benefits: ["优雅错误处理", "错误恢复机制", "防止应用崩溃", "用户体验保护"],
+		useCases: ["数据获取失败", "组件渲染错误", "网络异常", "运行时错误"],
+		problemsSolved: [
+			{
+				problem: "错误处理不完善",
+				description: "组件出错时整个应用可能崩溃，用户体验差",
+				solution: "错误边界捕获组件错误，提供优雅的降级体验",
+			},
+		],
+	},
+	{
+		id: "concurrent-rendering",
+		title: "并发渲染",
+		description: "非阻塞式渲染，保持界面响应性和流畅性",
+		category: "Performance",
+		difficulty: "高级",
+		status: "completed",
+		icon: <Target className="h-5 w-5" />,
+		codeSnippet: `import { Suspense, useTransition } from 'react';
+
+function SearchComponent() {
+  const [isPending, startTransition] = useTransition();
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+
+  const handleSearch = (value) => {
+    setQuery(value); // 立即更新输入
+
+    startTransition(() => {
+      // 在后台执行搜索，不阻塞 UI
+      performSearch(value).then(setResults);
+    });
+  };
+
+  return (
+    <div>
+      <input value={query} onChange={(e) => handleSearch(e.target.value)} />
+      {isPending && <div>搜索中...</div>}
+      <Suspense fallback={<ResultsLoading />}>
+        <SearchResults results={results} />
+      </Suspense>
+    </div>
+  );
+}`,
+		benefits: ["非阻塞渲染", "保持响应性", "流畅交互", "性能优化"],
+		useCases: ["搜索功能", "数据过滤", "大量数据处理", "实时更新"],
+		problemsSolved: [
+			{
+				problem: "界面阻塞严重",
+				description: "大量渲染操作导致界面冻结，用户无法进行其他操作",
+				solution: "并发渲染将更新标记为过渡，在后台执行，保持界面响应性",
+			},
+		],
+	},
+];
 
 export default function SuspenseEnhancedPage() {
+	const [copiedCode, setCopiedCode] = useState(false);
+	const [selectedExample, setSelectedExample] = useState(suspenseExamples[0]);
+
+	const architectureFeatures = [
+		{
+			icon: <Clock className="h-6 w-6 text-blue-600" />,
+			title: "优雅加载",
+			description: "流畅的异步状态处理",
+			bgColor: "bg-blue-50",
+			iconColor: "text-blue-600",
+			titleColor: "text-blue-900",
+			descriptionColor: "text-blue-700",
+		},
+		{
+			icon: <Zap className="h-6 w-6 text-green-600" />,
+			title: "流式渲染",
+			description: "渐进式内容展示",
+			bgColor: "bg-green-50",
+			iconColor: "text-green-600",
+			titleColor: "text-green-900",
+			descriptionColor: "text-green-700",
+		},
+		{
+			icon: <AlertCircle className="h-6 w-6 text-purple-600" />,
+			title: "错误处理",
+			description: "优雅的错误恢复",
+			bgColor: "bg-purple-50",
+			iconColor: "text-purple-600",
+			titleColor: "text-purple-900",
+			descriptionColor: "text-purple-700",
+		},
+		{
+			icon: <Target className="h-6 w-6 text-orange-600" />,
+			title: "并发渲染",
+			description: "非阻塞式更新",
+			bgColor: "bg-orange-50",
+			iconColor: "text-orange-600",
+			titleColor: "text-orange-900",
+			descriptionColor: "text-orange-700",
+		},
+	];
+
+	const threeWSections: WSection[] = [
+		{
+			description:
+				"增强的 Suspense 是 React 19 中改进的异步渲染机制，提供更好的加载状态管理、错误边界处理和并发渲染支持。",
+			features: ["优雅加载状态", "流式渲染", "错误边界", "并发渲染"],
+		},
+		{
+			description:
+				"解决传统异步加载体验差、加载状态管理复杂、错误处理不完善、并发渲染支持不足等问题。通过统一的 Suspense 机制，大幅提升异步用户体验。",
+			features: ["统一异步处理", "改善用户体验", "简化开发复杂度", "提升应用性能"],
+		},
+		{
+			description:
+				"适用于数据获取、代码分割、图片加载、异步组件渲染等需要优雅处理加载状态的场景。特别适合复杂的单页应用和数据密集型应用。",
+			features: ["数据加载", "代码分割", "图片懒加载", "复杂组件渲染"],
+		},
+	];
+
+	const getOfficialExamples = (exampleId: string) => {
+		const examples = {
+			"basic-suspense": [
+				{
+					title: "📄 用户资料加载",
+					code: `function UserProfile({ userId }) {
+  return (
+    <div>
+      <h1>用户资料</h1>
+      <Suspense fallback={<ProfileSkeleton />}>
+        <UserDetails userId={userId} />
+      </Suspense>
+      <Suspense fallback={<PostsSkeleton />}>
+        <UserPosts userId={userId} />
+      </Suspense>
+    </div>
+  );
+}`,
+					description: "使用多个 Suspense 边界处理不同部分的加载",
+				},
+			],
+			streaming: [
+				{
+					title: "🌊 流式页面渲染",
+					code: `function StreamingApp() {
+  return (
+    <html>
+      <body>
+        <Shell />
+        <Suspense fallback={<Loading />}>
+          <Page />
+        </Suspense>
+      </body>
+    </html>
+  );
+}`,
+					description: "使用 React 18+ 的流式 SSR 渲染",
+				},
+			],
+			"error-boundaries": [
+				{
+					title: "🛡️ 错误边界处理",
+					code: `function App() {
+  return (
+    <ErrorBoundary fallback={<ErrorPage />}>
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </Suspense>
+    </ErrorBoundary>
+  );
+}`,
+					description: "错误边界与 Suspense 的组合使用",
+				},
+			],
+			"concurrent-rendering": [
+				{
+					title: "⚡ 并发搜索",
+					code: `function SearchApp() {
+  const [isPending, startTransition] = useTransition();
+
+  const handleSearch = (query) => {
+    startTransition(() => {
+      setSearchResults(search(query));
+    });
+  };
+
+  return (
+    <div>
+      <SearchInput onSearch={handleSearch} />
+      {isPending && <Spinner />}
+      <Suspense fallback={<ResultsSkeleton />}>
+        <SearchResults />
+      </Suspense>
+    </div>
+  );
+}`,
+					description: "使用 useTransition 实现并发搜索",
+				},
+			],
+		};
+
+		return examples[exampleId as keyof typeof examples] || [];
+	};
+
+	const getDemoComponents = () => {
+		switch (selectedExample.id) {
+			case "basic-suspense":
+				return [<BasicSuspenseDemo key="basic-suspense" />];
+			case "streaming":
+				return [<StreamingDemo key="streaming" />];
+			case "error-boundaries":
+				return [<ErrorBoundaryDemo key="error-boundaries" />];
+			case "concurrent-rendering":
+				return [<ConcurrentRenderingDemo key="concurrent-rendering" />];
+			default:
+				return [];
+		}
+	};
+
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-				<div className="container mx-auto px-4 py-8">
-					<div className="mb-8">
-						<h1 className="mb-4 font-bold text-4xl text-gray-900 dark:text-white">增强的 Suspense - React 19 新特性</h1>
-						<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-							<h2 className="mb-4 font-semibold text-2xl text-gray-800 dark:text-white">⏳ 3W 法则解析</h2>
-							<div className="grid gap-6 md:grid-cols-3">
-								<div className="rounded-lg bg-indigo-50 p-4 dark:bg-indigo-900/20">
-									<h3 className="mb-2 font-bold text-indigo-800 text-lg dark:text-indigo-300">What - 它是什么？</h3>
-									<p className="text-gray-700 dark:text-gray-300">
-										增强的 Suspense 是 React 19
-										中改进的异步渲染机制，提供了更好的加载状态管理、错误边界处理和并发渲染支持。
-									</p>
-								</div>
-								<div className="rounded-lg bg-purple-50 p-4 dark:bg-purple-900/20">
-									<h3 className="mb-2 font-bold text-lg text-purple-800 dark:text-purple-300">Why - 为什么需要？</h3>
-									<p className="text-gray-700 dark:text-gray-300">
-										解决传统异步加载体验差、加载状态管理复杂、错误处理不完善、并发渲染支持不足等问题。
-									</p>
-								</div>
-								<div className="rounded-lg bg-pink-50 p-4 dark:bg-pink-900/20">
-									<h3 className="mb-2 font-bold text-lg text-pink-800 dark:text-pink-300">When - 何时使用？</h3>
-									<p className="text-gray-700 dark:text-gray-300">
-										数据获取、代码分割、图片加载、异步组件渲染等需要优雅处理加载状态的场景。
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
+			<div className="min-h-screen bg-gray-50">
+				{/* Header */}
+				<Header
+					icon={<Clock className="h-8 w-8 text-blue-600" />}
+					title="React 19 增强 Suspense"
+					subtitle="优雅的异步渲染新时代"
+				/>
 
-					{/* 基础 Suspense 演示 */}
-					<div className="mb-8">
-						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">基础 Suspense 功能</h2>
-						<div className="grid gap-6 lg:grid-cols-2">
-							<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-								<h3 className="mb-4 font-semibold text-red-600 text-xl dark:text-red-400">🚫 传统异步处理的痛点</h3>
-								<div className="space-y-4">
-									<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
-										<p className="mb-2 text-gray-600 text-sm dark:text-gray-300">传统加载状态管理：</p>
-										<ul className="space-y-2 text-gray-700 text-sm dark:text-gray-300">
-											<li>• 需要手动管理 loading 状态</li>
-											<li>• 代码复杂且容易出错</li>
-											<li>• 错误处理逻辑分散</li>
-											<li>• 用户体验不一致</li>
-										</ul>
-									</div>
-									<div className="rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
-										<p className="font-medium text-red-800 text-sm dark:text-red-300">❌ 常见问题：</p>
-										<ul className="mt-2 text-red-700 text-sm dark:text-red-400">
-											<li>• 加载闪烁问题</li>
-											<li>• 嵌套加载状态复杂</li>
-											<li>• 错误边界配置繁琐</li>
-											<li>• 并发渲染支持有限</li>
-										</ul>
-									</div>
-								</div>
-							</div>
+				{/* Suspense 架构概览 */}
+				<ArchitectureOverview title="增强 Suspense 生态系统" features={architectureFeatures} />
 
-							<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-								<h3 className="mb-4 font-semibold text-green-600 text-xl dark:text-green-400">
-									✅ React 19 Suspense 的优势
-								</h3>
-								<div className="space-y-4">
-									<BasicSuspenseDemo />
-								</div>
-							</div>
-						</div>
-					</div>
+				{/* 3W 法则解析 */}
+				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
 
-					{/* 并发渲染演示 */}
-					<div className="mb-8">
-						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">并发渲染特性</h2>
-						<ConcurrentRenderingDemo />
-					</div>
+				{/* 功能选择器 - 吸顶区域 */}
+				<ExampleSelector
+					selectorLabel="选择功能:"
+					examples={suspenseExamples}
+					selectedExampleId={selectedExample.id}
+					onExampleSelect={(exampleId) => {
+						const example = suspenseExamples.find((ex) => ex.id === exampleId);
+						if (example) setSelectedExample(example);
+					}}
+				/>
 
-					{/* 嵌套 Suspense 演示 */}
-					<div className="mb-8">
-						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">嵌套 Suspense 处理</h2>
-						<NestedSuspenseDemo />
-					</div>
-
-					{/* 服务器组件集成 */}
-					<div className="mb-8">
-						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">服务器组件集成</h2>
-						<ServerComponentDemo />
-					</div>
-
-					{/* 最佳实践 */}
-					<div className="mb-8">
-						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">Suspense 最佳实践</h2>
-						<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-							<div className="grid gap-6 md:grid-cols-2">
-								<div>
-									<h3 className="mb-4 font-semibold text-green-600 text-xl dark:text-green-400">✅ 推荐做法</h3>
-									<ul className="space-y-3">
-										<li className="flex items-start">
-											<span className="mr-2 text-green-500">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">合理划分 Suspense 边界</span>
-										</li>
-										<li className="flex items-start">
-											<span className="mr-2 text-green-500">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">提供有意义的加载状态</span>
-										</li>
-										<li className="flex items-start">
-											<span className="mr-2 text-green-500">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">配合错误边界使用</span>
-										</li>
-										<li className="flex items-start">
-											<span className="mr-2 text-green-500">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">利用并发渲染优势</span>
-										</li>
-									</ul>
-								</div>
-								<div>
-									<h3 className="mb-4 font-semibold text-red-600 text-xl dark:text-red-400">❌ 避免做法</h3>
-									<ul className="space-y-3">
-										<li className="flex items-start">
-											<span className="mr-2 text-red-500">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">过度嵌套 Suspense</span>
-										</li>
-										<li className="flex items-start">
-											<span className="mr-2 text-red-500">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">忽略错误边界配置</span>
-										</li>
-										<li className="flex items-start">
-											<span className="mr-2 text-red-500">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">加载状态过于简单</span>
-										</li>
-										<li className="flex items-start">
-											<span className="mr-2 text-red-500">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">在 Suspense 中使用副作用</span>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</Layout>
-	);
-}
-
-// 基础 Suspense 演示组件
-function BasicSuspenseDemo() {
-	const [showContent, setShowContent] = useState(false);
-	const [loadingType, setLoadingType] = useState<"skeleton" | "spinner" | "progress">("skeleton");
-
-	const AsyncComponent = () => {
-		const [data, setData] = useState(null);
-
-		useEffect(() => {
-			const timer = setTimeout(() => {
-				setData({ message: "数据加载完成！", timestamp: new Date().toLocaleTimeString() });
-			}, 2000);
-
-			return () => clearTimeout(timer);
-		}, []);
-
-		if (!data) {
-			return <div>加载中...</div>; // 触发 Suspense
-		}
-
-		return (
-			<div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
-				<p className="font-medium text-green-800 dark:text-green-300">✅ {data.message}</p>
-				<p className="mt-1 text-green-700 text-sm dark:text-green-400">加载时间: {data.timestamp}</p>
-			</div>
-		);
-	};
-
-	const LoadingFallback = () => {
-		switch (loadingType) {
-			case "skeleton":
-				return (
-					<div className="space-y-3">
-						<div className="h-4 animate-pulse rounded bg-gray-300 dark:bg-gray-600"></div>
-						<div className="h-4 w-3/4 animate-pulse rounded bg-gray-300 dark:bg-gray-600"></div>
-					</div>
-				);
-			case "spinner":
-				return (
-					<div className="flex items-center justify-center py-4">
-						<div className="h-8 w-8 animate-spin rounded-full border-blue-600 border-b-2"></div>
-					</div>
-				);
-			case "progress":
-				return (
-					<div className="space-y-2">
-						<div className="flex justify-between text-gray-600 text-sm dark:text-gray-400">
-							<span>加载中...</span>
-							<span>75%</span>
-						</div>
-						<div className="h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
-							<div className="h-2 animate-pulse rounded-full bg-blue-600" style={{ width: "75%" }}></div>
-						</div>
-					</div>
-				);
-			default:
-				return <div>加载中...</div>;
-		}
-	};
-
-	return (
-		<div className="space-y-4">
-			<div className="flex gap-4">
-				<button
-					onClick={() => setShowContent(!showContent)}
-					className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-				>
-					{showContent ? "隐藏" : "显示"}异步内容
-				</button>
-
-				{showContent && (
-					<div className="flex gap-2">
-						{(["skeleton", "spinner", "progress"] as const).map((type) => (
-							<button
-								key={type}
-								onClick={() => setLoadingType(type)}
-								className={`rounded px-3 py-1 text-sm transition-colors ${
-									loadingType === type ? "bg-purple-600 text-white" : "bg-gray-600 text-white hover:bg-gray-700"
-								}`}
-							>
-								{type === "skeleton" ? "骨架屏" : type === "spinner" ? "旋转器" : "进度条"}
-							</button>
-						))}
-					</div>
-				)}
-			</div>
-
-			{showContent && (
-				<Suspense fallback={<LoadingFallback />}>
-					<AsyncComponent />
-				</Suspense>
-			)}
-
-			<div className="rounded-lg bg-indigo-50 p-4 dark:bg-indigo-900/20">
-				<p className="mb-2 font-medium text-indigo-800 text-sm dark:text-indigo-300">🎯 React 19 Suspense 的优势：</p>
-				<ul className="space-y-1 text-indigo-700 text-sm dark:text-indigo-400">
-					<li>• 声明式异步处理</li>
-					<li>• 自动管理加载状态</li>
-					<li>• 支持多种加载模式</li>
-					<li>• 更好的用户体验</li>
-				</ul>
-			</div>
-		</div>
-	);
-}
-
-// 并发渲染演示组件
-function ConcurrentRenderingDemo() {
-	const [concurrentMode, setConcurrentMode] = useState(false);
-	const [renderPriority, setRenderPriority] = useState<"high" | "normal" | "low">("normal");
-
-	const HeavyComponent = ({ priority, delay }: { priority: string; delay: number }) => {
-		const [data, setData] = useState(null);
-
-		useEffect(() => {
-			const startTime = Date.now();
-			const timer = setTimeout(() => {
-				setData({
-					priority,
-					renderTime: Date.now() - startTime,
-					timestamp: new Date().toLocaleTimeString(),
-				});
-			}, delay);
-
-			return () => clearTimeout(timer);
-		}, [priority, delay]);
-
-		if (!data) {
-			return <div>加载中...</div>; // 触发 Suspense
-		}
-
-		return (
-			<div
-				className={`rounded-lg border-2 p-4 ${
-					priority === "high"
-						? "border-green-300 bg-green-50 dark:border-green-700 dark:bg-green-900/20"
-						: priority === "low"
-							? "border-yellow-300 bg-yellow-50 dark:border-yellow-700 dark:bg-yellow-900/20"
-							: "border-blue-300 bg-blue-50 dark:border-blue-700 dark:bg-blue-900/20"
-				}`}
-			>
-				<h4 className="mb-2 font-medium text-gray-800 dark:text-white">
-					{priority === "high" ? "🔥 高优先级" : priority === "low" ? "🐌 低优先级" : "⚡ 普通优先级"} 组件
-				</h4>
-				<p className="text-gray-600 text-sm dark:text-gray-400">渲染时间: {data.renderTime}ms</p>
-				<p className="text-gray-500 text-xs dark:text-gray-500">完成时间: {data.timestamp}</p>
-			</div>
-		);
-	};
-
-	return (
-		<div className="grid gap-6 lg:grid-cols-2">
-			<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-				<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">🚀 并发渲染控制</h3>
-				<div className="space-y-4">
-					<div className="flex gap-4">
-						<button
-							onClick={() => setConcurrentMode(!concurrentMode)}
-							className={`rounded-lg px-4 py-2 transition-colors ${
-								concurrentMode
-									? "bg-green-600 text-white hover:bg-green-700"
-									: "bg-gray-600 text-white hover:bg-gray-700"
-							}`}
-						>
-							{concurrentMode ? "并发模式" : "同步模式"}
-						</button>
-
-						<div className="flex gap-2">
-							{(["high", "normal", "low"] as const).map((priority) => (
-								<button
-									key={priority}
-									onClick={() => setRenderPriority(priority)}
-									className={`rounded px-3 py-1 text-sm transition-colors ${
-										renderPriority === priority
-											? "bg-purple-600 text-white"
-											: "bg-gray-600 text-white hover:bg-gray-700"
-									}`}
-								>
-									{priority === "high" ? "高" : priority === "low" ? "低" : "普通"}
-								</button>
-							))}
-						</div>
-					</div>
-
-					<Suspense
-						fallback={
-							<div className="flex items-center justify-center py-8">
-								<div className="h-8 w-8 animate-spin rounded-full border-blue-600 border-b-2"></div>
-							</div>
-						}
-					>
-						<div className="space-y-3">
-							<HeavyComponent priority="high" delay={1000} />
-							<HeavyComponent priority="normal" delay={2000} />
-							<HeavyComponent priority="low" delay={3000} />
-						</div>
-					</Suspense>
-				</div>
-			</div>
-
-			<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-				<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">📊 并发渲染特性</h3>
-				<div className="space-y-4">
-					<div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-						<h4 className="mb-2 font-medium text-blue-800 dark:text-blue-300">并发渲染优势：</h4>
-						<ul className="space-y-1 text-blue-700 text-sm dark:text-blue-400">
-							<li>• 优先级调度</li>
-							<li>• 可中断渲染</li>
-							<li>• 更好的用户交互响应</li>
-							<li>• 时间切片</li>
-						</ul>
-					</div>
-
-					<div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
-						<h4 className="mb-2 font-medium text-green-800 dark:text-green-300">当前模式：</h4>
-						<p className="text-green-700 text-sm dark:text-green-400">
-							{concurrentMode
-								? "🚀 并发渲染已启用 - 组件将根据优先级依次渲染"
-								: "🔄 同步渲染模式 - 组件按顺序依次完成渲染"}
-						</p>
-					</div>
-
-					<div className="rounded-lg bg-purple-50 p-4 dark:bg-purple-900/20">
-						<p className="text-purple-800 text-sm dark:text-purple-300">
-							💡 <strong>关键洞察：</strong>
-							React 19 的并发渲染允许高优先级更新（如用户交互）打断低优先级渲染（如数据获取），提供更流畅的用户体验。
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
-}
-
-// 嵌套 Suspense 演示组件
-function NestedSuspenseDemo() {
-	const [showNested, setShowNested] = useState(false);
-	const [nestedLevel, setNestedLevel] = useState(1);
-
-	const NestedComponent = ({ level }: { level: number }) => {
-		const [data, setData] = useState(null);
-
-		useEffect(() => {
-			const timer = setTimeout(() => {
-				setData({ level, message: `第 ${level} 层组件加载完成` });
-			}, 1000 * level);
-
-			return () => clearTimeout(timer);
-		}, [level]);
-
-		if (!data) {
-			return <div>加载中...</div>; // 触发 Suspense
-		}
-
-		if (level < nestedLevel) {
-			return (
-				<div className="ml-4">
-					<div className="mb-3 rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
-						<p className="font-medium text-green-800 dark:text-green-300">✅ {data.message}</p>
-					</div>
-					<Suspense
-						fallback={
-							<div className="mb-3 rounded-lg bg-orange-50 p-3 dark:bg-orange-900/20">
-								<p className="text-orange-600 text-sm dark:text-orange-400">加载第 {level + 1} 层组件...</p>
-							</div>
-						}
-					>
-						<NestedComponent level={level + 1} />
-					</Suspense>
-				</div>
-			);
-		}
-
-		return (
-			<div className="ml-4">
-				<div className="rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
-					<p className="font-medium text-green-800 dark:text-green-300">✅ {data.message}</p>
-				</div>
-			</div>
-		);
-	};
-
-	return (
-		<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-			<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">📦 嵌套 Suspense 处理</h3>
-
-			<div className="space-y-4">
-				<div className="flex gap-4">
-					<button
-						onClick={() => setShowNested(!showNested)}
-						className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-					>
-						{showNested ? "隐藏" : "显示"}嵌套组件
-					</button>
-
-					{showNested && (
-						<div className="flex gap-2">
-							{[1, 2, 3, 4].map((level) => (
-								<button
-									key={level}
-									onClick={() => setNestedLevel(level)}
-									className={`rounded px-3 py-1 text-sm transition-colors ${
-										nestedLevel === level ? "bg-purple-600 text-white" : "bg-gray-600 text-white hover:bg-gray-700"
-									}`}
-								>
-									{level} 层
-								</button>
-							))}
-						</div>
+				{/* 详细展示区域 - 下方内容 */}
+				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+					{selectedExample && (
+						<ExampleDetail
+							example={selectedExample}
+							demoComponents={getDemoComponents()}
+							onCopyCode={(code) => copyWithFeedback(code, setCopiedCode)}
+							copiedCode={copiedCode}
+						/>
 					)}
 				</div>
 
-				{showNested && (
-					<Suspense
-						fallback={
-							<div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-								<p className="text-center text-blue-600 dark:text-blue-400">正在加载根组件...</p>
-							</div>
-						}
-					>
-						<NestedComponent level={0} />
-					</Suspense>
-				)}
-
-				<div className="mt-6 grid gap-6 md:grid-cols-2">
-					<div className="rounded-lg bg-indigo-50 p-4 dark:bg-indigo-900/20">
-						<h4 className="mb-2 font-medium text-indigo-800 dark:text-indigo-300">嵌套 Suspense 优势：</h4>
-						<ul className="space-y-1 text-indigo-700 text-sm dark:text-indigo-400">
-							<li>• 独立的加载状态</li>
-							<li>• 渐进式内容展示</li>
-							<li>• 更好的用户体验</li>
-							<li>• 灵活的边界控制</li>
-						</ul>
-					</div>
-
-					<div className="rounded-lg bg-pink-50 p-4 dark:bg-pink-900/20">
-						<h4 className="mb-2 font-medium text-pink-800 dark:text-pink-300">使用场景：</h4>
-						<ul className="space-y-1 text-pink-700 text-sm dark:text-pink-400">
-							<li>• 页面布局嵌套加载</li>
-							<li>• 组件树渐进渲染</li>
-							<li>• 复杂数据结构展示</li>
-							<li>• 多级菜单系统</li>
-						</ul>
-					</div>
-				</div>
+				{/* 官方代码示例 */}
+				<OfficialExamples
+					title={`📚 ${selectedExample?.title} 官方示例`}
+					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+					examples={getOfficialExamples(selectedExample?.id || "")}
+				/>
 			</div>
-		</div>
-	);
-}
-
-// 服务器组件集成演示组件
-function ServerComponentDemo() {
-	const [serverData, setServerData] = useState(null);
-	const [loadingServer, setLoadingServer] = useState(false);
-
-	const mockServerComponent = () => {
-		return new Promise((resolve) => {
-			setTimeout(() => {
-				resolve({
-					id: 1,
-					title: "服务器组件数据",
-					content: "这是从服务器组件获取的数据",
-					timestamp: new Date().toISOString(),
-				});
-			}, 2000);
-		});
-	};
-
-	const loadServerData = async () => {
-		setLoadingServer(true);
-		try {
-			const data = await mockServerComponent();
-			setServerData(data);
-		} catch (error) {
-			console.error("加载服务器数据失败:", error);
-		} finally {
-			setLoadingServer(false);
-		}
-	};
-
-	const ServerComponentWrapper = () => {
-		if (!serverData) {
-			return <div>加载中...</div>; // 触发 Suspense
-		}
-
-		return (
-			<div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
-				<h4 className="mb-2 font-medium text-green-800 dark:text-green-300">🖥️ 服务器组件</h4>
-				<p className="mb-1 text-green-700 dark:text-green-400">{serverData.title}</p>
-				<p className="text-green-600 text-sm dark:text-green-500">{serverData.content}</p>
-				<p className="mt-2 text-green-500 text-xs dark:text-green-400">
-					时间戳: {new Date(serverData.timestamp).toLocaleString()}
-				</p>
-			</div>
-		);
-	};
-
-	return (
-		<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-			<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">🖥️ 服务器组件集成</h3>
-
-			<div className="space-y-4">
-				<div className="flex gap-4">
-					<button
-						onClick={loadServerData}
-						disabled={loadingServer}
-						className="rounded-lg bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-gray-400"
-					>
-						{loadingServer ? "加载中..." : "加载服务器数据"}
-					</button>
-				</div>
-
-				<Suspense
-					fallback={
-						<div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-							<div className="flex items-center space-x-3">
-								<div className="h-6 w-6 animate-spin rounded-full border-blue-600 border-b-2"></div>
-								<span className="text-blue-600 dark:text-blue-400">正在从服务器获取数据...</span>
-							</div>
-						</div>
-					}
-				>
-					<ServerComponentWrapper />
-				</Suspense>
-
-				<div className="grid gap-6 md:grid-cols-2">
-					<div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-						<h4 className="mb-2 font-medium text-blue-800 dark:text-blue-300">服务器组件 + Suspense：</h4>
-						<ul className="space-y-1 text-blue-700 text-sm dark:text-blue-400">
-							<li>• 无缝集成服务器渲染</li>
-							<li>• 自动处理异步数据</li>
-							<li>• 客户端/服务端统一体验</li>
-							<li>• 优化的 SEO 支持</li>
-						</ul>
-					</div>
-
-					<div className="rounded-lg bg-purple-50 p-4 dark:bg-purple-900/20">
-						<h4 className="mb-2 font-medium text-purple-800 dark:text-purple-300">React 19 新特性：</h4>
-						<ul className="space-y-1 text-purple-700 text-sm dark:text-purple-400">
-							<li>• 改进的服务器组件支持</li>
-							<li>• 更好的流式渲染</li>
-							<li>• 增强的错误边界</li>
-							<li>• 优化的水合过程</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
+		</Layout>
 	);
 }

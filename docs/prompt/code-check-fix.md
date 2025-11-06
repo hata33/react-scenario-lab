@@ -48,20 +48,7 @@ pnpm biome check --write --unsafe
 1. **变量提升**: 将函数定义移到使用之前
 2. **Hook 依赖**: 使用 `useCallback` 包装函数
 3. **类型注解**: 为隐式 `any` 类型添加明确类型
-
-### React 19 新特性
-```typescript
-// 使用 @ts-ignore 处理未完善的类型定义
-// @ts-ignore - React 19 Hook，类型定义可能还不完善
-const { pending, data } = (React as any).useFormStatus?.() || { pending: false, data: null };
-```
-
-### 兼容性问题
-```typescript
-// 替换 Object.hasOwn 为兼容方案
-Object.prototype.hasOwnProperty.call(data, key)
-```
-
+4. 
 ## 验证步骤
 
 ### 1. 编译验证
@@ -90,5 +77,3 @@ pnpm dev  # 确保项目正常启动
 
 1. **不要使用 `pnpm build`** 进行验证
 2. **优先修复编译错误**，其次是代码质量问题
-3. **React 19 相关问题**使用类型断言临时解决
-4. **保留 `@ts-ignore`** 用于暂时无法解决的类型问题

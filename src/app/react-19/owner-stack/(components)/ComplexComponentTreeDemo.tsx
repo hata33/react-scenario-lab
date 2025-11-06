@@ -97,9 +97,7 @@ export default function ComplexComponentTreeDemo() {
 						{highlightPath ? "关闭" : "开启"} 路径高亮
 					</button>
 				</div>
-				<div className="max-h-96 overflow-auto rounded-lg bg-gray-50 p-4">
-					{renderComponentNode(componentTree)}
-				</div>
+				<div className="max-h-96 overflow-auto rounded-lg bg-gray-50 p-4">{renderComponentNode(componentTree)}</div>
 			</div>
 
 			<div className="rounded-xl bg-white p-6 shadow-lg">
@@ -113,9 +111,7 @@ export default function ComplexComponentTreeDemo() {
 
 						<div className="rounded-lg bg-blue-50 p-4">
 							<h4 className="mb-2 font-medium text-blue-800">Owner 路径：</h4>
-							<p className="font-mono text-blue-700 text-sm">
-								{getOwnerPath(selectedComponent) || "根组件"}
-							</p>
+							<p className="font-mono text-blue-700 text-sm">{getOwnerPath(selectedComponent) || "根组件"}</p>
 						</div>
 
 						<div className="rounded-lg bg-green-50 p-4">

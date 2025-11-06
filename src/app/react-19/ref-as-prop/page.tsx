@@ -1,6 +1,6 @@
 "use client";
 
-import { Code, Layers, Gauge, Zap } from "lucide-react";
+import { Code, Gauge, Layers, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
@@ -58,18 +58,8 @@ const MyComponent = () => {
 		</div>
 	);
 };`,
-		benefits: [
-			"无需 forwardRef 包装",
-			"代码更简洁直观",
-			"更好的 TypeScript 支持",
-			"组件定义更自然",
-		],
-		useCases: [
-			"表单组件开发",
-			"自定义输入控件",
-			"DOM 操作组件",
-			"可复用 UI 组件",
-		],
+		benefits: ["无需 forwardRef 包装", "代码更简洁直观", "更好的 TypeScript 支持", "组件定义更自然"],
+		useCases: ["表单组件开发", "自定义输入控件", "DOM 操作组件", "可复用 UI 组件"],
 		problemsSolved: [
 			{
 				problem: "forwardRef 代码冗余",
@@ -135,18 +125,8 @@ const Form = () => {
 		</form>
 	);
 };`,
-		benefits: [
-			"支持复杂组件 ref",
-			"表单验证和聚焦",
-			"自定义组件控制",
-			"保持组件可复用性",
-		],
-		useCases: [
-			"表单系统开发",
-			"富文本编辑器",
-			"自定义 UI 库",
-			"组件库开发",
-		],
+		benefits: ["支持复杂组件 ref", "表单验证和聚焦", "自定义组件控制", "保持组件可复用性"],
+		useCases: ["表单系统开发", "富文本编辑器", "自定义 UI 库", "组件库开发"],
 		problemsSolved: [
 			{
 				problem: "复杂组件 ref 传递困难",
@@ -216,18 +196,8 @@ const MyComponent = () => {
 		</div>
 	);
 };`,
-		benefits: [
-			"完整的类型安全",
-			"准确的类型推断",
-			"自定义 ref 类型",
-			"更好的 IDE 支持",
-		],
-		useCases: [
-			"类型严格项目",
-			"组件库开发",
-			"企业级应用",
-			"开源项目开发",
-		],
+		benefits: ["完整的类型安全", "准确的类型推断", "自定义 ref 类型", "更好的 IDE 支持"],
+		useCases: ["类型严格项目", "组件库开发", "企业级应用", "开源项目开发"],
 		problemsSolved: [
 			{
 				problem: "forwardRef 类型定义复杂",
@@ -298,18 +268,8 @@ const PerformanceTest = () => {
 		</div>
 	);
 };`,
-		benefits: [
-			"更快的渲染性能",
-			"减少组件层级",
-			"更好的内存使用",
-			"优化的渲染路径",
-		],
-		useCases: [
-			"大型应用优化",
-			"性能敏感场景",
-			"组件库开发",
-			"移动端应用",
-		],
+		benefits: ["更快的渲染性能", "减少组件层级", "更好的内存使用", "优化的渲染路径"],
+		useCases: ["大型应用优化", "性能敏感场景", "组件库开发", "移动端应用"],
 		problemsSolved: [
 			{
 				problem: "forwardRef 性能开销",

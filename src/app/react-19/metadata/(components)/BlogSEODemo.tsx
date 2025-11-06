@@ -114,9 +114,7 @@ export default function BlogSEODemo() {
 	return (
 		<div>
 			<h3 className="mb-4 font-bold text-2xl text-gray-900">📝 博客文章 SEO 演示</h3>
-			<p className="mb-6 text-gray-600">
-				博客文章的完整 SEO 优化，包括元数据、结构化数据和可读性优化。
-			</p>
+			<p className="mb-6 text-gray-600">博客文章的完整 SEO 优化，包括元数据、结构化数据和可读性优化。</p>
 
 			{blogPost && (
 				<div className="space-y-6">
@@ -167,10 +165,7 @@ export default function BlogSEODemo() {
 
 								<div className="mb-4 flex gap-2">
 									{blogPost.tags.map((tag) => (
-										<span
-											key={tag}
-											className="rounded bg-blue-100 px-2 py-1 text-blue-800 text-xs"
-										>
+										<span key={tag} className="rounded bg-blue-100 px-2 py-1 text-blue-800 text-xs">
 											{tag}
 										</span>
 									))}

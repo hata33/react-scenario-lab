@@ -299,9 +299,7 @@ export default function ComplexStateDemo() {
 		<div className="mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
 			<div className="mb-6">
 				<h3 className="mb-2 font-semibold text-gray-900 text-lg">复杂对象状态演示</h3>
-				<p className="mb-4 text-gray-600 text-sm">
-					购物车复杂对象序列化演示。展示如何处理嵌套状态、计算和业务逻辑。
-				</p>
+				<p className="mb-4 text-gray-600 text-sm">购物车复杂对象序列化演示。展示如何处理嵌套状态、计算和业务逻辑。</p>
 
 				<div className="mb-4 rounded-md border border-gray-200 bg-gray-50 p-3">
 					<div className="flex items-center justify-between">

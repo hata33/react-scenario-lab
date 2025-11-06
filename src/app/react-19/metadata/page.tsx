@@ -17,14 +17,9 @@ import {
 	ThreeWRule,
 } from "../(components)";
 // Import types
-import type { MetadataExample, FeatureCard, WSection } from "../(types)";
+import type { FeatureCard, MetadataExample, WSection } from "../(types)";
 // Import demo components from index file
-import {
-	BlogSEODemo,
-	DynamicSEODemo,
-	ProductMetadataDemo,
-	SocialSharingDemo,
-} from "./(components)";
+import { BlogSEODemo, DynamicSEODemo, ProductMetadataDemo, SocialSharingDemo } from "./(components)";
 
 const metadataExamples: MetadataExample[] = [
 	{
@@ -246,7 +241,7 @@ function EcommercePage({ product }) {
 			{
 				problem: "库存信息滞后",
 				description: "库存变化时搜索结果信息不能及时更新，导致用户失望",
-			solution: "动态更新结构化数据，确保搜索引擎信息与实际库存同步",
+				solution: "动态更新结构化数据，确保搜索引擎信息与实际库存同步",
 			},
 		],
 	},
@@ -358,7 +353,7 @@ function BlogPost({ post }) {
 	},
 ];
 
-	export default function MetadataPage() {
+export default function MetadataPage() {
 	const [copiedCode, setCopiedCode] = useState(false);
 	const [selectedExample, setSelectedExample] = useState(metadataExamples[0]);
 
@@ -415,7 +410,7 @@ function BlogPost({ post }) {
 		},
 		{
 			description:
-			"适合需要动态 SEO、社交媒体优化、页面元数据管理的所有场景。特别适合电商网站、博客平台、内容管理系统、新闻门户等需要大量内容管理的应用。",
+				"适合需要动态 SEO、社交媒体优化、页面元数据管理的所有场景。特别适合电商网站、博客平台、内容管理系统、新闻门户等需要大量内容管理的应用。",
 			features: ["电商产品优化", "博客文章管理", "内容管理系统", "新闻门户网站"],
 		},
 	];

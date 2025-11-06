@@ -17,14 +17,9 @@ import {
 	ThreeWRule,
 } from "../(components)";
 // Import types
-import type { FeatureCard, WSection, OwnerStackExample } from "../(types)";
+import type { FeatureCard, OwnerStackExample, WSection } from "../(types)";
 // Import demo components from index file
-import {
-	ComplexComponentTreeDemo,
-	ErrorTrackingDemo,
-	OwnerStackDemo,
-	PerformanceAnalysisDemo,
-} from "./(components)";
+import { ComplexComponentTreeDemo, ErrorTrackingDemo, OwnerStackDemo, PerformanceAnalysisDemo } from "./(components)";
 
 const ownerStackExamples: OwnerStackExample[] = [
 	{
@@ -73,18 +68,8 @@ function OwnerStackDemo() {
 		</div>
 	);
 }`,
-		benefits: [
-			"清晰的组件层级关系展示",
-			"实时的状态追踪和监控",
-			"详细的 props 传递信息",
-			"直观的调用链路可视化",
-		],
-		useCases: [
-			"组件调试和状态分析",
-			"性能瓶颈定位",
-			"错误源头追踪",
-			"组件结构优化",
-		],
+		benefits: ["清晰的组件层级关系展示", "实时的状态追踪和监控", "详细的 props 传递信息", "直观的调用链路可视化"],
+		useCases: ["组件调试和状态分析", "性能瓶颈定位", "错误源头追踪", "组件结构优化"],
 		problemsSolved: [
 			{
 				problem: "组件层级复杂难追踪",
@@ -140,7 +125,7 @@ function ComplexComponentTreeDemo() {
 		return (
 			<div key={currentPath} className="ml-4">
 				<div
-					className={\`mb-1 cursor-pointer rounded p-2 \$
+					className={\`mb-1 cursor-pointer rounded p-2 $
 						isSelected
 							? "border-2 border-purple-500 bg-purple-200"
 							: "bg-gray-100 hover:bg-gray-200"
@@ -182,18 +167,8 @@ function ComplexComponentTreeDemo() {
 		</div>
 	);
 }`,
-		benefits: [
-			"支持大型应用组件树分析",
-			"路径高亮和选择功能",
-			"组件深度和关系分析",
-			"实时性能数据展示",
-		],
-		useCases: [
-			"大型应用架构分析",
-			"组件依赖关系梳理",
-			"性能瓶颈定位",
-			"代码重构规划",
-		],
+		benefits: ["支持大型应用组件树分析", "路径高亮和选择功能", "组件深度和关系分析", "实时性能数据展示"],
+		useCases: ["大型应用架构分析", "组件依赖关系梳理", "性能瓶颈定位", "代码重构规划"],
 		problemsSolved: [
 			{
 				problem: "大型应用组件关系复杂",
@@ -258,7 +233,7 @@ function PerformanceAnalysisDemo() {
 				<h3 className="mb-4 font-semibold text-gray-800 text-xl">⚡ 性能分析面板</h3>
 				<button
 					onClick={() => setAnalysisMode(!analysisMode)}
-					className={\`rounded-lg px-4 py-2 transition-colors \$
+					className={\`rounded-lg px-4 py-2 transition-colors $
 						analysisMode ? "bg-purple-600 text-white" : "bg-gray-600 text-white"
 					\`}
 				>
@@ -284,18 +259,8 @@ function PerformanceAnalysisDemo() {
 		</div>
 	);
 }`,
-		benefits: [
-			"多维度性能指标监控",
-			"性能瓶颈自动识别",
-			"优化建议智能推荐",
-			"实时性能数据更新",
-		],
-		useCases: [
-			"应用性能优化",
-			"渲染性能分析",
-			"内存使用监控",
-			"用户体验提升",
-		],
+		benefits: ["多维度性能指标监控", "性能瓶颈自动识别", "优化建议智能推荐", "实时性能数据更新"],
+		useCases: ["应用性能优化", "渲染性能分析", "内存使用监控", "用户体验提升"],
 		problemsSolved: [
 			{
 				problem: "性能瓶颈定位困难",
@@ -366,7 +331,7 @@ function ErrorTrackingDemo() {
 							<button
 								key={error.id}
 								onClick={() => simulateError(error.id)}
-								className={\`rounded-lg p-3 transition-colors \$
+								className={\`rounded-lg p-3 transition-colors $
 									currentError === error.id
 										? "border-2 border-red-500 bg-red-100"
 										: "bg-gray-100 hover:bg-gray-200"
@@ -395,18 +360,8 @@ function ErrorTrackingDemo() {
 		</div>
 	);
 }`,
-		benefits: [
-			"快速错误定位能力",
-			"详细的错误上下文信息",
-			"Owner 路径追踪功能",
-			"智能调试建议推荐",
-		],
-		useCases: [
-			"线上错误快速修复",
-			"开发阶段调试",
-			"错误模式分析",
-			"代码质量提升",
-		],
+		benefits: ["快速错误定位能力", "详细的错误上下文信息", "Owner 路径追踪功能", "智能调试建议推荐"],
+		useCases: ["线上错误快速修复", "开发阶段调试", "错误模式分析", "代码质量提升"],
 		problemsSolved: [
 			{
 				problem: "错误定位耗时费力",

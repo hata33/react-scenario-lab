@@ -99,9 +99,7 @@ export default function PerformanceAnalysisDemo() {
 							key={metric.key}
 							onClick={() => setSelectedMetric(metric.key as any)}
 							className={`rounded px-3 py-1 text-sm transition-colors ${
-								selectedMetric === metric.key
-									? "bg-blue-600 text-white"
-									: "bg-gray-200 text-gray-700"
+								selectedMetric === metric.key ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
 							}`}
 						>
 							{metric.label}

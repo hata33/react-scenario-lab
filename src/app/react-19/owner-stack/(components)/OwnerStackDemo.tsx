@@ -52,9 +52,7 @@ export default function OwnerStackDemo() {
 								key={owner.component}
 								className="flex items-center gap-2 rounded border border-purple-200 bg-white p-2"
 							>
-								<span className="font-mono text-purple-600 text-sm">
-									{"".padStart(index * 2, "→")}
-								</span>
+								<span className="font-mono text-purple-600 text-sm">{"".padStart(index * 2, "→")}</span>
 								<div className="flex-1">
 									<span className="font-medium text-gray-800">{owner.component}</span>
 									<span className="ml-2 text-gray-500 text-xs">state: {owner.state}</span>

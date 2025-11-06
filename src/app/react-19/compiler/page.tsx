@@ -19,12 +19,7 @@ import {
 // Import types
 import type { CompilerExample, FeatureCard, WSection } from "../(types)";
 // Import demo components from index file
-import {
-	CompilerBasicDemo,
-	PerformanceComparison,
-	RealWorldApplications,
-	SmartOptimizationDemo,
-} from "./(components)";
+import { CompilerBasicDemo, PerformanceComparison, RealWorldApplications, SmartOptimizationDemo } from "./(components)";
 
 const compilerExamples: CompilerExample[] = [
 	{
@@ -76,7 +71,8 @@ function OptimizedComponent({ data, onUpdate }) {
 		problemsSolved: [
 			{
 				problem: "手动优化复杂性",
-				description: "开发者需要深入理解 React 性能优化原理，手动使用 React.memo、useCallback、useMemo，容易出现遗漏或过度优化",
+				description:
+					"开发者需要深入理解 React 性能优化原理，手动使用 React.memo、useCallback、useMemo，容易出现遗漏或过度优化",
 				solution: "React Compiler 自动分析代码模式，智能应用最佳优化策略，开发者只需专注于业务逻辑",
 			},
 			{

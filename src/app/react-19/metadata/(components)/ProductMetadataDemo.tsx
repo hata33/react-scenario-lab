@@ -206,10 +206,7 @@ export default function ProductMetadataDemo() {
 							<p className="mb-2 font-medium">产品特色：</p>
 							<div className="flex flex-wrap gap-2">
 								{productData.features.map((feature, index) => (
-									<span
-										key={index}
-										className="rounded bg-blue-100 px-2 py-1 text-blue-800 text-xs"
-									>
+									<span key={index} className="rounded bg-blue-100 px-2 py-1 text-blue-800 text-xs">
 										{feature}
 									</span>
 								))}

@@ -83,9 +83,7 @@ export default function DynamicSEODemo() {
 	return (
 		<div>
 			<h3 className="mb-4 font-bold text-2xl text-gray-900">🔍 动态 SEO 演示</h3>
-			<p className="mb-6 text-gray-600">
-				React 19 允许在组件中直接定义动态元数据，自动提升到文档 head 中。
-			</p>
+			<p className="mb-6 text-gray-600">React 19 允许在组件中直接定义动态元数据，自动提升到文档 head 中。</p>
 
 			<div className="mb-6">
 				<h4 className="mb-3 font-semibold">选择文章（查看元数据变化）：</h4>
@@ -121,9 +119,7 @@ export default function DynamicSEODemo() {
 						<div className="space-y-2 text-sm">
 							<div className="flex items-center gap-2">
 								<span className="font-medium">标题:</span>
-								<code className="rounded bg-white px-2 py-1">
-									{currentArticle.title} - React 19 实验室
-								</code>
+								<code className="rounded bg-white px-2 py-1">{currentArticle.title} - React 19 实验室</code>
 							</div>
 							<div className="flex items-center gap-2">
 								<span className="font-medium">描述:</span>
@@ -149,10 +145,7 @@ export default function DynamicSEODemo() {
 								</div>
 								<div className="mt-3 flex gap-2">
 									{currentArticle.tags.map((tag) => (
-										<span
-											key={tag}
-											className="rounded bg-blue-100 px-2 py-1 text-blue-800 text-xs"
-										>
+										<span key={tag} className="rounded bg-blue-100 px-2 py-1 text-blue-800 text-xs">
 											{tag}
 										</span>
 									))}

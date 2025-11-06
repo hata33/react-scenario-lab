@@ -151,9 +151,7 @@ export default function FormManagementDemo() {
 		<div className="mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
 			<div className="mb-6">
 				<h3 className="mb-2 font-semibold text-gray-900 text-lg">表单自动保存演示</h3>
-				<p className="mb-4 text-gray-600 text-sm">
-					文章编辑器演示自动表单草稿保存。所有更改实时持久化到浏览器存储。
-				</p>
+				<p className="mb-4 text-gray-600 text-sm">文章编辑器演示自动表单草稿保存。所有更改实时持久化到浏览器存储。</p>
 
 				{(draft.lastSaved || isSyncing || lastSync) && (
 					<div className="mb-4 rounded-md border border-gray-200 bg-gray-50 p-3">

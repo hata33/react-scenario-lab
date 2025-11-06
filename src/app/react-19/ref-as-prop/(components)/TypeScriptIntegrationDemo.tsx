@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useImperativeHandle, useState } from "react";
+import { useState } from "react";
 
 export default function TypeScriptIntegrationDemo() {
 	const [selectedComponent, setSelectedComponent] = useState("input");
@@ -152,9 +152,7 @@ const MyComponent = () => {
 							key={key}
 							onClick={() => setSelectedComponent(key)}
 							className={`rounded-md px-4 py-2 transition-colors ${
-								selectedComponent === key
-									? "bg-blue-500 text-white"
-									: "bg-gray-200 text-gray-700 hover:bg-gray-300"
+								selectedComponent === key ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
 							}`}
 						>
 							{component.name}
@@ -178,10 +176,7 @@ const MyComponent = () => {
 						<h4 className="mb-3 font-semibold">组件演示</h4>
 						{selectedComponent === "input" && (
 							<div className="space-y-4">
-								<input
-									placeholder="React 19 + TypeScript 输入框"
-									className="rounded-md border px-3 py-2"
-								/>
+								<input placeholder="React 19 + TypeScript 输入框" className="rounded-md border px-3 py-2" />
 								<p className="text-gray-600 text-sm">完全类型安全的输入框组件</p>
 							</div>
 						)}
