@@ -132,5 +132,5 @@ src/
 - **新增布局规范**：在 CLAUDE.md 中添加页面布局规范，要求所有新建页面必须使用 Layout 组件，统一在 page.tsx 文件中包裹页面组件
 
 ### 要求
-禁止执行 build 命令
+禁止执行 pnpm build 命令
 使用 tailwindcss 4 实现页面样式

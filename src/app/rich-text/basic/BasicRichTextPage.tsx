@@ -39,8 +39,6 @@ const BasicRichTextEditor: React.FC<{
 		[onChange, updateHistory],
 	);
 
-
-
 	// 处理输入变化
 	const handleInput = useCallback(() => {
 		if (!editorRef.current || isComposing) return;

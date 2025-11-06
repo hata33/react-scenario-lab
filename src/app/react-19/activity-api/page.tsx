@@ -1,642 +1,584 @@
 "use client";
 
+import { Activity, AlertCircle, CheckCircle, Clock, Code, Copy, Database, Shield } from "lucide-react";
+import type React from "react";
 import { useCallback, useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 
-export default function ActivityAPIPage() {
-	return (
-		<Layout>
-			<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-				<div className="container mx-auto px-4 py-8">
-					<div className="mb-8">
-						<h1 className="mb-4 font-bold text-4xl text-gray-900 dark:text-white">Activity API - React 19 新特性</h1>
-						<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-							<h2 className="mb-4 font-semibold text-2xl text-gray-800 dark:text-white">🔄 3W 法则解析</h2>
-							<div className="grid gap-6 md:grid-cols-3">
-								<div className="rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
-									<h3 className="mb-2 font-bold text-emerald-800 text-lg dark:text-emerald-300">What - 它是什么？</h3>
-									<p className="text-gray-700 dark:text-gray-300">
-										Activity API 是 React 19
-										中用于保持组件状态和活动状态的新机制，允许在组件挂起、卸载或重新挂载时保持状态连续性。
-									</p>
-								</div>
-								<div className="rounded-lg bg-teal-50 p-4 dark:bg-teal-900/20">
-									<h3 className="mb-2 font-bold text-lg text-teal-800 dark:text-teal-300">Why - 为什么需要？</h3>
-									<p className="text-gray-700 dark:text-gray-300">
-										解决传统组件状态丢失、表单数据重置、滚动位置丢失、用户操作中断等问题，提供更流畅的用户体验。
-									</p>
-								</div>
-								<div className="rounded-lg bg-cyan-50 p-4 dark:bg-cyan-900/20">
-									<h3 className="mb-2 font-bold text-cyan-800 text-lg dark:text-cyan-300">When - 何时使用？</h3>
-									<p className="text-gray-700 dark:text-gray-300">
-										表单状态保持、页面切换状态保留、多步骤流程、长时间操作保持等需要状态连续性的场景。
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					{/* Activity API 基础演示 */}
-					<div className="mb-8">
-						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">Activity API 基础功能</h2>
-						<div className="grid gap-6 lg:grid-cols-2">
-							<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-								<h3 className="mb-4 font-semibold text-red-600 text-xl dark:text-red-400">🚫 传统状态管理的问题</h3>
-								<div className="space-y-4">
-									<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
-										<p className="mb-2 text-gray-600 text-sm dark:text-gray-300">传统组件状态问题：</p>
-										<ul className="space-y-2 text-gray-700 text-sm dark:text-gray-300">
-											<li>• 组件卸载时状态丢失</li>
-											<li>• 表单数据需要手动保存</li>
-											<li>• 页面切换状态重置</li>
-											<li>• 用户操作中断无法恢复</li>
-										</ul>
-									</div>
-									<div className="rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
-										<p className="font-medium text-red-800 text-sm dark:text-red-300">❌ 常见问题：</p>
-										<ul className="mt-2 text-red-700 text-sm dark:text-red-400">
-											<li>• 表单填写到一半被中断</li>
-											<li>• 滚动位置跳回顶部</li>
-											<li>• 搜索条件需要重新输入</li>
-											<li>• 购物车状态意外清空</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-
-							<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-								<h3 className="mb-4 font-semibold text-green-600 text-xl dark:text-green-400">
-									✅ Activity API 的优势
-								</h3>
-								<div className="space-y-4">
-									<ActivityBasicDemo />
-								</div>
-							</div>
-						</div>
-					</div>
-
-					{/* 表单状态保持演示 */}
-					<div className="mb-8">
-						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">表单状态保持</h2>
-						<FormPersistenceDemo />
-					</div>
-
-					{/* 页面状态保持演示 */}
-					<div className="mb-8">
-						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">页面状态保持</h2>
-						<PageStateDemo />
-					</div>
-
-					{/* 复杂状态管理演示 */}
-					<div className="mb-8">
-						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">复杂状态管理</h2>
-						<ComplexStateDemo />
-					</div>
-
-					{/* 最佳实践 */}
-					<div className="mb-8">
-						<h2 className="mb-6 font-bold text-3xl text-gray-900 dark:text-white">Activity API 最佳实践</h2>
-						<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-							<div className="grid gap-6 md:grid-cols-2">
-								<div>
-									<h3 className="mb-4 font-semibold text-green-600 text-xl dark:text-green-400">✅ 推荐做法</h3>
-									<ul className="space-y-3">
-										<li className="flex items-start">
-											<span className="mr-2 text-green-500">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">合理设置活动状态标识</span>
-										</li>
-										<li className="flex items-start">
-											<span className="mr-2 text-green-500">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">区分临时状态和持久状态</span>
-										</li>
-										<li className="flex items-start">
-											<span className="mr-2 text-green-500">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">提供状态重置机制</span>
-										</li>
-										<li className="flex items-start">
-											<span className="mr-2 text-green-500">✓</span>
-											<span className="text-gray-700 dark:text-gray-300">监控状态生命周期</span>
-										</li>
-									</ul>
-								</div>
-								<div>
-									<h3 className="mb-4 font-semibold text-red-600 text-xl dark:text-red-400">❌ 避免做法</h3>
-									<ul className="space-y-3">
-										<li className="flex items-start">
-											<span className="mr-2 text-red-500">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">保持过多不必要的状态</span>
-										</li>
-										<li className="flex items-start">
-											<span className="mr-2 text-red-500">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">忽略内存泄漏风险</span>
-										</li>
-										<li className="flex items-start">
-											<span className="mr-2 text-red-500">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">状态结构过于复杂</span>
-										</li>
-										<li className="flex items-start">
-											<span className="mr-2 text-red-500">✗</span>
-											<span className="text-gray-700 dark:text-gray-300">缺乏状态清理机制</span>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</Layout>
-	);
+interface ActivityExample {
+	id: string;
+	title: string;
+	description: string;
+	category: "State Persistence" | "Form Management" | "Page Management" | "Complex State";
+	difficulty: "初级" | "中级" | "高级";
+	status: "completed" | "in-progress" | "planned";
+	icon: React.ReactNode;
+	codeSnippet: string;
+	benefits: string[];
+	useCases: string[];
+	problemsSolved: Array<{
+		problem: string;
+		description: string;
+		solution: string;
+	}>;
 }
 
-// Activity API 基础演示组件
-function ActivityBasicDemo() {
+const activityExamples: ActivityExample[] = [
+	{
+		id: "statePersistence",
+		title: "状态持久化",
+		description: "自动保存和恢复组件状态，解决页面刷新或导航时的状态丢失问题",
+		category: "State Persistence",
+		difficulty: "初级",
+		status: "completed",
+		icon: <Database className="h-5 w-5" />,
+		codeSnippet: `"use client";
+import { useActivity } from "react";
+
+function Counter() {
+  const [count, setCount, saveState] = useActivity(0, "counter-activity");
+
+  const increment = () => {
+    const newCount = count + 1;
+    setCount(newCount);
+    saveState(newCount); // 自动保存状态
+  };
+
+  return (
+    <div>
+      <p>计数: {count}</p>
+      <button onClick={increment}>增加</button>
+      <button onClick={() => saveState(0)}>重置</button>
+    </div>
+  );
+}
+
+// 页面刷新后状态自动恢复`,
+		benefits: ["自动状态保存", "页面刷新恢复", "零配置实现", "生命周期管理"],
+		useCases: ["计数器", "用户设置", "临时数据", "组件状态"],
+		problemsSolved: [
+			{
+				problem: "状态丢失严重",
+				description: "页面刷新、路由切换或浏览器关闭后，所有组件状态都会丢失，用户体验差",
+				solution: "Activity API 自动保存状态到 sessionStorage，页面重新加载时自动恢复，无需手动处理",
+			},
+			{
+				problem: "手动实现复杂",
+				description: "需要手动编写 localStorage 读写逻辑，处理序列化错误，管理存储生命周期",
+				solution: "提供标准化的 Hook 接口，自动处理存储、序列化、错误处理和生命周期管理",
+			},
+			{
+				problem: "性能开销大",
+				description: "频繁的存储操作会影响性能，需要手动优化存储策略",
+				solution: "内置性能优化，智能存储策略，避免不必要的存储操作",
+			},
+			{
+				problem: "数据一致性差",
+				description: "多个组件状态同步困难，容易出现数据不一致的问题",
+				solution: "统一的状态管理机制，保证数据一致性和可靠性",
+			},
+		],
+	},
+	{
+		id: "formManagement",
+		title: "表单管理",
+		description: "表单数据自动保存和恢复，防止用户意外丢失填写的表单内容",
+		category: "Form Management",
+		difficulty: "中级",
+		status: "completed",
+		icon: <Shield className="h-5 w-5" />,
+		codeSnippet: `"use client";
+import { useFormActivity } from "react";
+
+function RegistrationForm() {
+  const [formData, setFormData, saveForm, clearForm] = useFormActivity({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    preferences: []
+  }, "registration-form");
+
+  const handleChange = (field, value) => {
+    const newData = { ...formData, [field]: value };
+    setFormData(newData);
+    saveForm(newData); // 自动保存表单数据
+  };
+
+  return (
+    <form>
+      <input
+        value={formData.name}
+        onChange={(e) => handleChange("name", e.target.value)}
+        placeholder="姓名"
+      />
+      <input
+        value={formData.email}
+        onChange={(e) => handleChange("email", e.target.value)}
+        placeholder="邮箱"
+      />
+      {/* 其他字段... */}
+      <button type="button" onClick={clearForm}>清空表单</button>
+    </form>
+  );
+}`,
+		benefits: ["表单数据自动保存", "防止意外丢失", "多步骤支持", "数据验证"],
+		useCases: ["用户注册", "调查问卷", "订单填写", "设置页面"],
+		problemsSolved: [
+			{
+				problem: "表单数据易丢失",
+				description: "用户填写表单时意外刷新页面或关闭浏览器，所有填写内容都会丢失",
+				solution: "表单数据自动保存，页面重新加载后自动恢复，用户可以继续填写",
+			},
+			{
+				problem: "用户体验差",
+				description: "长时间的表单填写过程容易被打断，用户需要重新开始，体验极差",
+				solution: "无缝的状态保存和恢复，用户随时可以继续之前的填写进度",
+			},
+			{
+				problem: "复杂表单管理难",
+				description: "多步骤表单、条件显示字段等复杂场景的状态管理非常困难",
+				solution: "智能的表单状态管理，支持复杂的表单结构和动态字段",
+			},
+			{
+				problem: "数据验证复杂",
+				description: "表单数据的实时验证和错误状态管理需要大量代码",
+				solution: "内置的验证机制，自动处理验证状态和错误信息保存",
+			},
+		],
+	},
+	{
+		id: "pageManagement",
+		title: "页面管理",
+		description: "保存页面状态、滚动位置、搜索条件等，提供无缝的浏览体验",
+		category: "Page Management",
+		difficulty: "中级",
+		status: "completed",
+		icon: <Activity className="h-5 w-5" />,
+		codeSnippet: `"use client";
+import { usePageActivity } from "react";
+
+function SearchPage() {
+  const [pageState, setPageState, savePage] = usePageActivity({
+    searchQuery: "",
+    filters: {
+      category: "",
+      priceRange: "",
+      rating: ""
+    },
+    scrollPosition: 0,
+    selectedTab: "all"
+  }, "search-page");
+
+  const handleSearch = (query) => {
+    const newState = { ...pageState, searchQuery: query };
+    setPageState(newState);
+    savePage(newState);
+  };
+
+  const handleFilter = (filterType, value) => {
+    const newState = {
+      ...pageState,
+      filters: { ...pageState.filters, [filterType]: value }
+    };
+    setPageState(newState);
+    savePage(newState);
+  };
+
+  return (
+    <div>
+      <input
+        value={pageState.searchQuery}
+        onChange={(e) => handleSearch(e.target.value)}
+        placeholder="搜索..."
+      />
+      {/* 过滤器和内容... */}
+    </div>
+  );
+}`,
+		benefits: ["滚动位置保存", "搜索条件恢复", "标签页状态", "过滤器设置"],
+		useCases: ["搜索页面", "产品列表", "数据表格", "文档浏览"],
+		problemsSolved: [
+			{
+				problem: "浏览体验中断",
+				description: "用户在浏览长页面或搜索结果时，意外刷新会丢失滚动位置和搜索条件",
+				solution: "自动保存滚动位置、搜索条件、过滤器设置，页面恢复时无缝继续浏览",
+			},
+			{
+				problem: "重复操作多",
+				description: "用户需要重新输入搜索条件、重新设置过滤器、重新找到之前的浏览位置",
+				solution: "完整的页面状态恢复，用户可以精确回到之前的浏览状态",
+			},
+			{
+				problem: "导航体验差",
+				description: "在不同页面间切换时，无法保持之前的浏览状态和上下文",
+				solution: "智能的页面状态管理，在导航切换时保持相关状态",
+			},
+			{
+				problem: "性能优化难",
+				description: "页面状态管理需要考虑性能，频繁的状态保存可能影响用户体验",
+				solution: "内置的性能优化策略，智能的状态保存时机和频率控制",
+			},
+		],
+	},
+	{
+		id: "complexState",
+		title: "复杂状态管理",
+		description: "管理复杂的多层次状态结构，支持用户会话、应用状态等高级场景",
+		category: "Complex State",
+		difficulty: "高级",
+		status: "completed",
+		icon: <Code className="h-5 w-5" />,
+		codeSnippet: `"use client";
+import { useComplexActivity } from "react";
+
+function Application() {
+  const [complexState, setComplexState, saveState] = useComplexActivity({
+    userSession: {
+      loginTime: Date.now(),
+      lastActivity: Date.now(),
+      permissions: []
+    },
+    workspace: {
+      openTabs: [],
+      activeProject: null,
+      unsavedChanges: false
+    },
+    preferences: {
+      theme: "light",
+      language: "zh-CN",
+      layout: "default"
+    },
+    cache: {
+      data: {},
+      timestamp: Date.now(),
+      ttl: 3600000
+    }
+  }, "app-complex-state");
+
+  const updateUserActivity = () => {
+    const newState = {
+      ...complexState,
+      userSession: {
+        ...complexState.userSession,
+        lastActivity: Date.now()
+      }
+    };
+    setComplexState(newState);
+    saveState(newState);
+  };
+
+  return (
+    <div>
+      {/* 应用组件... */}
+    </div>
+  );
+}`,
+		benefits: ["多层次状态", "自动过期管理", "数据同步", "性能监控"],
+		useCases: ["用户会话", "工作空间", "应用配置", "缓存管理"],
+		problemsSolved: [
+			{
+				problem: "复杂状态管理困难",
+				description: "多层次、嵌套的状态结构难以管理，容易出现状态不一致和性能问题",
+				solution: "专门针对复杂状态设计的管理机制，自动处理嵌套状态和依赖关系",
+			},
+			{
+				problem: "内存泄漏风险",
+				description: "复杂状态的保存和恢复容易导致内存泄漏，影响应用性能",
+				solution: "智能的内存管理，自动清理过期数据，防止内存泄漏",
+			},
+			{
+				problem: "数据同步复杂",
+				description: "多个组件间的复杂状态同步困难，容易出现数据不一致",
+				solution: "统一的状态同步机制，保证数据一致性和实时性",
+			},
+			{
+				problem: "性能优化难",
+				description: "复杂状态的操作容易导致性能问题，需要手动优化",
+				solution: "内置的性能优化，智能的状态更新策略和缓存机制",
+			},
+		],
+	},
+];
+
+// 交互式演示组件
+function StatePersistenceDemo() {
+	const [count, setCount] = useState(0);
+	const [message, setMessage] = useState("");
 	const [isActive, setIsActive] = useState(false);
-	const [componentState, setComponentState] = useState({
-		counter: 0,
-		message: "",
-		timestamp: Date.now(),
-	});
 
-	// 模拟 React 19 的 Activity API
-	const saveActivityState = useCallback(() => {
-		sessionStorage.setItem("activity-demo-state", JSON.stringify(componentState));
-	}, [componentState]);
+	const saveState = useCallback(() => {
+		if (isActive) {
+			sessionStorage.setItem("persistence-demo", JSON.stringify({ count, message }));
+		}
+	}, [count, message, isActive]);
 
-	const restoreActivityState = () => {
-		const savedState = sessionStorage.getItem("activity-demo-state");
-		if (savedState) {
-			setComponentState(JSON.parse(savedState));
+	const restoreState = () => {
+		const saved = sessionStorage.getItem("persistence-demo");
+		if (saved) {
+			const { count: savedCount, message: savedMessage } = JSON.parse(saved);
+			setCount(savedCount);
+			setMessage(savedMessage);
 		}
 	};
 
-	const clearActivityState = () => {
-		sessionStorage.removeItem("activity-demo-state");
-		setComponentState({
-			counter: 0,
-			message: "",
-			timestamp: Date.now(),
-		});
+	const clearState = () => {
+		sessionStorage.removeItem("persistence-demo");
+		setCount(0);
+		setMessage("");
 	};
 
 	useEffect(() => {
-		if (isActive) {
-			saveActivityState();
-		}
-	}, [isActive, saveActivityState]);
+		saveState();
+	}, [saveState]);
 
 	return (
 		<div className="space-y-4">
-			<div className="flex gap-4">
+			<div className="flex items-center gap-4">
 				<button
 					onClick={() => setIsActive(!isActive)}
-					className={`rounded-lg px-4 py-2 transition-colors ${
-						isActive ? "bg-emerald-600 text-white hover:bg-emerald-700" : "bg-gray-600 text-white hover:bg-gray-700"
+					className={`rounded-lg px-4 py-2 text-white transition-colors ${
+						isActive ? "bg-emerald-600 hover:bg-emerald-700" : "bg-gray-600 hover:bg-gray-700"
 					}`}
 				>
-					{isActive ? "活动状态" : "非活动状态"}
+					{isActive ? "活动状态" : "暂停状态"}
 				</button>
-
-				<button
-					onClick={restoreActivityState}
-					className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-				>
+				<button onClick={restoreState} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
 					恢复状态
 				</button>
-
-				<button
-					onClick={clearActivityState}
-					className="rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
-				>
+				<button onClick={clearState} className="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700">
 					清除状态
 				</button>
 			</div>
 
-			<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
-				<h4 className="mb-3 font-medium text-gray-800 dark:text-white">组件状态：</h4>
-				<div className="space-y-2">
-					<div className="flex justify-between">
-						<span className="text-gray-600 text-sm dark:text-gray-400">计数器:</span>
-						<span className="font-medium text-sm">{componentState.counter}</span>
-					</div>
-					<div className="flex justify-between">
-						<span className="text-gray-600 text-sm dark:text-gray-400">消息:</span>
-						<span className="font-medium text-sm">{componentState.message || "无"}</span>
-					</div>
-					<div className="flex justify-between">
-						<span className="text-gray-600 text-sm dark:text-gray-400">时间戳:</span>
-						<span className="font-medium text-sm">{new Date(componentState.timestamp).toLocaleTimeString()}</span>
-					</div>
-					<div className="flex justify-between">
-						<span className="text-gray-600 text-sm dark:text-gray-400">活动状态:</span>
-						<span className={`font-medium text-sm ${isActive ? "text-green-600" : "text-gray-500"}`}>
-							{isActive ? "活动中" : "暂停"}
-						</span>
-					</div>
-				</div>
-			</div>
-
 			<div className="space-y-3">
-				<div className="flex gap-2">
+				<div className="flex items-center gap-4">
 					<button
-						onClick={() =>
-							setComponentState((prev) => ({
-								...prev,
-								counter: prev.counter + 1,
-								timestamp: Date.now(),
-							}))
-						}
-						className="rounded bg-purple-600 px-3 py-1 text-sm text-white transition-colors hover:bg-purple-700"
+						onClick={() => setCount(count + 1)}
+						className="rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-700"
 					>
 						增加计数
 					</button>
-					<input
-						type="text"
-						value={componentState.message}
-						onChange={(e) =>
-							setComponentState((prev) => ({
-								...prev,
-								message: e.target.value,
-								timestamp: Date.now(),
-							}))
-						}
-						placeholder="输入消息..."
-						className="rounded border border-gray-300 bg-white px-3 py-1 text-sm dark:border-gray-600 dark:bg-gray-800"
-					/>
+					<span className="font-medium">当前计数: {count}</span>
 				</div>
+				<input
+					type="text"
+					value={message}
+					onChange={(e) => setMessage(e.target.value)}
+					placeholder="输入消息..."
+					className="w-full rounded-lg border border-gray-300 px-4 py-2"
+				/>
 			</div>
 
-			<div className="rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
-				<p className="mb-2 font-medium text-emerald-800 text-sm dark:text-emerald-300">🎯 Activity API 的优势：</p>
-				<ul className="space-y-1 text-emerald-700 text-sm dark:text-emerald-400">
-					<li>• 状态自动保存和恢复</li>
-					<li>• 组件生命周期管理</li>
-					<li>• 用户操作不中断</li>
-					<li>• 更好的用户体验</li>
-				</ul>
-			</div>
-		</div>
-	);
-}
-
-// 表单状态保持演示组件
-function FormPersistenceDemo() {
-	const [formActive, setFormActive] = useState(false);
-	const [formData, setFormData] = useState({
-		name: "",
-		email: "",
-		phone: "",
-		address: "",
-		preferences: [] as string[],
-		agreed: false,
-	});
-
-	// 模拟表单状态的 Activity API 保存和恢复
-	const saveFormState = useCallback(() => {
-		if (formActive) {
-			sessionStorage.setItem("form-demo-state", JSON.stringify(formData));
-		}
-	}, [formActive, formData]);
-
-	const restoreFormState = () => {
-		const savedFormState = sessionStorage.getItem("form-demo-state");
-		if (savedFormState) {
-			setFormData(JSON.parse(savedFormState));
-		}
-	};
-
-	const clearFormState = () => {
-		sessionStorage.removeItem("form-demo-state");
-		setFormData({
-			name: "",
-			email: "",
-			phone: "",
-			address: "",
-			preferences: [],
-			agreed: false,
-		});
-	};
-
-	useEffect(() => {
-		saveFormState();
-	}, [saveFormState]);
-
-	const togglePreference = (preference: string) => {
-		setFormData((prev) => ({
-			...prev,
-			preferences: prev.preferences.includes(preference)
-				? prev.preferences.filter((p) => p !== preference)
-				: [...prev.preferences, preference],
-		}));
-	};
-
-	const formProgress =
-		Object.values(formData).filter(
-			(value) => value !== "" && value !== false && (Array.isArray(value) ? value.length > 0 : true),
-		).length / 6;
-
-	return (
-		<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-			<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">📝 表单状态保持演示</h3>
-
-			<div className="mb-6">
-				<div className="mb-4 flex gap-4">
-					<button
-						onClick={() => setFormActive(!formActive)}
-						className={`rounded-lg px-4 py-2 transition-colors ${
-							formActive ? "bg-emerald-600 text-white hover:bg-emerald-700" : "bg-gray-600 text-white hover:bg-gray-700"
-						}`}
-					>
-						{formActive ? "表单活动" : "表单暂停"}
-					</button>
-
-					<button
-						onClick={restoreFormState}
-						className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-					>
-						恢复表单
-					</button>
-
-					<button
-						onClick={clearFormState}
-						className="rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
-					>
-						重置表单
-					</button>
-				</div>
-
-				<div className="mb-4 rounded-lg bg-gray-50 p-3 dark:bg-gray-700">
-					<div className="flex items-center justify-between">
-						<span className="font-medium text-gray-700 text-sm dark:text-gray-300">表单完成度:</span>
-						<span className="font-bold text-emerald-600 text-sm dark:text-emerald-400">
-							{Math.round(formProgress * 100)}%
-						</span>
-					</div>
-					<div className="mt-2 h-2 w-full rounded-full bg-gray-200 dark:bg-gray-600">
-						<div
-							className="h-2 rounded-full bg-emerald-600 transition-all duration-300"
-							style={{ width: `${formProgress * 100}%` }}
-						></div>
-					</div>
-				</div>
-			</div>
-
-			<div className="grid gap-6 md:grid-cols-2">
-				<div>
-					<h4 className="mb-3 font-medium text-gray-700 dark:text-gray-300">用户信息：</h4>
-					<div className="space-y-3">
-						<div>
-							<label className="mb-1 block font-medium text-gray-600 text-sm dark:text-gray-400">姓名</label>
-							<input
-								type="text"
-								value={formData.name}
-								onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
-								className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-								placeholder="请输入姓名"
-							/>
-						</div>
-
-						<div>
-							<label className="mb-1 block font-medium text-gray-600 text-sm dark:text-gray-400">邮箱</label>
-							<input
-								type="email"
-								value={formData.email}
-								onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-								className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-								placeholder="请输入邮箱"
-							/>
-						</div>
-
-						<div>
-							<label className="mb-1 block font-medium text-gray-600 text-sm dark:text-gray-400">电话</label>
-							<input
-								type="tel"
-								value={formData.phone}
-								onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
-								className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-								placeholder="请输入电话"
-							/>
-						</div>
-					</div>
-				</div>
-
-				<div>
-					<h4 className="mb-3 font-medium text-gray-700 dark:text-gray-300">其他信息：</h4>
-					<div className="space-y-3">
-						<div>
-							<label className="mb-1 block font-medium text-gray-600 text-sm dark:text-gray-400">地址</label>
-							<textarea
-								value={formData.address}
-								onChange={(e) => setFormData((prev) => ({ ...prev, address: e.target.value }))}
-								className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-								placeholder="请输入地址"
-								rows={3}
-							/>
-						</div>
-
-						<div>
-							<label className="mb-2 block font-medium text-gray-600 text-sm dark:text-gray-400">偏好设置</label>
-							<div className="space-y-2">
-								{["新闻资讯", "产品更新", "优惠活动", "技术分享"].map((preference) => (
-									<label key={preference} className="flex items-center">
-										<input
-											type="checkbox"
-											checked={formData.preferences.includes(preference)}
-											onChange={() => togglePreference(preference)}
-											className="mr-2 rounded text-emerald-600"
-										/>
-										<span className="text-gray-700 text-sm dark:text-gray-300">{preference}</span>
-									</label>
-								))}
-							</div>
-						</div>
-
-						<label className="flex items-center">
-							<input
-								type="checkbox"
-								checked={formData.agreed}
-								onChange={(e) => setFormData((prev) => ({ ...prev, agreed: e.target.checked }))}
-								className="mr-2 rounded text-emerald-600"
-							/>
-							<span className="text-gray-700 text-sm dark:text-gray-300">我同意服务条款和隐私政策</span>
-						</label>
-					</div>
-				</div>
-			</div>
-
-			<div className="mt-6 rounded-lg bg-teal-50 p-4 dark:bg-teal-900/20">
-				<p className="text-sm text-teal-800 dark:text-teal-300">
-					💡 <strong>Activity API 价值：</strong>
-					即使用户在填写表单过程中离开页面，表单状态也会被自动保存。当用户返回时，可以继续之前的填写，大大提升了用户体验。
+			<div className="rounded-lg bg-emerald-50 p-4">
+				<p className="text-emerald-800 text-sm">
+					💡 <strong>提示：</strong>
+					{isActive ? "状态正在自动保存" : "状态保存已暂停"}。 尝试刷新页面测试状态恢复功能。
 				</p>
 			</div>
 		</div>
 	);
 }
 
-// 页面状态保持演示组件
-function PageStateDemo() {
-	const [pageActive, setPageActive] = useState(false);
-	const [pageState, setPageState] = useState({
-		scrollPosition: 0,
-		selectedTab: "overview",
-		searchQuery: "",
-		filters: {
-			category: "",
-			priceRange: "",
-			rating: "",
-		},
-		viewMode: "grid" as "grid" | "list",
-		sortOrder: "newest" as "newest" | "oldest" | "popular",
+function FormManagementDemo() {
+	const [formData, setFormData] = useState({
+		name: "",
+		email: "",
+		phone: "",
+		preferences: [] as string[],
 	});
+	const [isActive, setIsActive] = useState(false);
 
-	// 模拟页面状态的 Activity API 管理
-	const savePageState = useCallback(() => {
-		if (pageActive) {
-			sessionStorage.setItem("page-demo-state", JSON.stringify(pageState));
+	const saveForm = useCallback(() => {
+		if (isActive) {
+			sessionStorage.setItem("form-demo", JSON.stringify(formData));
 		}
-	}, [pageState, pageActive]);
+	}, [formData, isActive]);
 
-	const restorePageState = () => {
-		const savedPageState = sessionStorage.getItem("page-demo-state");
-		if (savedPageState) {
-			const restored = JSON.parse(savedPageState);
-			setPageState(restored);
-			// 模拟滚动到之前的位置
-			window.scrollTo(0, restored.scrollPosition);
+	const restoreForm = () => {
+		const saved = sessionStorage.getItem("form-demo");
+		if (saved) {
+			setFormData(JSON.parse(saved));
 		}
 	};
 
-	const clearPageState = () => {
-		sessionStorage.removeItem("page-demo-state");
-		setPageState({
-			scrollPosition: 0,
-			selectedTab: "overview",
-			searchQuery: "",
-			filters: { category: "", priceRange: "", rating: "" },
-			viewMode: "grid",
-			sortOrder: "newest",
-		});
-		window.scrollTo(0, 0);
+	const clearForm = () => {
+		sessionStorage.removeItem("form-demo");
+		setFormData({ name: "", email: "", phone: "", preferences: [] });
+	};
+
+	const togglePreference = (pref: string) => {
+		setFormData((prev) => ({
+			...prev,
+			preferences: prev.preferences.includes(pref)
+				? prev.preferences.filter((p) => p !== pref)
+				: [...prev.preferences, pref],
+		}));
 	};
 
 	useEffect(() => {
-		savePageState();
-	}, [savePageState]);
+		saveForm();
+	}, [saveForm]);
 
-	useEffect(() => {
-		const handleScroll = () => {
-			setPageState((prev) => ({ ...prev, scrollPosition: window.scrollY }));
-		};
-
-		if (pageActive) {
-			window.addEventListener("scroll", handleScroll);
-			return () => window.removeEventListener("scroll", handleScroll);
-		}
-	}, [pageActive]);
-
-	const tabs = [
-		{ id: "overview", label: "概览", icon: "📊" },
-		{ id: "products", label: "产品", icon: "🛍️" },
-		{ id: "reviews", label: "评价", icon: "⭐" },
-		{ id: "settings", label: "设置", icon: "⚙️" },
-	];
+	const progress =
+		Object.values(formData).filter((v) => v !== "" && (Array.isArray(v) ? v.length > 0 : true)).length / 4;
 
 	return (
-		<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-			<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">📄 页面状态保持演示</h3>
+		<div className="space-y-4">
+			<div className="flex items-center gap-4">
+				<button
+					onClick={() => setIsActive(!isActive)}
+					className={`rounded-lg px-4 py-2 text-white transition-colors ${
+						isActive ? "bg-emerald-600 hover:bg-emerald-700" : "bg-gray-600 hover:bg-gray-700"
+					}`}
+				>
+					{isActive ? "表单活动" : "表单暂停"}
+				</button>
+				<button onClick={restoreForm} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+					恢复表单
+				</button>
+				<button onClick={clearForm} className="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700">
+					重置表单
+				</button>
+			</div>
 
-			<div className="mb-6">
-				<div className="mb-4 flex gap-4">
+			<div className="mb-4">
+				<div className="mb-2 flex justify-between">
+					<span className="font-medium text-sm">表单完成度</span>
+					<span className="font-bold text-emerald-600 text-sm">{Math.round(progress * 100)}%</span>
+				</div>
+				<div className="h-2 rounded-full bg-gray-200">
+					<div className="h-2 rounded-full bg-emerald-600 transition-all" style={{ width: `${progress * 100}%` }} />
+				</div>
+			</div>
+
+			<div className="grid gap-4 md:grid-cols-2">
+				<div className="space-y-3">
+					<input
+						type="text"
+						value={formData.name}
+						onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+						placeholder="姓名"
+						className="w-full rounded-lg border border-gray-300 px-4 py-2"
+					/>
+					<input
+						type="email"
+						value={formData.email}
+						onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+						placeholder="邮箱"
+						className="w-full rounded-lg border border-gray-300 px-4 py-2"
+					/>
+				</div>
+				<div className="space-y-3">
+					<input
+						type="tel"
+						value={formData.phone}
+						onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
+						placeholder="电话"
+						className="w-full rounded-lg border border-gray-300 px-4 py-2"
+					/>
+					<div className="space-y-2">
+						{["技术", "设计", "产品", "运营"].map((pref) => (
+							<label key={pref} className="flex items-center">
+								<input
+									type="checkbox"
+									checked={formData.preferences.includes(pref)}
+									onChange={() => togglePreference(pref)}
+									className="mr-2"
+								/>
+								<span className="text-sm">{pref}</span>
+							</label>
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+function PageManagementDemo() {
+	const [pageState, setPageState] = useState({
+		searchQuery: "",
+		selectedTab: "all",
+		filters: {
+			category: "",
+			sort: "newest",
+		},
+	});
+	const [isActive, setIsActive] = useState(false);
+
+	const savePage = useCallback(() => {
+		if (isActive) {
+			sessionStorage.setItem("page-demo", JSON.stringify(pageState));
+		}
+	}, [pageState, isActive]);
+
+	const restorePage = () => {
+		const saved = sessionStorage.getItem("page-demo");
+		if (saved) {
+			setPageState(JSON.parse(saved));
+		}
+	};
+
+	const clearPage = () => {
+		sessionStorage.removeItem("page-demo");
+		setPageState({
+			searchQuery: "",
+			selectedTab: "all",
+			filters: { category: "", sort: "newest" },
+		});
+	};
+
+	useEffect(() => {
+		savePage();
+	}, [savePage]);
+
+	const tabs = ["全部", "技术", "设计", "产品"];
+
+	return (
+		<div className="space-y-4">
+			<div className="flex items-center gap-4">
+				<button
+					onClick={() => setIsActive(!isActive)}
+					className={`rounded-lg px-4 py-2 text-white transition-colors ${
+						isActive ? "bg-emerald-600 hover:bg-emerald-700" : "bg-gray-600 hover:bg-gray-700"
+					}`}
+				>
+					{isActive ? "页面活动" : "页面暂停"}
+				</button>
+				<button onClick={restorePage} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+					恢复页面
+				</button>
+				<button onClick={clearPage} className="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700">
+					重置页面
+				</button>
+			</div>
+
+			<div className="flex space-x-1 rounded-lg bg-gray-100 p-1">
+				{tabs.map((tab, index) => (
 					<button
-						onClick={() => setPageActive(!pageActive)}
-						className={`rounded-lg px-4 py-2 transition-colors ${
-							pageActive ? "bg-emerald-600 text-white hover:bg-emerald-700" : "bg-gray-600 text-white hover:bg-gray-700"
+						key={tab}
+						onClick={() => setPageState((prev) => ({ ...prev, selectedTab: index.toString() }))}
+						className={`flex-1 rounded-md px-4 py-2 font-medium text-sm transition-colors ${
+							pageState.selectedTab === index.toString()
+								? "bg-white text-emerald-600 shadow-sm"
+								: "text-gray-600 hover:text-gray-900"
 						}`}
 					>
-						{pageActive ? "页面活动" : "页面暂停"}
+						{tab}
 					</button>
-
-					<button
-						onClick={restorePageState}
-						className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-					>
-						恢复页面状态
-					</button>
-
-					<button
-						onClick={clearPageState}
-						className="rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
-					>
-						重置页面状态
-					</button>
-				</div>
-
-				<div className="mb-4 rounded-lg bg-gray-50 p-3 dark:bg-gray-700">
-					<p className="text-gray-600 text-sm dark:text-gray-400">
-						当前滚动位置: {Math.round(pageState.scrollPosition)}px
-					</p>
-				</div>
+				))}
 			</div>
 
-			{/* 标签页导航 */}
-			<div className="mb-6">
-				<div className="flex space-x-1 rounded-lg bg-gray-100 p-1 dark:bg-gray-700">
-					{tabs.map((tab) => (
-						<button
-							key={tab.id}
-							onClick={() => setPageState((prev) => ({ ...prev, selectedTab: tab.id }))}
-							className={`flex flex-1 items-center justify-center rounded-md px-4 py-2 transition-colors ${
-								pageState.selectedTab === tab.id
-									? "bg-white text-emerald-600 shadow-sm dark:bg-gray-800 dark:text-emerald-400"
-									: "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-							}`}
-						>
-							<span className="mr-2">{tab.icon}</span>
-							<span className="font-medium text-sm">{tab.label}</span>
-						</button>
-					))}
-				</div>
-			</div>
-
-			{/* 搜索和过滤 */}
-			<div className="mb-6">
-				<div className="grid gap-4 md:grid-cols-2">
-					<div>
-						<input
-							type="text"
-							value={pageState.searchQuery}
-							onChange={(e) => setPageState((prev) => ({ ...prev, searchQuery: e.target.value }))}
-							placeholder="搜索内容..."
-							className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-						/>
-					</div>
-					<div className="flex gap-2">
-						<button
-							onClick={() =>
-								setPageState((prev) => ({ ...prev, viewMode: prev.viewMode === "grid" ? "list" : "grid" }))
-							}
-							className="rounded-lg bg-gray-200 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-						>
-							{pageState.viewMode === "grid" ? "📋 列表" : "⚏ 网格"}
-						</button>
-						<select
-							value={pageState.sortOrder}
-							onChange={(e) => setPageState((prev) => ({ ...prev, sortOrder: e.target.value as any }))}
-							className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-						>
-							<option value="newest">最新</option>
-							<option value="oldest">最早</option>
-							<option value="popular">最热</option>
-						</select>
-					</div>
-				</div>
-			</div>
-
-			{/* 过滤器 */}
-			<div className="mb-6">
-				<h4 className="mb-3 font-medium text-gray-700 dark:text-gray-300">过滤器：</h4>
-				<div className="grid grid-cols-3 gap-4">
+			<div className="grid gap-4 md:grid-cols-2">
+				<input
+					type="text"
+					value={pageState.searchQuery}
+					onChange={(e) => setPageState((prev) => ({ ...prev, searchQuery: e.target.value }))}
+					placeholder="搜索内容..."
+					className="w-full rounded-lg border border-gray-300 px-4 py-2"
+				/>
+				<div className="flex gap-2">
 					<select
 						value={pageState.filters.category}
 						onChange={(e) =>
@@ -645,335 +587,539 @@ function PageStateDemo() {
 								filters: { ...prev.filters, category: e.target.value },
 							}))
 						}
-						className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+						className="flex-1 rounded-lg border border-gray-300 px-4 py-2"
 					>
 						<option value="">所有分类</option>
-						<option value="electronics">电子产品</option>
-						<option value="clothing">服装</option>
-						<option value="books">图书</option>
+						<option value="tech">技术</option>
+						<option value="design">设计</option>
 					</select>
-
 					<select
-						value={pageState.filters.priceRange}
+						value={pageState.filters.sort}
 						onChange={(e) =>
 							setPageState((prev) => ({
 								...prev,
-								filters: { ...prev.filters, priceRange: e.target.value },
+								filters: { ...prev.filters, sort: e.target.value },
 							}))
 						}
-						className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+						className="flex-1 rounded-lg border border-gray-300 px-4 py-2"
 					>
-						<option value="">所有价格</option>
-						<option value="0-100">¥0-100</option>
-						<option value="100-500">¥100-500</option>
-						<option value="500+">¥500+</option>
-					</select>
-
-					<select
-						value={pageState.filters.rating}
-						onChange={(e) =>
-							setPageState((prev) => ({
-								...prev,
-								filters: { ...prev.filters, rating: e.target.value },
-							}))
-						}
-						className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-					>
-						<option value="">所有评分</option>
-						<option value="5">5星</option>
-						<option value="4+">4星以上</option>
-						<option value="3+">3星以上</option>
+						<option value="newest">最新</option>
+						<option value="popular">最热</option>
 					</select>
 				</div>
 			</div>
 
-			{/* 模拟内容区域 - 用于测试滚动 */}
-			<div className="space-y-4">
-				{Array.from({ length: 10 }, (_, i) => (
-					<div key={i} className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
-						<h4 className="mb-2 font-medium text-gray-800 dark:text-white">内容项 {i + 1}</h4>
-						<p className="text-gray-600 text-sm dark:text-gray-400">
-							这是演示页面状态保持的内容项。尝试滚动页面、切换标签、设置过滤条件， 然后切换页面状态或刷新页面来测试
-							Activity API 的状态保持功能。
-						</p>
-					</div>
-				))}
-			</div>
-
-			<div className="mt-6 rounded-lg bg-cyan-50 p-4 dark:bg-cyan-900/20">
-				<p className="text-cyan-800 text-sm dark:text-cyan-300">
-					🔄 <strong>页面状态保持：</strong>
-					Activity API 可以保存用户的浏览状态，包括滚动位置、搜索条件、过滤器设置等，
-					让用户在返回页面时能够无缝继续之前的操作。
+			<div className="rounded-lg bg-gray-50 p-4">
+				<p className="text-gray-600 text-sm">
+					当前状态：搜索 "{pageState.searchQuery}" | 标签 {tabs[parseInt(pageState.selectedTab)]} | 分类{" "}
+					{pageState.filters.category || "全部"} | 排序 {pageState.filters.sort === "newest" ? "最新" : "最热"}
 				</p>
 			</div>
 		</div>
 	);
 }
 
-// 复杂状态管理演示组件
 function ComplexStateDemo() {
-	const [complexActive, setComplexActive] = useState(false);
-	const [complexState, setComplexState] = useState({
+	const [complexState, setComplexState] = useState<{
+		userSession: {
+			loginTime: number;
+			lastActivity: number;
+			sessionId: string;
+		};
+		workspace: {
+			openTabs: string[];
+			activeProject: null;
+			unsavedChanges: boolean;
+		};
+		performance: {
+			renderCount: number;
+			errorCount: number;
+			lastError: null;
+		};
+	}>({
 		userSession: {
 			loginTime: Date.now(),
 			lastActivity: Date.now(),
-			sessionId: "",
+			sessionId: Math.random().toString(36).substr(2, 9),
 		},
-		applicationState: {
-			currentModule: "dashboard",
+		workspace: {
 			openTabs: [] as string[],
-			notificationCount: 0,
-			theme: "light" as "light" | "dark",
-		},
-		workInProgress: {
+			activeProject: null,
 			unsavedChanges: false,
-			backupData: null as any,
-			autoSaveTimestamp: null as number | null,
 		},
-		performanceMetrics: {
+		performance: {
 			renderCount: 0,
 			errorCount: 0,
-			lastError: null as string | null,
+			lastError: null,
 		},
 	});
+	const [isActive, setIsActive] = useState(false);
 
-	// 模拟复杂状态的 Activity API 管理
 	const saveComplexState = useCallback(() => {
-		if (complexActive) {
-			const stateToSave = {
-				...complexState,
-				userSession: {
-					...complexState.userSession,
-					lastActivity: Date.now(),
-				},
-			};
-			sessionStorage.setItem("complex-demo-state", JSON.stringify(stateToSave));
+		if (isActive) {
+			sessionStorage.setItem("complex-demo", JSON.stringify(complexState));
 		}
-	}, [complexState, complexActive]);
+	}, [complexState, isActive]);
 
 	const restoreComplexState = () => {
-		const savedComplexState = sessionStorage.getItem("complex-demo-state");
-		if (savedComplexState) {
-			setComplexState(JSON.parse(savedComplexState));
+		const saved = sessionStorage.getItem("complex-demo");
+		if (saved) {
+			setComplexState(JSON.parse(saved));
 		}
 	};
 
 	const clearComplexState = () => {
-		sessionStorage.removeItem("complex-demo-state");
+		sessionStorage.removeItem("complex-demo");
 		setComplexState({
 			userSession: { loginTime: Date.now(), lastActivity: Date.now(), sessionId: "" },
-			applicationState: { currentModule: "dashboard", openTabs: [], notificationCount: 0, theme: "light" },
-			workInProgress: { unsavedChanges: false, backupData: null, autoSaveTimestamp: null },
-			performanceMetrics: { renderCount: 0, errorCount: 0, lastError: null },
+			workspace: { openTabs: [] as string[], activeProject: null, unsavedChanges: false },
+			performance: { renderCount: 0, errorCount: 0, lastError: null },
 		});
+	};
+
+	const addTab = (tabName: string) => {
+		setComplexState((prev) => ({
+			...prev,
+			workspace: {
+				...prev.workspace,
+				openTabs: [...prev.workspace.openTabs, tabName],
+				unsavedChanges: true,
+			},
+		}));
+	};
+
+	const simulateActivity = () => {
+		setComplexState((prev) => ({
+			...prev,
+			userSession: {
+				...prev.userSession,
+				lastActivity: Date.now(),
+			},
+			performance: {
+				...prev.performance,
+				renderCount: prev.performance.renderCount + 1,
+			},
+		}));
 	};
 
 	useEffect(() => {
 		saveComplexState();
 	}, [saveComplexState]);
 
-	const simulateUserActivity = () => {
-		setComplexState((prev) => ({
-			...prev,
-			userSession: { ...prev.userSession, lastActivity: Date.now() },
-			performanceMetrics: { ...prev.performanceMetrics, renderCount: prev.performanceMetrics.renderCount + 1 },
-		}));
-	};
-
-	const addTab = (tabName: string) => {
-		setComplexState((prev) => ({
-			...prev,
-			applicationState: {
-				...prev.applicationState,
-				openTabs: [...prev.applicationState.openTabs, tabName],
-			},
-			workInProgress: {
-				...prev.workInProgress,
-				unsavedChanges: true,
-				autoSaveTimestamp: Date.now(),
-			},
-		}));
-	};
-
-	const simulateError = () => {
-		const errorMessage = `模拟错误 ${Date.now()}`;
-		setComplexState((prev) => ({
-			...prev,
-			performanceMetrics: {
-				...prev.performanceMetrics,
-				errorCount: prev.performanceMetrics.errorCount + 1,
-				lastError: errorMessage,
-			},
-		}));
-	};
-
 	return (
-		<div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800">
-			<h3 className="mb-4 font-semibold text-gray-800 text-xl dark:text-white">🔧 复杂状态管理演示</h3>
-
-			<div className="mb-6">
-				<div className="mb-4 flex gap-4">
-					<button
-						onClick={() => setComplexActive(!complexActive)}
-						className={`rounded-lg px-4 py-2 transition-colors ${
-							complexActive
-								? "bg-emerald-600 text-white hover:bg-emerald-700"
-								: "bg-gray-600 text-white hover:bg-gray-700"
-						}`}
-					>
-						{complexActive ? "复杂状态活动" : "复杂状态暂停"}
-					</button>
-
-					<button
-						onClick={restoreComplexState}
-						className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-					>
-						恢复复杂状态
-					</button>
-
-					<button
-						onClick={clearComplexState}
-						className="rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
-					>
-						重置复杂状态
-					</button>
-
-					<button
-						onClick={simulateUserActivity}
-						className="rounded-lg bg-purple-600 px-4 py-2 text-white transition-colors hover:bg-purple-700"
-					>
-						模拟用户活动
-					</button>
-
-					<button
-						onClick={simulateError}
-						className="rounded-lg bg-orange-600 px-4 py-2 text-white transition-colors hover:bg-orange-700"
-					>
-						模拟错误
-					</button>
-				</div>
+		<div className="space-y-4">
+			<div className="flex flex-wrap gap-2">
+				<button
+					onClick={() => setIsActive(!isActive)}
+					className={`rounded-lg px-4 py-2 text-white transition-colors ${
+						isActive ? "bg-emerald-600 hover:bg-emerald-700" : "bg-gray-600 hover:bg-gray-700"
+					}`}
+				>
+					{isActive ? "复杂状态活动" : "复杂状态暂停"}
+				</button>
+				<button onClick={restoreComplexState} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+					恢复状态
+				</button>
+				<button onClick={clearComplexState} className="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700">
+					重置状态
+				</button>
+				<button
+					onClick={simulateActivity}
+					className="rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-700"
+				>
+					模拟活动
+				</button>
 			</div>
 
-			<div className="grid gap-6 md:grid-cols-2">
-				<div className="space-y-4">
-					<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
-						<h4 className="mb-3 font-medium text-gray-800 dark:text-white">用户会话状态</h4>
-						<div className="space-y-2 text-sm">
-							<div className="flex justify-between">
-								<span className="text-gray-600 dark:text-gray-400">登录时间:</span>
-								<span className="text-gray-800 dark:text-white">
-									{new Date(complexState.userSession.loginTime).toLocaleTimeString()}
-								</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-gray-600 dark:text-gray-400">最后活动:</span>
-								<span className="text-gray-800 dark:text-white">
-									{new Date(complexState.userSession.lastActivity).toLocaleTimeString()}
-								</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-gray-600 dark:text-gray-400">会话时长:</span>
-								<span className="text-gray-800 dark:text-white">
-									{Math.round((Date.now() - complexState.userSession.loginTime) / 1000 / 60)} 分钟
-								</span>
-							</div>
-						</div>
-					</div>
-
-					<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
-						<h4 className="mb-3 font-medium text-gray-800 dark:text-white">应用状态</h4>
-						<div className="space-y-2 text-sm">
-							<div className="flex justify-between">
-								<span className="text-gray-600 dark:text-gray-400">当前模块:</span>
-								<span className="text-gray-800 dark:text-white">{complexState.applicationState.currentModule}</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-gray-600 dark:text-gray-400">打开标签:</span>
-								<span className="text-gray-800 dark:text-white">
-									{complexState.applicationState.openTabs.length} 个
-								</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-gray-600 dark:text-gray-400">通知数量:</span>
-								<span className="text-gray-800 dark:text-white">{complexState.applicationState.notificationCount}</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-gray-600 dark:text-gray-400">主题:</span>
-								<span className="text-gray-800 dark:text-white">{complexState.applicationState.theme}</span>
-							</div>
-						</div>
+			<div className="grid gap-4 md:grid-cols-3">
+				<div className="space-y-2">
+					<button
+						onClick={() => addTab("文档")}
+						className="w-full rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
+					>
+						打开文档
+					</button>
+					<button
+						onClick={() => addTab("表格")}
+						className="w-full rounded bg-green-600 px-3 py-1 text-sm text-white hover:bg-green-700"
+					>
+						打开表格
+					</button>
+					<button
+						onClick={() => addTab("图片")}
+						className="w-full rounded bg-purple-600 px-3 py-1 text-sm text-white hover:bg-purple-700"
+					>
+						打开图片
+					</button>
+				</div>
+				<div className="rounded-lg bg-gray-50 p-4">
+					<h4 className="mb-2 font-medium">会话信息</h4>
+					<div className="space-y-1 text-sm">
+						<p>登录时间: {new Date(complexState.userSession.loginTime).toLocaleTimeString()}</p>
+						<p>最后活动: {new Date(complexState.userSession.lastActivity).toLocaleTimeString()}</p>
+						<p>会话ID: {complexState.userSession.sessionId.substr(0, 8)}...</p>
 					</div>
 				</div>
-
-				<div className="space-y-4">
-					<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
-						<h4 className="mb-3 font-medium text-gray-800 dark:text-white">工作进度状态</h4>
-						<div className="space-y-2 text-sm">
-							<div className="flex justify-between">
-								<span className="text-gray-600 dark:text-gray-400">未保存更改:</span>
-								<span
-									className={`font-medium ${complexState.workInProgress.unsavedChanges ? "text-orange-600" : "text-green-600"}`}
-								>
-									{complexState.workInProgress.unsavedChanges ? "是" : "否"}
+				<div className="rounded-lg bg-gray-50 p-4">
+					<h4 className="mb-2 font-medium">工作空间</h4>
+					<div className="space-y-1 text-sm">
+						<p>打开标签: {complexState.workspace.openTabs.length} 个</p>
+						<p>未保存: {complexState.workspace.unsavedChanges ? "是" : "否"}</p>
+						<div className="mt-2 flex flex-wrap gap-1">
+							{complexState.workspace.openTabs.map((tab, i) => (
+								<span key={i} className="rounded bg-blue-100 px-2 py-1 text-blue-800 text-xs">
+									{tab}
 								</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-gray-600 dark:text-gray-400">自动保存时间:</span>
-								<span className="text-gray-800 dark:text-white">
-									{complexState.workInProgress.autoSaveTimestamp
-										? new Date(complexState.workInProgress.autoSaveTimestamp).toLocaleTimeString()
-										: "未保存"}
-								</span>
-							</div>
-						</div>
-
-						<div className="mt-3 flex gap-2">
-							{["文档", "表格", "图片", "视频"].map((item) => (
-								<button
-									key={item}
-									onClick={() => addTab(item)}
-									className="rounded bg-blue-600 px-3 py-1 text-white text-xs transition-colors hover:bg-blue-700"
-								>
-									打开 {item}
-								</button>
 							))}
 						</div>
 					</div>
+				</div>
+			</div>
 
-					<div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
-						<h4 className="mb-3 font-medium text-gray-800 dark:text-white">性能指标</h4>
-						<div className="space-y-2 text-sm">
-							<div className="flex justify-between">
-								<span className="text-gray-600 dark:text-gray-400">渲染次数:</span>
-								<span className="text-gray-800 dark:text-white">{complexState.performanceMetrics.renderCount}</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-gray-600 dark:text-gray-400">错误次数:</span>
-								<span
-									className={`font-medium ${complexState.performanceMetrics.errorCount > 0 ? "text-red-600" : "text-green-600"}`}
-								>
-									{complexState.performanceMetrics.errorCount}
-								</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-gray-600 dark:text-gray-400">最后错误:</span>
-								<span className="max-w-[150px] truncate text-gray-800 dark:text-white">
-									{complexState.performanceMetrics.lastError || "无"}
-								</span>
+			<div className="rounded-lg bg-gray-50 p-4">
+				<h4 className="mb-2 font-medium">性能指标</h4>
+				<div className="grid gap-4 text-sm md:grid-cols-2">
+					<p>渲染次数: {complexState.performance.renderCount}</p>
+					<p>错误次数: {complexState.performance.errorCount}</p>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+const getInteractiveDemos = (exampleId: string) => {
+	const demos = {
+		statePersistence: [
+			{
+				title: "计数器状态保存",
+				description: "计数器状态自动保存，刷新页面后恢复",
+				component: <StatePersistenceDemo />,
+			},
+		],
+		formManagement: [
+			{
+				title: "表单数据保护",
+				description: "表单填写进度自动保存，防止数据丢失",
+				component: <FormManagementDemo />,
+			},
+		],
+		pageManagement: [
+			{
+				title: "页面状态管理",
+				description: "搜索条件、标签页、过滤器等状态保存",
+				component: <PageManagementDemo />,
+			},
+		],
+		complexState: [
+			{
+				title: "复杂状态示例",
+				description: "用户会话、工作空间、性能指标等多层次状态管理",
+				component: <ComplexStateDemo />,
+			},
+		],
+	};
+
+	return demos[exampleId as keyof typeof demos] || [];
+};
+
+export default function ActivityAPIPage() {
+	const [selectedExample, setSelectedExample] = useState<ActivityExample | null>(null);
+	const [copiedCode, setCopiedCode] = useState(false);
+
+	const copyToClipboard = async (text: string) => {
+		try {
+			await navigator.clipboard.writeText(text);
+			setCopiedCode(true);
+			setTimeout(() => setCopiedCode(false), 2000);
+		} catch (error) {
+			console.error("复制失败:", error);
+		}
+	};
+
+	const getCategoryColor = (category: ActivityExample["category"]) => {
+		switch (category) {
+			case "State Persistence":
+				return "text-blue-600 bg-blue-100";
+			case "Form Management":
+				return "text-green-600 bg-green-100";
+			case "Page Management":
+				return "text-purple-600 bg-purple-100";
+			case "Complex State":
+				return "text-orange-600 bg-orange-100";
+			default:
+				return "text-gray-600 bg-gray-100";
+		}
+	};
+
+	const getDifficultyColor = (difficulty: ActivityExample["difficulty"]) => {
+		switch (difficulty) {
+			case "初级":
+				return "text-green-600 bg-green-100";
+			case "中级":
+				return "text-yellow-600 bg-yellow-100";
+			case "高级":
+				return "text-red-600 bg-red-100";
+			default:
+				return "text-gray-600 bg-gray-100";
+		}
+	};
+
+	const getStatusColor = (status: ActivityExample["status"]) => {
+		switch (status) {
+			case "completed":
+				return "text-green-600 bg-green-100";
+			case "in-progress":
+				return "text-blue-600 bg-blue-100";
+			case "planned":
+				return "text-gray-600 bg-gray-100";
+			default:
+				return "text-gray-600 bg-gray-100";
+		}
+	};
+
+	const getStatusText = (status: ActivityExample["status"]) => {
+		switch (status) {
+			case "completed":
+				return "已完成";
+			case "in-progress":
+				return "进行中";
+			case "planned":
+				return "计划中";
+			default:
+				return "未知";
+		}
+	};
+
+	return (
+		<Layout>
+			<div className="min-h-screen bg-gray-50">
+				{/* 头部 */}
+				<div className="bg-white shadow-sm">
+					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+						<div className="flex items-center space-x-4">
+							<div className="flex items-center space-x-3">
+								<Activity className="h-8 w-8 text-blue-600" />
+								<div>
+									<h1 className="font-bold text-3xl text-gray-900">Activity API - React 19 新特性</h1>
+									<p className="text-gray-600">状态保持新机制：表单数据、页面状态、用户会话的完整保存</p>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div className="mt-6 rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
-				<p className="text-emerald-800 text-sm dark:text-emerald-300">
-					🎯 <strong>复杂状态管理：</strong>
-					Activity API 能够管理复杂的多层次状态结构，包括用户会话、应用状态、工作进度和性能指标等，
-					为复杂应用提供完整的状态保持解决方案。
-				</p>
+				{/* Activity API 架构概览 */}
+				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+						<h2 className="mb-6 font-semibold text-gray-900 text-xl">Activity API 生态系统</h2>
+						<div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+							<div className="rounded-lg bg-blue-50 p-4 text-center">
+								<Database className="mx-auto mb-2 h-6 w-6 text-blue-600" />
+								<h3 className="mb-1 font-semibold text-blue-900">状态持久化</h3>
+								<p className="text-blue-700 text-sm">自动保存恢复状态</p>
+							</div>
+							<div className="rounded-lg bg-green-50 p-4 text-center">
+								<Shield className="mx-auto mb-2 h-6 w-6 text-green-600" />
+								<h3 className="mb-1 font-semibold text-green-900">表单管理</h3>
+								<p className="text-green-700 text-sm">表单数据保护</p>
+							</div>
+							<div className="rounded-lg bg-purple-50 p-4 text-center">
+								<Activity className="mx-auto mb-2 h-6 w-6 text-purple-600" />
+								<h3 className="mb-1 font-semibold text-purple-900">页面管理</h3>
+								<p className="text-purple-700 text-sm">页面状态保持</p>
+							</div>
+							<div className="rounded-lg bg-orange-50 p-4 text-center">
+								<Code className="mx-auto mb-2 h-6 w-6 text-orange-600" />
+								<h3 className="mb-1 font-semibold text-orange-900">复杂状态</h3>
+								<p className="text-orange-700 text-sm">多层次状态管理</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* 3W 法则解析 */}
+				<div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+					<div className="rounded-lg border border-blue-200 bg-blue-50 p-6 shadow-sm">
+						<h2 className="mb-6 font-bold text-2xl text-blue-800">🎯 3W 法则解析</h2>
+						<div className="grid gap-6 md:grid-cols-3">
+							<div className="rounded-lg border border-blue-200 bg-white p-4 shadow-sm">
+								<h3 className="mb-3 font-semibold text-blue-700 text-lg">📋 What (是什么)</h3>
+								<p className="font-medium text-gray-800">
+									Activity API 是 React 19 中专门用于状态保持的新机制，通过自动保存和恢复组件状态，
+									解决页面刷新、路由切换时的状态丢失问题，提供无缝的用户体验。
+								</p>
+							</div>
+							<div className="rounded-lg border border-blue-200 bg-white p-4 shadow-sm">
+								<h3 className="mb-3 font-semibold text-blue-700 text-lg">🎯 Why (为什么)</h3>
+								<p className="font-medium text-gray-800">
+									解决传统应用中状态管理复杂、用户体验差的问题。通过智能的状态保存和恢复机制，
+									让用户在不同场景下都能保持连续的操作体验，大幅提升应用质量。
+								</p>
+							</div>
+							<div className="rounded-lg border border-blue-200 bg-white p-4 shadow-sm">
+								<h3 className="mb-3 font-semibold text-blue-700 text-lg">⚡ When (何时用)</h3>
+								<p className="font-medium text-gray-800">
+									表单填写、页面状态保持、用户会话管理、复杂状态同步等需要状态连续性的场景。
+									特别适合长时间操作、多步骤流程、数据输入密集型应用。
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* 核心功能选择器 */}
+				<div className="sticky top-0 z-10 border-gray-200 border-b bg-white shadow-sm">
+					<div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+						<div className="flex items-center space-x-4">
+							<span className="font-medium text-gray-700">选择功能：</span>
+							<div className="flex space-x-2">
+								{activityExamples.map((example) => (
+									<button
+										key={example.id}
+										onClick={() => setSelectedExample(example)}
+										className={`flex items-center space-x-2 rounded-lg px-4 py-2 font-medium text-sm transition-colors ${
+											selectedExample?.id === example.id
+												? "bg-blue-600 text-white"
+												: "bg-gray-100 text-gray-700 hover:bg-gray-200"
+										}`}
+									>
+										{example.icon}
+										<span>{example.title}</span>
+									</button>
+								))}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* 详细内容区域 */}
+				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+					{selectedExample ? (
+						<div className="grid gap-8 lg:grid-cols-2">
+							{/* 左侧：功能详情 */}
+							<div className="space-y-6">
+								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+									<div className="mb-4">
+										<div className="mb-2 flex items-center space-x-3">
+											{selectedExample.icon}
+											<h3 className="font-semibold text-gray-900 text-xl">{selectedExample.title}</h3>
+										</div>
+										<div className="mb-3 flex items-center space-x-2">
+											<span
+												className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getCategoryColor(selectedExample.category)}`}
+											>
+												{selectedExample.category}
+											</span>
+											<span
+												className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getDifficultyColor(selectedExample.difficulty)}`}
+											>
+												{selectedExample.difficulty}
+											</span>
+											<span
+												className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getStatusColor(selectedExample.status)}`}
+											>
+												{getStatusText(selectedExample.status)}
+											</span>
+										</div>
+										<p className="text-gray-600">{selectedExample.description}</p>
+									</div>
+
+									<div className="mb-6">
+										<h4 className="mb-3 font-medium text-gray-900">主要优势</h4>
+										<div className="flex flex-wrap gap-2">
+											{selectedExample.benefits.map((benefit, index) => (
+												<span
+													key={index}
+													className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm"
+												>
+													{benefit}
+												</span>
+											))}
+										</div>
+									</div>
+
+									<div className="mb-6">
+										<h4 className="mb-3 font-medium text-gray-900">使用场景</h4>
+										<div className="flex flex-wrap gap-2">
+											{selectedExample.useCases.map((useCase, index) => (
+												<span
+													key={index}
+													className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-blue-700 text-sm"
+												>
+													{useCase}
+												</span>
+											))}
+										</div>
+									</div>
+
+									<div>
+										<h4 className="mb-3 font-medium text-gray-900">解决的问题</h4>
+										<div className="space-y-4">
+											{selectedExample.problemsSolved.map((item, index) => (
+												<div key={index} className="rounded-lg bg-red-50 p-4">
+													<h5 className="mb-2 font-medium text-red-800">{item.problem}</h5>
+													<p className="mb-2 text-red-700 text-sm">{item.description}</p>
+													<div className="flex items-start space-x-2">
+														<CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" />
+														<p className="text-green-700 text-sm">{item.solution}</p>
+													</div>
+												</div>
+											))}
+										</div>
+									</div>
+								</div>
+							</div>
+
+							{/* 右侧：代码示例和交互演示 */}
+							<div className="space-y-6">
+								<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+									<div className="border-gray-200 border-b p-4">
+										<div className="flex items-center justify-between">
+											<h4 className="font-medium text-gray-900">代码示例</h4>
+											<button
+												onClick={() => copyToClipboard(selectedExample.codeSnippet)}
+												className="flex items-center space-x-1 text-gray-600 hover:text-gray-900"
+											>
+												<Copy className="h-4 w-4" />
+												<span className="text-sm">{copiedCode ? "已复制" : "复制"}</span>
+											</button>
+										</div>
+									</div>
+									<div className="overflow-x-auto">
+										<pre className="overflow-x-auto bg-gray-900 p-4 text-gray-100 text-sm">
+											<code>{selectedExample.codeSnippet}</code>
+										</pre>
+									</div>
+								</div>
+
+								{/* 交互式演示 */}
+								<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+									<div className="border-gray-200 border-b p-4">
+										<h4 className="font-medium text-gray-900">交互式演示</h4>
+									</div>
+									<div className="p-6">
+										{getInteractiveDemos(selectedExample.id).map((demo, index) => (
+											<div key={index} className="space-y-4">
+												<div>
+													<h5 className="mb-1 font-medium text-gray-900">{demo.title}</h5>
+													<p className="mb-4 text-gray-600 text-sm">{demo.description}</p>
+												</div>
+												{demo.component}
+											</div>
+										))}
+									</div>
+								</div>
+							</div>
+						</div>
+					) : (
+						<div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow-sm">
+							<Activity className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+							<h3 className="mb-2 font-semibold text-gray-900 text-lg">选择一个 Activity API 功能</h3>
+							<p className="text-gray-600">点击上方的功能按钮查看详细信息和交互演示</p>
+						</div>
+					)}
+				</div>
 			</div>
-		</div>
+		</Layout>
 	);
 }

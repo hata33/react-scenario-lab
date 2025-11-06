@@ -2,7 +2,7 @@
 
 import { AlertCircle, ArrowLeft, CheckCircle, Clock, Code, Copy, Target, Zap } from "lucide-react";
 import type React from "react";
-import { useState, useContext, createContext } from "react";
+import { createContext, useContext, useState } from "react";
 import Layout from "@/components/Layout";
 
 // 临时模拟 React 19 Actions Hooks
@@ -40,7 +40,7 @@ function useTransition(): [boolean, (callback: () => void) => void] {
 function useActionState<State>(
 	action: (prevState: State | null, formData: FormData) => Promise<State> | State,
 	initialState: State | null,
-	permalink?: string
+	permalink?: string,
 ): [State, (formData: FormData) => void, boolean] {
 	const [state, setState] = useState<State | null>(initialState);
 	const [isPending, setIsPending] = useState(false);
@@ -63,7 +63,7 @@ function useActionState<State>(
 // 模拟 useOptimistic Hook
 function useOptimistic<State>(
 	pastState: State,
-	updateFn: (state: State, optimisticValue: any) => State
+	updateFn: (state: State, optimisticValue: any) => State,
 ): [State, (optimisticValue: any) => void] {
 	const [optimisticState, setOptimisticState] = useState(pastState);
 
@@ -133,24 +133,25 @@ function MyForm() {
 			{
 				problem: "状态管理复杂",
 				description: "需要手动管理 loading、error、success 状态，每个异步操作都要重复编写状态管理逻辑",
-				solution: "useActionState 自动管理所有异步状态，返回统一的 state、isPending 和 formAction，无需手动编写状态管理代码"
+				solution:
+					"useActionState 自动管理所有异步状态，返回统一的 state、isPending 和 formAction，无需手动编写状态管理代码",
 			},
 			{
 				problem: "代码冗余严重",
 				description: "每个表单或异步操作都需要重复的状态管理代码，维护成本高，容易出错",
-				solution: "提供标准化的 Hook 接口，一次配置即可处理所有状态，大幅减少样板代码，提高代码复用性"
+				solution: "提供标准化的 Hook 接口，一次配置即可处理所有状态，大幅减少样板代码，提高代码复用性",
 			},
 			{
 				problem: "错误处理不统一",
 				description: "不同的异步操作需要不同的错误处理逻辑，try-catch 代码重复，错误展示不一致",
-				solution: "统一的错误处理机制，所有错误都通过 state.error 返回，可以集中处理和展示错误信息"
+				solution: "统一的错误处理机制，所有错误都通过 state.error 返回，可以集中处理和展示错误信息",
 			},
 			{
 				problem: "用户体验差",
 				description: "提交时界面冻结，缺乏即时反馈，用户不知道操作是否成功",
-				solution: "内置 isPending 状态，自动处理表单禁用状态，提供即时的加载反馈，提升用户体验"
-			}
-		]
+				solution: "内置 isPending 状态，自动处理表单禁用状态，提供即时的加载反馈，提升用户体验",
+			},
+		],
 	},
 	{
 		id: "useOptimistic",
@@ -199,24 +200,24 @@ function TodoList() {
 			{
 				problem: "响应性差",
 				description: "用户操作后需要等待网络请求完成才能看到结果，感知延迟高",
-				solution: "useOptimistic 立即显示预期结果，用户操作瞬间反馈，大幅提升感知性能"
+				solution: "useOptimistic 立即显示预期结果，用户操作瞬间反馈，大幅提升感知性能",
 			},
 			{
 				problem: "乐观更新实现复杂",
 				description: "实现乐观UI更新需要复杂的逻辑和状态回滚机制，容易出错",
-				solution: "自动处理乐观更新和回滚逻辑，开发者只需提供更新函数即可"
+				solution: "自动处理乐观更新和回滚逻辑，开发者只需提供更新函数即可",
 			},
 			{
 				problem: "用户体验不佳",
 				description: "网络延迟导致界面响应慢，用户不知道操作是否成功",
-				solution: "立即显示操作结果，让用户感觉响应迅速，即使后端处理较慢"
+				solution: "立即显示操作结果，让用户感觉响应迅速，即使后端处理较慢",
 			},
 			{
 				problem: "状态同步困难",
 				description: "乐观状态和实际状态需要手动同步，容易出现不一致",
-				solution: "自动管理状态同步，乐观状态在提交成功后自动变为实际状态"
-			}
-		]
+				solution: "自动管理状态同步，乐观状态在提交成功后自动变为实际状态",
+			},
+		],
 	},
 	{
 		id: "useFormStatus",
@@ -257,24 +258,24 @@ function MyForm() {
 			{
 				problem: "表单状态传递困难",
 				description: "子组件无法直接访问父表单的提交状态，需要通过 props 传递，造成组件耦合",
-				solution: "useFormStatus 让子组件自动获取表单状态，无需手动传递 props，实现组件解耦"
+				solution: "useFormStatus 让子组件自动获取表单状态，无需手动传递 props，实现组件解耦",
 			},
 			{
 				problem: "按钮状态管理复杂",
 				description: "表单提交按钮需要知道表单的 pending 状态，通常需要复杂的状态提升逻辑",
-				solution: "自动在子组件中访问表单状态，按钮可以根据 pending 状态自动禁用和显示加载状态"
+				solution: "自动在子组件中访问表单状态，按钮可以根据 pending 状态自动禁用和显示加载状态",
 			},
 			{
 				problem: "表单数据访问不便",
 				description: "子组件需要访问表单数据时，必须通过 context 或 props 传递，代码冗余",
-				solution: "useFormStatus 提供直接的 data 访问接口，子组件可以轻松获取表单提交的数据"
+				solution: "useFormStatus 提供直接的 data 访问接口，子组件可以轻松获取表单提交的数据",
 			},
 			{
 				problem: "用户体验不佳",
 				description: "表单提交时缺乏即时反馈，用户不知道操作是否正在进行，容易重复提交",
-				solution: "实时的状态反馈，按钮自动禁用和显示提交进度，提升用户体验和交互质量"
-			}
-		]
+				solution: "实时的状态反馈，按钮自动禁用和显示提交进度，提升用户体验和交互质量",
+			},
+		],
 	},
 	{
 		id: "serverFunctions",
@@ -319,24 +320,24 @@ function SignUpForm() {
 			{
 				problem: "客户端服务端通信复杂",
 				description: "需要手动编写 API 端点、请求处理、错误管理，代码分散在客户端和服务端",
-				solution: "Server Functions 提供统一的函数调用接口，一个函数同时支持客户端调用和服务端执行"
+				solution: "Server Functions 提供统一的函数调用接口，一个函数同时支持客户端调用和服务端执行",
 			},
 			{
 				problem: "类型安全缺失",
 				description: "传统 API 调用缺乏类型检查，参数和返回值类型容易不匹配，运行时才发现错误",
-				solution: "TypeScript 完全支持，编译时类型检查，确保参数和返回值类型一致性"
+				solution: "TypeScript 完全支持，编译时类型检查，确保参数和返回值类型一致性",
 			},
 			{
 				problem: "数据序列化繁琐",
 				description: "需要手动处理 JSON 序列化、数据转换、边界情况处理，容易出错",
-				solution: "自动处理数据序列化和反序列化，支持复杂对象、FormData、文件等多种数据类型"
+				solution: "自动处理数据序列化和反序列化，支持复杂对象、FormData、文件等多种数据类型",
 			},
 			{
 				problem: "渐进增强困难",
 				description: "JavaScript 未加载时表单无法工作，需要单独实现服务端渲染版本",
-				solution: "自动支持渐进增强，JavaScript 加载前表单可以正常提交，加载后提供更好的体验"
-			}
-		]
+				solution: "自动支持渐进增强，JavaScript 加载前表单可以正常提交，加载后提供更好的体验",
+			},
+		],
 	},
 	{
 		id: "useTransition",
@@ -386,24 +387,24 @@ function SearchComponent() {
 			{
 				problem: "界面阻塞严重",
 				description: "大量数据处理或渲染时界面冻结，用户无法进行其他操作，体验极差",
-				solution: "useTransition 将更新标记为过渡，在后台并发渲染，保持界面响应性"
+				solution: "useTransition 将更新标记为过渡，在后台并发渲染，保持界面响应性",
 			},
 			{
 				problem: "用户体验不佳",
 				description: "搜索、过滤等操作时界面卡顿，输入延迟，用户感觉应用性能差",
-				solution: "立即更新输入状态，将耗时操作放在 transition 中，用户可以继续交互"
+				solution: "立即更新输入状态，将耗时操作放在 transition 中，用户可以继续交互",
 			},
 			{
 				problem: "渲染性能低下",
 				description: "大量数据渲染阻塞主线程，导致动画、滚动等效果不流畅",
-				solution: "并发渲染机制，不阻塞主线程，保持动画和交互的流畅性"
+				solution: "并发渲染机制，不阻塞主线程，保持动画和交互的流畅性",
 			},
 			{
 				problem: "状态更新冲突",
 				description: "快速连续的操作导致状态更新冲突，界面显示不一致",
-				solution: "自动管理更新优先级，transition 更新会被中断或延迟，避免状态冲突"
-			}
-		]
+				solution: "自动管理更新优先级，transition 更新会被中断或延迟，避免状态冲突",
+			},
+		],
 	},
 ];
 
@@ -512,7 +513,7 @@ function UpdateName() {
     </form>
   );
 }`,
-					description: "即使 JavaScript 未加载，表单也能正常工作"
+					description: "即使 JavaScript 未加载，表单也能正常工作",
 				},
 				{
 					title: "⚠️ 错误处理最佳实践",
@@ -540,8 +541,8 @@ function SignupForm() {
     </form>
   );
 }`,
-					description: "统一的错误处理模式"
-				}
+					description: "统一的错误处理模式",
+				},
 			],
 			useOptimistic: [
 				{
@@ -572,8 +573,8 @@ function SignupForm() {
     </form>
   );
 }`,
-					description: "立即显示用户操作结果，提升响应性"
-				}
+					description: "立即显示用户操作结果，提升响应性",
+				},
 			],
 			useFormStatus: [
 				{
@@ -592,7 +593,7 @@ function SignupForm() {
     </button>
   );
 }`,
-					description: "useFormStatus 可以访问表单提交的数据"
+					description: "useFormStatus 可以访问表单提交的数据",
 				},
 				{
 					title: "🎯 多按钮表单处理",
@@ -614,8 +615,8 @@ function SignupForm() {
     </form>
   );
 }`,
-					description: "使用 formAction 处理不同的提交类型"
-				}
+					description: "使用 formAction 处理不同的提交类型",
+				},
 			],
 			serverFunctions: [
 				{
@@ -647,7 +648,7 @@ function SignUpForm() {
     </form>
   );
 }`,
-					description: "客户端直接调用服务端函数，无需手动 API 调用"
+					description: "客户端直接调用服务端函数，无需手动 API 调用",
 				},
 				{
 					title: "📦 传递额外参数",
@@ -668,8 +669,8 @@ function SignUpForm() {
     </form>
   );
 }`,
-					description: "使用 bind 方法传递额外参数给 Server Function"
-				}
+					description: "使用 bind 方法传递额外参数给 Server Function",
+				},
 			],
 			useTransition: [
 				{
@@ -690,7 +691,7 @@ function SignUpForm() {
     </button>
   );
 }`,
-					description: "非表单操作的异步状态管理"
+					description: "非表单操作的异步状态管理",
 				},
 				{
 					title: "🔍 搜索功能优化",
@@ -725,9 +726,9 @@ function SignUpForm() {
     </div>
   );
 }`,
-					description: "搜索时保持输入框响应，结果在后台加载"
-				}
-			]
+					description: "搜索时保持输入框响应，结果在后台加载",
+				},
+			],
 		};
 
 		return examples[hookId as keyof typeof examples] || [];
@@ -809,18 +810,17 @@ function SignUpForm() {
 					</div>
 				</div>
 
-	
 				{/* Hook 选择器 - 吸顶区域 */}
-				<div className="sticky top-0 z-10 bg-white border-b border-gray-200">
+				<div className="sticky top-0 z-10 border-gray-200 border-b bg-white">
 					<div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
-						<div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+						<div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
 							<h2 className="font-semibold text-gray-900 text-sm">选择 Hook:</h2>
 							<div className="flex flex-wrap justify-center gap-2">
 								{actionExamples.map((example) => (
 									<button
 										key={example.id}
 										onClick={() => setSelectedExample(example)}
-										className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-all ${
+										className={`rounded-lg px-3 py-1.5 font-medium text-sm transition-all ${
 											selectedExample?.id === example.id
 												? "bg-blue-500 text-white shadow-sm"
 												: "border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -854,11 +854,9 @@ function SignUpForm() {
 							<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
 								<div className="border-gray-200 border-b p-6">
 									<div className="flex items-center space-x-4">
-										<div className="rounded-lg bg-blue-100 p-3 text-blue-600">
-											{selectedExample.icon}
-										</div>
+										<div className="rounded-lg bg-blue-100 p-3 text-blue-600">{selectedExample.icon}</div>
 										<div>
-											<h3 className="font-semibold text-gray-900 text-2xl">{selectedExample.title}</h3>
+											<h3 className="font-semibold text-2xl text-gray-900">{selectedExample.title}</h3>
 											<p className="text-gray-600">{selectedExample.description}</p>
 										</div>
 									</div>
@@ -956,28 +954,28 @@ function SignUpForm() {
 									</div>
 
 									{/* 解决的具体问题 */}
-									<div className="border-t border-gray-200 pt-6">
+									<div className="border-gray-200 border-t pt-6">
 										<h5 className="mb-4 font-medium text-gray-900">🔧 解决的具体问题</h5>
 										<div className="space-y-4">
 											{selectedExample.problemsSolved.map((item, index) => (
-												<div key={index} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-													<div className="flex items-start justify-between mb-2">
+												<div key={index} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+													<div className="mb-2 flex items-start justify-between">
 														<div className="flex items-center space-x-2">
-															<span className="inline-flex items-center rounded bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
+															<span className="inline-flex items-center rounded bg-red-100 px-2 py-1 font-medium text-red-700 text-xs">
 																问题
 															</span>
 															<strong className="text-red-800">{item.problem}</strong>
 														</div>
 													</div>
-													<p className="text-sm text-gray-600 mb-3">{item.description}</p>
-													<div className="bg-green-50 p-3 rounded border border-green-200">
-														<div className="flex items-center space-x-2 mb-1">
-															<span className="inline-flex items-center rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
+													<p className="mb-3 text-gray-600 text-sm">{item.description}</p>
+													<div className="rounded border border-green-200 bg-green-50 p-3">
+														<div className="mb-1 flex items-center space-x-2">
+															<span className="inline-flex items-center rounded bg-green-100 px-2 py-1 font-medium text-green-700 text-xs">
 																解决方案
 															</span>
 															<strong className="text-green-800">React 19</strong>
 														</div>
-														<p className="text-sm text-gray-700">{item.solution}</p>
+														<p className="text-gray-700 text-sm">{item.solution}</p>
 													</div>
 												</div>
 											))}
@@ -1001,9 +999,7 @@ function SignUpForm() {
 				{/* 官方代码示例 */}
 				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
 					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-						<h2 className="mb-6 font-bold text-2xl text-gray-900">
-							📚 {selectedExample?.title} 官方示例
-						</h2>
+						<h2 className="mb-6 font-bold text-2xl text-gray-900">📚 {selectedExample?.title} 官方示例</h2>
 						<p className="mb-6 text-gray-600">
 							以下示例来自 React 官方文档，展示了 {selectedExample?.title} 的最佳实践
 						</p>
@@ -1021,12 +1017,10 @@ function SignUpForm() {
 								))}
 							</div>
 						) : (
-							<div className="text-center py-12">
+							<div className="py-12 text-center">
 								<Code className="mx-auto mb-4 h-16 w-16 text-gray-400" />
 								<h3 className="mb-2 font-semibold text-gray-900 text-lg">暂无官方示例</h3>
-								<p className="text-gray-600">
-									{selectedExample?.title} 的官方代码示例正在整理中，敬请期待
-								</p>
+								<p className="text-gray-600">{selectedExample?.title} 的官方代码示例正在整理中，敬请期待</p>
 							</div>
 						)}
 					</div>
@@ -1093,8 +1087,9 @@ function UseActionStateDemo() {
 				<button
 					type="submit"
 					disabled={isPending}
-					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
-						}`}
+					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
+						isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
+					}`}
 				>
 					{isPending ? "提交中..." : "注册"}
 				</button>
@@ -1115,7 +1110,9 @@ function UseActionStateDemo() {
 function UseActionStateLoginDemo() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
-	const [state, setState] = useState<{ error?: string; success?: boolean; message?: string; attempts?: number } | null>(null);
+	const [state, setState] = useState<{ error?: string; success?: boolean; message?: string; attempts?: number } | null>(
+		null,
+	);
 	const [isPending, setIsPending] = useState(false);
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -1168,8 +1165,9 @@ function UseActionStateLoginDemo() {
 				<button
 					type="submit"
 					disabled={isPending}
-					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
-						}`}
+					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
+						isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
+					}`}
 				>
 					{isPending ? "登录中..." : "登录"}
 				</button>
@@ -1178,7 +1176,7 @@ function UseActionStateLoginDemo() {
 					<div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-700">
 						{state.error}
 						{state.attempts && state.attempts > 1 && (
-							<p className="text-xs text-red-600 mt-1">尝试次数：{state.attempts}</p>
+							<p className="mt-1 text-red-600 text-xs">尝试次数：{state.attempts}</p>
 						)}
 					</div>
 				)}
@@ -1187,9 +1185,7 @@ function UseActionStateLoginDemo() {
 					<div className="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-green-700">{state.message}</div>
 				)}
 
-				<div className="text-xs text-gray-500">
-					💡 提示：使用 admin/123456 可以成功登录
-				</div>
+				<div className="text-gray-500 text-xs">💡 提示：使用 admin/123456 可以成功登录</div>
 			</form>
 		</div>
 	);
@@ -1199,7 +1195,12 @@ function UseActionStateLoginDemo() {
 function UseActionStateCommentDemo() {
 	const [comment, setComment] = useState("");
 	const [author, setAuthor] = useState("");
-	const [state, setState] = useState<{ error?: string; success?: boolean; message?: string; commentId?: number } | null>(null);
+	const [state, setState] = useState<{
+		error?: string;
+		success?: boolean;
+		message?: string;
+		commentId?: number;
+	} | null>(null);
 	const [isPending, setIsPending] = useState(false);
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -1220,7 +1221,7 @@ function UseActionStateCommentDemo() {
 			setState({
 				success: true,
 				message: "评论发布成功！",
-				commentId: Date.now()
+				commentId: Date.now(),
 			});
 			setComment("");
 		}
@@ -1254,16 +1255,15 @@ function UseActionStateCommentDemo() {
 						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
 						placeholder="分享您的想法..."
 					/>
-					<div className="text-xs text-gray-500 mt-1">
-						{comment.length}/10 字符
-					</div>
+					<div className="mt-1 text-gray-500 text-xs">{comment.length}/10 字符</div>
 				</div>
 
 				<button
 					type="submit"
 					disabled={isPending}
-					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
-						}`}
+					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
+						isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
+					}`}
 				>
 					{isPending ? "发布中..." : "发布评论"}
 				</button>
@@ -1275,9 +1275,7 @@ function UseActionStateCommentDemo() {
 				{state?.success && (
 					<div className="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-green-700">
 						{state.message}
-						{state.commentId && (
-							<p className="text-xs text-green-600 mt-1">评论ID：#{state.commentId}</p>
-						)}
+						{state.commentId && <p className="mt-1 text-green-600 text-xs">评论ID：#{state.commentId}</p>}
 					</div>
 				)}
 			</form>
@@ -1348,10 +1346,11 @@ function UseOptimisticDemo() {
 					<button
 						type="submit"
 						disabled={isPending || !newTodo.trim()}
-						className={`rounded-md px-4 py-2 font-medium transition-colors ${isPending || !newTodo.trim()
+						className={`rounded-md px-4 py-2 font-medium transition-colors ${
+							isPending || !newTodo.trim()
 								? "cursor-not-allowed bg-gray-400 text-gray-200"
 								: "bg-blue-500 text-white hover:bg-blue-600"
-							}`}
+						}`}
 					>
 						{isPending ? "添加中..." : "添加"}
 					</button>
@@ -1362,8 +1361,9 @@ function UseOptimisticDemo() {
 				{optimisticTodos.map((todo) => (
 					<div
 						key={todo.id}
-						className={`flex items-center gap-3 rounded-md border p-3 ${todo.optimistic ? "border-yellow-200 bg-yellow-50" : "border-gray-200 bg-white"
-							}`}
+						className={`flex items-center gap-3 rounded-md border p-3 ${
+							todo.optimistic ? "border-yellow-200 bg-yellow-50" : "border-gray-200 bg-white"
+						}`}
 					>
 						<input
 							type="checkbox"
@@ -1399,11 +1399,11 @@ function UseOptimisticLikeDemo() {
 			prev.map((post) =>
 				post.id === postId
 					? {
-						...post,
-						isLiked: !post.isLiked,
-						likes: post.isLiked ? post.likes - 1 : post.likes + 1,
-						optimistic: true,
-					}
+							...post,
+							isLiked: !post.isLiked,
+							likes: post.isLiked ? post.likes - 1 : post.likes + 1,
+							optimistic: true,
+						}
 					: post,
 			),
 		);
@@ -1416,18 +1416,16 @@ function UseOptimisticLikeDemo() {
 			prev.map((post) =>
 				post.id === postId
 					? {
-						...post,
-						isLiked: !post.isLiked,
-						likes: post.isLiked ? post.likes - 1 : post.likes + 1,
-					}
+							...post,
+							isLiked: !post.isLiked,
+							likes: post.isLiked ? post.likes - 1 : post.likes + 1,
+						}
 					: post,
 			),
 		);
 
 		// 移除乐观状态
-		setOptimisticPosts((prev) =>
-			prev.map((post) => (post.id === postId ? { ...post, optimistic: false } : post)),
-		);
+		setOptimisticPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, optimistic: false } : post)));
 	};
 
 	return (
@@ -1437,14 +1435,15 @@ function UseOptimisticLikeDemo() {
 				{optimisticPosts.map((post) => (
 					<div
 						key={post.id}
-						className={`rounded-lg border p-4 ${post.optimistic ? "border-yellow-200 bg-yellow-50" : "border-gray-200 bg-white"
-							}`}
+						className={`rounded-lg border p-4 ${
+							post.optimistic ? "border-yellow-200 bg-yellow-50" : "border-gray-200 bg-white"
+						}`}
 					>
 						<p className="mb-3 text-gray-800">{post.content}</p>
 						<div className="flex items-center justify-between">
 							<button
 								onClick={() => handleLike(post.id)}
-								className={`flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium transition-colors ${
+								className={`flex items-center gap-2 rounded-full px-3 py-1 font-medium text-sm transition-colors ${
 									post.isLiked
 										? "bg-red-100 text-red-700 hover:bg-red-200"
 										: "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -1453,9 +1452,7 @@ function UseOptimisticLikeDemo() {
 								<span>{post.isLiked ? "❤️" : "🤍"}</span>
 								<span>{post.likes}</span>
 							</button>
-							{post.optimistic && (
-								<span className="text-xs font-medium text-yellow-600">更新中...</span>
-							)}
+							{post.optimistic && <span className="font-medium text-xs text-yellow-600">更新中...</span>}
 						</div>
 					</div>
 				))}
@@ -1479,35 +1476,23 @@ function UseOptimisticCartDemo() {
 
 		// 乐观更新：立即更新数量
 		setOptimisticItems((prev) =>
-			prev.map((item) =>
-				item.id === itemId
-					? { ...item, quantity: newQuantity, optimistic: true }
-					: item,
-			),
+			prev.map((item) => (item.id === itemId ? { ...item, quantity: newQuantity, optimistic: true } : item)),
 		);
 
 		// 模拟网络请求
 		await new Promise((resolve) => setTimeout(resolve, 600));
 
 		// 实际更新
-		setItems((prev) =>
-			prev.map((item) =>
-				item.id === itemId ? { ...item, quantity: newQuantity } : item,
-			),
-		);
+		setItems((prev) => prev.map((item) => (item.id === itemId ? { ...item, quantity: newQuantity } : item)));
 
 		// 移除乐观状态
-		setOptimisticItems((prev) =>
-			prev.map((item) => (item.id === itemId ? { ...item, optimistic: false } : item)),
-		);
+		setOptimisticItems((prev) => prev.map((item) => (item.id === itemId ? { ...item, optimistic: false } : item)));
 	};
 
 	const removeItem = async (itemId: number) => {
 		// 乐观更新：立即移除
 		setOptimisticItems((prev) =>
-			prev.map((item) =>
-				item.id === itemId ? { ...item, quantity: 0, optimistic: true } : item,
-			),
+			prev.map((item) => (item.id === itemId ? { ...item, quantity: 0, optimistic: true } : item)),
 		);
 
 		// 模拟网络请求
@@ -1527,47 +1512,43 @@ function UseOptimisticCartDemo() {
 				{optimisticItems.map((item) => (
 					<div
 						key={item.id}
-						className={`rounded-lg border p-3 ${item.optimistic ? "border-yellow-200 bg-yellow-50" : "border-gray-200 bg-white"
-							}`}
+						className={`rounded-lg border p-3 ${
+							item.optimistic ? "border-yellow-200 bg-yellow-50" : "border-gray-200 bg-white"
+						}`}
 					>
-						<div className="flex items-center justify-between mb-2">
+						<div className="mb-2 flex items-center justify-between">
 							<div>
 								<h6 className="font-medium text-gray-900">{item.name}</h6>
-								<p className="text-sm text-gray-600">¥{item.price}</p>
+								<p className="text-gray-600 text-sm">¥{item.price}</p>
 							</div>
-							{item.optimistic && (
-								<span className="text-xs font-medium text-yellow-600">更新中...</span>
-							)}
+							{item.optimistic && <span className="font-medium text-xs text-yellow-600">更新中...</span>}
 						</div>
 						<div className="flex items-center gap-2">
 							<button
 								onClick={() => updateQuantity(item.id, item.quantity - 1)}
 								disabled={item.quantity <= 0}
-								className="w-8 h-8 rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+								className="h-8 w-8 rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
 							>
 								-
 							</button>
 							<span className="w-12 text-center font-medium">{item.quantity}</span>
 							<button
 								onClick={() => updateQuantity(item.id, item.quantity + 1)}
-								className="w-8 h-8 rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50"
+								className="h-8 w-8 rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50"
 							>
 								+
 							</button>
-							<button
-								onClick={() => removeItem(item.id)}
-								className="ml-auto text-red-600 hover:text-red-700 text-sm"
-							>
+							<button onClick={() => removeItem(item.id)} className="ml-auto text-red-600 text-sm hover:text-red-700">
 								删除
 							</button>
 						</div>
 					</div>
 				))}
 			</div>
-			<div className="mt-4 pt-3 border-t border-gray-200">
+			<div className="mt-4 border-gray-200 border-t pt-3">
 				<div className="flex items-center justify-between">
 					<span className="font-semibold text-gray-900">总计：</span>
-					<span className="text-lg font-bold text-blue-600">¥{totalPrice}</span>
+					<span className="font-bold text-blue-600 text-lg">¥{totalPrice}</span>
 				</div>
 			</div>
 		</div>
@@ -1612,10 +1593,11 @@ function UseFormStatusDemo() {
 				<button
 					type="submit"
 					disabled={isPending || !message.trim()}
-					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${isPending || !message.trim()
+					className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
+						isPending || !message.trim()
 							? "cursor-not-allowed bg-gray-400 text-gray-200"
 							: "bg-blue-500 text-white hover:bg-blue-600"
-						}`}
+					}`}
 				>
 					{isPending ? "发送中..." : "发送消息"}
 				</button>
@@ -1703,8 +1685,9 @@ function ServerFunctionsDemo() {
 						<button
 							type="submit"
 							disabled={isPending}
-							className={`rounded-md px-4 py-2 font-medium transition-colors ${isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
-								}`}
+							className={`rounded-md px-4 py-2 font-medium transition-colors ${
+								isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-blue-500 text-white hover:bg-blue-600"
+							}`}
 						>
 							{isPending ? "发送中..." : "发送"}
 						</button>
@@ -1767,8 +1750,9 @@ function UseTransitionDemo() {
 					type="text"
 					value={input}
 					onChange={(e) => handleSearch(e.target.value)}
-					className={`w-full rounded-md border px-3 py-2 shadow-sm transition-colors focus:border-blue-500 focus:outline-none focus:ring-blue-500 ${isPending ? "border-blue-500" : "border-gray-300"
-						}`}
+					className={`w-full rounded-md border px-3 py-2 shadow-sm transition-colors focus:border-blue-500 focus:outline-none focus:ring-blue-500 ${
+						isPending ? "border-blue-500" : "border-gray-300"
+					}`}
 					placeholder="搜索大量数据..."
 				/>
 				{isPending && (
@@ -1874,9 +1858,7 @@ function UseFormStatusMultiButtonDemo() {
 							}}
 							disabled={isPending}
 							className={`flex-1 rounded-md px-4 py-2 font-medium transition-colors ${
-								isPending
-									? "cursor-not-allowed bg-gray-400 text-gray-200"
-									: "bg-gray-500 text-white hover:bg-gray-600"
+								isPending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-gray-500 text-white hover:bg-gray-600"
 							}`}
 						>
 							💾 保存草稿
@@ -1903,16 +1885,12 @@ function PublishButton() {
 			type="submit"
 			disabled={pending}
 			className={`flex-1 rounded-md px-4 py-2 font-medium transition-colors ${
-				pending
-					? "cursor-not-allowed bg-blue-400 text-white"
-					: "bg-blue-500 text-white hover:bg-blue-600"
+				pending ? "cursor-not-allowed bg-blue-400 text-white" : "bg-blue-500 text-white hover:bg-blue-600"
 			}`}
 		>
 			{pending ? "发布中..." : "🚀 发布文章"}
 			{data && (
-				<p className="text-xs text-blue-100 mt-1">
-					正在发布: {(data.get("message") as string)?.substring(0, 20)}...
-				</p>
+				<p className="mt-1 text-blue-100 text-xs">正在发布: {(data.get("message") as string)?.substring(0, 20)}...</p>
 			)}
 		</button>
 	);
@@ -1972,13 +1950,13 @@ function UseFormStatusProgressDemo() {
 
 					{uploadProgress > 0 && (
 						<div className="mt-4">
-							<div className="flex items-center justify-between mb-2">
-								<span className="text-sm font-medium text-gray-700">上传进度</span>
-								<span className="text-sm text-gray-600">{uploadProgress}%</span>
+							<div className="mb-2 flex items-center justify-between">
+								<span className="font-medium text-gray-700 text-sm">上传进度</span>
+								<span className="text-gray-600 text-sm">{uploadProgress}%</span>
 							</div>
-							<div className="w-full bg-gray-200 rounded-full h-2">
+							<div className="h-2 w-full rounded-full bg-gray-200">
 								<div
-									className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+									className="h-2 rounded-full bg-blue-600 transition-all duration-300"
 									style={{ width: `${uploadProgress}%` }}
 								></div>
 							</div>
@@ -1986,9 +1964,7 @@ function UseFormStatusProgressDemo() {
 					)}
 
 					<div className="rounded-md bg-green-50 p-4">
-						<p className="text-green-700 text-sm">
-							💡 注意：上传按钮基于表单状态自动禁用/启用，并显示上传进度！
-						</p>
+						<p className="text-green-700 text-sm">💡 注意：上传按钮基于表单状态自动禁用/启用，并显示上传进度！</p>
 					</div>
 				</form>
 			</div>
@@ -2005,9 +1981,7 @@ function UploadButton() {
 			type="submit"
 			disabled={pending}
 			className={`w-full rounded-md px-4 py-2 font-medium transition-colors ${
-				pending
-					? "cursor-not-allowed bg-gray-400 text-gray-200"
-					: "bg-green-500 text-white hover:bg-green-600"
+				pending ? "cursor-not-allowed bg-gray-400 text-gray-200" : "bg-green-500 text-white hover:bg-green-600"
 			}`}
 		>
 			{pending ? "上传中..." : "📤 开始上传"}
@@ -2037,7 +2011,7 @@ function ServerFunctionsFileUploadDemo() {
 		return {
 			success: true,
 			message: "文件上传成功！",
-			url: `https://example.com/files/${file.name}`
+			url: `https://example.com/files/${file.name}`,
 		};
 	};
 
@@ -2066,7 +2040,7 @@ function ServerFunctionsFileUploadDemo() {
 						className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
 					/>
 					{file && (
-						<p className="text-xs text-gray-500 mt-1">
+						<p className="mt-1 text-gray-500 text-xs">
 							已选择: {file.name} ({(file.size / 1024).toFixed(2)} KB)
 						</p>
 					)}
@@ -2085,21 +2059,19 @@ function ServerFunctionsFileUploadDemo() {
 				</button>
 
 				{uploadResult && (
-					<div className={`rounded-md px-4 py-3 ${
-						uploadResult.success
-							? "border-green-200 bg-green-50 text-green-700"
-							: "border-red-200 bg-red-50 text-red-700"
-					}`}>
+					<div
+						className={`rounded-md px-4 py-3 ${
+							uploadResult.success
+								? "border-green-200 bg-green-50 text-green-700"
+								: "border-red-200 bg-red-50 text-red-700"
+						}`}
+					>
 						{uploadResult.message}
-						{uploadResult.success && uploadResult.url && (
-							<p className="text-xs mt-1">访问地址: {uploadResult.url}</p>
-						)}
+						{uploadResult.success && uploadResult.url && <p className="mt-1 text-xs">访问地址: {uploadResult.url}</p>}
 					</div>
 				)}
 
-				<div className="text-xs text-gray-500">
-					💡 提示：文件大小限制为 5MB
-				</div>
+				<div className="text-gray-500 text-xs">💡 提示：文件大小限制为 5MB</div>
 			</form>
 		</div>
 	);
@@ -2127,9 +2099,10 @@ function ServerFunctionsSearchDemo() {
 			{ id: 4, title: "性能优化实战", description: "学习 Web 应用性能优化的实用技巧" },
 		];
 
-		return mockData.filter(item =>
-			item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			item.description.toLowerCase().includes(searchQuery.toLowerCase())
+		return mockData.filter(
+			(item) =>
+				item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				item.description.toLowerCase().includes(searchQuery.toLowerCase()),
 		);
 	};
 
@@ -2176,15 +2149,13 @@ function ServerFunctionsSearchDemo() {
 						{results.map((result) => (
 							<div key={result.id} className="rounded-md border border-gray-200 bg-white p-3">
 								<h6 className="font-medium text-gray-900">{result.title}</h6>
-								<p className="text-sm text-gray-600">{result.description}</p>
+								<p className="text-gray-600 text-sm">{result.description}</p>
 							</div>
 						))}
 					</div>
 				)}
 
-				<div className="text-xs text-gray-500">
-					💡 提示：试试搜索 "React" 或 "TypeScript"
-				</div>
+				<div className="text-gray-500 text-xs">💡 提示：试试搜索 "React" 或 "TypeScript"</div>
 			</form>
 		</div>
 	);
@@ -2213,7 +2184,7 @@ function UseTransitionFilterDemo() {
 				if (category === "全部") {
 					setFilteredProducts(products);
 				} else {
-					setFilteredProducts(products.filter(p => p.category === category));
+					setFilteredProducts(products.filter((p) => p.category === category));
 				}
 			}, 500);
 		});
@@ -2231,10 +2202,8 @@ function UseTransitionFilterDemo() {
 						<button
 							key={category}
 							onClick={() => filterProducts(category)}
-							className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-								selectedCategory === category
-									? "bg-blue-500 text-white"
-									: "bg-gray-200 text-gray-700 hover:bg-gray-300"
+							className={`rounded-full px-3 py-1 font-medium text-sm transition-colors ${
+								selectedCategory === category ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
 							}`}
 						>
 							{category}
@@ -2252,10 +2221,10 @@ function UseTransitionFilterDemo() {
 			<div className={`space-y-2 transition-opacity ${isPending ? "opacity-60" : "opacity-100"}`}>
 				{filteredProducts.map((product) => (
 					<div key={product.id} className="rounded-md border border-gray-200 bg-white p-3">
-						<div className="flex justify-between items-start">
+						<div className="flex items-start justify-between">
 							<div>
 								<h6 className="font-medium text-gray-900">{product.name}</h6>
-								<span className="text-xs text-gray-500">{product.category}</span>
+								<span className="text-gray-500 text-xs">{product.category}</span>
 							</div>
 							<span className="font-medium text-blue-600">¥{product.price}</span>
 						</div>
@@ -2264,9 +2233,7 @@ function UseTransitionFilterDemo() {
 			</div>
 
 			<div className="mt-4 rounded-md border border-blue-200 bg-blue-50 p-3">
-				<p className="text-blue-700 text-xs">
-					⚡ 注意：分类按钮立即响应，数据筛选在后台进行，界面不会卡顿！
-				</p>
+				<p className="text-blue-700 text-xs">⚡ 注意：分类按钮立即响应，数据筛选在后台进行，界面不会卡顿！</p>
 			</div>
 		</div>
 	);
@@ -2278,13 +2245,13 @@ function UseTransitionDataSyncDemo() {
 	const [localData, setLocalData] = useState({
 		name: "张三",
 		email: "zhangsan@example.com",
-		phone: "13800138000"
+		phone: "13800138000",
 	});
 	const [serverData, setServerData] = useState(localData);
 	const [syncStatus, setSyncStatus] = useState<"已同步" | "同步中" | "有未保存更改">("已同步");
 
 	const handleChange = (field: keyof typeof localData, value: string) => {
-		setLocalData(prev => ({ ...prev, [field]: value }));
+		setLocalData((prev) => ({ ...prev, [field]: value }));
 		setSyncStatus("有未保存更改");
 	};
 
@@ -2309,13 +2276,13 @@ function UseTransitionDataSyncDemo() {
 			<h5 className="mb-3 font-semibold text-gray-800">🔄 数据同步场景</h5>
 
 			<div className="max-w-md space-y-4">
-				<div className="flex items-center justify-between mb-4">
-					<span className="text-sm font-medium text-gray-700">同步状态：</span>
-					<span className={`text-sm font-medium ${
-						syncStatus === "已同步" ? "text-green-600" :
-						syncStatus === "同步中" ? "text-blue-600" :
-						"text-orange-600"
-					}`}>
+				<div className="mb-4 flex items-center justify-between">
+					<span className="font-medium text-gray-700 text-sm">同步状态：</span>
+					<span
+						className={`font-medium text-sm ${
+							syncStatus === "已同步" ? "text-green-600" : syncStatus === "同步中" ? "text-blue-600" : "text-orange-600"
+						}`}
+					>
 						{syncStatus === "已同步" && "✅ "}
 						{syncStatus === "同步中" && "🔄 "}
 						{syncStatus === "有未保存更改" && "⚠️ "}
@@ -2365,14 +2332,14 @@ function UseTransitionDataSyncDemo() {
 					{syncStatus === "同步中" ? "保存中..." : "💾 保存到服务器"}
 				</button>
 
-				<div className={`rounded-md p-3 text-sm ${
-					isPending ? "border-blue-200 bg-blue-50 text-blue-700" : "border-gray-200 bg-gray-50 text-gray-600"
-				}`}>
-					{isPending ? (
-						"🔄 正在同步数据到服务器，您可以继续编辑其他字段..."
-					) : (
-						"💡 修改数据后会显示未保存状态，点击保存按钮使用 transition 同步到服务器"
-					)}
+				<div
+					className={`rounded-md p-3 text-sm ${
+						isPending ? "border-blue-200 bg-blue-50 text-blue-700" : "border-gray-200 bg-gray-50 text-gray-600"
+					}`}
+				>
+					{isPending
+						? "🔄 正在同步数据到服务器，您可以继续编辑其他字段..."
+						: "💡 修改数据后会显示未保存状态，点击保存按钮使用 transition 同步到服务器"}
 				</div>
 			</div>
 		</div>
