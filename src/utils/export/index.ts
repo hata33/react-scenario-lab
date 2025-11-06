@@ -294,7 +294,7 @@ export class ExportUtils {
 
 		const cloned = {} as T;
 		for (const key in data) {
-			if (Object.hasOwn(data, key)) {
+			if (Object.prototype.hasOwnProperty.call(data, key)) {
 				cloned[key] = ExportUtils.deepClone(data[key]);
 			}
 		}

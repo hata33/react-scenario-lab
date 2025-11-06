@@ -17,10 +17,6 @@ export const ExportHistoryComponent: React.FC<ExportHistoryProps> = ({ className
 
 	const exportManager = ExportManager.getInstance();
 
-	useEffect(() => {
-		loadHistory();
-	}, [loadHistory]);
-
 	const loadHistory = async () => {
 		setLoading(true);
 		try {
@@ -32,6 +28,10 @@ export const ExportHistoryComponent: React.FC<ExportHistoryProps> = ({ className
 			setLoading(false);
 		}
 	};
+
+	useEffect(() => {
+		loadHistory();
+	}, [loadHistory]);
 
 	const handleRefresh = () => {
 		loadHistory();

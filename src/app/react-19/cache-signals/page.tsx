@@ -1,34 +1,43 @@
 "use client";
 
 import { CheckCircle, Clock, Code, Copy, Database, Target, Zap } from "lucide-react";
-import React, { useCallback, useEffect, useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import Layout from "@/components/Layout";
+// Import utils
+import { copyWithFeedback } from "@/utils";
 
-// 示例接口定义
-interface CacheSignalExample {
-	id: string;
-	title: string;
-	description: string;
-	category: string;
-	difficulty: string;
-	status: "completed" | "in-progress" | "pending";
-	icon: React.ReactNode;
-	codeSnippet: string;
-	details?: string[];
-	useCases?: string[];
-}
+// Import extracted components from index files
+import {
+	ArchitectureOverview,
+	ExampleDetail,
+	ExampleSelector,
+	Header,
+	OfficialExamples,
+	ThreeWRule,
+} from "../(components)";
+// Import types
+import type { CacheSignalExample, WSection, FeatureCard } from "../(types)";
+// Import demo components from index file
+import {
+	AdvancedApplicationsDemo,
+	BasicCachingDemo,
+	CacheStrategiesDemo,
+	DependencyTrackingDemo,
+} from "./(components)";
 
-// 示例数据
 const cacheSignalExamples: CacheSignalExample[] = [
 	{
 		id: "basic-caching",
-		title: "📦 基础缓存机制",
-		description: "展示 Cache Signals 的基本缓存功能，包括数据的存储、获取和失效机制。",
+		title: "基础缓存机制",
+		description: "展示 Cache Signals 的基本缓存功能，包括数据的存储、获取和失效机制",
 		category: "State Management",
 		difficulty: "初级",
 		status: "completed",
 		icon: <Database className="h-5 w-5" />,
-		codeSnippet: `// 基础缓存示例
+		codeSnippet: `"use client";
+import { cache } from "react";
+
 function UserProfile({ userId }) {
   // 使用 cache signal 缓存用户数据
   const user = cache.use(\`user-\${userId}\`, async () => {
@@ -43,18 +52,42 @@ function UserProfile({ userId }) {
     </div>
   );
 }`,
-		details: ["自动缓存数据，避免重复请求", "依赖追踪，智能失效", "支持异步数据获取"],
-		useCases: ["用户信息缓存", "API 响应缓存", "计算结果缓存"],
+		benefits: ["自动缓存数据，避免重复请求", "依赖追踪，智能失效", "支持异步数据获取", "减少网络请求"],
+		useCases: ["用户信息缓存", "API 响应缓存", "计算结果缓存", "静态资源缓存"],
+		problemsSolved: [
+			{
+				problem: "重复请求浪费",
+				description: "相同数据被多次请求，浪费网络资源和服务器性能",
+				solution: "Cache Signals 自动缓存数据，避免重复请求，提升应用性能",
+			},
+			{
+				problem: "缓存失效困难",
+				description: "手动管理缓存失效时机复杂，容易导致数据不一致",
+				solution: "自动追踪数据依赖，智能判断缓存失效时机，确保数据一致性",
+			},
+			{
+				problem: "状态管理复杂",
+				description: "缓存状态需要手动维护，代码冗余且容易出错",
+				solution: "内置状态管理，自动处理加载、错误、成功状态，简化开发复杂度",
+			},
+			{
+				problem: "用户体验差",
+				description: "网络延迟导致页面加载慢，用户等待时间长",
+				solution: "缓存机制提供即时响应，大幅提升用户体验和感知性能",
+			},
+		],
 	},
 	{
 		id: "dependency-tracking",
-		title: "🔍 智能依赖追踪",
-		description: "演示 Cache Signals 如何自动追踪数据依赖关系，实现精确的缓存失效。",
+		title: "智能依赖追踪",
+		description: "演示 Cache Signals 如何自动追踪数据依赖关系，实现精确的缓存失效",
 		category: "Performance",
 		difficulty: "中级",
 		status: "completed",
 		icon: <Target className="h-5 w-5" />,
-		codeSnippet: `// 复杂的依赖关系自动追踪
+		codeSnippet: `"use client";
+import { cache } from "react";
+
 function UserDashboard({ userId }) {
   // 自动追踪用户数据的依赖
   const user = cache.use(\`user-\${userId}\`, () => fetchUser(userId));
@@ -70,18 +103,42 @@ function UserDashboard({ userId }) {
     </div>
   );
 }`,
-		details: ["自动建立依赖图", "级联缓存失效", "最小化重新渲染"],
-		useCases: ["复杂数据关系", "组件间数据共享", "级联更新场景"],
+		benefits: ["自动建立依赖图", "级联缓存失效", "最小化重新渲染", "精确更新控制"],
+		useCases: ["复杂数据关系", "组件间数据共享", "级联更新场景", "嵌套数据结构"],
+		problemsSolved: [
+			{
+				problem: "依赖关系维护困难",
+				description: "数据间的依赖关系需要手动维护，容易出现遗漏或错误",
+				solution: "自动追踪数据访问模式，构建依赖图，智能管理缓存关系",
+			},
+			{
+				problem: "过度渲染严重",
+				description: "数据变化时无关组件也被重新渲染，影响性能",
+				solution: "精确的依赖追踪，只更新真正受影响的组件，最小化重新渲染",
+			},
+			{
+				problem: "缓存一致性难以保证",
+				description: "相关缓存不能同步更新，导致数据不一致的问题",
+				solution: "级联失效机制，相关数据自动同步更新，确保数据一致性",
+			},
+			{
+				problem: "性能优化困难",
+				description: "无法精确控制更新范围，优化效果有限",
+				solution: "细粒度的依赖管理，实现精确的更新控制，最大化性能优化效果",
+			},
+		],
 	},
 	{
 		id: "cache-strategies",
-		title: "⚡ 缓存策略管理",
-		description: "展示不同的缓存策略，包括 TTL、LRU 和自定义失效策略。",
+		title: "缓存策略管理",
+		description: "展示不同的缓存策略，包括 TTL、LRU 和自定义失效策略",
 		category: "Performance",
 		difficulty: "高级",
 		status: "completed",
 		icon: <Zap className="h-5 w-5" />,
-		codeSnippet: `// 多种缓存策略
+		codeSnippet: `"use client";
+import { cache } from "react";
+
 function DataCache() {
   const [strategy, setStrategy] = useState("ttl");
 
@@ -104,18 +161,42 @@ function DataCache() {
     />
   );
 }`,
-		details: ["TTL (生存时间) 策略", "LRU (最近最少使用) 策略", "自定义失效策略", "策略动态切换"],
-		useCases: ["实时数据缓存", "大量数据管理", "性能优化场景"],
+		benefits: ["TTL (生存时间) 策略", "LRU (最近最少使用) 策略", "自定义失效策略", "策略动态切换"],
+		useCases: ["实时数据缓存", "大量数据管理", "性能优化场景", "内存使用控制"],
+		problemsSolved: [
+			{
+				problem: "缓存策略单一",
+				description: "固定缓存策略无法适应不同场景的需求，性能不理想",
+				solution: "提供多种缓存策略，支持动态切换，满足不同场景的优化需求",
+			},
+			{
+				problem: "内存管理困难",
+				description: "缓存数据无限增长，容易导致内存溢出和性能下降",
+				solution: "LRU 等策略自动管理缓存大小，防止内存溢出，保持系统稳定",
+			},
+			{
+				problem: "数据时效性控制",
+				description: "无法控制缓存数据的时效性，可能使用过期数据",
+				solution: "TTL 策略自动处理数据过期，确保使用最新有效数据",
+			},
+			{
+				problem: "策略配置复杂",
+				description: "不同策略的配置和使用方式复杂，学习成本高",
+				solution: "统一的 API 接口，简化策略配置，降低使用门槛和学习成本",
+			},
+		],
 	},
 	{
 		id: "advanced-applications",
-		title: "🕐 高级应用场景",
-		description: "展示 Cache Signals 在复杂场景中的应用，包括实时数据、计算缓存等。",
-		category: "Performance",
-		difficulty: "中级",
+		title: "高级应用场景",
+		description: "展示 Cache Signals 在复杂场景中的应用，包括实时数据、计算缓存等",
+		category: "Advanced",
+		difficulty: "高级",
 		status: "completed",
 		icon: <Clock className="h-5 w-5" />,
-		codeSnippet: `// 实时数据缓存
+		codeSnippet: `"use client";
+import { cache } from "react";
+
 function useRealtimeData(channel) {
   return cache.use(\`realtime-\${channel}\`, async () => {
     // 建立实时连接
@@ -123,7 +204,9 @@ function useRealtimeData(channel) {
       onData: (newData) => {
         // 自动更新缓存
         cache.update(\`realtime-\${channel}\`, newData);
-      }
+      },
+      onConnect: () => cache.update(\`status-\${channel}\`, 'connected'),
+      onDisconnect: () => cache.update(\`status-\${channel}\`, 'disconnected')
     });
 
     return { data: initialData, subscription };
@@ -134,8 +217,30 @@ function useRealtimeData(channel) {
     autoReconnect: true
   });
 }`,
-		details: ["实时数据同步", "计算结果缓存", "离线数据支持", "网络状态感知"],
+		benefits: ["实时数据同步", "计算结果缓存", "离线数据支持", "网络状态感知"],
 		useCases: ["实时聊天应用", "复杂计算缓存", "离线优先应用", "数据密集型应用"],
+		problemsSolved: [
+			{
+				problem: "实时数据处理复杂",
+				description: "实时数据的缓存和同步逻辑复杂，实现困难",
+				solution: "内置实时数据支持，自动处理连接管理和数据同步，简化实现",
+			},
+			{
+				problem: "计算资源浪费",
+				description: "复杂计算重复执行，浪费 CPU 资源和用户等待时间",
+				solution: "计算结果缓存，避免重复计算，显著提升性能和响应速度",
+			},
+			{
+				problem: "离线体验差",
+				description: "网络中断时无法访问数据，用户体验差",
+				solution: "离线数据缓存，确保网络不稳定时仍能提供基本功能",
+			},
+			{
+				problem: "网络状态管理",
+				description: "网络状态变化时需要手动调整缓存策略，代码复杂",
+				solution: "自动网络状态感知，动态调整缓存策略，优化用户体验",
+			},
+		],
 	},
 ];
 
@@ -213,827 +318,255 @@ function useRealtimeData(channel) {
 ];
 
 export default function CacheSignalsPage() {
+	const [copiedCode, setCopiedCode] = useState(false);
 	const [selectedExample, setSelectedExample] = useState(cacheSignalExamples[0]);
-	const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
-	// 复制代码功能
-	const handleCopyCode = async (code: string) => {
-		try {
-			await navigator.clipboard.writeText(code);
-			setCopiedCode(code);
-			setTimeout(() => setCopiedCode(null), 2000);
-		} catch (error) {
-			console.error("复制失败:", error);
-		}
+	const architectureFeatures: FeatureCard[] = [
+		{
+			icon: <Database className="h-6 w-6 text-blue-600" />,
+			title: "智能缓存",
+			description: "自动管理数据缓存",
+			bgColor: "bg-blue-50",
+			iconColor: "text-blue-600",
+			titleColor: "text-blue-900",
+			descriptionColor: "text-blue-700",
+		},
+		{
+			icon: <Target className="h-6 w-6 text-green-600" />,
+			title: "依赖追踪",
+			description: "精确追踪数据关系",
+			bgColor: "bg-green-50",
+			iconColor: "text-green-600",
+			titleColor: "text-green-900",
+			descriptionColor: "text-green-700",
+		},
+		{
+			icon: <Zap className="h-6 w-6 text-purple-600" />,
+			title: "智能失效",
+			description: "自动失效过期缓存",
+			bgColor: "bg-purple-50",
+			iconColor: "text-purple-600",
+			titleColor: "text-purple-900",
+			descriptionColor: "text-purple-700",
+		},
+		{
+			icon: <Clock className="h-6 w-6 text-orange-600" />,
+			title: "性能优化",
+			description: "减少重复渲染",
+			bgColor: "bg-orange-50",
+			iconColor: "text-orange-600",
+			titleColor: "text-orange-900",
+			descriptionColor: "text-orange-700",
+		},
+	];
+
+	// 3W Rule data
+	const threeWSections: WSection[] = [
+		{
+			description:
+				"Cache Signals 是 React 19 引入的智能缓存系统，自动追踪组件间的数据依赖关系，并在数据发生变化时智能地更新相关缓存，提供高效且易用的状态管理解决方案。",
+			features: ["自动依赖追踪", "智能缓存失效", "精确更新机制", "性能优化"],
+		},
+		{
+			description:
+				"解决传统缓存方案手动管理依赖关系的痛点，通过自动化依赖追踪和智能更新机制，减少过度渲染，确保缓存及时失效，让开发者专注于业务逻辑而不用担忧性能问题。",
+			features: ["减少不必要渲染", "避免缓存失效延迟", "简化状态管理逻辑", "提升应用响应速度"],
+		},
+		{
+			description:
+				"适合处理复杂数据依赖关系、频繁数据更新或需要优化性能的场景，特别是数据密集型应用、实时数据同步、需要精确控制缓存失效策略的性能敏感型应用。",
+			features: ["复杂数据依赖关系", "实时数据同步", "大数据量缓存", "性能敏感型应用"],
+		},
+	];
+
+	// 官方代码示例数据
+	const getOfficialExamples = (exampleId: string) => {
+		const examples = {
+			"basic-caching": [
+				{
+					title: "🚀 基础缓存使用",
+					code: `"use client";
+import { cache } from "react";
+
+function UserProfile({ userId }) {
+  const user = cache.use(\`user-\${userId}\`, async () => {
+    const response = await fetch(\`/api/users/\${userId}\`);
+    return response.json();
+  });
+
+  if (!user) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <p>{user.email}</p>
+    </div>
+  );
+}`,
+					description: "最基础的缓存使用方式",
+				},
+				{
+					title: "⚡ 缓存失效控制",
+					code: `// 手动控制缓存失效
+function updateUser(userId, userData) {
+  // 更新数据
+  const updatedUser = await updateUserApi(userId, userData);
+
+  // 失效相关缓存
+  cache.invalidate(\`user-\${userId}\`);
+  cache.invalidate(\`user-posts-\${userId}\`);
+
+  return updatedUser;
+}`,
+					description: "精确控制缓存失效时机",
+				},
+			],
+			"dependency-tracking": [
+				{
+					title: "🔗 自动依赖追踪",
+					code: `function UserDashboard({ userId }) {
+  const user = cache.use(\`user-\${userId}\`, () => fetchUser(userId));
+  const posts = cache.use(\`posts-\${userId}\`, () => fetchUserPosts(userId));
+
+  // 当 user 变化时，posts 缓存会自动失效
+  return (
+    <div>
+      <UserProfile user={user} />
+      <UserPosts posts={posts} />
+    </div>
+  );
+}`,
+					description: "自动追踪数据依赖关系",
+				},
+			],
+			"cache-strategies": [
+				{
+					title: "⏰ TTL 缓存策略",
+					code: `function DataComponent() {
+  const data = cache.use("api-data", fetchData, {
+    ttl: 5000, // 5秒后自动过期
+  });
+
+  return <div>{data?.content}</div>;
+}`,
+					description: "设置缓存生存时间",
+				},
+				{
+					title: "📚 LRU 缓存策略",
+					code: `function DataComponent() {
+  const data = cache.use("api-data", fetchData, {
+    strategy: "lru",
+    maxSize: 100, // 最多缓存100项
+  });
+
+  return <div>{data?.content}</div>;
+}`,
+					description: "最近最少使用策略",
+				},
+			],
+			"advanced-applications": [
+				{
+					title: "🔄 实时数据缓存",
+					code: `function useRealtimeData(channel) {
+  return cache.use(\`realtime-\${channel}\`, async () => {
+    const subscription = createSubscription(channel, {
+      onData: (newData) => {
+        cache.update(\`realtime-\${channel}\`, newData);
+      },
+    });
+    return { data: initialData, subscription };
+  }, {
+    realtime: true,
+    autoReconnect: true,
+  });
+}`,
+					description: "实时数据的缓存管理",
+				},
+				{
+					title: "💾 计算结果缓存",
+					code: `function useExpensiveComputation(input) {
+  return cache.use(\`compute-\${input}\`, () => {
+    // 复杂计算逻辑
+    let result = 0;
+    for (let i = 0; i < 1000000; i++) {
+      result += Math.sqrt(i) * Math.random();
+    }
+    return result;
+  }, {
+    strategy: "lru",
+    maxSize: 50,
+  });
+}`,
+					description: "缓存复杂计算结果",
+				},
+			],
+		};
+
+		return examples[exampleId as keyof typeof examples] || [];
 	};
 
-	// 恢复选中状态
-	useEffect(() => {
-		const savedExample = sessionStorage.getItem("selectedCacheSignalExample");
-		if (savedExample) {
-			const example = cacheSignalExamples.find((ex) => ex.id === savedExample);
-			if (example) setSelectedExample(example);
+	// Get demo components based on selected example
+	const getDemoComponents = () => {
+		switch (selectedExample.id) {
+			case "basic-caching":
+				return [<BasicCachingDemo key="basic" />];
+			case "dependency-tracking":
+				return [<DependencyTrackingDemo key="dependency" />];
+			case "cache-strategies":
+				return [<CacheStrategiesDemo key="strategies" />];
+			case "advanced-applications":
+				return [<AdvancedApplicationsDemo key="advanced" />];
+			default:
+				return [];
 		}
-	}, []);
-
-	// 保存选中状态
-	useEffect(() => {
-		sessionStorage.setItem("selectedCacheSignalExample", selectedExample.id);
-	}, [selectedExample]);
-
-	// 模拟 Cache Signals 缓存机制
-	const cache = React.useRef(new Map());
-	const dependencies = React.useRef(new Map());
-
-	const handleCacheToggle = useCallback(() => {
-		// 模拟缓存操作
-		const key = `demo-${Date.now()}`;
-		const value = { data: "sample", timestamp: Date.now() };
-		cache.current.set(key, value);
-		console.log("缓存已更新:", { key, value });
-	}, []);
-
-	const handleSearch = useCallback(async () => {
-		// 模拟搜索操作
-		const query = "sample query";
-		console.log("执行搜索:", query);
-	}, []);
-
-	const clearCache = useCallback(() => {
-		// 清空缓存
-		cache.current.clear();
-		dependencies.current.clear();
-		console.log("缓存已清空");
-	}, []);
+	};
 
 	return (
 		<Layout>
 			<div className="min-h-screen bg-gray-50">
-				{/* 头部 */}
-				<div className="bg-white shadow-sm">
-					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-						<div className="flex items-center space-x-4">
-							<div className="flex items-center space-x-3">
-								<Database className="h-8 w-8 text-blue-600" />
-								<div>
-									<h1 className="font-bold text-3xl text-gray-900">React 19 Cache Signals</h1>
-									<p className="text-gray-600">智能缓存与依赖追踪系统</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				{/* Header */}
+				<Header
+					icon={<Database className="h-8 w-8 text-blue-600" />}
+					title="React 19 Cache Signals"
+					subtitle="智能缓存与依赖追踪系统"
+				/>
 
 				{/* Cache Signals 架构概览 */}
-				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-						<h2 className="mb-6 font-semibold text-gray-900 text-xl">Cache Signals 生态系统</h2>
-						<div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-							<div className="rounded-lg bg-blue-50 p-4 text-center">
-								<Database className="mx-auto mb-2 h-6 w-6 text-blue-600" />
-								<h3 className="mb-1 font-semibold text-blue-900">智能缓存</h3>
-								<p className="text-blue-700 text-sm">自动管理数据缓存</p>
-							</div>
-							<div className="rounded-lg bg-green-50 p-4 text-center">
-								<Target className="mx-auto mb-2 h-6 w-6 text-green-600" />
-								<h3 className="mb-1 font-semibold text-green-900">依赖追踪</h3>
-								<p className="text-green-700 text-sm">精确追踪数据关系</p>
-							</div>
-							<div className="rounded-lg bg-purple-50 p-4 text-center">
-								<Zap className="mx-auto mb-2 h-6 w-6 text-purple-600" />
-								<h3 className="mb-1 font-semibold text-purple-900">智能失效</h3>
-								<p className="text-purple-700 text-sm">自动失效过期缓存</p>
-							</div>
-							<div className="rounded-lg bg-orange-50 p-4 text-center">
-								<Clock className="mx-auto mb-2 h-6 w-6 text-orange-600" />
-								<h3 className="mb-1 font-semibold text-orange-900">性能优化</h3>
-								<p className="text-orange-700 text-sm">减少重复渲染</p>
-							</div>
-						</div>
-					</div>
-				</div>
+				<ArchitectureOverview title="Cache Signals 生态系统" features={architectureFeatures} />
 
 				{/* 3W 法则解析 */}
-				<div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-					<div className="rounded-lg border border-blue-200 bg-blue-50 p-6 shadow-sm">
-						<h2 className="mb-6 font-bold text-2xl text-blue-800">📖 3W 法则：Cache Signals</h2>
-						<div className="grid gap-6 md:grid-cols-3">
-							<div className="rounded-lg border border-blue-200 bg-white p-4 shadow-sm">
-								<div className="mb-3 flex items-center gap-2">
-									<div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 font-bold text-white">
-										W
-									</div>
-									<h3 className="font-semibold text-blue-800">What - 什么是 Cache Signals</h3>
-								</div>
-								<p className="text-blue-700 leading-relaxed">
-									Cache Signals 是 React 19 引入的智能缓存系统，它能够自动追踪组件间的数据依赖关系，
-									并在数据发生变化时智能地更新相关缓存。它结合了缓存机制和信号系统，
-									为开发者提供了一个既高效又易用的状态管理解决方案。
-								</p>
-								<div className="mt-3 rounded border border-blue-200 bg-white p-3">
-									<h4 className="mb-2 font-medium text-blue-800">核心特性</h4>
-									<ul className="space-y-1 text-blue-700 text-sm">
-										<li>• 自动依赖追踪</li>
-										<li>• 智能缓存失效</li>
-										<li>• 精确更新机制</li>
-										<li>• 性能优化</li>
-									</ul>
-								</div>
-							</div>
-
-							<div className="rounded-lg border border-green-200 bg-white p-4 shadow-sm">
-								<div className="mb-3 flex items-center gap-2">
-									<div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-600 font-bold text-white">
-										W
-									</div>
-									<h3 className="font-semibold text-green-800">Why - 为什么使用 Cache Signals</h3>
-								</div>
-								<p className="text-green-700 leading-relaxed">
-									传统的缓存方案往往需要手动管理依赖关系，容易出现过度渲染或缓存失效不及时的问题。 Cache Signals
-									通过自动化的依赖追踪和智能更新机制，解决了这些痛点， 让开发者能够专注于业务逻辑而不用担忕性能问题。
-								</p>
-								<div className="mt-3 rounded border border-green-200 bg-white p-3">
-									<h4 className="mb-2 font-medium text-green-800">解决的问题</h4>
-									<ul className="space-y-1 text-green-700 text-sm">
-										<li>• 减少不必要的重新渲染</li>
-										<li>• 避免缓存失效不及时</li>
-										<li>• 简化状态管理逻辑</li>
-										<li>• 提升应用响应速度</li>
-									</ul>
-								</div>
-							</div>
-
-							<div className="rounded-lg border border-purple-200 bg-white p-4 shadow-sm">
-								<div className="mb-3 flex items-center gap-2">
-									<div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
-										W
-									</div>
-									<h3 className="font-semibold text-purple-800">When - 何时使用 Cache Signals</h3>
-								</div>
-								<p className="text-purple-700 leading-relaxed">
-									当你的应用需要处理复杂的数据依赖关系、频繁的数据更新或需要优化性能时， Cache Signals
-									就是一个理想的选择。特别适合数据密集型应用、实时数据同步、 以及需要精确控制缓存失效策略的场景。
-								</p>
-								<div className="mt-3 rounded border border-purple-200 bg-white p-3">
-									<h4 className="mb-2 font-medium text-purple-800">最佳使用场景</h4>
-									<ul className="space-y-1 text-purple-700 text-sm">
-										<li>• 复杂数据依赖关系</li>
-										<li>• 实时数据同步</li>
-										<li>• 大数据量缓存</li>
-										<li>• 性能敏感型应用</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
 
 				{/* 示例选择器 - 吸顶区域 */}
-				<div className="sticky top-0 z-10 border-gray-200 border-b bg-white">
-					<div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
-						<div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
-							<h2 className="font-semibold text-gray-900 text-sm">选择示例:</h2>
-							<div className="flex flex-wrap justify-center gap-2">
-								{cacheSignalExamples.map((example) => (
-									<button
-										key={example.id}
-										onClick={() => setSelectedExample(example)}
-										className={`rounded-lg px-3 py-1.5 font-medium text-sm transition-all ${
-											selectedExample?.id === example.id
-												? "bg-blue-500 text-white shadow-sm"
-												: "border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-										}`}
-									>
-										<span className="mr-1">{example.icon}</span>
-										{example.title}
-										<span
-											className={`ml-1.5 rounded px-1.5 py-0.5 text-xs ${
-												example.difficulty === "初级"
-													? "bg-green-100 text-green-700"
-													: example.difficulty === "中级"
-														? "bg-yellow-100 text-yellow-700"
-														: "bg-red-100 text-red-700"
-											}`}
-										>
-											{example.difficulty}
-										</span>
-									</button>
-								))}
-							</div>
-						</div>
-					</div>
-				</div>
+				<ExampleSelector
+					selectorLabel="选择示例:"
+					examples={cacheSignalExamples}
+					selectedExampleId={selectedExample.id}
+					onExampleSelect={(exampleId) => {
+						const example = cacheSignalExamples.find((ex) => ex.id === exampleId);
+						if (example) setSelectedExample(example);
+					}}
+				/>
 
 				{/* 详细展示区域 - 下方内容 */}
 				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
 					{selectedExample && (
-						<div className="space-y-8">
-							{/* 示例详细信息 */}
-							<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
-								<div className="border-gray-200 border-b p-6">
-									<div className="flex items-center space-x-4">
-										<div className="rounded-lg bg-blue-100 p-3 text-blue-600">{selectedExample.icon}</div>
-										<div>
-											<h3 className="font-semibold text-2xl text-gray-900">{selectedExample.title}</h3>
-											<p className="text-gray-600">{selectedExample.description}</p>
-										</div>
-									</div>
-								</div>
-
-								<div className="p-6">
-									<div className="mb-6">
-										<h4 className="mb-3 font-semibold text-gray-900">🎮 交互式演示</h4>
-										<div className="space-y-6">
-											{selectedExample.id === "basic-caching" && <BasicCachingDemo />}
-											{selectedExample.id === "dependency-tracking" && <DependencyTrackingDemo />}
-											{selectedExample.id === "cache-strategies" && <CacheStrategiesDemo />}
-											{selectedExample.id === "advanced-applications" && <AdvancedApplicationsDemo />}
-										</div>
-									</div>
-
-									<div className="mb-6">
-										<div className="mb-3 flex items-center justify-between">
-											<h4 className="font-semibold text-gray-900">📝 代码示例</h4>
-											<button
-												onClick={() => handleCopyCode(selectedExample.codeSnippet)}
-												className="flex items-center space-x-1 text-gray-600 text-sm hover:text-gray-900"
-											>
-												<Copy className="h-4 w-4" />
-												<span>{copiedCode === selectedExample.codeSnippet ? "已复制" : "复制"}</span>
-											</button>
-										</div>
-										<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
-											<pre className="text-sm">
-												<code>{selectedExample.codeSnippet}</code>
-											</pre>
-										</div>
-									</div>
-
-									{/* 主要优势和使用场景 */}
-									<div className="grid gap-6 md:grid-cols-2">
-										<div>
-											<h5 className="mb-3 font-medium text-gray-900">✨ 核心特性</h5>
-											<div className="flex flex-wrap gap-2">
-												{selectedExample.details?.map((detail, index) => (
-													<span
-														key={index}
-														className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm"
-													>
-														{detail}
-													</span>
-												))}
-											</div>
-										</div>
-
-										<div>
-											<h5 className="mb-3 font-medium text-gray-900">🎯 使用场景</h5>
-											<div className="flex flex-wrap gap-2">
-												{selectedExample.useCases?.map((useCase, index) => (
-													<span
-														key={index}
-														className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-blue-700 text-sm"
-													>
-														{useCase}
-													</span>
-												))}
-											</div>
-										</div>
-									</div>
-								</div>
-
-								{selectedExample.status === "completed" && (
-									<div className="border-green-200 border-t bg-green-50 p-6">
-										<div className="flex items-center space-x-2 text-green-800">
-											<CheckCircle className="h-5 w-5" />
-											<span className="font-medium">该功能已在 React 19 中正式发布</span>
-										</div>
-									</div>
-								)}
-							</div>
-						</div>
+						<ExampleDetail
+							example={selectedExample}
+							demoComponents={getDemoComponents()}
+							onCopyCode={(code) => copyWithFeedback(code, setCopiedCode)}
+							copiedCode={copiedCode}
+						/>
 					)}
 				</div>
 
-				{/* 快速操作和官方示例 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-					<div className="grid gap-8 lg:grid-cols-3">
-						<div className="lg:col-span-2">
-							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-								<h2 className="mb-6 font-bold text-2xl text-gray-900">📚 官方示例</h2>
-								<p className="mb-6 text-gray-600">以下示例展示了 Cache Signals 的最佳实践</p>
-
-								<div className="grid gap-6 lg:grid-cols-2">
-									{getOfficialExamples().map((example, index) => (
-										<div key={index} className="rounded-lg border border-gray-200 p-4">
-											<h3 className="mb-3 font-semibold text-gray-800">{example.title}</h3>
-											<pre className="mb-2 overflow-x-auto rounded bg-gray-900 p-3 text-gray-100 text-xs">
-												{example.code}
-											</pre>
-										</div>
-									))}
-								</div>
-							</div>
-						</div>
-
-						<div className="lg:col-span-1">
-							<div className="space-y-6">
-								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-									<h3 className="mb-4 font-semibold">快速操作</h3>
-									<div className="space-y-3">
-										<button
-											onClick={handleCacheToggle}
-											className="w-full rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-										>
-											<Database className="mr-2 inline h-4 w-4" />
-											模拟缓存操作
-										</button>
-										<button
-											onClick={handleSearch}
-											className="w-full rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-										>
-											<Target className="mr-2 inline h-4 w-4" />
-											执行搜索
-										</button>
-										<button
-											onClick={clearCache}
-											className="w-full rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-										>
-											<Zap className="mr-2 inline h-4 w-4" />
-											清空缓存
-										</button>
-									</div>
-								</div>
-
-								<div className="rounded-lg border border-blue-200 bg-blue-50 p-6 shadow-sm">
-									<h3 className="mb-3 font-semibold text-blue-800">💡 提示</h3>
-									<p className="text-blue-700 text-sm">
-										Cache Signals 自动管理缓存依赖，当数据发生变化时会智能地更新相关组件， 确保 UI 始终显示最新的数据。
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</Layout>
-	);
-}
-
-// 基础缓存演示组件
-function BasicCachingDemo() {
-	const [data, setData] = useState<any>(null);
-	const [loading, setLoading] = useState(false);
-	const [cacheHits, setCacheHits] = useState(0);
-
-	const fetchData = useCallback(async (forceRefresh = false) => {
-		setLoading(true);
-		// 模拟 API 调用
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-		setData({
-			id: 1,
-			name: "Sample Data",
-			timestamp: Date.now(),
-			fromCache: !forceRefresh,
-		});
-		if (!forceRefresh) {
-			setCacheHits((prev) => prev + 1);
-		}
-		setLoading(false);
-	}, []);
-
-	return (
-		<div className="space-y-4">
-			<div className="flex gap-2">
-				<button
-					onClick={() => fetchData()}
-					disabled={loading}
-					className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
-				>
-					{loading ? "加载中..." : "加载数据"}
-				</button>
-				<button
-					onClick={() => fetchData(true)}
-					disabled={loading}
-					className="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700 disabled:opacity-50"
-				>
-					强制刷新
-				</button>
-			</div>
-
-			{data && (
-				<div className="rounded border border-gray-200 bg-white p-4">
-					<h4 className="mb-2 font-medium">数据结果</h4>
-					<p>ID: {data.id}</p>
-					<p>名称: {data.name}</p>
-					<p>时间戳: {new Date(data.timestamp).toLocaleTimeString()}</p>
-					<p className="text-gray-600 text-sm">{data.fromCache ? "🎯 来自缓存" : "🌐 网络请求"}</p>
-				</div>
-			)}
-
-			<div className="text-gray-600 text-sm">缓存命中次数: {cacheHits}</div>
-		</div>
-	);
-}
-
-// 依赖追踪演示组件
-function DependencyTrackingDemo() {
-	const [userId, setUserId] = useState(1);
-	const [user, setUser] = useState<any>(null);
-	const [posts, setPosts] = useState<any[]>([]);
-
-	const fetchUser = useCallback(async (id: number) => {
-		await new Promise((resolve) => setTimeout(resolve, 500));
-		return { id, name: `User ${id}`, email: `user${id}@example.com` };
-	}, []);
-
-	const fetchUserPosts = useCallback(async (id: number) => {
-		await new Promise((resolve) => setTimeout(resolve, 800));
-		return Array.from({ length: 3 }, (_, i) => ({
-			id: i + 1,
-			title: `Post ${i + 1} by User ${id}`,
-			content: `Content for post ${i + 1}`,
-		}));
-	}, []);
-
-	useEffect(() => {
-		fetchUser(userId).then(setUser);
-		fetchUserPosts(userId).then(setPosts);
-	}, [userId, fetchUser, fetchUserPosts]);
-
-	return (
-		<div className="space-y-4">
-			<div className="flex items-center gap-2">
-				<label>用户 ID:</label>
-				<input
-					type="number"
-					value={userId}
-					onChange={(e) => setUserId(Number(e.target.value))}
-					className="rounded border border-gray-300 px-3 py-1"
-					min="1"
+				{/* 官方代码示例 */}
+				<OfficialExamples
+					title={`📚 ${selectedExample?.title} 官方示例`}
+					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+					examples={getOfficialExamples(selectedExample?.id || "")}
 				/>
 			</div>
-
-			{user && (
-				<div className="rounded border border-blue-200 bg-blue-50 p-4">
-					<h4 className="mb-2 font-medium">用户信息</h4>
-					<p>ID: {user.id}</p>
-					<p>姓名: {user.name}</p>
-					<p>邮箱: {user.email}</p>
-				</div>
-			)}
-
-			{posts.length > 0 && (
-				<div className="rounded border border-green-200 bg-green-50 p-4">
-					<h4 className="mb-2 font-medium">用户文章</h4>
-					<div className="space-y-2">
-						{posts.map((post) => (
-							<div key={post.id} className="border-green-100 border-b pb-2">
-								<h5 className="font-medium">{post.title}</h5>
-								<p className="text-gray-600 text-sm">{post.content}</p>
-							</div>
-						))}
-					</div>
-				</div>
-			)}
-		</div>
-	);
-}
-
-// 缓存策略演示组件
-function CacheStrategiesDemo() {
-	const [strategy, setStrategy] = useState("ttl");
-	const [data, setData] = useState<any[]>([]);
-	const [stats, setStats] = useState({ hits: 0, misses: 0, evictions: 0 });
-
-	const strategies = [
-		{ value: "ttl", label: "TTL (5秒过期)", description: "数据在5秒后自动过期" },
-		{ value: "lru", label: "LRU (最近最少使用)", description: "最多保留10个最近使用的项目" },
-		{ value: "size", label: "Size (大小限制)", description: "总数据大小不超过1KB" },
-	];
-
-	const addData = useCallback(() => {
-		const newItem = {
-			id: Date.now(),
-			value: Math.random().toString(36).substring(7),
-			timestamp: Date.now(),
-			strategy,
-		};
-
-		setData((prev) => {
-			const updated = [...prev, newItem];
-
-			// 应用不同的缓存策略
-			if (strategy === "ttl") {
-				// TTL: 移除5秒前的数据
-				const cutoff = Date.now() - 5000;
-				return updated.filter((item) => item.timestamp > cutoff);
-			} else if (strategy === "lru") {
-				// LRU: 只保留最近的10个项目
-				return updated.slice(-10);
-			} else if (strategy === "size") {
-				// Size: 简单的大小限制演示
-				return updated.slice(-5);
-			}
-
-			return updated;
-		});
-
-		setStats((prev) => ({ ...prev, hits: prev.hits + 1 }));
-	}, [strategy]);
-
-	const clearData = useCallback(() => {
-		setData([]);
-		setStats({ hits: 0, misses: 0, evictions: 0 });
-	}, []);
-
-	return (
-		<div className="space-y-4">
-			<div className="space-y-2">
-				<h4 className="font-medium">选择缓存策略:</h4>
-				<div className="grid gap-2">
-					{strategies.map((s) => (
-						<label key={s.value} className="flex items-center gap-2">
-							<input
-								type="radio"
-								value={s.value}
-								checked={strategy === s.value}
-								onChange={(e) => setStrategy(e.target.value)}
-							/>
-							<div>
-								<span className="font-medium">{s.label}</span>
-								<p className="text-gray-600 text-sm">{s.description}</p>
-							</div>
-						</label>
-					))}
-				</div>
-			</div>
-
-			<div className="flex gap-2">
-				<button onClick={addData} className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
-					添加数据
-				</button>
-				<button onClick={clearData} className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700">
-					清空数据
-				</button>
-			</div>
-
-			<div className="grid grid-cols-3 gap-4 text-center">
-				<div className="rounded border border-gray-200 bg-white p-3">
-					<div className="font-bold text-blue-600 text-lg">{stats.hits}</div>
-					<div className="text-gray-600 text-sm">缓存命中</div>
-				</div>
-				<div className="rounded border border-gray-200 bg-white p-3">
-					<div className="font-bold text-lg text-orange-600">{stats.misses}</div>
-					<div className="text-gray-600 text-sm">缓存未命中</div>
-				</div>
-				<div className="rounded border border-gray-200 bg-white p-3">
-					<div className="font-bold text-lg text-red-600">{stats.evictions}</div>
-					<div className="text-gray-600 text-sm">缓存淘汰</div>
-				</div>
-			</div>
-
-			{data.length > 0 && (
-				<div className="rounded border border-gray-200 bg-white p-4">
-					<h4 className="mb-2 font-medium">缓存数据 ({data.length} 项)</h4>
-					<div className="space-y-1">
-						{data.map((item) => (
-							<div key={item.id} className="flex justify-between text-sm">
-								<span>{item.value}</span>
-								<span className="text-gray-500">{new Date(item.timestamp).toLocaleTimeString()}</span>
-							</div>
-						))}
-					</div>
-				</div>
-			)}
-		</div>
-	);
-}
-
-// 高级应用演示组件
-function AdvancedApplicationsDemo() {
-	const [scenario, setScenario] = useState("realtime");
-	const [connectionStatus, setConnectionStatus] = useState("disconnected");
-	const [messages, setMessages] = useState<any[]>([]);
-
-	// 计算缓存演示状态
-	const [computing, setComputing] = useState(false);
-	const [input, setInput] = useState("");
-	const [computationResults, setComputationResults] = useState<any>({});
-	const computationCache = React.useRef(new Map());
-
-	const handleScenarioChange = useCallback((newScenario: string) => {
-		setScenario(newScenario);
-		setMessages([]);
-	}, []);
-
-	// 实时数据演示的连接逻辑
-	const subscriptionRef = React.useRef<any>(null);
-
-	const connect = useCallback(() => {
-		setConnectionStatus("connected");
-		subscriptionRef.current = Math.random().toString(36).substring(2, 11);
-
-		// 模拟实时数据推送
-		const interval = setInterval(() => {
-			const message = {
-				id: `msg-${Date.now()}`,
-				text: `实时消息 ${Math.random().toString(36).substring(2, 7)}`,
-				timestamp: new Date().toLocaleTimeString(),
-				subscriptionId: subscriptionRef.current,
-			};
-
-			setMessages((prev) => [...prev.slice(-9), message]);
-		}, 2000);
-
-		setTimeout(() => {
-			clearInterval(interval);
-			setConnectionStatus("disconnected");
-		}, 20000);
-	}, []);
-
-	const disconnect = useCallback(() => {
-		setConnectionStatus("disconnected");
-		subscriptionRef.current = null;
-	}, []);
-
-	// 计算缓存演示的函数
-	const expensiveComputation = useCallback((value: string) => {
-		const cacheKey = `compute-${value}`;
-
-		if (computationCache.current.has(cacheKey)) {
-			return computationCache.current.get(cacheKey);
-		}
-
-		// 模拟复杂计算
-		const startTime = Date.now();
-		let result = 0;
-		for (let i = 0; i < 2000000; i++) {
-			result += Math.sqrt(i) * Math.random();
-		}
-
-		const computationTime = Date.now() - startTime;
-
-		const output = {
-			input: value,
-			result: result.toFixed(2),
-			computationTime,
-			timestamp: new Date().toLocaleTimeString(),
-		};
-
-		computationCache.current.set(cacheKey, output);
-		return output;
-	}, []);
-
-	const compute = useCallback(() => {
-		if (!input.trim()) return;
-
-		setComputing(true);
-		setTimeout(() => {
-			const result = expensiveComputation(input);
-			setComputationResults((prev: any) => ({ ...prev, [input]: result }));
-			setComputing(false);
-		}, 100);
-	}, [input, expensiveComputation]);
-
-	const clearComputationCache = useCallback(() => {
-		computationCache.current.clear();
-		setComputationResults({});
-	}, []);
-
-	return (
-		<div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-			<h5 className="mb-3 font-semibold text-gray-800">🚀 高级应用场景演示</h5>
-
-			<div className="mb-4">
-				<div className="flex gap-2">
-					{[
-						{ key: "realtime", label: "实时数据", icon: "📡" },
-						{ key: "computation", label: "计算缓存", icon: "⚡" },
-					].map(({ key, label, icon }) => (
-						<button
-							key={key}
-							onClick={() => handleScenarioChange(key)}
-							className={`rounded px-3 py-2 font-medium text-sm transition-colors ${
-								scenario === key ? "bg-blue-600 text-white" : "bg-white text-gray-700 hover:bg-gray-100"
-							}`}
-						>
-							{icon} {label}
-						</button>
-					))}
-				</div>
-			</div>
-
-			{scenario === "realtime" && (
-				<div className="space-y-4">
-					<div className="flex gap-4">
-						<button
-							onClick={connect}
-							disabled={connectionStatus === "connected"}
-							className="rounded bg-green-600 px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-green-700 disabled:opacity-50"
-						>
-							{connectionStatus === "connected" ? "🟢 已连接" : "📡 连接实时数据"}
-						</button>
-						<button
-							onClick={disconnect}
-							disabled={connectionStatus === "disconnected"}
-							className="rounded bg-red-600 px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-red-700 disabled:opacity-50"
-						>
-							🔴 断开连接
-						</button>
-					</div>
-
-					<div className="rounded border border-gray-200 bg-white p-3">
-						<div className="mb-3">
-							<h4 className="mb-2 font-medium text-gray-800 text-sm">实时消息流</h4>
-							<span
-								className={`rounded px-2 py-1 text-sm ${
-									connectionStatus === "connected" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-								}`}
-							>
-								{connectionStatus === "connected" ? "🟢 已连接" : "🔴 已断开"}
-							</span>
-						</div>
-
-						<div className="max-h-40 space-y-2 overflow-auto">
-							{messages.length === 0 ? (
-								<p className="text-center text-gray-500 text-sm">暂无消息...</p>
-							) : (
-								messages.map((msg) => (
-									<div key={msg.id} className="rounded bg-gray-50 p-2 text-sm">
-										<span className="text-gray-500">[{msg.timestamp}]</span> {msg.text}
-									</div>
-								))
-							)}
-						</div>
-					</div>
-
-					<div className="rounded border border-purple-200 bg-purple-50 p-3">
-						<p className="text-purple-800 text-sm">
-							💡 实时数据缓存确保在网络中断时仍能访问最新数据，提供更好的用户体验
-						</p>
-					</div>
-				</div>
-			)}
-
-			{scenario === "computation" && (
-				<div className="space-y-4">
-					<div className="flex gap-2">
-						<input
-							type="text"
-							value={input}
-							onChange={(e) => setInput(e.target.value)}
-							placeholder="输入计算值..."
-							className="flex-1 rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-						/>
-						<button
-							onClick={compute}
-							disabled={computing || !input.trim()}
-							className="rounded bg-blue-600 px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
-						>
-							{computing ? "🔄 计算中..." : "🔢 开始计算"}
-						</button>
-						<button
-							onClick={clearComputationCache}
-							className="rounded bg-gray-600 px-4 py-2 font-medium text-sm text-white transition-colors hover:bg-gray-700"
-						>
-							🗑️ 清除缓存
-						</button>
-					</div>
-
-					<div className="rounded border border-gray-200 bg-white p-4">
-						<h4 className="mb-3 font-medium text-gray-800 text-sm">⚡ 计算结果缓存</h4>
-						<div className="space-y-2">
-							{Object.entries(computationResults).length === 0 ? (
-								<p className="text-gray-500 text-sm">暂无计算结果...</p>
-							) : (
-								Object.entries(computationResults).map(([key, value]: any) => (
-									<div key={key} className="rounded border border-blue-200 bg-blue-50 p-3">
-										<h4 className="mb-2 font-medium text-gray-800 text-sm">输入: {value.input}</h4>
-										<p className="mb-1 text-gray-600 text-sm">结果: {value.result}</p>
-										<p className="mb-1 text-gray-500 text-xs">计算时间: {value.computationTime}ms</p>
-										<p className="text-gray-500 text-xs">
-											时间戳: {value.timestamp}
-											{computationCache.current.has(`compute-${key}`) && (
-												<span className="ml-2 text-green-600">(✅ 已缓存)</span>
-											)}
-										</p>
-									</div>
-								))
-							)}
-						</div>
-					</div>
-
-					<div className="rounded border border-green-200 bg-green-50 p-3">
-						<p className="text-green-800 text-sm">💡 计算结果缓存可以避免重复的复杂计算，显著提升性能</p>
-					</div>
-				</div>
-			)}
-
-			<div className="mt-4 rounded border border-orange-200 bg-orange-50 p-3">
-				<p className="text-orange-800 text-sm">
-					🚀 Cache Signals 支持多种高级应用场景，从实时数据同步到复杂计算缓存， 都能显著提升应用性能和用户体验。
-				</p>
-			</div>
-		</div>
+		</Layout>
 	);
 }

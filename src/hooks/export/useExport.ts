@@ -54,13 +54,6 @@ export function useExport(options: UseExportOptions = {}): UseExportReturn {
 
 	const exportManager = ExportManager.getInstance();
 
-	// 加载历史记录
-	useEffect(() => {
-		if (autoSaveHistory) {
-			loadHistory();
-		}
-	}, [autoSaveHistory, loadHistory]);
-
 	const loadHistory = useCallback(() => {
 		try {
 			const exportHistory = exportManager.getHistory();
@@ -69,6 +62,13 @@ export function useExport(options: UseExportOptions = {}): UseExportReturn {
 			console.error("加载导出历史失败:", error);
 		}
 	}, [exportManager]);
+
+	// 加载历史记录
+	useEffect(() => {
+		if (autoSaveHistory) {
+			loadHistory();
+		}
+	}, [autoSaveHistory, loadHistory]);
 
 	// 导出功能
 	const exportData = useCallback(
