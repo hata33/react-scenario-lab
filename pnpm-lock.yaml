@@ -78,6 +78,9 @@ importers:
       bpmn-js:
         specifier: ^18.7.0
         version: 18.7.0
+      bpmn-js-i18n:
+        specifier: ^2.3.0
+        version: 2.3.0(bpmn-js@18.7.0)
       bpmn-js-properties-panel:
         specifier: ^5.42.1
         version: 5.42.1(@bpmn-io/properties-panel@3.33.0)(bpmn-js@18.7.0)(camunda-bpmn-js-behaviors@1.11.2(bpmn-js@18.7.0)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.11.0))(diagram-js@15.4.0)
@@ -3020,6 +3023,12 @@ packages:
 
   bluebird@3.7.2:
     resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
+
+  bpmn-js-i18n@2.3.0:
+    resolution: {integrity: sha512-VY1DvtX2koafIU9teOawtvFU7kJQpBr7vjAdZg1uvHTzcHvpwRX+h6k/lkcdh/v+/79+3vYrXofRouFIrbwfxw==}
+    engines: {node: '>= 16'}
+    peerDependencies:
+      bpmn-js: '>= 16'
 
   bpmn-js-properties-panel@5.42.1:
     resolution: {integrity: sha512-3hJbnlc+2eoV9SB/n910e23TS0arveRGocIuUAUl24wyJZpLEvnE4g/TsArUkW/hZF3uH0JrB49cuaUPfpTBGA==}
@@ -6111,6 +6120,9 @@ packages:
   third-party-web@0.27.0:
     resolution: {integrity: sha512-h0JYX+dO2Zr3abCQpS6/uFjujaOjA1DyDzGQ41+oFn9VW/ARiq9g5ln7qEP9+BTzDpOMyIfsfj4OvfgXAsMUSA==}
 
+  third-party-web@0.28.0:
+    resolution: {integrity: sha512-4P798O67JmIKRJfJ1HSOkIsZrx2+FuaN2jTQX+imHXFPbGp17KSMDabYxrRT011B3gBzaoHFhUkBlEkNZN8vuQ==}
+
   throttle-debounce@5.0.2:
     resolution: {integrity: sha512-B71/4oyj61iNH0KeCamLuE2rmKuTO5byTOSVwECM5FA7TiAiAW+UqTKZ9ERueC4qvgSttUhdmq1mXC3kJqGX7A==}
     engines: {node: '>=12.22'}
@@ -8616,7 +8628,7 @@ snapshots:
   '@paulirish/trace_engine@0.0.61':
     dependencies:
       legacy-javascript: 0.0.1
-      third-party-web: 0.27.0
+      third-party-web: 0.28.0
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -10164,6 +10176,10 @@ snapshots:
   blob-util@2.0.2: {}
 
   bluebird@3.7.2: {}
+
+  bpmn-js-i18n@2.3.0(bpmn-js@18.7.0):
+    dependencies:
+      bpmn-js: 18.7.0
 
   bpmn-js-properties-panel@5.42.1(@bpmn-io/properties-panel@3.33.0)(bpmn-js@18.7.0)(camunda-bpmn-js-behaviors@1.11.2(bpmn-js@18.7.0)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.11.0))(diagram-js@15.4.0):
     dependencies:
@@ -14045,6 +14061,8 @@ snapshots:
       - react-native-b4a
 
   third-party-web@0.27.0: {}
+
+  third-party-web@0.28.0: {}
 
   throttle-debounce@5.0.2: {}
 

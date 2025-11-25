@@ -45,6 +45,7 @@
 		"antd": "^5.27.4",
 		"axios": "^1.12.2",
 		"bpmn-js": "^18.7.0",
+		"bpmn-js-i18n": "^2.3.0",
 		"bpmn-js-properties-panel": "^5.42.1",
 		"canvas-confetti": "^1.9.3",
 		"cypress": "^15.4.0",

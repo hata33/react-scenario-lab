@@ -226,4 +226,11 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "releases", title: "版本追踪" },
 		],
 	},
+	{
+		path: "bpmn",
+		title: "BPMN 流程图",
+		children: [
+			{ path: "editor", title: "BPMN 编辑器" },
+		],
+	},
 ];
