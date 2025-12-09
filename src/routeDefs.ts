@@ -86,6 +86,7 @@ export const routeGroups: RouteGroup[] = [
 			{ path: "page-transition", title: "页面过渡" },
 			{ path: "element", title: "元素动画" },
 			{ path: "drag-drop", title: "拖拽" },
+			{ path: "grid-layout", title: "Grid Layout 网格布局" },
 		],
 	},
 	{
