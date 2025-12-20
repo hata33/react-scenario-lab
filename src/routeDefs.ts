@@ -46,6 +46,20 @@ export const routeGroups: RouteGroup[] = [
 		],
 	},
 	{
+		path: "monaco-editor",
+		title: "Monaco Editor",
+		children: [
+			{ path: "demo", title: "实例演示" },
+		],
+	},
+	{
+		path: "mermaid",
+		title: "Mermaid 图表",
+		children: [
+			{ path: "", title: "图表概览" },
+		],
+	},
+	{
 		path: "ai",
 		title: "AI 能力测试",
 		children: [
