@@ -21,3 +21,4 @@ export { GlowingOrb } from "./GlowingOrb";
 export { WaveText } from "./WaveText";
 export { GradientBorder } from "./GradientBorder";
 export { HolographicEffect } from "./HolographicEffect";
+export { TrueFocus } from "./TrueFocus";

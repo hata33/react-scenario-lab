@@ -17,6 +17,7 @@ import {
 	RevealOnScroll,
 	SpotlightCard,
 	TextShimmer,
+	TrueFocus,
 	TypingEffect,
 	WaveText,
 } from "@/components/ReactBits";
@@ -109,9 +110,20 @@ export default function HomePage() {
 	const heroRef = useRef<HTMLDivElement>(null);
 	const titleRef = useRef<HTMLHeadingElement>(null);
 	const subtitleRef = useRef<HTMLParagraphElement>(null);
+	const categoriesRef = useRef<HTMLDivElement>(null);
+
+	const scrollToCategories = () => {
+		categoriesRef.current?.scrollIntoView({ behavior: "smooth" });
+	};
 
 	// GSAP 动画
 	useEffect(() => {
+		// 配置 ScrollTrigger 默认滚动容器
+		ScrollTrigger.config({
+			// 自动检测滚动容器
+			autoKillScroll: true,
+		});
+
 		const ctx = gsap.context(() => {
 			// Hero 区域动画
 			gsap.from(titleRef.current, {
@@ -130,19 +142,22 @@ export default function HomePage() {
 			});
 		}, heroRef);
 
-		return () => ctx.revert();
+		return () => {
+			ctx.revert();
+			ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+		};
 	}, []);
 
 	return (
 		<Layout showBackButton={false} showPadding={false}>
-			<div ref={heroRef} className="relative min-h-screen bg-slate-950">
+			<div ref={heroRef} className="relative bg-slate-950">
 				{/* 主内容 */}
 				<div className="relative z-10">
 					{/* Hero 区域 */}
-					<div className="flex min-h-[70vh] flex-col items-center justify-center px-4 py-20 text-center">
+					<div className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-12 text-center md:min-h-[70vh] md:py-20">
 						{/* 装饰性标签 */}
 						<RevealOnScroll direction="down" delay={0.2}>
-							<div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm text-white/80 backdrop-blur-md">
+							<div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-white/80 text-xs backdrop-blur-md md:mb-8 md:px-6 md:py-3 md:text-sm">
 								<span className="relative flex h-2 w-2">
 									<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
 									<span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
@@ -151,31 +166,34 @@ export default function HomePage() {
 							</div>
 						</RevealOnScroll>
 
-						{/* 标题 - 渐变文字 */}
-						<FloatingElement distance={20} duration={5}>
-							<h1 ref={titleRef} className="mb-6 max-w-5xl font-bold text-5xl md:text-7xl lg:text-8xl">
-								<WaveText text="React Scenario Lab" className="text-white" />
-							</h1>
-						</FloatingElement>
+						{/* 标题 - True Focus 效果 */}
+						<TrueFocus
+							sentence="React Scenario Lab"
+							separator=" "
+							blurAmount={5}
+							borderColor="#3b82f6"
+							glowColor="rgba(59, 130, 246, 0.8)"
+							animationDuration={0.5}
+							className="mb-4 text-white md:mb-6"
+						/>
 
 						{/* 渐变副标题 */}
-						<p ref={subtitleRef} className="mb-12 max-w-2xl text-lg md:text-xl">
+						<p ref={subtitleRef} className="mb-8 max-w-2xl px-4 text-sm md:mb-12 md:text-base lg:text-lg">
 							<AnimatedGradientText
 								colors={["#3b82f6", "#8b5cf6", "#ec4899", "#06b6d4"]}
 								className="from-blue-400 via-purple-400 to-pink-400"
 							>
 								基于 Next.js 15 和 React 19 的组件实验室，探索现代前端开发的各种场景和最佳实践。
-								从基础组件到高级特性，全方位展示 React 生态系统的强大功能。
 							</AnimatedGradientText>
 						</p>
 
 						{/* 技术栈徽章 */}
 						<RevealOnScroll direction="up" delay={0.5}>
-							<div className="mb-8 flex flex-wrap justify-center gap-4 text-sm">
+							<div className="mb-6 flex flex-wrap justify-center gap-2 text-xs md:mb-8 md:gap-4 md:text-sm">
 								{["⚛️ React 19", "🚀 Next.js 15", "🎨 Tailwind CSS 4", "⚡ GSAP 动画", "🛠️ TypeScript"].map((badge) => (
 									<HolographicEffect key={badge} className="rounded-full">
 										<NeonGlow color="#3b82f6" intensity={15}>
-											<span className="inline-block cursor-pointer rounded-full border border-white/10 bg-white/5 px-6 py-3 text-white/90 backdrop-blur-sm transition-colors hover:bg-white/10">
+											<span className="inline-block cursor-pointer rounded-full bg-white/5 px-3 py-2 text-white/90 backdrop-blur-sm transition-colors hover:bg-white/10 md:px-6 md:py-3">
 												{badge}
 											</span>
 										</NeonGlow>
@@ -185,9 +203,9 @@ export default function HomePage() {
 						</RevealOnScroll>
 
 						{/* 磁性按钮 */}
-						<MagneticButton strength={0.6} className="group">
+						<MagneticButton strength={0.6} className="group" onClick={scrollToCategories}>
 							<NeonGlow color="#8b5cf6" intensity={25}>
-								<span className="inline-block transform rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 px-10 py-4 font-semibold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-purple-500/50">
+								<span className="inline-block transform cursor-pointer rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 px-6 py-3 font-semibold text-sm text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-purple-500/50 md:px-10 md:py-4 md:text-base">
 									开始探索
 									<span className="ml-2 inline-block transition-transform group-hover:translate-x-1">→</span>
 								</span>
@@ -197,16 +215,16 @@ export default function HomePage() {
 
 					{/* 统计数据 */}
 					<RevealOnScroll direction="up">
-						<div className="mx-auto mb-20 max-w-6xl px-4">
-							<div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+						<div className="mx-auto mb-12 max-w-6xl px-4 md:mb-20">
+							<div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-6">
 								{stats.map((stat, index) => (
 									<HolographicEffect key={index} className="group">
-										<div className="transform rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:border-white/20 hover:bg-white/10">
-											<div className="mb-3 text-5xl">{stat.icon}</div>
-											<div className="mb-2 font-bold text-4xl text-white">
+										<div className="transform rounded-xl bg-white/5 p-4 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:border-white/20 hover:bg-white/10 md:rounded-2xl md:p-6 lg:p-8">
+											<div className="mb-2 text-3xl md:mb-3 md:text-4xl lg:text-5xl">{stat.icon}</div>
+											<div className="mb-1 font-bold text-white text-xl md:mb-2 md:text-2xl lg:text-4xl">
 												<AnimatedCounter end={stat.value} suffix={stat.value === 50 ? "+" : ""} />
 											</div>
-											<div className="text-gray-400 text-sm">{stat.label}</div>
+											<div className="text-gray-400 text-xs md:text-sm">{stat.label}</div>
 										</div>
 									</HolographicEffect>
 								))}
@@ -215,7 +233,7 @@ export default function HomePage() {
 					</RevealOnScroll>
 
 					{/* 分类展示 */}
-					<div className="space-y-20 px-4 pb-20">
+					<div ref={categoriesRef} className="space-y-12 px-4 pb-16 md:space-y-20 md:px-6 md:pb-20">
 						{categories.map((category) => {
 							const categoryRouteGroups = routeGroups.filter((group) => category.groups.includes(group.path));
 
@@ -225,53 +243,50 @@ export default function HomePage() {
 								<RevealOnScroll key={category.id} direction="up">
 									<div className="mx-auto max-w-7xl">
 										{/* 分类标题 */}
-										<div className="mb-10 flex items-center gap-6">
+										<div className="mb-6 flex flex-col items-start gap-4 md:mb-10 md:flex-row md:items-center md:gap-6">
 											<FloatingElement distance={15} duration={4}>
 												<HolographicEffect>
 													<div
-														className={`rounded-3xl bg-gradient-to-br ${category.gradient} transform p-6 shadow-2xl transition-transform duration-300 hover:scale-110`}
+														className={`rounded-2xl bg-gradient-to-br md:rounded-3xl ${category.gradient} transform p-3 shadow-2xl transition-transform duration-300 hover:scale-110 md:p-4 lg:p-6`}
 													>
-														<span className="text-6xl">{category.icon}</span>
+														<span className="text-4xl md:text-5xl lg:text-6xl">{category.icon}</span>
 													</div>
 												</HolographicEffect>
 											</FloatingElement>
 											<div>
-												<h2 className="mb-3 font-bold text-4xl text-white">
+												<h2 className="mb-2 font-bold text-2xl text-white md:mb-3 md:text-3xl lg:text-4xl">
 													<TextShimmer speed={2}>{category.title}</TextShimmer>
 												</h2>
-												<p className="text-gray-400 text-lg">{category.description}</p>
+												<p className="text-gray-400 text-sm md:text-base lg:text-lg">{category.description}</p>
 											</div>
 										</div>
 
 										{/* 功能卡片网格 */}
-										<div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+										<div className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-8">
 											{categoryRouteGroups.map((group) => (
 												<Card3DTilt key={group.path} maxTilt={8}>
-													<SpotlightCard className="rounded-2xl">
-														<HolographicEffect>
-															<div className="group relative transform overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-500 hover:scale-[1.02] hover:border-white/20 hover:bg-white/10">
-																{/* 渐变装饰条 */}
-																<div
-																	className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${category.gradient}`}
-																/>
-
+													<SpotlightCard className="h-full rounded-2xl">
+														<HolographicEffect className="h-full">
+															<div className="group relative flex h-full transform flex-col overflow-hidden rounded-xl backdrop-blur-md transition-all duration-500 hover:scale-[1.02] hover:border-white/20 hover:bg-white/10 md:rounded-2xl">
 																{/* 发光效果 */}
 																<div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-																<div className="relative p-8">
-																	<h3 className="mb-6 font-bold text-2xl text-white">{group.title}</h3>
+																<div className="relative flex flex-1 flex-col p-4 md:p-6 lg:p-8">
+																	<h3 className="mb-3 font-bold text-lg text-white md:mb-6 md:text-xl lg:text-2xl">
+																		{group.title}
+																	</h3>
 
 																	{/* 功能列表 */}
-																	<ul className="space-y-3">
+																	<ul className="flex-1 space-y-2 md:space-y-3">
 																		{group.children.map((child) => {
 																			const href = child.path ? `/${group.path}/${child.path}` : `/${group.path}`;
 																			return (
 																				<li key={child.path}>
 																					<Link
 																						href={href}
-																						className="group/link flex items-center text-gray-400 transition-all duration-300 hover:translate-x-2 hover:text-white"
+																						className="group/link flex items-center text-gray-400 text-sm transition-all duration-300 hover:translate-x-2 hover:text-white md:text-base"
 																					>
-																						<span className="mr-3 text-blue-400 text-xl transition-transform duration-300 group-hover/link:scale-125">
+																						<span className="mr-2 text-blue-400 text-lg transition-transform duration-300 group-hover/link:scale-125 md:mr-3 md:text-xl">
 																							→
 																						</span>
 																						{child.title}
@@ -295,15 +310,18 @@ export default function HomePage() {
 
 					{/* 底部 CTA */}
 					<RevealOnScroll direction="up" delay={0.3}>
-						<div className="mx-auto max-w-4xl px-4 pb-20 text-center">
+						<div className="mx-auto max-w-4xl px-4 pb-16 text-center md:pb-20">
 							<GradientBorder colors={["#3b82f6", "#8b5cf6", "#ec4899", "#06b6d4"]} borderWidth={3}>
-								<div className="rounded-3xl bg-slate-950 p-12">
-									<h3 className="mb-6 font-bold text-4xl text-white">
+								<div className="rounded-2xl bg-slate-950 p-6 md:rounded-3xl md:p-8 lg:p-12">
+									<h3 className="mb-4 font-bold text-2xl text-white md:mb-6 md:text-3xl lg:text-4xl">
 										<WaveText text="开始探索" waveHeight={15} />
 									</h3>
-									<p className="mb-8 text-gray-400 text-lg">
+									<p className="mb-6 px-2 text-gray-400 text-sm md:mb-8 md:text-base lg:text-lg">
 										点击左侧菜单或上方功能卡片，开始探索 React 19 和 Next.js 15 的强大功能。 使用快捷键{" "}
-										<kbd className="rounded bg-white/10 px-3 py-1.5 font-mono">Ctrl/Cmd + B</kbd> 切换侧边栏。
+										<kbd className="rounded bg-white/10 px-2 py-1 font-mono text-xs md:px-3 md:py-1.5 md:text-sm">
+											Ctrl/Cmd + B
+										</kbd>{" "}
+										切换侧边栏。
 									</p>
 									<div className="flex flex-wrap justify-center gap-8 text-gray-500 text-sm">
 										<div className="flex items-center gap-3">
