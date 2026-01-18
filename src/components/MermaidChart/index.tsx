@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
 import mermaid from "mermaid";
+import React, { useEffect, useRef, memo } from "react";
 
 interface MermaidChartProps {
 	chart: string;
@@ -11,20 +11,14 @@ interface MermaidChartProps {
 	onError?: (error: Error) => void;
 }
 
-export default function MermaidChart({
-	chart,
-	config = {},
-	className = "",
-	id,
-	onError,
-}: MermaidChartProps) {
-	const chartRef = useRef<HTMLDivElement>(null);
-	const [isRendered, setIsRendered] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-	const chartId = id || `mermaid-${Math.random().toString(36).substr(2, 9)}`;
+const MermaidChartComponent = ({ chart, config = {}, className = "", id, onError }: MermaidChartProps) => {
+	const containerRef = useRef<HTMLDivElement>(null);
+	const mountedRef = useRef(false);
 
+	// 初始化 Mermaid（只执行一次）
 	useEffect(() => {
-		// 初始化 Mermaid 配置
+		mountedRef.current = true;
+
 		mermaid.initialize({
 			startOnLoad: false,
 			theme: "default",
@@ -46,7 +40,6 @@ export default function MermaidChart({
 				taskBorderColor: "#6366f1",
 				activeTaskBkgColor: "#dbeafe",
 				activeTaskBorderColor: "#3b82f6",
-				gridColor: "#e5e7eb",
 				doneTaskBkgColor: "#d1fae5",
 				doneTaskBorderColor: "#10b981",
 				critBkgColor: "#fee2e2",
@@ -61,78 +54,71 @@ export default function MermaidChart({
 			},
 			...config,
 		});
-	}, [config]);
+
+		return () => {
+			mountedRef.current = false;
+		};
+	}, []);
 
 	useEffect(() => {
-		if (!chartRef.current || !chart) return;
+		if (!chart || !containerRef.current || !mountedRef.current) return;
+
+		let cancelled = false;
 
 		const renderChart = async () => {
+			if (cancelled || !containerRef.current) return;
+
 			try {
-				setError(null);
-				setIsRendered(false);
+				// 验证语法
+				await mermaid.parse(chart);
 
-				// 清空容器
-				chartRef.current.innerHTML = "";
+				// 生成唯一 ID
+				const graphId = `mermaid-${id || 'graph'}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-				// 验证图表语法
-				const isValid = await mermaid.parse(chart);
-				if (!isValid) {
-					throw new Error("Invalid Mermaid syntax");
-				}
+				// 渲染 SVG
+				const { svg } = await mermaid.render(graphId, chart);
 
-				// 渲染图表
-				const { svg } = await mermaid.render(chartId, chart);
-				if (chartRef.current) {
-					chartRef.current.innerHTML = svg;
-					setIsRendered(true);
-				}
+				// 检查是否已取消
+				if (cancelled || !containerRef.current) return;
+
+				// 安全地更新内容
+				containerRef.current.innerHTML = svg;
 			} catch (err) {
+				if (cancelled) return;
+
 				const errorMessage = err instanceof Error ? err.message : "渲染失败";
-				setError(errorMessage);
 				onError?.(err instanceof Error ? err : new Error(errorMessage));
-				console.error("Mermaid render error:", err);
+				console.error("Mermaid 渲染错误:", err);
 			}
 		};
 
-		renderChart();
-	}, [chart, chartId, onError]);
+		// 使用 requestAnimationFrame 确保 DOM 更新完成后再渲染
+		const animationId = requestAnimationFrame(() => {
+			renderChart();
+		});
+
+		return () => {
+			cancelled = true;
+			if (animationId) {
+				cancelAnimationFrame(animationId);
+			}
+		};
+	}, [chart, config, id, onError]);
 
 	return (
-		<div className={`mermaid-chart-container ${className}`}>
-			{error ? (
-				<div className="flex flex-col items-center justify-center rounded-lg border-2 border-red-200 bg-red-50 p-8">
-					<svg
-						className="mb-3 h-12 w-12 text-red-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth={2}
-							d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L5.268 16.5c-.77.833.192 2.5 1.732 2.5z"
-						/>
-					</svg>
-					<p className="text-center text-red-600">
-						图表渲染失败
-					</p>
-					<p className="mt-1 text-center text-sm text-red-500">{error}</p>
-				</div>
-			) : (
-				<div
-					ref={chartRef}
-					className={`flex items-center justify-center ${
-						isRendered ? "" : "min-h-[200px]"
-					}`}
-				>
-					{!isRendered && (
-						<div className="text-center text-gray-500">
-							<div className="mb-2">正在渲染图表...</div>
-						</div>
-					)}
+		<div
+			ref={containerRef}
+			className={`mermaid-chart-container ${className}`}
+			style={{ minHeight: "200px" }}
+		>
+			{!chart && (
+				<div className="flex items-center justify-center text-gray-500">
+					请选择一个图表
 				</div>
 			)}
 		</div>
 	);
-}
+};
+
+// 使用 memo 避免不必要的重新渲染
+export default memo(MermaidChartComponent);

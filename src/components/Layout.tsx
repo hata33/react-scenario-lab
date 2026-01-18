@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { routeGroups } from "@/routeDefs";
 import BackButton from "./BackButton";
 import FirstVisitConfetti from "./FirstVisitConfetti";
@@ -37,28 +37,28 @@ const menuTree: MenuItem[] = routeGroups.map((group) => ({
 type LayoutProps = {
 	children: React.ReactNode;
 	showBackButton?: boolean;
+	showPadding?: boolean;
 };
 
-export default function Layout({ children, showBackButton = true }: LayoutProps) {
+export default function Layout({ children, showBackButton = true, showPadding = true }: LayoutProps) {
 	const pathname = usePathname();
 	const activePath = pathname || "/";
-	// 关键修复：初始状态设为false，避免服务端/客户端差异
+	const scrollContainerId = useId();
+	// 初始状态：根据 localStorage 决定是否显示侧边栏
 	const [pinnedOpen, setPinnedOpen] = useState<boolean>(false);
-	const [hoverOpen, setHoverOpen] = useState(true);
+	const [hoverOpen, setHoverOpen] = useState<boolean>(false);
 	const isOpen = pinnedOpen || hoverOpen;
-	const _initialPathRef = useRef(activePath);
-	const hasAutoClosedRef = useRef(false);
 
-	// 关键修复：在客户端hydration完成后再读取localStorage
+	// 客户端初始化：读取 localStorage 并设置正确的侧边栏状态
 	useEffect(() => {
 		const handleLoad = () => {
 			try {
-				// 客户端渲染时才读取localStorage
 				const sidebarSeen = localStorage.getItem("sidebarSeen");
-				setPinnedOpen(sidebarSeen !== "1");
+				// 只在用户明确要求显示时才打开侧边栏
+				const shouldShowSidebar = sidebarSeen === "1";
+				setPinnedOpen(shouldShowSidebar);
 			} catch {
-				// 处理localStorage不可用的情况
-				setPinnedOpen(true);
+				setPinnedOpen(false);
 			}
 		};
 
@@ -72,29 +72,23 @@ export default function Layout({ children, showBackButton = true }: LayoutProps)
 		}
 	}, []);
 
+	// 快捷键切换侧边栏
 	useEffect(() => {
 		const onKeyDown = (e: KeyboardEvent) => {
 			if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "b") {
 				e.preventDefault();
-				setPinnedOpen((v) => !v);
+				const newState = !pinnedOpen;
+				setPinnedOpen(newState);
 				setHoverOpen(false);
+				// 记住用户的选择
+				try {
+					localStorage.setItem("sidebarSeen", newState ? "1" : "0");
+				} catch { }
 			}
 		};
 		window.addEventListener("keydown", onKeyDown);
 		return () => window.removeEventListener("keydown", onKeyDown);
-	}, []);
-
-	// 首次进入显示侧栏，首次发生路由跳转后自动收起并记忆
-	useEffect(() => {
-		if (typeof window !== "undefined") {
-			setPinnedOpen(false);
-			setHoverOpen(false);
-			try {
-				localStorage.setItem("sidebarSeen", "1");
-			} catch {}
-			hasAutoClosedRef.current = true;
-		}
-	}, []);
+	}, [pinnedOpen]);
 
 	return (
 		<div className={`relative grid h-screen grid-cols-[auto_1fr] bg-gray-50`}>
@@ -118,16 +112,15 @@ export default function Layout({ children, showBackButton = true }: LayoutProps)
 				onMouseLeave={() => !pinnedOpen && setHoverOpen(false)}
 			>
 				<div
-					className={`absolute inset-0 ${
-						isOpen ? "translate-x-0 opacity-100" : "-translate-x-full pointer-events-none opacity-0"
-					} transition-transform duration-300 ease-in-out`}
+					className={`absolute inset-0 ${isOpen ? "translate-x-0 opacity-100" : "-translate-x-full pointer-events-none opacity-0"
+						} transition-transform duration-300 ease-in-out`}
 				>
 					<Sidebar menuTree={menuTree} activePath={activePath} />
 				</div>
 			</div>
 
-			<main id="scroll-container" className="h-full overflow-y-auto bg-gray-50">
-				<div className="relative min-h-full p-4 md:p-6 lg:p-8">
+			<main id={scrollContainerId} className="h-full overflow-y-auto bg-gray-50">
+				<div className={`relative min-h-full ${showPadding ? "p-4 md:p-6 lg:p-8" : ""}`}>
 					{/* 返回按钮 */}
 					<BackButton show={showBackButton} className="mb-4" />
 					{children}

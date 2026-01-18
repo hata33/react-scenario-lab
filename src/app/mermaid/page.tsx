@@ -1,8 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Layout from "@/components/Layout";
 import MermaidChart from "@/components/MermaidChart";
-import { useState } from "react";
 
 export default function MermaidPage() {
 	const [selectedChart, setSelectedChart] = useState("flowchart");
@@ -201,12 +201,12 @@ export default function MermaidPage() {
 	};
 
 	const currentChart = chartExamples[selectedChart as keyof typeof chartExamples];
-	const currentExample = currentChart.examples[selectedExample as keyof typeof currentChart.examples];
+	const currentExample: any = currentChart.examples[selectedExample as keyof typeof currentChart.examples];
 
 	return (
 		<Layout>
 			<div className="container mx-auto p-6">
-				<h1 className="mb-6 text-3xl font-bold">Mermaid 图表集合</h1>
+				<h1 className="mb-6 font-bold text-3xl">Mermaid 图表集合</h1>
 
 				<div className="mb-6">
 					<p className="text-gray-600 text-lg">
@@ -216,7 +216,7 @@ export default function MermaidPage() {
 
 				{/* 图表类型选择 */}
 				<div className="mb-6">
-					<h2 className="mb-3 text-xl font-semibold">选择图表类型</h2>
+					<h2 className="mb-3 font-semibold text-xl">选择图表类型</h2>
 					<div className="flex flex-wrap gap-3">
 						{Object.entries(chartExamples).map(([key, chart]) => (
 							<button
@@ -226,11 +226,8 @@ export default function MermaidPage() {
 									const firstExample = Object.keys(chart.examples)[0];
 									setSelectedExample(firstExample);
 								}}
-								className={`flex items-center gap-2 rounded-lg px-4 py-3 font-medium transition-colors ${
-									selectedChart === key
-										? "bg-blue-600 text-white"
-										: "bg-gray-200 text-gray-700 hover:bg-gray-300"
-								}`}
+								className={`flex items-center gap-2 rounded-lg px-4 py-3 font-medium transition-colors ${selectedChart === key ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+									}`}
 							>
 								<span className="text-xl">{chart.icon}</span>
 								{chart.title}
@@ -241,17 +238,14 @@ export default function MermaidPage() {
 
 				{/* 具体示例选择 */}
 				<div className="mb-6">
-					<h3 className="mb-3 text-lg font-semibold">选择示例</h3>
+					<h3 className="mb-3 font-semibold text-lg">选择示例</h3>
 					<div className="flex flex-wrap gap-2">
 						{Object.entries(currentChart.examples).map(([key, example]) => (
 							<button
 								key={key}
 								onClick={() => setSelectedExample(key)}
-								className={`rounded-lg px-4 py-2 font-medium transition-colors ${
-									selectedExample === key
-										? "bg-green-600 text-white"
-										: "bg-gray-200 text-gray-700 hover:bg-gray-300"
-								}`}
+								className={`rounded-lg px-4 py-2 font-medium transition-colors ${selectedExample === key ? "bg-green-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+									}`}
 							>
 								{example.title}
 							</button>
@@ -262,7 +256,7 @@ export default function MermaidPage() {
 				{/* 图表展示区域 */}
 				<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 					<div className="space-y-4">
-						<h2 className="text-xl font-semibold">Mermaid 代码</h2>
+						<h2 className="font-semibold text-xl">Mermaid 代码</h2>
 						<div className="h-96 rounded-lg border-2 border-gray-300 bg-gray-50 p-4">
 							<pre className="h-full overflow-auto font-mono text-sm">
 								<code>{currentExample.code}</code>
@@ -271,9 +265,10 @@ export default function MermaidPage() {
 					</div>
 
 					<div className="space-y-4">
-						<h2 className="text-xl font-semibold">图表预览</h2>
+						<h2 className="font-semibold text-xl">图表预览</h2>
 						<div className="min-h-96 rounded-lg border-2 border-gray-200 bg-gray-50 p-4">
 							<MermaidChart
+								key={`${selectedChart}-${selectedExample}`}
 								chart={currentExample.code}
 								config={{
 									theme: "default",
@@ -293,20 +288,20 @@ export default function MermaidPage() {
 				{/* 语法说明 */}
 				<div className="mt-8 space-y-6">
 					<div>
-						<h3 className="mb-3 text-lg font-semibold">快速开始</h3>
+						<h3 className="mb-3 font-semibold text-lg">快速开始</h3>
 						<div className="rounded-lg bg-blue-50 p-4">
 							<h4 className="mb-2 font-medium">安装依赖</h4>
-							<code className="text-sm bg-white px-3 py-2 rounded block">npm install mermaid</code>
+							<code className="block rounded bg-white px-3 py-2 text-sm">npm install mermaid</code>
 						</div>
 					</div>
 
 					<div>
-						<h3 className="mb-3 text-lg font-semibold">支持的图表类型</h3>
+						<h3 className="mb-3 font-semibold text-lg">支持的图表类型</h3>
 						<div className="grid grid-cols-2 gap-4 md:grid-cols-4">
 							{Object.values(chartExamples).map((chart) => (
 								<div key={chart.title} className="rounded-lg bg-gray-50 p-4 text-center">
 									<div className="mb-2 text-2xl">{chart.icon}</div>
-									<div className="text-sm font-medium">{chart.title}</div>
+									<div className="font-medium text-sm">{chart.title}</div>
 								</div>
 							))}
 						</div>
@@ -314,7 +309,7 @@ export default function MermaidPage() {
 
 					<div className="rounded-lg bg-orange-50 p-4">
 						<h3 className="mb-2 font-semibold">💡 使用建议</h3>
-						<ul className="ml-4 space-y-1 text-sm text-gray-600">
+						<ul className="ml-4 space-y-1 text-gray-600 text-sm">
 							<li>• 使用有意义的节点名称和描述</li>
 							<li>• 保持图表简洁，避免过于复杂的结构</li>
 							<li>• 为复杂图表添加适当的注释</li>

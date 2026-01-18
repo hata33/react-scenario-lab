@@ -79,7 +79,9 @@
       "Bash(git checkout:*)",
       "Bash(pnpm biome check:*)",
       "Bash(temp_file)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "mcp__web-search-prime__webSearchPrime",
+      "mcp__web-reader__webReader"
     ],
     "deny": [],
     "ask": []

@@ -7,9 +7,10 @@ interface MonacoEditorProps {
 	height?: string;
 	width?: string;
 	defaultValue?: string;
+	value?: string;
 	language?: string;
 	theme?: "light" | "dark";
-	onChange?: (value: string | undefined) => void;
+	onChange?: (value: string) => void;
 	options?: any;
 	path?: string;
 }
@@ -18,13 +19,14 @@ export default function MonacoEditor({
 	height = "400px",
 	width = "100%",
 	defaultValue = "// 在这里编写你的代码",
+	value,
 	language = "typescript",
 	theme = "light",
 	onChange,
 	options = {},
 	path,
 }: MonacoEditorProps) {
-	const [value, setValue] = useState(defaultValue);
+	const [internalValue, setInternalValue] = useState(value || defaultValue);
 	const editorRef = useRef<any>(null);
 
 	const defaultOptions = {
@@ -51,8 +53,13 @@ export default function MonacoEditor({
 	};
 
 	const handleEditorChange = (value: string | undefined) => {
-		setValue(value || "");
-		onChange?.(value);
+		const stringValue = value || "";
+		// 如果是受控组件（传入了 value），只调用 onChange
+		// 如果是非受控组件，更新内部状态
+		if (value === undefined) {
+			setInternalValue(stringValue);
+		}
+		onChange?.(stringValue);
 	};
 
 	return (
@@ -62,7 +69,7 @@ export default function MonacoEditor({
 				width={width}
 				language={language}
 				theme={theme === "dark" ? "vs-dark" : "light"}
-				value={value}
+				value={value !== undefined ? value : internalValue}
 				defaultValue={defaultValue}
 				onChange={handleEditorChange}
 				onMount={handleEditorDidMount}
