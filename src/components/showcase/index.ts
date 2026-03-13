@@ -14,6 +14,7 @@ export { default as FeatureThreeWRule } from "./FeatureThreeWRule";
 export { default as FeatureExampleSelector } from "./FeatureExampleSelector";
 export { default as FeatureExampleDetail } from "./FeatureExampleDetail";
 export { default as FeatureOfficialExamples } from "./FeatureOfficialExamples";
+export { default as FeatureBackButton } from "./FeatureBackButton";
 
 // 首页和网格相关组件
 export { default as FeatureCardGrid } from "./FeatureCardGrid";

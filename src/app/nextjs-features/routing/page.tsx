@@ -4,6 +4,7 @@ import { ArrowLeft, CheckCircle, Code, GitBranch, Layers, Router, Zap } from "lu
 import Link from "next/link";
 import { useState } from "react";
 import Layout from "@/components/Layout";
+import { FeatureContainer, FeatureContent, FeatureBackButton } from "@/components/showcase";
 
 interface FeatureExample {
 	id: string;
@@ -168,19 +169,12 @@ export default function RoutingFeaturePage() {
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
+			<FeatureContainer>
 				{/* 头部 */}
 				<div className="bg-white shadow-sm">
-					<div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
+					<FeatureContent>
 						<div className="flex items-center space-x-2 md:space-x-4">
-							<Link
-								href="/nextjs-features"
-								className="flex min-h-[44px] items-center text-gray-600 transition-colors hover:text-gray-900"
-							>
-								<ArrowLeft className="mr-2 h-4 w-4 md:h-5 md:w-5" />
-								<span className="hidden sm:inline">返回特性列表</span>
-								<span className="sm:hidden">返回</span>
-							</Link>
+							<FeatureBackButton href="/nextjs-features" />
 							<div className="flex items-center space-x-2 md:space-x-3">
 								<Router className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
 								<div>
@@ -189,11 +183,11 @@ export default function RoutingFeaturePage() {
 								</div>
 							</div>
 						</div>
-					</div>
+					</FeatureContent>
 				</div>
 
 				{/* 概述 */}
-				<div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
+				<FeatureContent>
 					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
 						<h2 className="mb-4 font-semibold text-gray-900 text-xl">什么是 App Router？</h2>
 						<div className="prose prose-gray max-w-none">
@@ -220,10 +214,10 @@ export default function RoutingFeaturePage() {
 							</ul>
 						</div>
 					</div>
-				</div>
+				</FeatureContent>
 
 				{/* 特性示例 */}
-				<div className="mx-auto max-w-7xl px-3 pb-8 sm:px-4 md:pb-12 md:px-6 lg:px-8 lg:pb-16">
+				<FeatureContent>
 					<h2 className="mb-6 font-bold text-2xl text-gray-900">功能示例</h2>
 					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 						{/* 左侧：示例列表 */}
@@ -314,10 +308,10 @@ export default function RoutingFeaturePage() {
 							)}
 						</div>
 					</div>
-				</div>
+				</FeatureContent>
 
 				{/* 学习资源 */}
-				<div className="mx-auto max-w-7xl px-3 pb-8 sm:px-4 md:pb-12 md:px-6 lg:px-8 lg:pb-16">
+				<FeatureContent>
 					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
 						<h2 className="mb-4 font-semibold text-gray-900 text-xl">学习资源</h2>
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -359,8 +353,8 @@ export default function RoutingFeaturePage() {
 							</a>
 						</div>
 					</div>
-				</div>
-			</div>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

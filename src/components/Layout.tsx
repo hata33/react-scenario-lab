@@ -48,13 +48,22 @@ const menuTree: MenuItem[] = routeGroups.map((group) => ({
 	})),
 }));
 
+type MobileHeaderMode = "auto" | "always" | "never";
+
 type LayoutProps = {
 	children: React.ReactNode;
 	showBackButton?: boolean;
 	showPadding?: boolean;
+	/** 移动端顶部栏显示模式：auto=智能隐藏, always=始终显示, never=不显示 */
+	mobileHeaderMode?: MobileHeaderMode;
 };
 
-export default function Layout({ children, showBackButton = true, showPadding = true }: LayoutProps) {
+export default function Layout({
+	children,
+	showBackButton = true,
+	showPadding = true,
+	mobileHeaderMode = "auto",
+}: LayoutProps) {
 	const pathname = usePathname();
 	const activePath = pathname || "/";
 	const scrollContainerId = useId();
@@ -121,6 +130,15 @@ export default function Layout({ children, showBackButton = true, showPadding = 
 		});
 	}, [pathname, isMobile]);
 
+	// 根据 mobileHeaderMode 决定是否显示顶部栏
+	// auto 模式：首页不显示，子页面显示
+	// always 模式：始终显示
+	// never 模式：不显示
+	const shouldShowMobileHeader = isMobile && (
+		mobileHeaderMode === "always" ||
+		(mobileHeaderMode === "auto" && activePath !== "/")
+	);
+
 	return (
 		<div className={`relative grid h-screen grid-cols-[auto_1fr] bg-gray-50`}>
 			<FirstVisitConfetti />
@@ -151,69 +169,76 @@ export default function Layout({ children, showBackButton = true, showPadding = 
 				</div>
 			</div>
 
-			<main id={scrollContainerId} className="h-full overflow-y-auto bg-gray-50">
+			<main
+				id={scrollContainerId}
+				className={`h-full overflow-y-auto bg-gray-50 ${shouldShowMobileHeader ? "pt-14" : ""}`}
+			>
 				{/* 移动端顶部栏 */}
-				<div className="sticky top-0 z-99 z-sticky flex items-center justify-between bg-white px-3 py-3 shadow-sm md:hidden">
-					<div className="flex items-center">
-						<button
-							type="button"
-							onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-							className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-gray-700 transition-transform active:scale-95 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-							aria-label="Toggle menu"
-						>
-							<svg
-								className={`h-6 w-6 transition-transform duration-200 ${mobileMenuOpen ? "rotate-90" : ""}`}
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
+				{shouldShowMobileHeader && (
+					<div className="fixed top-0 right-0 left-0 z-sticky flex items-center justify-between bg-white px-3 py-3 shadow-sm md:hidden">
+						<div className="flex items-center gap-2">
+							{/* 返回按钮 - 紧凑模式 */}
+							{showBackButton && <BackButton show={true} compact={true} />}
+							<button
+								type="button"
+								onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+								className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-gray-700 transition-transform hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95"
+								aria-label="Toggle menu"
 							>
-								{mobileMenuOpen ? (
-									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-								) : (
-									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-								)}
-							</svg>
-						</button>
-						<div className="ml-3">
-							<h1 className="font-bold text-gray-900 text-base sm:text-lg">React Scenario Lab</h1>
+								<svg
+									className={`h-6 w-6 transition-transform duration-200 ${mobileMenuOpen ? "rotate-90" : ""}`}
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									{mobileMenuOpen ? (
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+									) : (
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+									)}
+								</svg>
+							</button>
+							<div className="ml-1">
+								<h1 className="font-bold text-base text-gray-900 sm:text-lg">React Scenario Lab</h1>
+							</div>
+						</div>
+
+						{/* 右侧功能按钮预留位置 */}
+						<div className="flex items-center gap-1.5">
+							<button
+								type="button"
+								className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 transition-transform hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95"
+								aria-label="Search"
+							>
+								<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+									/>
+								</svg>
+							</button>
+							<button
+								type="button"
+								className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-md transition-transform focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95"
+								aria-label="User menu"
+							>
+								<svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+									<path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+								</svg>
+							</button>
 						</div>
 					</div>
-
-					{/* 右侧功能按钮预留位置 */}
-					<div className="flex items-center gap-1.5">
-						<button
-							type="button"
-							className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 transition-transform active:scale-95 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-							aria-label="Search"
-						>
-							<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-								/>
-							</svg>
-						</button>
-						<button
-							type="button"
-							className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-md transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500"
-							aria-label="User menu"
-						>
-							<svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
-								<path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-							</svg>
-						</button>
-					</div>
-				</div>
+				)}
 
 				{/* 内容区域 - 移动端边距更窄，内容更宽 */}
-				<div className={`relative min-h-full ${showPadding ? "px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8" : ""}`}>
-					{/* 返回按钮 */}
-					<BackButton show={showBackButton} className="mb-3 md:mb-4" />
+				<div className={`relative min-h-full bg-white`}>
+					{/* 返回按钮 - 移动端顶部栏有返回按钮时隐藏 */}
+					<BackButton show={showBackButton && !shouldShowMobileHeader} className="m-4" />
 					{children}
 				</div>
 			</main>
 		</div>
 	);
-}
+} 

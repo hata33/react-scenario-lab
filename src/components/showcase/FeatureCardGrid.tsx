@@ -65,15 +65,15 @@ export default function FeatureCardGrid({
 			{cards.map((card) => (
 				<div
 					key={card.id}
-					className="rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md active:scale-[0.99] cursor-pointer"
+					className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md active:scale-[0.99] cursor-pointer"
 					onClick={() => onCardClick?.(card.id)}
 				>
 					<div className="p-6">
 						<div className="mb-4 flex items-start justify-between">
 							<div className="flex items-center space-x-3">
-								<div className="text-blue-600">{card.icon}</div>
-								<div>
-									<h3 className="font-semibold text-gray-900 text-lg">{card.title}</h3>
+								<div className="text-blue-600 shrink-0">{card.icon}</div>
+								<div className="min-w-0 flex-1">
+									<h3 className="break-words font-semibold text-gray-900 text-base md:text-lg">{card.title}</h3>
 									{card.status && (
 										<span
 											className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-medium text-xs ${statusColor(card.status)}`}
@@ -85,11 +85,11 @@ export default function FeatureCardGrid({
 							</div>
 						</div>
 
-						<p className="mb-4 text-gray-600">{card.description}</p>
+						<p className="mb-4 break-words text-gray-600 text-sm md:text-base">{card.description}</p>
 
 						{card.category && (
 							<div className="mb-4">
-								<span className="mb-2 block text-gray-500 text-sm">分类: {card.category}</span>
+								<span className="mb-2 block break-words text-gray-500 text-sm">分类: {card.category}</span>
 							</div>
 						)}
 

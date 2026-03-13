@@ -41,7 +41,7 @@ export default {
 			zIndex: {
 				base: 1,
 				dropdown: 10,
-				sticky: 20, // 顶部导航
+				sticky: 99, // 顶部导航
 				sidebar: 30, // 侧边栏
 				overlay: 40, // 遮罩层
 				modal: 50,

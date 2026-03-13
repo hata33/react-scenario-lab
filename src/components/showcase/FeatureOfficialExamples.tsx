@@ -19,29 +19,29 @@ interface FeatureOfficialExamplesProps {
  * 展示官方代码示例
  * 无外层容器，直接使用 FeatureContent 包裹
  */
-export default function FeatureOfficialExamples({
-	title,
-	description,
-	examples,
-}: FeatureOfficialExamplesProps) {
+export default function FeatureOfficialExamples({ title, description, examples }: FeatureOfficialExamplesProps) {
 	return (
-		<div className="rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-			<h2 className="mb-4 md:mb-6 font-bold text-xl md:text-2xl text-gray-900">{title}</h2>
-			<p className="mb-4 md:mb-6 text-gray-600 text-sm md:text-base">{description}</p>
+		<div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6">
+			<h2 className="mb-4 break-words font-bold text-gray-900 text-xl md:mb-6 md:text-2xl">{title}</h2>
+			<p className="mb-4 break-words text-gray-600 text-sm md:mb-6 md:text-base">{description}</p>
 
 			{examples.length > 0 ? (
 				<div className="grid gap-4 md:gap-6 lg:grid-cols-2">
 					{examples.map((example, index) => (
-						<div key={index} className="rounded-lg border border-gray-200 bg-gray-50 p-3 md:p-4">
-							<h3 className="mb-2 md:mb-3 font-semibold text-gray-800 text-sm md:text-base">{example.title}</h3>
-							<pre className="mb-2 overflow-x-auto rounded bg-gray-900 p-2 md:p-3 text-gray-100 text-xs">{example.code}</pre>
-							{example.description && <p className="text-gray-600 text-xs">{example.description}</p>}
+						<div key={index} className="overflow-hidden rounded-lg border border-gray-200 bg-gray-50 p-3 md:p-4">
+							<h3 className="mb-2 break-words font-semibold text-gray-800 text-sm md:mb-3 md:text-base">{example.title}</h3>
+							<div className="mb-2 overflow-x-auto rounded bg-gray-900 p-2 text-xs text-gray-100 md:p-3">
+								<pre className="min-w-max whitespace-pre-wrap break-all">
+									<code>{example.code}</code>
+								</pre>
+							</div>
+							{example.description && <p className="break-words text-gray-600 text-xs">{example.description}</p>}
 						</div>
 					))}
 				</div>
 			) : (
-				<div className="py-8 md:py-12 text-center">
-					<div className="mx-auto mb-3 md:mb-4 h-12 w-12 md:h-16 md:w-16 text-gray-400">
+				<div className="py-8 text-center md:py-12">
+					<div className="mx-auto mb-3 h-12 w-12 text-gray-400 md:mb-4 md:h-16 md:w-16">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
@@ -56,7 +56,7 @@ export default function FeatureOfficialExamples({
 							/>
 						</svg>
 					</div>
-					<h3 className="mb-2 font-semibold text-gray-900 text-base md:text-lg">暂无官方示例</h3>
+					<h3 className="mb-2 font-semibold text-base text-gray-900 md:text-lg">暂无官方示例</h3>
 					<p className="text-gray-600 text-sm md:text-base">官方代码示例正在整理中，敬请期待</p>
 				</div>
 			)}

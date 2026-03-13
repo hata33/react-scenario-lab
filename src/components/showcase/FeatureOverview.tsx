@@ -25,13 +25,13 @@ interface FeatureOverviewProps {
 export default function FeatureOverview({ title, features }: FeatureOverviewProps) {
 	return (
 		<div className="rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-			<h2 className="mb-4 md:mb-6 font-semibold text-gray-900 text-xl md:text-2xl">{title}</h2>
+			<h2 className="mb-4 break-words md:mb-6 font-semibold text-gray-900 text-xl md:text-2xl">{title}</h2>
 			<div className="grid grid-cols-1 gap-3 md:gap-4 md:grid-cols-4">
 				{features.map((feature, index) => (
 					<div key={index} className={`rounded-lg ${feature.bgColor} p-3 md:p-4 text-center`}>
 						<div className={`mx-auto mb-2 h-5 w-5 md:h-6 md:w-6 ${feature.iconColor}`}>{feature.icon}</div>
-						<h3 className={`mb-1 text-sm font-semibold md:text-base ${feature.titleColor}`}>{feature.title}</h3>
-						<p className={`${feature.descriptionColor} text-xs md:text-sm`}>{feature.description}</p>
+						<h3 className={`mb-1 break-words text-sm font-semibold md:text-base ${feature.titleColor}`}>{feature.title}</h3>
+						<p className={`${feature.descriptionColor} break-words text-xs md:text-sm`}>{feature.description}</p>
 					</div>
 				))}
 			</div>

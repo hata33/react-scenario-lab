@@ -18,10 +18,10 @@ export default function FeatureHeader({ icon, title, subtitle }: FeatureHeaderPr
 		<div className="bg-white shadow-sm">
 			<div className="flex items-center space-x-4 px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
 				<div className="flex items-center space-x-3">
-					{icon}
-					<div>
-						<h1 className="font-bold text-3xl text-gray-900">{title}</h1>
-						<p className="text-gray-600">{subtitle}</p>
+					<div className="shrink-0">{icon}</div>
+					<div className="min-w-0 flex-1">
+						<h1 className="break-words font-bold text-responsive-2xl text-gray-900">{title}</h1>
+						<p className="break-words text-gray-600 text-sm md:text-base">{subtitle}</p>
 					</div>
 				</div>
 			</div>
