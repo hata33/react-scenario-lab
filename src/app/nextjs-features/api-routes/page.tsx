@@ -1,9 +1,10 @@
 "use client";
 
-import { AlertCircle, ArrowLeft, CheckCircle, Code, Copy, Database, FileText, Shield, Upload } from "lucide-react";
-import Link from "next/link";
+import { AlertCircle, CheckCircle, Code, Copy, Database, FileText, Shield, Upload } from "lucide-react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
+import { FeatureContainer, FeatureContent } from "@/components/showcase";
+import FeatureBackButton from "@/components/showcase/FeatureBackButton";
 
 interface APIExample {
 	id: string;
@@ -569,23 +570,17 @@ export default function APIRoutesPage() {
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
+			<FeatureContainer>
 				{/* 头部 */}
 				<div className="bg-white shadow-sm">
-					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-						<div className="flex items-center space-x-4">
-							<Link
-								href="/nextjs-features"
-								className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
-							>
-								<ArrowLeft className="mr-2 h-5 w-5" />
-								返回特性列表
-							</Link>
-							<div className="flex items-center space-x-3">
-								<Code className="h-8 w-8 text-blue-600" />
+					<div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
+						<div className="flex items-center space-x-2 md:space-x-4">
+							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
+							<div className="flex items-center space-x-2 md:space-x-3">
+								<Code className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
 								<div>
-									<h1 className="font-bold text-3xl text-gray-900">API 路由特性</h1>
-									<p className="text-gray-600">Next.js 全栈 API 开发：RESTful、中间件、认证、文件处理</p>
+									<h1 className="font-bold text-responsive-2xl text-gray-900">API 路由特性</h1>
+									<p className="text-gray-600 text-xs md:text-sm">Next.js 全栈 API 开发：RESTful、中间件、认证、文件处理</p>
 								</div>
 							</div>
 						</div>
@@ -593,7 +588,7 @@ export default function APIRoutesPage() {
 				</div>
 
 				{/* API 架构概览 */}
-				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+				<FeatureContent>
 					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
 						<h2 className="mb-6 font-semibold text-gray-900 text-xl">API 路由架构</h2>
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-6">
@@ -629,10 +624,10 @@ export default function APIRoutesPage() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</FeatureContent>
 
 				{/* API 示例 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+				<FeatureContent className="pb-8 md:pb-12 lg:pb-16">
 					<h2 className="mb-6 font-bold text-2xl text-gray-900">实现示例</h2>
 					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 						{/* 左侧：示例列表 */}
@@ -783,7 +778,8 @@ export default function APIRoutesPage() {
 						</div>
 					</div>
 				</div>
-			</div>
+			</FeatureContent>
+		</FeatureContainer>
 		</Layout>
 	);
 }

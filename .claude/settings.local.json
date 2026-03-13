@@ -81,7 +81,10 @@
       "Bash(temp_file)",
       "Bash(ls:*)",
       "mcp__web-search-prime__webSearchPrime",
-      "mcp__web-reader__webReader"
+      "mcp__web-reader__webReader",
+      "Skill(glm-plan-usage:usage-query)",
+      "Skill(glm-plan-usage:usage-query-skill)",
+      "Bash(ls -la \"D:/Project/AASelf/react-scenario-lab/src/app/react-19/\\(components\\)/\")"
     ],
     "deny": [],
     "ask": []

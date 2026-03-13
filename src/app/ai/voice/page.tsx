@@ -2,22 +2,25 @@
 
 import BackButton from "@/components/BackButton";
 import Layout from "@/components/Layout";
+import { FeatureContainer, FeatureContent } from "@/components/showcase";
 
 export default function AIVoicePage() {
 	return (
 		<Layout>
-			<div className="container mx-auto px-4 py-8">
-				<div className="mb-6">
-					<BackButton />
-				</div>
-				<h1 className="mb-6 font-bold text-4xl">AI 语音处理</h1>
-				<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-					<p className="mb-4 text-gray-600">AI 语音处理功能正在开发中...</p>
-					<div className="rounded bg-gray-100 p-4">
-						<p className="text-gray-500 text-sm">即将支持：语音转文字、文字转语音等功能</p>
+			<FeatureContainer>
+				<FeatureContent>
+					<div className="mb-4 md:mb-6">
+						<BackButton />
 					</div>
-				</div>
-			</div>
+					<h1 className="mb-6 font-bold text-responsive-3xl">AI 语音处理</h1>
+					<div className="rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-md">
+						<p className="mb-4 text-gray-600 text-sm md:text-base">AI 语音处理功能正在开发中...</p>
+						<div className="rounded bg-gray-100 p-3 md:p-4">
+							<p className="text-gray-500 text-xs md:text-sm">即将支持：语音转文字、文字转语音等功能</p>
+						</div>
+					</div>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

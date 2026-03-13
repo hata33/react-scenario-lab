@@ -1,33 +1,57 @@
 "use client";
 
 import { AlertCircle, Code, Target, Zap } from "lucide-react";
+import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-// Import utils
 import { copyWithFeedback } from "@/utils";
-// Import extracted components from index files
 import {
-	ArchitectureOverview,
-	ExampleDetail,
-	ExampleSelector,
-	Header,
-	OfficialExamples,
-	ThreeWRule,
-} from "../(components)";
-// Import types
-import type { ActionExample, WSection } from "../(types)";
-// Import demo components from index file
+	FeatureContainer,
+	FeatureContent,
+	FeatureHeader,
+	FeatureOverview,
+	FeatureThreeWRule,
+	FeatureExampleSelector,
+	FeatureExampleDetail,
+	FeatureOfficialExamples,
+	type Example,
+	type ExampleDetail,
+	type OfficialExample,
+} from "@/components/showcase";
 import { AsyncOperationsDemo, ClosureTrapDemo, EventHandlersDemo, TimersDemo } from "./(components)";
 
-const useEffectEventExamples: ActionExample[] = [
+const useEffectEventExamples: Example[] = [
 	{
 		id: "closure-trap",
 		title: "闭包陷阱解决",
-		description: "解决 useEffect 中的闭包陷阱问题，访问最新的 props 和 state",
-		category: "Core Features",
-		difficulty: "中级",
-		status: "completed",
 		icon: <Target className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+	{
+		id: "event-handlers",
+		title: "事件处理器优化",
+		icon: <Zap className="h-5 w-5" />,
+		difficulty: "初级",
+	},
+	{
+		id: "timers",
+		title: "定时器和间隔器",
+		icon: <AlertCircle className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+	{
+		id: "async-operations",
+		title: "异步操作处理",
+		icon: <Code className="h-5 w-5" />,
+		difficulty: "高级",
+	},
+];
+
+const exampleDetails: Record<string, ExampleDetail> = {
+	"closure-trap": {
+		title: "闭包陷阱解决",
+		icon: <Target className="h-5 w-5" />,
+		description: "解决 useEffect 中的闭包陷阱问题，访问最新的 props 和 state",
 		codeSnippet: `import { useEffect, useEffectEvent } from 'react';
 
 function ChatRoom({ roomId }) {
@@ -60,15 +84,12 @@ function ChatRoom({ roomId }) {
 				solution: "useEffectEvent 创建稳定的回调函数，总是能访问到最新的 props 和 state",
 			},
 		],
-	},
-	{
-		id: "event-handlers",
-		title: "事件处理器优化",
-		description: "在事件处理器中访问最新状态，避免不必要的重新创建",
-		category: "Performance",
-		difficulty: "初级",
 		status: "completed",
+	},
+	"event-handlers": {
+		title: "事件处理器优化",
 		icon: <Zap className="h-5 w-5" />,
+		description: "在事件处理器中访问最新状态，避免不必要的重新创建",
 		codeSnippet: `import { useEffectEvent } from 'react';
 
 function SearchComponent() {
@@ -97,15 +118,12 @@ function SearchComponent() {
 				solution: "useEffectEvent 创建稳定的处理器，避免不必要的重新创建和重新渲染",
 			},
 		],
-	},
-	{
-		id: "timers",
-		title: "定时器和间隔器",
-		description: "在定时器回调中访问最新状态，避免闭包陷阱",
-		category: "Async Operations",
-		difficulty: "中级",
 		status: "completed",
+	},
+	timers: {
+		title: "定时器和间隔器",
 		icon: <AlertCircle className="h-5 w-5" />,
+		description: "在定时器回调中访问最新状态，避免闭包陷阱",
 		codeSnippet: `import { useEffect, useEffectEvent } from 'react';
 
 function Timer({ duration }) {
@@ -137,15 +155,12 @@ function Timer({ duration }) {
 				solution: "useEffectEvent 让定时器回调访问最新状态，避免重新创建定时器",
 			},
 		],
-	},
-	{
-		id: "async-operations",
-		title: "异步操作处理",
-		description: "在异步操作中处理最新状态，实现防抖和节流",
-		category: "Advanced Features",
-		difficulty: "高级",
 		status: "completed",
+	},
+	"async-operations": {
+		title: "异步操作处理",
 		icon: <Code className="h-5 w-5" />,
+		description: "在异步操作中处理最新状态，实现防抖和节流",
 		codeSnippet: `import { useEffect, useEffectEvent } from 'react';
 
 function AutoSave({ content }) {
@@ -176,75 +191,72 @@ function AutoSave({ content }) {
 				solution: "useEffectEvent 确保异步操作访问最新状态，实现准确的数据处理",
 			},
 		],
+		status: "completed",
+	},
+};
+
+const architectureFeatures = [
+	{
+		icon: <Target className="h-6 w-6 text-blue-600" />,
+		title: "闭包陷阱解决",
+		description: "访问最新的状态值",
+		bgColor: "bg-blue-50",
+		iconColor: "text-blue-600",
+		titleColor: "text-blue-900",
+		descriptionColor: "text-blue-700",
+	},
+	{
+		icon: <Zap className="h-6 w-6 text-green-600" />,
+		title: "事件优化",
+		description: "稳定的回调函数",
+		bgColor: "bg-green-50",
+		iconColor: "text-green-600",
+		titleColor: "text-green-900",
+		descriptionColor: "text-green-700",
+	},
+	{
+		icon: <AlertCircle className="h-6 w-6 text-purple-600" />,
+		title: "定时器管理",
+		description: "精确的时间控制",
+		bgColor: "bg-purple-50",
+		iconColor: "text-purple-600",
+		titleColor: "text-purple-900",
+		descriptionColor: "text-purple-700",
+	},
+	{
+		icon: <Code className="h-6 w-6 text-orange-600" />,
+		title: "异步处理",
+		description: "防抖和节流优化",
+		bgColor: "bg-orange-50",
+		iconColor: "text-orange-600",
+		titleColor: "text-orange-900",
+		descriptionColor: "text-orange-700",
 	},
 ];
 
-export default function UseEffectEventPage() {
-	const [copiedCode, setCopiedCode] = useState(false);
-	const [selectedExample, setSelectedExample] = useState(useEffectEventExamples[0]);
+const threeWSections = [
+	{
+		description:
+			"useEffectEvent 是 React 19 中用于解决闭包陷阱问题的新 Hook，允许在 effect 和事件处理器中访问最新的 props 和 state。",
+		features: ["解决闭包陷阱", "访问最新值", "稳定回调函数", "性能优化"],
+	},
+	{
+		description:
+			"解决传统 useEffect 中的闭包陷阱问题，避免因依赖项变化导致的无限循环、过期闭包和性能问题。通过提供稳定的回调函数，简化依赖管理。",
+		features: ["避免无限循环", "简化依赖管理", "提升性能", "减少样板代码"],
+	},
+	{
+		description: "适用于 useEffect 回调、事件处理器、定时器回调、异步操作等需要访问最新值但不想触发重新执行的场景。",
+		features: ["WebSocket 连接", "事件监听", "定时器操作", "防抖节流"],
+	},
+];
 
-	const architectureFeatures = [
-		{
-			icon: <Target className="h-6 w-6 text-blue-600" />,
-			title: "闭包陷阱解决",
-			description: "访问最新的状态值",
-			bgColor: "bg-blue-50",
-			iconColor: "text-blue-600",
-			titleColor: "text-blue-900",
-			descriptionColor: "text-blue-700",
-		},
-		{
-			icon: <Zap className="h-6 w-6 text-green-600" />,
-			title: "事件优化",
-			description: "稳定的回调函数",
-			bgColor: "bg-green-50",
-			iconColor: "text-green-600",
-			titleColor: "text-green-900",
-			descriptionColor: "text-green-700",
-		},
-		{
-			icon: <AlertCircle className="h-6 w-6 text-purple-600" />,
-			title: "定时器管理",
-			description: "精确的时间控制",
-			bgColor: "bg-purple-50",
-			iconColor: "text-purple-600",
-			titleColor: "text-purple-900",
-			descriptionColor: "text-purple-700",
-		},
-		{
-			icon: <Code className="h-6 w-6 text-orange-600" />,
-			title: "异步处理",
-			description: "防抖和节流优化",
-			bgColor: "bg-orange-50",
-			iconColor: "text-orange-600",
-			titleColor: "text-orange-900",
-			descriptionColor: "text-orange-700",
-		},
-	];
-
-	const threeWSections: WSection[] = [
-		{
-			description:
-				"useEffectEvent 是 React 19 中用于解决闭包陷阱问题的新 Hook，允许在 effect 和事件处理器中访问最新的 props 和 state。",
-			features: ["解决闭包陷阱", "访问最新值", "稳定回调函数", "性能优化"],
-		},
-		{
-			description:
-				"解决传统 useEffect 中的闭包陷阱问题，避免因依赖项变化导致的无限循环、过期闭包和性能问题。通过提供稳定的回调函数，简化依赖管理。",
-			features: ["避免无限循环", "简化依赖管理", "提升性能", "减少样板代码"],
-		},
-		{
-			description: "适用于 useEffect 回调、事件处理器、定时器回调、异步操作等需要访问最新值但不想触发重新执行的场景。",
-			features: ["WebSocket 连接", "事件监听", "定时器操作", "防抖节流"],
-		},
-	];
-
-	const getOfficialExamples = (exampleId: string) => {
-		const examples = {
-			"closure-trap": [
-				{
-					title: "🔄 WebSocket 连接",
-					code: `function ChatApp({ roomId }) {
+const getOfficialExamples = (exampleId: string): OfficialExample[] => {
+	const examples: Record<string, OfficialExample[]> = {
+		"closure-trap": [
+			{
+				title: "🔄 WebSocket 连接",
+				code: `function ChatApp({ roomId }) {
   const [message, setMessage] = useState('');
 
   const onMessage = useEffectEvent((data) => {
@@ -260,13 +272,13 @@ export default function UseEffectEventPage() {
 
   return <input value={message} onChange={e => setMessage(e.target.value)} />;
 }`,
-					description: "WebSocket 连接中使用 useEffectEvent 访问最新状态",
-				},
-			],
-			"event-handlers": [
-				{
-					title: "📝 表单处理",
-					code: `function FormComponent() {
+				description: "WebSocket 连接中使用 useEffectEvent 访问最新状态",
+			},
+		],
+		"event-handlers": [
+			{
+				title: "📝 表单处理",
+				code: `function FormComponent() {
   const [values, setValues] = useState({});
 
   const handleSubmit = useEffectEvent((e) => {
@@ -283,13 +295,13 @@ export default function UseEffectEventPage() {
     </form>
   );
 }`,
-					description: "表单提交处理器访问最新表单数据",
-				},
-			],
-			timers: [
-				{
-					title: "⏰ 倒计时器",
-					code: `function Countdown({ seconds }) {
+				description: "表单提交处理器访问最新表单数据",
+			},
+		],
+		timers: [
+			{
+				title: "⏰ 倒计时器",
+				code: `function Countdown({ seconds }) {
   const [timeLeft, setTimeLeft] = useState(seconds);
 
   const onTick = useEffectEvent(() => {
@@ -309,13 +321,13 @@ export default function UseEffectEventPage() {
 
   return <div>剩余时间: {timeLeft} 秒</div>;
 }`,
-					description: "倒计时器中使用稳定的回调函数",
-				},
-			],
-			"async-operations": [
-				{
-					title: "💾 自动保存",
-					code: `function AutoSaveEditor() {
+				description: "倒计时器中使用稳定的回调函数",
+			},
+		],
+		"async-operations": [
+			{
+				title: "💾 自动保存",
+				code: `function AutoSaveEditor() {
   const [content, setContent] = useState('');
   const [status, setStatus] = useState('saved');
 
@@ -332,75 +344,73 @@ export default function UseEffectEventPage() {
 
   return <textarea onChange={e => setContent(e.target.value)} />;
 }`,
-					description: "防抖自动保存，访问最新内容",
-				},
-			],
-		};
-
-		return examples[exampleId as keyof typeof examples] || [];
+				description: "防抖自动保存，访问最新内容",
+			},
+		],
 	};
 
-	const getDemoComponents = () => {
-		switch (selectedExample.id) {
-			case "closure-trap":
-				return [<ClosureTrapDemo key="closure-trap" />];
-			case "event-handlers":
-				return [<EventHandlersDemo key="event-handlers" />];
-			case "timers":
-				return [<TimersDemo key="timers" />];
-			case "async-operations":
-				return [<AsyncOperationsDemo key="async-operations" />];
-			default:
-				return [];
-		}
+	return examples[exampleId] || [];
+};
+
+const getDemoComponents = (exampleId: string): React.ReactNode[] => {
+	switch (exampleId) {
+		case "closure-trap":
+			return [<ClosureTrapDemo key="closure-trap" />];
+		case "event-handlers":
+			return [<EventHandlersDemo key="event-handlers" />];
+		case "timers":
+			return [<TimersDemo key="timers" />];
+		case "async-operations":
+			return [<AsyncOperationsDemo key="async-operations" />];
+		default:
+			return [];
+	}
+};
+
+export default function UseEffectEventPage() {
+	const [copiedCode, setCopiedCode] = useState(false);
+	const [selectedExampleId, setSelectedExampleId] = useState(useEffectEventExamples[0].id);
+
+	const selectedExample = exampleDetails[selectedExampleId];
+
+	const handleCopyCode = (code: string) => {
+		copyWithFeedback(code, setCopiedCode);
 	};
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
-				{/* Header */}
-				<Header
-					icon={<Target className="h-8 w-8 text-blue-600" />}
+			<FeatureContainer>
+				<FeatureHeader
+					icon={<Target className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
 					title="React 19 useEffectEvent"
 					subtitle="解决闭包陷阱的优雅方案"
 				/>
-
-				{/* useEffectEvent 架构概览 */}
-				<ArchitectureOverview title="useEffectEvent 生态系统" features={architectureFeatures} />
-
-				{/* 3W 法则解析 */}
-				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
-
-				{/* 功能选择器 - 吸顶区域 */}
-				<ExampleSelector
-					selectorLabel="选择功能:"
+				<FeatureContent className="space-y-4">
+					<FeatureOverview title="useEffectEvent 生态系统" features={architectureFeatures} />
+					<FeatureThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
+				</FeatureContent>
+				<FeatureExampleSelector
+					label="选择功能:"
 					examples={useEffectEventExamples}
-					selectedExampleId={selectedExample.id}
-					onExampleSelect={(exampleId) => {
-						const example = useEffectEventExamples.find((ex) => ex.id === exampleId);
-						if (example) setSelectedExample(example);
-					}}
+					selectedId={selectedExampleId}
+					onSelect={setSelectedExampleId}
 				/>
-
-				{/* 详细展示区域 - 下方内容 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-					{selectedExample && (
-						<ExampleDetail
-							example={selectedExample}
-							demoComponents={getDemoComponents()}
-							onCopyCode={(code) => copyWithFeedback(code, setCopiedCode)}
-							copiedCode={copiedCode}
-						/>
-					)}
-				</div>
-
-				{/* 官方代码示例 */}
-				<OfficialExamples
-					title={`📚 ${selectedExample?.title} 官方示例`}
-					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
-					examples={getOfficialExamples(selectedExample?.id || "")}
-				/>
-			</div>
+				<FeatureContent>
+					<FeatureExampleDetail
+						example={selectedExample}
+						demoComponents={getDemoComponents(selectedExampleId)}
+						onCopyCode={handleCopyCode}
+						copiedCode={copiedCode}
+					/>
+				</FeatureContent>
+				<FeatureContent>
+					<FeatureOfficialExamples
+						title={`📚 ${selectedExample?.title} 官方示例`}
+						description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+						examples={getOfficialExamples(selectedExampleId)}
+					/>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

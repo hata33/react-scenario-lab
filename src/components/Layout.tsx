@@ -103,7 +103,7 @@ export default function Layout({ children, showBackButton = true, showPadding = 
 				// 记住用户的选择
 				try {
 					localStorage.setItem("sidebarSeen", newState ? "1" : "0");
-				} catch {}
+				} catch { }
 			}
 		};
 		window.addEventListener("keydown", onKeyDown);
@@ -138,16 +138,14 @@ export default function Layout({ children, showBackButton = true, showPadding = 
 
 			{/* 侧栏列容器：响应式设计 */}
 			<div
-				className={`relative transition-[width] duration-300 ease-in-out ${
-					isOpen ? "w-[280px] md:w-[320px]" : "w-0"
-				} z-sidebar overflow-hidden`}
+				className={`relative transition-[width] duration-300 ease-in-out ${isOpen ? "w-[280px] md:w-[320px]" : "w-0"
+					} z-sidebar overflow-hidden`}
 				onMouseEnter={() => !isMobile && !pinnedOpen && setHoverOpen(true)}
 				onMouseLeave={() => !isMobile && !pinnedOpen && setHoverOpen(false)}
 			>
 				<div
-					className={`absolute inset-0 ${
-						isOpen ? "translate-x-0 opacity-100" : "-translate-x-full pointer-events-none opacity-0"
-					} transition-transform duration-300 ease-in-out`}
+					className={`absolute inset-0 ${isOpen ? "translate-x-0 opacity-100" : "-translate-x-full pointer-events-none opacity-0"
+						} transition-transform duration-300 ease-in-out`}
 				>
 					<Sidebar menuTree={menuTree} activePath={activePath} />
 				</div>
@@ -155,7 +153,7 @@ export default function Layout({ children, showBackButton = true, showPadding = 
 
 			<main id={scrollContainerId} className="h-full overflow-y-auto bg-gray-50">
 				{/* 移动端顶部栏 */}
-				<div className="sticky top-0 z-sticky flex items-center justify-between bg-white px-4 py-3 shadow-sm md:hidden">
+				<div className="sticky top-0 z-99 z-sticky flex items-center justify-between bg-white px-3 py-3 shadow-sm md:hidden">
 					<div className="flex items-center">
 						<button
 							type="button"
@@ -177,36 +175,42 @@ export default function Layout({ children, showBackButton = true, showPadding = 
 							</svg>
 						</button>
 						<div className="ml-3">
-							<h1 className="font-bold text-gray-900 text-lg">React Scenario Lab</h1>
+							<h1 className="font-bold text-gray-900 text-base sm:text-lg">React Scenario Lab</h1>
 						</div>
 					</div>
 
 					{/* 右侧功能按钮预留位置 */}
-					<div className="flex items-center gap-2">
+					<div className="flex items-center gap-1.5">
 						<button
 							type="button"
-							className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-gray-600 transition-transform active:scale-95 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+							className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 transition-transform active:scale-95 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
 							aria-label="Search"
 						>
-							<svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+							<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+								/>
 							</svg>
 						</button>
 						<button
 							type="button"
-							className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 p-1 text-white shadow-md transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500"
+							className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-md transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500"
 							aria-label="User menu"
 						>
-							<svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+							<svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
 								<path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
 							</svg>
 						</button>
 					</div>
 				</div>
 
-				<div className={`relative min-h-full ${showPadding ? "p-4 md:p-6 lg:p-8" : ""}`}>
+				{/* 内容区域 - 移动端边距更窄，内容更宽 */}
+				<div className={`relative min-h-full ${showPadding ? "px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8" : ""}`}>
 					{/* 返回按钮 */}
-					<BackButton show={showBackButton} className="mb-4" />
+					<BackButton show={showBackButton} className="mb-3 md:mb-4" />
 					{children}
 				</div>
 			</main>

@@ -1,9 +1,13 @@
 "use client";
 
-import React from "react";
-import type { WSection } from "../(types)";
+import type React from "react";
 
-interface ThreeWRuleProps {
+export interface WSection {
+	description: string;
+	features: string[];
+}
+
+interface FeatureThreeWRuleProps {
 	title: string;
 	sections: WSection[];
 }
@@ -38,7 +42,12 @@ const sectionConfigs = [
 	},
 ];
 
-export default function ThreeWRule({ title, sections }: ThreeWRuleProps) {
+/**
+ * 3W 法则内容块
+ * 展示 What/Why/When 三个维度
+ * 无外层容器，直接使用 FeatureContent 包裹
+ */
+export default function FeatureThreeWRule({ title, sections }: FeatureThreeWRuleProps) {
 	return (
 		<div className="rounded-lg border border-blue-200 bg-blue-50 p-4 md:p-6 shadow-sm">
 			<h2 className="mb-4 md:mb-6 font-bold text-xl md:text-2xl text-blue-800">{title}</h2>

@@ -304,32 +304,33 @@ export default function ServerComponentsPage() {
 	return (
 		<Layout>
 			<div className="min-h-screen bg-gray-50">
-				{/* Header */}
-				<Header
-					icon={<Server className="h-8 w-8 text-blue-600" />}
-					title="React 19 服务端组件"
-					subtitle="零JavaScript的服务端渲染新时代"
-				/>
+				{/* 统一容器包裹所有内容 */}
+				<div className="mx-auto max-w-7xl space-y-4 px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
+					{/* Header */}
+					<Header
+						icon={<Server className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
+						title="React 19 服务端组件"
+						subtitle="零JavaScript的服务端渲染新时代"
+					/>
 
-				{/* 服务端组件架构概览 */}
-				<ArchitectureOverview title="服务端组件生态系统" features={architectureFeatures} />
+					{/* 服务端组件架构概览 */}
+					<ArchitectureOverview title="服务端组件生态系统" features={architectureFeatures} />
 
-				{/* 3W 法则解析 */}
-				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
+					{/* 3W 法则解析 */}
+					<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
 
-				{/* 组件选择器 - 吸顶区域 */}
-				<ExampleSelector
-					selectorLabel="选择组件:"
-					examples={serverComponentExamples}
-					selectedExampleId={selectedExample.id}
-					onExampleSelect={(exampleId) => {
-						const example = serverComponentExamples.find((ex) => ex.id === exampleId);
-						if (example) setSelectedExample(example);
-					}}
-				/>
+					{/* 组件选择器 - 吸顶区域 */}
+					<ExampleSelector
+						selectorLabel="选择组件:"
+						examples={serverComponentExamples}
+						selectedExampleId={selectedExample.id}
+						onExampleSelect={(exampleId) => {
+							const example = serverComponentExamples.find((ex) => ex.id === exampleId);
+							if (example) setSelectedExample(example);
+						}}
+					/>
 
-				{/* 详细展示区域 - 下方内容 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+					{/* 详细展示区域 - 下方内容 */}
 					{selectedExample && (
 						<ExampleDetail
 							example={selectedExample}
@@ -338,14 +339,14 @@ export default function ServerComponentsPage() {
 							copiedCode={copiedCode}
 						/>
 					)}
-				</div>
 
-				{/* 官方代码示例 */}
-				<OfficialExamples
-					title={`📚 ${selectedExample?.title} 官方示例`}
-					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
-					examples={getOfficialExamples(selectedExample?.id || "")}
-				/>
+					{/* 官方代码示例 */}
+					<OfficialExamples
+						title={`📚 ${selectedExample?.title} 官方示例`}
+						description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+						examples={getOfficialExamples(selectedExample?.id || "")}
+					/>
+				</div>
 			</div>
 		</Layout>
 	);

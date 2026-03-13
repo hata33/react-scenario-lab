@@ -1,9 +1,10 @@
 "use client";
 
-import { ArrowLeft, Brush, CheckCircle, Monitor, Palette, Settings } from "lucide-react";
-import Link from "next/link";
+import { Brush, CheckCircle, Monitor, Palette, Settings } from "lucide-react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
+import { FeatureContainer, FeatureContent } from "@/components/showcase";
+import FeatureBackButton from "@/components/showcase/FeatureBackButton";
 
 interface StylingExample {
 	id: string;
@@ -438,23 +439,17 @@ export default function StylingFeaturePage() {
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
+			<FeatureContainer>
 				{/* 头部 */}
 				<div className="bg-white shadow-sm">
-					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-						<div className="flex items-center space-x-4">
-							<Link
-								href="/nextjs-features"
-								className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
-							>
-								<ArrowLeft className="mr-2 h-5 w-5" />
-								返回特性列表
-							</Link>
-							<div className="flex items-center space-x-3">
-								<Palette className="h-8 w-8 text-cyan-600" />
+					<div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
+						<div className="flex items-center space-x-2 md:space-x-4">
+							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
+							<div className="flex items-center space-x-2 md:space-x-3">
+								<Palette className="h-5 w-5 md:h-8 md:w-8 text-cyan-600" />
 								<div>
-									<h1 className="font-bold text-3xl text-gray-900">样式方案特性</h1>
-									<p className="text-gray-600">Next.js 完整样式解决方案：Tailwind、CSS Modules、CSS-in-JS</p>
+									<h1 className="font-bold text-responsive-2xl text-gray-900">样式方案特性</h1>
+									<p className="text-gray-600 text-xs md:text-sm">Next.js 完整样式解决方案：Tailwind、CSS Modules、CSS-in-JS</p>
 								</div>
 							</div>
 						</div>
@@ -462,7 +457,7 @@ export default function StylingFeaturePage() {
 				</div>
 
 				{/* 框架对比 */}
-				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+				<FeatureContent>
 					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
 						<h2 className="mb-6 font-semibold text-gray-900 text-xl">样式框架对比</h2>
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-5">
@@ -528,10 +523,10 @@ export default function StylingFeaturePage() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</FeatureContent>
 
 				{/* 样式示例 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+				<FeatureContent className="pb-8 md:pb-12">
 					<h2 className="mb-6 font-bold text-2xl text-gray-900">实现示例</h2>
 					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 						{/* 左侧：示例列表 */}
@@ -672,7 +667,8 @@ export default function StylingFeaturePage() {
 						</div>
 					</div>
 				</div>
-			</div>
+			</FeatureContent>
+		</FeatureContainer>
 		</Layout>
 	);
 }

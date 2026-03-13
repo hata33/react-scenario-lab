@@ -1,15 +1,29 @@
 "use client";
 
-import React from "react";
-import type { OfficialExample } from "../(types)";
+import type React from "react";
 
-interface OfficialExamplesProps {
+export interface OfficialExample {
+	title: string;
+	code: string;
+	description?: string;
+}
+
+interface FeatureOfficialExamplesProps {
 	title: string;
 	description: string;
 	examples: OfficialExample[];
 }
 
-export default function OfficialExamples({ title, description, examples }: OfficialExamplesProps) {
+/**
+ * 官方示例内容块
+ * 展示官方代码示例
+ * 无外层容器，直接使用 FeatureContent 包裹
+ */
+export default function FeatureOfficialExamples({
+	title,
+	description,
+	examples,
+}: FeatureOfficialExamplesProps) {
 	return (
 		<div className="rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
 			<h2 className="mb-4 md:mb-6 font-bold text-xl md:text-2xl text-gray-900">{title}</h2>

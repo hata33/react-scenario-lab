@@ -2,18 +2,18 @@
 
 import type React from "react";
 
-interface Example {
+export interface Example {
 	id: string;
 	title: string;
 	icon: React.ReactNode;
 	difficulty: "初级" | "中级" | "高级";
 }
 
-interface ExampleSelectorProps {
-	selectorLabel: string;
+interface FeatureExampleSelectorProps {
+	label?: string;
 	examples: Example[];
 	selectedExampleId: string;
-	onExampleSelect: (exampleId: string) => void;
+	onSelectExample: (exampleId: string) => void;
 }
 
 const getDifficultyColor = (difficulty: string) => {
@@ -29,22 +29,27 @@ const getDifficultyColor = (difficulty: string) => {
 	}
 };
 
-export default function ExampleSelector({
-	selectorLabel,
+/**
+ * 示例选择器内容块（sticky 定位）
+ * 显示可选示例列表，支持切换
+ * 无外层容器，直接使用 FeatureContent 包裹
+ */
+export default function FeatureExampleSelector({
+	label = "选择功能:",
 	examples,
 	selectedExampleId,
-	onExampleSelect,
-}: ExampleSelectorProps) {
+	onSelectExample,
+}: FeatureExampleSelectorProps) {
 	return (
 		<div className="sticky top-0 z-10 border-gray-200 border-b bg-white">
 			<div className="px-3 py-3 sm:px-4 md:px-6 lg:px-8">
 				<div className="flex flex-col items-center justify-between gap-2 sm:gap-3 sm:flex-row">
-					<h2 className="font-semibold text-gray-900 text-xs sm:text-sm">{selectorLabel}</h2>
+					<h2 className="font-semibold text-gray-900 text-xs sm:text-sm">{label}</h2>
 					<div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
 						{examples.map((example) => (
 							<button
 								key={example.id}
-								onClick={() => onExampleSelect(example.id)}
+								onClick={() => onSelectExample(example.id)}
 								className={`rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 font-medium text-xs sm:text-sm transition-all ${
 									selectedExampleId === example.id
 										? "bg-blue-500 text-white shadow-sm"

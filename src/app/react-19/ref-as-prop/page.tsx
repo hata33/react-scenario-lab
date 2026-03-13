@@ -4,21 +4,20 @@ import { Code, Gauge, Layers, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-// Import utils
 import { copyWithFeedback } from "@/utils";
-
-// Import extracted components from index files
 import {
-	ArchitectureOverview,
-	ExampleDetail,
-	ExampleSelector,
-	Header,
-	OfficialExamples,
-	ThreeWRule,
-} from "../(components)";
-// Import types
-import type { FeatureCard, RefAsPropExample, WSection } from "../(types)";
-// Import demo components from index file
+	FeatureContainer,
+	FeatureContent,
+	FeatureHeader,
+	FeatureOverview,
+	FeatureThreeWRule,
+	FeatureExampleSelector,
+	FeatureExampleDetail,
+	FeatureOfficialExamples,
+	type Example,
+	type ExampleDetail,
+	type OfficialExample,
+} from "@/components/showcase";
 import {
 	ComplexComponentsDemo,
 	PerformanceComparisonDemo,
@@ -26,15 +25,38 @@ import {
 	TypeScriptIntegrationDemo,
 } from "./(components)";
 
-const refAsPropExamples: RefAsPropExample[] = [
+const refAsPropExamples: Example[] = [
 	{
 		id: "simplified-ref",
 		title: "简化 ref 传递",
-		description: "ref 作为普通属性传递，无需 forwardRef，简化组件定义和使用",
-		category: "基础功能",
-		difficulty: "初级",
-		status: "completed",
 		icon: <Layers className="h-5 w-5" />,
+		difficulty: "初级",
+	},
+	{
+		id: "complex-components",
+		title: "复杂组件 ref",
+		icon: <Code className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+	{
+		id: "typescript-integration",
+		title: "TypeScript 集成",
+		icon: <Code className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+	{
+		id: "performance-comparison",
+		title: "性能对比分析",
+		icon: <Gauge className="h-5 w-5" />,
+		difficulty: "高级",
+	},
+];
+
+const exampleDetails: Record<string, ExampleDetail> = {
+	"simplified-ref": {
+		title: "简化 ref 传递",
+		icon: <Layers className="h-5 w-5" />,
+		description: "ref 作为普通属性传递，无需 forwardRef，简化组件定义和使用",
 		codeSnippet: `// 传统 forwardRef 方式
 const TraditionalInput = React.forwardRef<HTMLInputElement, { placeholder: string }>(
 	({ placeholder }, ref) => {
@@ -82,15 +104,12 @@ const MyComponent = () => {
 				solution: "直接传递 ref 属性，简化组件嵌套结构",
 			},
 		],
-	},
-	{
-		id: "complex-components",
-		title: "复杂组件 ref",
-		description: "在表单字段和自定义组件中使用 ref 属性，实现更灵活的组件设计和控制",
-		category: "高级应用",
-		difficulty: "中级",
 		status: "completed",
+	},
+	"complex-components": {
+		title: "复杂组件 ref",
 		icon: <Code className="h-5 w-5" />,
+		description: "在表单字段和自定义组件中使用 ref 属性，实现更灵活的组件设计和控制",
 		codeSnippet: `// 表单字段组件
 const FormField = ({ label, ref, error, ...props }) => {
 	return (
@@ -149,15 +168,12 @@ const Form = () => {
 				solution: "ref 作为独立属性，保持组件业务逻辑的纯净性",
 			},
 		],
-	},
-	{
-		id: "typescript-integration",
-		title: "TypeScript 集成",
-		description: "ref 属性在 TypeScript 中的类型定义和使用，提供更好的类型安全和开发体验",
-		category: "类型安全",
-		difficulty: "中级",
 		status: "completed",
+	},
+	"typescript-integration": {
+		title: "TypeScript 集成",
 		icon: <Code className="h-5 w-5" />,
+		description: "ref 属性在 TypeScript 中的类型定义和使用，提供更好的类型安全和开发体验",
 		codeSnippet: `// 简单输入框类型定义
 interface InputProps {
 	placeholder?: string;
@@ -220,15 +236,12 @@ const MyComponent = () => {
 				solution: "更好的类型系统可以在编译时发现潜在问题",
 			},
 		],
-	},
-	{
-		id: "performance-comparison",
-		title: "性能对比分析",
-		description: "传统 forwardRef 与 React 19 ref 属性的性能对比，展示新方式的性能优势",
-		category: "性能优化",
-		difficulty: "高级",
 		status: "completed",
+	},
+	"performance-comparison": {
+		title: "性能对比分析",
 		icon: <Gauge className="h-5 w-5" />,
+		description: "传统 forwardRef 与 React 19 ref 属性的性能对比，展示新方式的性能优势",
 		codeSnippet: `// 性能测试组件
 const PerformanceTest = () => {
 	const [componentCount, setComponentCount] = useState(100);
@@ -292,78 +305,73 @@ const PerformanceTest = () => {
 				solution: "更简单的组件结构提供更好的内存使用效率",
 			},
 		],
+		status: "completed",
+	},
+};
+
+const architectureFeatures = [
+	{
+		icon: <Layers className="h-6 w-6 text-blue-600" />,
+		title: "简化传递",
+		description: "ref 作为普通属性直接传递",
+		bgColor: "bg-blue-50",
+		iconColor: "text-blue-600",
+		titleColor: "text-blue-900",
+		descriptionColor: "text-blue-700",
+	},
+	{
+		icon: <Code className="h-6 w-6 text-green-600" />,
+		title: "类型安全",
+		description: "更好的 TypeScript 类型支持",
+		bgColor: "bg-green-50",
+		iconColor: "text-green-600",
+		titleColor: "text-green-900",
+		descriptionColor: "text-green-700",
+	},
+	{
+		icon: <Gauge className="h-6 w-6 text-purple-600" />,
+		title: "性能优化",
+		description: "减少组件层级和渲染开销",
+		bgColor: "bg-purple-50",
+		iconColor: "text-purple-600",
+		titleColor: "text-purple-900",
+		descriptionColor: "text-purple-700",
+	},
+	{
+		icon: <Zap className="h-6 w-6 text-orange-600" />,
+		title: "开发体验",
+		description: "API 更直观，代码更简洁",
+		bgColor: "bg-orange-50",
+		iconColor: "text-orange-600",
+		titleColor: "text-orange-900",
+		descriptionColor: "text-orange-700",
 	},
 ];
 
-export default function RefAsPropPage() {
-	const [copiedCode, setCopiedCode] = useState(false);
-	const [selectedExample, setSelectedExample] = useState(refAsPropExamples[0]);
+const threeWSections = [
+	{
+		description:
+			"ref 作为属性是 React 19 的革命性特性，允许将 ref 作为普通属性直接传递给子组件，无需 forwardRef 包装，大大简化了组件定义和使用方式。",
+		features: ["简化组件定义", "提升类型安全", "优化性能表现", "改善开发体验"],
+	},
+	{
+		description:
+			"解决了传统 forwardRef 代码冗余、API 不直观、TypeScript 类型复杂、组件嵌套困难等问题，通过更自然的 API 设计，让 ref 传递变得简单高效，显著提升开发效率和代码质量。",
+		features: ["减少样板代码", "统一 API 设计", "提升类型推断", "简化组件嵌套"],
+	},
+	{
+		description:
+			"适合需要访问子组件 DOM、库组件开发、表单处理、自定义 UI 组件等场景，特别在组件库开发、表单系统、富文本编辑器等需要精细化控制的场景中发挥重要作用。",
+		features: ["表单组件开发", "UI 库构建", "DOM 操作组件", "组件系统设计"],
+	},
+];
 
-	const architectureFeatures: FeatureCard[] = [
-		{
-			icon: <Layers className="h-6 w-6 text-blue-600" />,
-			title: "简化传递",
-			description: "ref 作为普通属性直接传递",
-			bgColor: "bg-blue-50",
-			iconColor: "text-blue-600",
-			titleColor: "text-blue-900",
-			descriptionColor: "text-blue-700",
-		},
-		{
-			icon: <Code className="h-6 w-6 text-green-600" />,
-			title: "类型安全",
-			description: "更好的 TypeScript 类型支持",
-			bgColor: "bg-green-50",
-			iconColor: "text-green-600",
-			titleColor: "text-green-900",
-			descriptionColor: "text-green-700",
-		},
-		{
-			icon: <Gauge className="h-6 w-6 text-purple-600" />,
-			title: "性能优化",
-			description: "减少组件层级和渲染开销",
-			bgColor: "bg-purple-50",
-			iconColor: "text-purple-600",
-			titleColor: "text-purple-900",
-			descriptionColor: "text-purple-700",
-		},
-		{
-			icon: <Zap className="h-6 w-6 text-orange-600" />,
-			title: "开发体验",
-			description: "API 更直观，代码更简洁",
-			bgColor: "bg-orange-50",
-			iconColor: "text-orange-600",
-			titleColor: "text-orange-900",
-			descriptionColor: "text-orange-700",
-		},
-	];
-
-	// 3W Rule data
-	const threeWSections: WSection[] = [
-		{
-			description:
-				"ref 作为属性是 React 19 的革命性特性，允许将 ref 作为普通属性直接传递给子组件，无需 forwardRef 包装，大大简化了组件定义和使用方式。",
-			features: ["简化组件定义", "提升类型安全", "优化性能表现", "改善开发体验"],
-		},
-		{
-			description:
-				"解决了传统 forwardRef 代码冗余、API 不直观、TypeScript 类型复杂、组件嵌套困难等问题，通过更自然的 API 设计，让 ref 传递变得简单高效，显著提升开发效率和代码质量。",
-			features: ["减少样板代码", "统一 API 设计", "提升类型推断", "简化组件嵌套"],
-		},
-		{
-			description:
-				"适合需要访问子组件 DOM、库组件开发、表单处理、自定义 UI 组件等场景，特别在组件库开发、表单系统、富文本编辑器等需要精细化控制的场景中发挥重要作用。",
-			features: ["表单组件开发", "UI 库构建", "DOM 操作组件", "组件系统设计"],
-		},
-	];
-
-	// 官方代码示例数据
-	const getOfficialExamples = (exampleId: string) => {
-		const examples = {
-			"simplified-ref": [
-				{
-					title: "🔗 基本 ref 属性使用",
-					code: `// React 19 - ref 作为普通属性
+const getOfficialExamples = (exampleId: string): OfficialExample[] => {
+	const examples: Record<string, OfficialExample[]> = {
+		"simplified-ref": [
+			{
+				title: "🔗 基本 ref 属性使用",
+				code: `// React 19 - ref 作为普通属性
 function MyInput({ placeholder, ref }) {
   return <input ref={ref} placeholder={placeholder} />;
 }
@@ -375,11 +383,11 @@ function App() {
 }
 
 // ref 作为普通属性，无需 forwardRef`,
-					description: "React 19 最基础的 ref 属性使用方式",
-				},
-				{
-					title: "📝 表单组件 ref",
-					code: `// 表单组件示例
+				description: "React 19 最基础的 ref 属性使用方式",
+			},
+			{
+				title: "📝 表单组件 ref",
+				code: `// 表单组件示例
 function FormField({ label, ref, ...props }) {
   return (
     <div>
@@ -400,13 +408,13 @@ function LoginForm() {
     </form>
   );
 }`,
-					description: "表单组件中的 ref 属性使用",
-				},
-			],
-			"complex-components": [
-				{
-					title: "🧩 复杂组件 ref 传递",
-					code: `// 复杂组件中的 ref 传递
+				description: "表单组件中的 ref 属性使用",
+			},
+		],
+		"complex-components": [
+			{
+				title: "🧩 复杂组件 ref 传递",
+				code: `// 复杂组件中的 ref 传递
 function DatePicker({ ref, onDateChange }) {
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -436,11 +444,11 @@ function BookingForm() {
     />
   );
 }`,
-					description: "复杂组件中的 ref 属性传递和使用",
-				},
-				{
-					title: "🎨 可编辑组件",
-					code: `// 可编辑文本组件
+				description: "复杂组件中的 ref 属性传递和使用",
+			},
+			{
+				title: "🎨 可编辑组件",
+				code: `// 可编辑文本组件
 function EditableText({ value, onChange, ref }) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -457,13 +465,13 @@ function EditableText({ value, onChange, ref }) {
     </div>
   );
 }`,
-					description: "可编辑组件中的 ref 属性使用",
-				},
-			],
-			"typescript-integration": [
-				{
-					title: "📘 TypeScript 类型定义",
-					code: `// 完整的 TypeScript 类型定义
+				description: "可编辑组件中的 ref 属性使用",
+			},
+		],
+		"typescript-integration": [
+			{
+				title: "📘 TypeScript 类型定义",
+				code: `// 完整的 TypeScript 类型定义
 interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
@@ -493,11 +501,11 @@ const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };`,
-					description: "TypeScript 中的完整类型定义",
-				},
-				{
-					title: "🔧 自定义 ref 类型",
-					code: `// 自定义 ref 类型和方法
+				description: "TypeScript 中的完整类型定义",
+			},
+			{
+				title: "🔧 自定义 ref 类型",
+				code: `// 自定义 ref 类型和方法
 interface CustomRef {
   focus: () => void;
   scrollIntoView: () => void;
@@ -522,13 +530,13 @@ const CustomComponent = React.forwardRef<CustomRef, CustomComponentProps>(
     return <div>{data.content}</div>;
   }
 );`,
-					description: "自定义 ref 类型的定义和使用",
-				},
-			],
-			"performance-comparison": [
-				{
-					title: "⚡ 性能测试示例",
-					code: `// 性能对比测试
+				description: "自定义 ref 类型的定义和使用",
+			},
+		],
+		"performance-comparison": [
+			{
+				title: "⚡ 性能测试示例",
+				code: `// 性能对比测试
 function PerformanceComparison() {
   const [count, setCount] = useState(100);
 
@@ -563,11 +571,11 @@ function PerformanceComparison() {
     </div>
   );
 }`,
-					description: "性能测试和对比示例",
-				},
-				{
-					title: "📊 性能优化建议",
-					code: `// 性能优化最佳实践
+				description: "性能测试和对比示例",
+			},
+			{
+				title: "📊 性能优化建议",
+				code: `// 性能优化最佳实践
 const OptimizedComponent = React.memo(({ ref, data, onAction }) => {
   // 使用 useMemo 缓存计算结果
   const expensiveValue = useMemo(() => {
@@ -599,76 +607,77 @@ function Parent() {
     />
   );
 }`,
-					description: "性能优化最佳实践",
-				},
-			],
-		};
-
-		return examples[exampleId as keyof typeof examples] || [];
+				description: "性能优化最佳实践",
+			},
+		],
 	};
 
-	// Get demo components based on selected example
-	const getDemoComponents = () => {
-		switch (selectedExample.id) {
-			case "simplified-ref":
-				return [<SimplifiedRefDemo key="simplified" />];
-			case "complex-components":
-				return [<ComplexComponentsDemo key="complex" />];
-			case "typescript-integration":
-				return [<TypeScriptIntegrationDemo key="typescript" />];
-			case "performance-comparison":
-				return [<PerformanceComparisonDemo key="performance" />];
-			default:
-				return [];
-		}
+	return examples[exampleId] || [];
+};
+
+const getDemoComponents = (exampleId: string): React.ReactNode[] => {
+	switch (exampleId) {
+		case "simplified-ref":
+			return [<SimplifiedRefDemo key="simplified" />];
+		case "complex-components":
+			return [<ComplexComponentsDemo key="complex" />];
+		case "typescript-integration":
+			return [<TypeScriptIntegrationDemo key="typescript" />];
+		case "performance-comparison":
+			return [<PerformanceComparisonDemo key="performance" />];
+		default:
+			return [];
+	}
+};
+
+export default function RefAsPropPage() {
+	const [copiedCode, setCopiedCode] = useState(false);
+	const [selectedExampleId, setSelectedExampleId] = useState(refAsPropExamples[0].id);
+
+	const selectedExample = exampleDetails[selectedExampleId];
+
+	const handleCopyCode = (code: string) => {
+		copyWithFeedback(code, setCopiedCode);
 	};
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
-				{/* Header */}
-				<Header
-					icon={<Layers className="h-8 w-8 text-blue-600" />}
+			<FeatureContainer>
+				<FeatureHeader
+					icon={<Layers className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
 					title="React 19 Ref as Property"
 					subtitle="ref 作为普通属性"
 				/>
 
-				{/* Ref as Prop 架构概览 */}
-				<ArchitectureOverview title="Ref as Prop 生态系统" features={architectureFeatures} />
+				<FeatureContent className="space-y-4">
+					<FeatureOverview title="Ref as Prop 生态系统" features={architectureFeatures} />
+					<FeatureThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
+				</FeatureContent>
 
-				{/* 3W 法则解析 */}
-				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
-
-				{/* 示例选择器 - 吸顶区域 */}
-				<ExampleSelector
-					selectorLabel="选择功能示例:"
+				<FeatureExampleSelector
+					label="选择功能示例:"
 					examples={refAsPropExamples}
-					selectedExampleId={selectedExample.id}
-					onExampleSelect={(exampleId) => {
-						const example = refAsPropExamples.find((ex) => ex.id === exampleId);
-						if (example) setSelectedExample(example);
-					}}
+					selectedExampleId={selectedExampleId}
+					onSelectExample={setSelectedExampleId}
 				/>
 
-				{/* 详细展示区域 - 下方内容 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-					{selectedExample && (
-						<ExampleDetail
-							example={selectedExample}
-							demoComponents={getDemoComponents()}
-							onCopyCode={(code) => copyWithFeedback(code, setCopiedCode)}
-							copiedCode={copiedCode}
-						/>
-					)}
-				</div>
+				<FeatureContent>
+					<FeatureExampleDetail
+						example={selectedExample}
+						demoComponents={getDemoComponents(selectedExampleId)}
+						onCopyCode={handleCopyCode}
+						copiedCode={copiedCode}
+					/>
+				</FeatureContent>
 
-				{/* 官方代码示例 */}
-				<OfficialExamples
-					title={`📚 ${selectedExample?.title} 官方示例`}
-					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
-					examples={getOfficialExamples(selectedExample?.id || "")}
-				/>
-			</div>
+				<FeatureContent>
+					<FeatureOfficialExamples
+						title={`📚 ${selectedExample?.title} 官方示例`}
+						description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+						examples={getOfficialExamples(selectedExampleId)}
+					/>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

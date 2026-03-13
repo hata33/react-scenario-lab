@@ -1,40 +1,40 @@
 "use client";
 
-import { Code, Copy, FileText, Globe, Share2, Tag } from "lucide-react";
+import { FileText, Globe, Share2, Tag } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-// Import utils
 import { copyWithFeedback } from "@/utils";
-
-// Import extracted components from index files
 import {
-	ArchitectureOverview,
-	ExampleDetail,
-	ExampleSelector,
-	Header,
-	OfficialExamples,
-	ThreeWRule,
-} from "../(components)";
-// Import types
-import type { FeatureCard, MetadataExample, WSection } from "../(types)";
-// Import demo components from index file
+	FeatureContainer,
+	FeatureContent,
+	FeatureHeader,
+	FeatureOverview,
+	FeatureThreeWRule,
+	FeatureExampleSelector,
+	FeatureExampleDetail,
+	FeatureOfficialExamples,
+	type Example,
+	type ExampleDetail,
+	type OfficialExample,
+} from "@/components/showcase";
 import { BlogSEODemo, DynamicSEODemo, ProductMetadataDemo, SocialSharingDemo } from "./(components)";
 
-const metadataExamples: MetadataExample[] = [
-	{
-		id: "dynamic-seo",
+const metadataExamples: Example[] = [
+	{ id: "dynamic-seo", title: "动态 SEO 管理", icon: <FileText className="h-5 w-5" />, difficulty: "初级" },
+	{ id: "social-sharing", title: "社交媒体分享优化", icon: <Share2 className="h-5 w-5" />, difficulty: "中级" },
+	{ id: "product-metadata", title: "电商产品元数据", icon: <Globe className="h-5 w-5" />, difficulty: "中级" },
+	{ id: "blog-seo", title: "博客文章 SEO 优化", icon: <Tag className="h-5 w-5" />, difficulty: "高级" },
+];
+
+const exampleDetails: Record<string, ExampleDetail> = {
+	"dynamic-seo": {
 		title: "动态 SEO 管理",
-		description: "React 19 允许在组件中直接定义和管理动态元数据，自动提升到文档 head 中",
-		category: "Core Features",
-		difficulty: "初级",
-		status: "completed",
 		icon: <FileText className="h-5 w-5" />,
+		description: "React 19 允许在组件中直接定义和管理动态元数据，自动提升到文档 head 中",
 		codeSnippet: `"use client";
 
-// 动态 SEO 组件示例
 function ArticlePage({ article }) {
-  // React 19 自动提升这些标签到 head
   return (
     <>
       <title>{article.title} - 我的博客</title>
@@ -44,9 +44,6 @@ function ArticlePage({ article }) {
       <meta property="og:title" content={article.title} />
       <meta property="og:description" content={article.description} />
       <meta property="og:image" content={article.image} />
-      <meta name="twitter:title" content={article.title} />
-      <meta name="twitter:description" content={article.description} />
-      <meta name="twitter:image" content={article.image} />
 
       <article>
         <h1>{article.title}</h1>
@@ -79,19 +76,15 @@ function ArticlePage({ article }) {
 				solution: "React 19 的原生支持大大简化了代码，减少了样板代码和维护成本",
 			},
 		],
-	},
-	{
-		id: "social-sharing",
-		title: "社交媒体分享优化",
-		description: "通过 Open Graph 和 Twitter Card 元数据优化社交媒体分享效果，提升用户体验和传播效果",
-		category: "Social Media",
-		difficulty: "中级",
 		status: "completed",
+	},
+	"social-sharing": {
+		title: "社交媒体分享优化",
 		icon: <Share2 className="h-5 w-5" />,
+		description: "通过 Open Graph 和 Twitter Card 元数据优化社交媒体分享效果，提升用户体验和传播效果",
 		codeSnippet: `"use client";
 
 function ProductPage({ product }) {
-  // 社交媒体分享优化
   return (
     <>
       <title>{product.name} - 产品详情</title>
@@ -103,19 +96,12 @@ function ProductPage({ product }) {
       <meta property="og:image" content={product.image} />
       <meta property="og:url" content={product.url} />
       <meta property="og:type" content="product" />
-      <meta property="og:site_name" content="我的商城" />
 
       {/* Twitter Card 标签 */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={product.name} />
       <meta name="twitter:description" content={product.description} />
       <meta name="twitter:image" content={product.image} />
-
-      {/* 产品专用元数据 */}
-      <meta property="product:brand" content={product.brand} />
-      <meta property="product:price:amount" content={product.price} />
-      <meta property="product:price:currency" content="CNY" />
-      <meta property="product:availability" content={product.inStock ? "in stock" : "out of stock"} />
 
       <main>
         <h1>{product.name}</h1>
@@ -149,15 +135,12 @@ function ProductPage({ product }) {
 				solution: "优化的分享卡片包含完整的商品信息和视觉元素，提升用户点击和转化率",
 			},
 		],
-	},
-	{
-		id: "product-metadata",
-		title: "电商产品元数据",
-		description: "通过结构化数据和电商专用元数据优化，提升产品页面的搜索引擎表现和用户体验",
-		category: "E-commerce",
-		difficulty: "中级",
 		status: "completed",
+	},
+	"product-metadata": {
+		title: "电商产品元数据",
 		icon: <Globe className="h-5 w-5" />,
+		description: "通过结构化数据和电商专用元数据优化，提升产品页面的搜索引擎表现和用户体验",
 		codeSnippet: `"use client";
 
 function EcommercePage({ product }) {
@@ -168,20 +151,9 @@ function EcommercePage({ product }) {
 
       {/* 基础产品元数据 */}
       <meta property="product:brand" content={product.brand} />
-      <meta property="product:category" content={product.category} />
-      <meta property="product:condition" content="new" />
-
-      {/* 价格和库存信息 */}
       <meta property="product:price:amount" content={product.price} />
       <meta property="product:price:currency" content={product.currency} />
       <meta property="product:availability" content={product.stock > 0 ? "in stock" : "out of stock"} />
-      <meta property="product:retailer" content="我的商城" />
-
-      {/* 评分和评价 */}
-      <meta property="product:rating:value" content={product.rating} />
-      <meta property="product:rating:count" content={product.reviewCount} />
-      <meta property="product:rating:worst" content={1} />
-      <meta property="product:rating:best" content={5} />
 
       {/* 结构化数据 - JSON-LD */}
       <script type="application/ld+json">
@@ -189,33 +161,18 @@ function EcommercePage({ product }) {
           "@context": "https://schema.org/",
           "@type": "Product",
           name: product.name,
-          image: product.images,
           description: product.description,
-          brand: {
-            "@type": "Brand",
-            name: product.brand
-          },
           offers: {
             "@type": "Offer",
             price: product.price,
-            priceCurrency: product.currency,
-            availability: product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
-          },
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: product.rating,
-            reviewCount: product.reviewCount
+            priceCurrency: product.currency
           }
         })}
       </script>
 
       <main>
         <h1>{product.name}</h1>
-        <div className="product-info">
-          <span className="price">{product.price}</span>
-          <span className="brand">{product.brand}</span>
-          <div className="rating">⭐ {product.rating}</div>
-        </div>
+        <span>{product.price}</span>
       </main>
     </>
   );
@@ -244,15 +201,12 @@ function EcommercePage({ product }) {
 				solution: "动态更新结构化数据，确保搜索引擎信息与实际库存同步",
 			},
 		],
-	},
-	{
-		id: "blog-seo",
-		title: "博客文章 SEO 优化",
-		description: "通过完整的博客文章元数据和结构化数据，提升文章在搜索引擎的排名和展示效果",
-		category: "Content Management",
-		difficulty: "高级",
 		status: "completed",
+	},
+	"blog-seo": {
+		title: "博客文章 SEO 优化",
 		icon: <Tag className="h-5 w-5" />,
+		description: "通过完整的博客文章元数据和结构化数据，提升文章在搜索引擎的排名和展示效果",
 		codeSnippet: `"use client";
 
 function BlogPost({ post }) {
@@ -262,24 +216,12 @@ function BlogPost({ post }) {
       <meta name="description" content={post.description} />
       <meta name="keywords" content={post.tags.join(", ")} />
       <meta name="author" content={post.author} />
-      <meta name="author:twitter" content={post.authorTwitter} />
 
       {/* 文章专用元数据 */}
       <meta name="article:published_time" content={post.publishDate} />
       <meta name="article:modified_time" content={post.modifiedDate} />
       <meta name="article:section" content={post.category} />
       <meta name="article:tag" content={post.tags.join(", ")} />
-      <meta name="article:reading_time" content={post.readTime} />
-
-      {/* 图片和媒体 */}
-      <meta name="image" content={post.coverImage} />
-      <meta name="image:alt" content={post.imageAlt} />
-      <meta property="og:image" content={post.coverImage} />
-      <meta property="og:image:alt" content={post.imageAlt} />
-
-      {/* 语言和国际化 */}
-      <meta name="language" content={post.language} />
-      <link rel="canonical" href={post.canonicalUrl} />
 
       {/* 结构化数据 - BlogPosting */}
       <script type="application/ld+json">
@@ -287,41 +229,17 @@ function BlogPost({ post }) {
           "@context": "https://schema.org",
           "@type": "BlogPosting",
           headline: post.title,
-          description: post.description,
-          image: post.coverImage,
           author: {
             "@type": "Person",
-            name: post.author,
-            url: post.authorTwitter ? \`https://twitter.com/\${post.authorTwitter}\` : undefined
+            name: post.author
           },
-          publisher: {
-            "@type": "Organization",
-            name: "我的博客",
-            logo: "https://myblog.com/logo.png"
-          },
-          datePublished: post.publishDate,
-          dateModified: post.modifiedDate,
-          mainEntityOfPage: {
-            "@type": "WebPage",
-            "@id": post.canonicalUrl
-          },
-          wordCount: post.wordCount
+          datePublished: post.publishDate
         })}
       </script>
 
       <article>
-        <header>
-          <h1>{post.title}</h1>
-          <div className="meta">
-            <time>{post.publishDate}</time>
-            <span>作者: {post.author}</span>
-            <span>阅读时间: {post.readTime} 分钟</span>
-          </div>
-        </header>
-
-        <main className="prose">
-          <p>{post.content}</p>
-        </main>
+        <h1>{post.title}</h1>
+        <p>{post.content}</p>
       </article>
     </>
   );
@@ -350,80 +268,71 @@ function BlogPost({ post }) {
 				solution: "通过 BlogPosting 结构化数据，清晰定义文章的各个部分和关系",
 			},
 		],
+		status: "completed",
+	},
+};
+
+const architectureFeatures = [
+	{
+		icon: <FileText className="h-6 w-6 text-blue-600" />,
+		title: "组件内定义",
+		description: "直接在组件中声明元数据",
+		bgColor: "bg-blue-50",
+		iconColor: "text-blue-600",
+		titleColor: "text-blue-900",
+		descriptionColor: "text-blue-700",
+	},
+	{
+		icon: <Share2 className="h-6 w-6 text-green-600" />,
+		title: "社交媒体优化",
+		description: "Open Graph 和 Twitter Card",
+		bgColor: "bg-green-50",
+		iconColor: "text-green-600",
+		titleColor: "text-green-900",
+		descriptionColor: "text-green-700",
+	},
+	{
+		icon: <Globe className="h-6 w-6 text-purple-600" />,
+		title: "结构化数据",
+		description: "Schema.org 标准支持",
+		bgColor: "bg-purple-50",
+		iconColor: "text-purple-600",
+		titleColor: "text-purple-900",
+		descriptionColor: "text-purple-700",
+	},
+	{
+		icon: <Tag className="h-6 w-6 text-orange-600" />,
+		title: "SEO 友好",
+		description: "搜索引擎优化增强",
+		bgColor: "bg-orange-50",
+		iconColor: "text-orange-600",
+		titleColor: "text-orange-900",
+		descriptionColor: "text-orange-700",
 	},
 ];
 
-export default function MetadataPage() {
-	const [copiedCode, setCopiedCode] = useState(false);
-	const [selectedExample, setSelectedExample] = useState(metadataExamples[0]);
+const threeWSections = [
+	{
+		description: "文档元数据标签是 React 19 中革命性的新功能，允许在组件中直接使用 HTML 头部标签如 title、meta、link 等，这些标签会自动提升到文档的 head 部分，实现真正的组件内元数据管理。",
+		features: ["原生 HTML 标签支持", "自动提升机制", "动态内容管理", "完整 SEO 优化"],
+	},
+	{
+		description: "解决传统 SEO 管理复杂、社交媒体分享优化困难的问题。通过在组件中直接定义元数据，简化了 SEO 优化流程，提升了开发效率和内容质量。",
+		features: ["简化 SEO 管理流程", "提升内容质量", "增强社交媒体效果", "改善用户体验"],
+	},
+	{
+		description: "适合需要动态 SEO、社交媒体优化、页面元数据管理的所有场景。特别适合电商网站、博客平台、内容管理系统、新闻门户等需要大量内容管理的应用。",
+		features: ["电商产品优化", "博客文章管理", "内容管理系统", "新闻门户网站"],
+	},
+];
 
-	const architectureFeatures: FeatureCard[] = [
-		{
-			icon: <FileText className="h-6 w-6 text-blue-600" />,
-			title: "组件内定义",
-			description: "直接在组件中声明元数据",
-			bgColor: "bg-blue-50",
-			iconColor: "text-blue-600",
-			titleColor: "text-blue-900",
-			descriptionColor: "text-blue-700",
-		},
-		{
-			icon: <Share2 className="h-6 w-6 text-green-600" />,
-			title: "社交媒体优化",
-			description: "Open Graph 和 Twitter Card",
-			bgColor: "bg-green-50",
-			iconColor: "text-green-600",
-			titleColor: "text-green-900",
-			descriptionColor: "text-green-700",
-		},
-		{
-			icon: <Globe className="h-6 w-6 text-purple-600" />,
-			title: "结构化数据",
-			description: "Schema.org 标准支持",
-			bgColor: "bg-purple-50",
-			iconColor: "text-purple-600",
-			titleColor: "text-purple-900",
-			descriptionColor: "text-purple-700",
-		},
-		{
-			icon: <Tag className="h-6 w-6 text-orange-600" />,
-			title: "SEO 友好",
-			description: "搜索引擎优化增强",
-			bgColor: "bg-orange-50",
-			iconColor: "text-orange-600",
-			titleColor: "text-orange-900",
-			descriptionColor: "text-orange-700",
-		},
-	];
+const getOfficialExamples = (exampleId: string): OfficialExample[] => {
+	const examples: Record<string, OfficialExample[]> = {
+		"dynamic-seo": [
+			{
+				title: "🚀 基础元数据管理",
+				code: `"use client";
 
-	// 3W Rule data
-	const threeWSections: WSection[] = [
-		{
-			description:
-				"文档元数据标签是 React 19 中革命性的新功能，允许在组件中直接使用 HTML 头部标签如 title、meta、link 等，这些标签会自动提升到文档的 head 部分，实现真正的组件内元数据管理。",
-			features: ["原生 HTML 标签支持", "自动提升机制", "动态内容管理", "完整 SEO 优化"],
-		},
-		{
-			description:
-				"解决传统 SEO 管理复杂、社交媒体分享优化困难的问题。通过在组件中直接定义元数据，简化了 SEO 优化流程，提升了开发效率和内容质量。",
-			features: ["简化 SEO 管理流程", "提升内容质量", "增强社交媒体效果", "改善用户体验"],
-		},
-		{
-			description:
-				"适合需要动态 SEO、社交媒体优化、页面元数据管理的所有场景。特别适合电商网站、博客平台、内容管理系统、新闻门户等需要大量内容管理的应用。",
-			features: ["电商产品优化", "博客文章管理", "内容管理系统", "新闻门户网站"],
-		},
-	];
-
-	// 官方代码示例数据
-	const getOfficialExamples = (exampleId: string) => {
-		const examples = {
-			"dynamic-seo": [
-				{
-					title: "🚀 基础元数据管理",
-					code: `"use client";
-
-// React 19 - 组件内元数据
 function ProductPage({ product }) {
   return (
     <>
@@ -437,97 +346,42 @@ function ProductPage({ product }) {
       </main>
     </>
   );
-}
-
-// 自动提升到 head
-// 无需额外配置，React 19 自动处理`,
-					description: "React 19 最基础的元数据管理方式",
-				},
-				{
-					title: "📊 动态内容更新",
-					code: `"use client";
-
-function ArticlePage({ article }) {
-  // 响应式更新元数据
-  useEffect(() => {
-    document.title = article.title;
-  }, [article.title]);
-
-  return (
-    <>
-      <title>{article.title} - 博客</title>
-      <meta name="description" content={article.description} />
-
-      <article>
-        <h1>{article.title}</h1>
-        <p>{article.content}</p>
-        <button onClick={() => {
-          setArticle(newArticle);
-        }}>
-          更新文章
-        </button>
-      </article>
-    </>
-  );
 }`,
-					description: "动态响应内容变化的元数据更新",
-				},
-			],
-			"social-sharing": [
-				{
-					title: "📱 Open Graph 优化",
-					code: `"use client";
+				description: "React 19 最基础的元数据管理方式",
+			},
+		],
+		"social-sharing": [
+			{
+				title: "📱 Open Graph 优化",
+				code: `"use client";
 
 function SharePage({ content }) {
   return (
     <>
-      {/* Open Graph - Facebook/LinkedIn */}
       <meta property="og:title" content={content.title} />
       <meta property="og:description" content={content.description} />
       <meta property="og:image" content={content.image} />
       <meta property="og:url" content={content.url} />
-      <meta property="og:type" content={content.type} />
-      <meta property="og:site_name" content="我的网站" />
-      <meta property="og:locale" content="zh_CN" />
 
-      {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={content.title} />
-      <meta name="twitter:description" content={content.description} />
       <meta name="twitter:image" content={content.image} />
 
       <main>{content.body}</main>
     </>
   );
 }`,
-					description: "社交媒体平台的完整元数据支持",
-				},
-				{
-					title: "🔗 高级链接属性",
-					code: `<meta property="og:url" content={pageUrl} />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:type" content="image/jpeg" />
-<meta property="og:video" content={videoUrl} />
-<meta property="og:video:type" content="video/mp4" />
-<meta property="og:video:width" content="1280" />
-<meta property="og:video:height" content="720" />`,
-					description: "图片、视频等媒体文件的详细属性",
-				},
-			],
-			"product-metadata": [
-				{
-					title: "🛒 产品 Schema.org",
-					code: `<!-- JSON-LD 结构化数据 -->
-<script type="application/ld+json">
+				description: "社交媒体平台的完整元数据支持",
+			},
+		],
+		"product-metadata": [
+			{
+				title: "🛒 产品 Schema.org",
+				code: `<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "iPhone 15 Pro",
-  "image": [
-    "https://example.com/photos/1x1/photo.jpg"
-  ],
-  "description": "最新款 iPhone",
   "brand": {
     "@type": "Brand",
     "name": "Apple"
@@ -535,183 +389,99 @@ function SharePage({ content }) {
   "offers": {
     "@type": "Offer",
     "price": "999",
-    "priceCurrency": "USD",
-    "availability": "https://schema.org/InStock"
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "reviewCount": "1245"
+    "priceCurrency": "USD"
   }
 }
 </script>`,
-					description: "完整的电商产品结构化数据",
-				},
-				{
-					title: "💰 电商专用元数据",
-					code: `<!-- 产品基础信息 -->
-<meta property="product:brand" content="Apple" />
-<meta property="product:category" content="Electronics" />
-<meta property="product:condition" content="New" />
-
-<!-- 价格信息 -->
-<meta property="product:price:amount" content="999" />
-<meta property="product:price:currency" content="USD" />
-<meta property="product:price:valid_until" content="2024-12-31" />
-
-<!-- 库存信息 -->
-<meta property="product:availability" content="in stock" />
-<meta property="product:retailer" content="官方商城" />
-
-<!-- 尺寸和重量 -->
-<meta property="product:weight:value" content="0.23" />
-<meta property="product:weight:unit" content="kg" />
-<meta property="product:height:value" content="150" />
-<meta property="product:height:unit" content="mm" />`,
-					description: "Google 和 Facebook 支持的电商专用元数据",
-				},
-				{
-					title: "⭐ 评价信息元数据",
-					code: `<!-- 评分信息 -->
-<meta property="product:rating:value" content="4.8" />
-<meta property="product:rating:count" content="1245" />
-<meta property="product:rating:worst" content="1" />
-<meta property="product:rating:best" content="5" />
-
-<!-- 评价数量和统计 -->
-<meta property="aggregateRating:ratingValue" content="4.8" />
-<meta property="aggregateRating:reviewCount" content="1245" />
-
-<!-- 自定义评分系统 -->
-<meta property="custom:rating" content="4.8/5" />
-<meta property="custom:totalReviews" content="1245" />`,
-					description: "产品评分和评价的详细元数据标记",
-				},
-			],
-			"blog-seo": [
-				{
-					title: "📝 文章 Schema.org",
-					code: `<script type="application/ld+json">
+				description: "完整的电商产品结构化数据",
+			},
+		],
+		"blog-seo": [
+			{
+				title: "📝 文章 Schema.org",
+				code: `<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "React 19 完全指南",
-  "description": "深入了解 React 19 的新特性...",
-  "image": "https://example.com/image.jpg",
   "author": {
     "@type": "Person",
-    "name": "张三",
-    "url": "https://zhangsan.com"
+    "name": "张三"
   },
-  "publisher": {
-    "@type": "Organization",
-    "name": "技术博客"
-  },
-  "datePublished": "2024-01-20T10:00:00Z",
-  "dateModified": "2024-01-22T15:30:00Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://example.com/react-19-guide"
-  }
+  "datePublished": "2024-01-20T10:00:00Z"
 }
 </script>`,
-					description: "BlogPosting 结构化数据标准",
-				},
-				{
-					title: "📅 文章专用元数据",
-					code: `<!-- 发布时间 -->
-<meta name="article:published_time" content="2024-01-20T10:00:00Z" />
-<meta name="article:modified_time" content="2024-01-22T15:30:00Z" />
-
-<!-- 文章分类和标签 -->
-<meta name="article:section" content="技术教程" />
-<meta name="article:tag" content="React" />
-<meta name="article:tag" content="JavaScript" />
-<meta name="article:tag" content="Web开发" />
-
-<!-- 阅读信息 -->
-<meta name="article:reading_time" content="15" />
-<meta name="word_count" content="2500" />
-<meta name="estimated_reading_time" content="PT15M" />
-
-<!-- 作者信息 -->
-<meta name="author" content="张三" />
-<meta name="author:bio" content="前端开发专家，专注 React 生态" />
-<meta name="author:website" content="https://zhangsan.com" />
-
-<!-- 语言和地域 -->
-<meta name="language" content="zh-CN" />
-<meta name="geo.region" content="CN" />`,
-					description: "完整的内容管理系统元数据标准",
-				},
-			],
-		};
-
-		return examples[exampleId as keyof typeof examples] || [];
+				description: "BlogPosting 结构化数据标准",
+			},
+		],
 	};
 
-	// Get demo components based on selected example
-	const getDemoComponents = () => {
-		switch (selectedExample.id) {
-			case "dynamic-seo":
-				return [<DynamicSEODemo key="dynamic" />];
-			case "social-sharing":
-				return [<SocialSharingDemo key="social" />];
-			case "product-metadata":
-				return [<ProductMetadataDemo key="product" />];
-			case "blog-seo":
-				return [<BlogSEODemo key="blog" />];
-			default:
-				return [];
-		}
+	return examples[exampleId] || [];
+};
+
+const getDemoComponents = (exampleId: string): React.ReactNode[] => {
+	switch (exampleId) {
+		case "dynamic-seo":
+			return [<DynamicSEODemo key="dynamic" />];
+		case "social-sharing":
+			return [<SocialSharingDemo key="social" />];
+		case "product-metadata":
+			return [<ProductMetadataDemo key="product" />];
+		case "blog-seo":
+			return [<BlogSEODemo key="blog" />];
+		default:
+			return [];
+	}
+};
+
+export default function MetadataPage() {
+	const [copiedCode, setCopiedCode] = useState(false);
+	const [selectedExampleId, setSelectedExampleId] = useState(metadataExamples[0].id);
+
+	const selectedExample = exampleDetails[selectedExampleId];
+
+	const handleCopyCode = (code: string) => {
+		copyWithFeedback(code, setCopiedCode);
 	};
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
-				{/* Header */}
-				<Header
-					icon={<FileText className="h-8 w-8 text-blue-600" />}
+			<FeatureContainer>
+				<FeatureHeader
+					icon={<FileText className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
 					title="React 19 文档元数据"
 					subtitle="组件内元数据管理"
 				/>
 
-				{/* Metadata 架构概览 */}
-				<ArchitectureOverview title="文档元数据 生态系统" features={architectureFeatures} />
+				<FeatureContent className="space-y-4">
+					<FeatureOverview title="文档元数据 生态系统" features={architectureFeatures} />
+					<FeatureThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
+				</FeatureContent>
 
-				{/* 3W 法则解析 */}
-				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
-
-				{/* 示例选择器 - 吸顶区域 */}
-				<ExampleSelector
-					selectorLabel="选择功能:"
+				<FeatureExampleSelector
+					label="选择功能:"
 					examples={metadataExamples}
-					selectedExampleId={selectedExample.id}
-					onExampleSelect={(exampleId) => {
-						const example = metadataExamples.find((ex) => ex.id === exampleId);
-						if (example) setSelectedExample(example);
-					}}
+					selectedExampleId={selectedExampleId}
+					onSelectExample={setSelectedExampleId}
 				/>
 
-				{/* 详细展示区域 - 下方内容 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-					{selectedExample && (
-						<ExampleDetail
-							example={selectedExample}
-							demoComponents={getDemoComponents()}
-							onCopyCode={(code) => copyWithFeedback(code, setCopiedCode)}
-							copiedCode={copiedCode}
-						/>
-					)}
-				</div>
+				<FeatureContent>
+					<FeatureExampleDetail
+						example={selectedExample}
+						demoComponents={getDemoComponents(selectedExampleId)}
+						onCopyCode={handleCopyCode}
+						copiedCode={copiedCode}
+					/>
+				</FeatureContent>
 
-				{/* 官方代码示例 */}
-				<OfficialExamples
-					title={`📚 ${selectedExample?.title} 官方示例`}
-					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
-					examples={getOfficialExamples(selectedExample?.id || "")}
-				/>
-			</div>
+				<FeatureContent>
+					<FeatureOfficialExamples
+						title={`📚 ${selectedExample?.title} 官方示例`}
+						description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+						examples={getOfficialExamples(selectedExampleId)}
+					/>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

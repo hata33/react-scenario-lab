@@ -1,9 +1,11 @@
-import { ArrowLeft, CheckCircle, Code, Search, Shield, Zap } from "lucide-react";
+import { CheckCircle, Code, Search, Shield, Zap } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import SEOComparison from "./comparison";
 import { generateBreadcrumbSchema } from "./metadata";
 import SEOAdvancedFeatures from "./seo-advanced";
+import Layout from "@/components/Layout";
+import { FeatureContainer } from "@/components/showcase";
+import FeatureBackButton from "@/components/showcase/FeatureBackButton";
 
 // 1. 静态元数据 - 在构建时就确定
 export const metadata: Metadata = {
@@ -120,7 +122,7 @@ function generateStructuredData() {
 
 export default function SEODemoPage() {
 	return (
-		<>
+		<Layout>
 			{/* 4. 结构化数据 */}
 			<script
 				type="application/ld+json"
@@ -149,23 +151,17 @@ export default function SEODemoPage() {
 				}}
 			/>
 
-			<div className="min-h-screen bg-gray-50">
+			<FeatureContainer>
 				{/* 头部 */}
 				<div className="bg-white shadow-sm">
-					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-						<div className="flex items-center space-x-4">
-							<Link
-								href="/nextjs-features"
-								className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
-							>
-								<ArrowLeft className="mr-2 h-5 w-5" />
-								返回特性列表
-							</Link>
-							<div className="flex items-center space-x-3">
-								<Search className="h-8 w-8 text-blue-600" />
+					<div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
+						<div className="flex items-center space-x-2 md:space-x-4">
+							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
+							<div className="flex items-center space-x-2 md:space-x-3">
+								<Search className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
 								<div>
-									<h1 className="font-bold text-3xl text-gray-900">Next.js SEO 优化实战</h1>
-									<p className="text-gray-600">展示 Next.js 相比 React SPA 的核心 SEO 优势</p>
+									<h1 className="font-bold text-responsive-2xl text-gray-900">Next.js SEO 优化实战</h1>
+									<p className="text-gray-600 text-xs md:text-sm">展示 Next.js 相比 React SPA 的核心 SEO 优势</p>
 								</div>
 							</div>
 						</div>
@@ -173,7 +169,7 @@ export default function SEODemoPage() {
 				</div>
 
 				{/* 5. 语义化 HTML 结构 */}
-				<main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+				<main className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
 					{/* 文章列表 - 模拟博客 */}
 					<section aria-labelledby="posts-heading">
 						<header className="mb-8">
@@ -389,14 +385,14 @@ export default function SEODemoPage() {
 
 				{/* 6. 额外的 SEO 元素 */}
 				<footer className="mt-12 bg-gray-800 text-white">
-					<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+					<div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 md:px-6 md:py-8 lg:px-8 lg:py-8">
 						<div className="text-center">
-							<p className="text-gray-400">这个页面展示了 Next.js 在 SEO 方面的核心优势</p>
-							<p className="mt-2 text-gray-500 text-sm">包含完整的 HTML 结构、语义化标签、结构化数据和优化的元信息</p>
+							<p className="text-gray-400 text-sm md:text-base">这个页面展示了 Next.js 在 SEO 方面的核心优势</p>
+							<p className="mt-2 text-gray-500 text-xs md:text-sm">包含完整的 HTML 结构、语义化标签、结构化数据和优化的元信息</p>
 						</div>
 					</div>
 				</footer>
-			</div>
-		</>
+			</FeatureContainer>
+		</Layout>
 	);
 }

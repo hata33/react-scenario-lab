@@ -1,23 +1,24 @@
 "use client";
 
-import { AlertCircle, ArrowLeft, CheckCircle, Clock, Code, Copy, Target, Zap } from "lucide-react";
+import { AlertCircle, CheckCircle, Clock, Code, Copy, Target, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-// Import utils
 import { copyWithFeedback } from "@/utils";
-
-// Import extracted components from index files
+// Import showcase components
 import {
-	ArchitectureOverview,
-	ExampleDetail,
-	ExampleSelector,
-	Header,
-	OfficialExamples,
-	ThreeWRule,
-} from "../(components)";
-// Import types
-import type { ActionExample, WSection } from "../(types)";
+	FeatureContainer,
+	FeatureContent,
+	FeatureHeader,
+	FeatureOverview,
+	FeatureThreeWRule,
+	FeatureExampleSelector,
+	FeatureExampleDetail,
+	FeatureOfficialExamples,
+	type Example,
+	type ExampleDetail,
+	type OfficialExample,
+} from "@/components/showcase";
 // Import demo components from index file
 import {
 	ServerFunctionsDemo,
@@ -37,15 +38,44 @@ import {
 	UseTransitionFilterDemo,
 } from "./(components)";
 
-const actionExamples: ActionExample[] = [
+const actionExamples: Example[] = [
 	{
 		id: "useActionState",
 		title: "useActionState",
-		description: "处理异步操作状态和结果，自动管理 pending、error、success 状态",
-		category: "State Management",
-		difficulty: "初级",
-		status: "completed",
 		icon: <Code className="h-5 w-5" />,
+		difficulty: "初级",
+	},
+	{
+		id: "useOptimistic",
+		title: "useOptimistic",
+		icon: <Zap className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+	{
+		id: "useFormStatus",
+		title: "useFormStatus",
+		icon: <Target className="h-5 w-5" />,
+		difficulty: "初级",
+	},
+	{
+		id: "serverFunctions",
+		title: "Server Functions",
+		icon: <AlertCircle className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+	{
+		id: "useTransition",
+		title: "useTransition",
+		icon: <Clock className="h-5 w-5" />,
+		difficulty: "高级",
+	},
+];
+
+const exampleDetails: Record<string, ExampleDetail> = {
+	useActionState: {
+		title: "useActionState",
+		icon: <Code className="h-5 w-5" />,
+		description: "处理异步操作状态和结果，自动管理 pending、error、success 状态",
 		codeSnippet: `"use client";
 import { useActionState } from "react";
 
@@ -77,8 +107,7 @@ function MyForm() {
 			{
 				problem: "状态管理复杂",
 				description: "需要手动管理 loading、error、success 状态，每个异步操作都要重复编写状态管理逻辑",
-				solution:
-					"useActionState 自动管理所有异步状态，返回统一的 state、isPending 和 formAction，无需手动编写状态管理代码",
+				solution: "useActionState 自动管理所有异步状态，返回统一的 state、isPending 和 formAction，无需手动编写状态管理代码",
 			},
 			{
 				problem: "代码冗余严重",
@@ -96,15 +125,12 @@ function MyForm() {
 				solution: "内置 isPending 状态，自动处理表单禁用状态，提供即时的加载反馈，提升用户体验",
 			},
 		],
-	},
-	{
-		id: "useOptimistic",
-		title: "useOptimistic",
-		description: "实现乐观更新，立即显示用户的操作结果，提升响应性和用户体验",
-		category: "UI Enhancement",
-		difficulty: "中级",
 		status: "completed",
+	},
+	useOptimistic: {
+		title: "useOptimistic",
 		icon: <Zap className="h-5 w-5" />,
+		description: "实现乐观更新，立即显示用户的操作结果，提升响应性和用户体验",
 		codeSnippet: `"use client";
 import { useOptimistic } from "react";
 
@@ -117,11 +143,7 @@ function TodoList() {
 
   const addTodo = async (formData) => {
     const text = formData.get("text");
-
-    // 立即更新 UI
     addOptimisticTodo({ id: Date.now(), text });
-
-    // 实际提交
     await submitTodo(text);
     setTodos(prev => [...prev, { id: Date.now(), text }]);
   };
@@ -162,15 +184,12 @@ function TodoList() {
 				solution: "自动管理状态同步，乐观状态在提交成功后自动变为实际状态",
 			},
 		],
-	},
-	{
-		id: "useFormStatus",
-		title: "useFormStatus",
-		description: "获取表单提交状态，在子组件中访问父表单的 pending 状态和数据",
-		category: "Form Handling",
-		difficulty: "初级",
 		status: "completed",
+	},
+	useFormStatus: {
+		title: "useFormStatus",
 		icon: <Target className="h-5 w-5" />,
+		description: "获取表单提交状态，在子组件中访问父表单的 pending 状态和数据",
 		codeSnippet: `"use client";
 import { useFormStatus } from "react";
 
@@ -192,7 +211,7 @@ function MyForm() {
     <form action={submitForm}>
       <input name="username" />
       <input name="email" />
-      <SubmitButton /> {/* 自动获取表单状态 */}
+      <SubmitButton />
     </form>
   );
 }`,
@@ -220,27 +239,22 @@ function MyForm() {
 				solution: "实时的状态反馈，按钮自动禁用和显示提交进度，提升用户体验和交互质量",
 			},
 		],
-	},
-	{
-		id: "serverFunctions",
-		title: "Server Functions",
-		description: "服务端函数与客户端组件集成，实现无缝的客户端-服务端交互",
-		category: "State Management",
-		difficulty: "中级",
 		status: "completed",
+	},
+	serverFunctions: {
+		title: "Server Functions",
 		icon: <AlertCircle className="h-5 w-5" />,
+		description: "服务端函数与客户端组件集成，实现无缝的客户端-服务端交互",
 		codeSnippet: `// 服务端函数
 "use server";
 export async function createUser(formData) {
   const name = formData.get("name");
   const email = formData.get("email");
 
-  // 验证数据
   if (!name || !email) {
     return { error: "请填写所有字段" };
   }
 
-  // 创建用户
   const user = await db.users.create({ name, email });
   return { success: true, user };
 }
@@ -282,15 +296,12 @@ function SignUpForm() {
 				solution: "自动支持渐进增强，JavaScript 加载前表单可以正常提交，加载后提供更好的体验",
 			},
 		],
-	},
-	{
-		id: "useTransition",
-		title: "useTransition",
-		description: "处理并发渲染，避免界面阻塞，保持交互流畅",
-		category: "Performance",
-		difficulty: "高级",
 		status: "completed",
+	},
+	useTransition: {
+		title: "useTransition",
 		icon: <Clock className="h-5 w-5" />,
+		description: "处理并发渲染，避免界面阻塞，保持交互流畅",
 		codeSnippet: `"use client";
 import { useTransition } from "react";
 
@@ -300,10 +311,8 @@ function SearchComponent() {
   const [results, setResults] = useState([]);
 
   const handleSearch = (value) => {
-    setQuery(value); // 立即更新输入框
-
+    setQuery(value);
     startTransition(() => {
-      // 在后台执行搜索，不阻塞 UI
       performSearch(value).then(setResults);
     });
   };
@@ -349,78 +358,70 @@ function SearchComponent() {
 				solution: "自动管理更新优先级，transition 更新会被中断或延迟，避免状态冲突",
 			},
 		],
+		status: "completed",
+	},
+};
+
+const architectureFeatures = [
+	{
+		icon: <Code className="h-6 w-6 text-blue-600" />,
+		title: "状态管理",
+		description: "自动处理异步状态",
+		bgColor: "bg-blue-50",
+		iconColor: "text-blue-600",
+		titleColor: "text-blue-900",
+		descriptionColor: "text-blue-700",
+	},
+	{
+		icon: <Zap className="h-6 w-6 text-green-600" />,
+		title: "乐观更新",
+		description: "即时响应用户操作",
+		bgColor: "bg-green-50",
+		iconColor: "text-green-600",
+		titleColor: "text-green-900",
+		descriptionColor: "text-green-700",
+	},
+	{
+		icon: <Target className="h-6 w-6 text-purple-600" />,
+		title: "表单处理",
+		description: "简化表单状态管理",
+		bgColor: "bg-purple-50",
+		iconColor: "text-purple-600",
+		titleColor: "text-purple-900",
+		descriptionColor: "text-purple-700",
+	},
+	{
+		icon: <Clock className="h-6 w-6 text-orange-600" />,
+		title: "性能优化",
+		description: "并发渲染不阻塞",
+		bgColor: "bg-orange-50",
+		iconColor: "text-orange-600",
+		titleColor: "text-orange-900",
+		descriptionColor: "text-orange-700",
 	},
 ];
 
-export default function ActionsPage() {
-	const [copiedCode, setCopiedCode] = useState(false);
-	const [selectedExample, setSelectedExample] = useState(actionExamples[0]);
+const threeWSections = [
+	{
+		description: "Actions 是 React 19 中简化异步数据变更的新机制，配套提供 useActionState、useOptimistic、useFormStatus、useTransition 等 Hook，形成完整的异步操作生态系统。",
+		features: ["自动状态管理", "统一的 Hook 接口", "服务端集成", "渐进增强支持"],
+	},
+	{
+		description: "解决传统表单处理复杂、状态管理繁琐、用户体验不佳的问题。通过提供标准化的异步操作模式和内置的 pending 状态管理，大幅简化了开发复杂度。",
+		features: ["减少样板代码", "统一处理模式", "改善用户体验", "提升开发效率"],
+	},
+	{
+		description: "处理表单提交、数据变更、乐观更新、并发渲染场景。特别适合需要良好用户体验的交互式应用，如社交平台、电商系统、协作工具等。",
+		features: ["表单操作", "异步数据变更", "实时 UI 更新", "性能敏感场景"],
+	},
+];
 
-	const architectureFeatures = [
-		{
-			icon: <Code className="h-6 w-6 text-blue-600" />,
-			title: "状态管理",
-			description: "自动处理异步状态",
-			bgColor: "bg-blue-50",
-			iconColor: "text-blue-600",
-			titleColor: "text-blue-900",
-			descriptionColor: "text-blue-700",
-		},
-		{
-			icon: <Zap className="h-6 w-6 text-green-600" />,
-			title: "乐观更新",
-			description: "即时响应用户操作",
-			bgColor: "bg-green-50",
-			iconColor: "text-green-600",
-			titleColor: "text-green-900",
-			descriptionColor: "text-green-700",
-		},
-		{
-			icon: <Target className="h-6 w-6 text-purple-600" />,
-			title: "表单处理",
-			description: "简化表单状态管理",
-			bgColor: "bg-purple-50",
-			iconColor: "text-purple-600",
-			titleColor: "text-purple-900",
-			descriptionColor: "text-purple-700",
-		},
-		{
-			icon: <Clock className="h-6 w-6 text-orange-600" />,
-			title: "性能优化",
-			description: "并发渲染不阻塞",
-			bgColor: "bg-orange-50",
-			iconColor: "text-orange-600",
-			titleColor: "text-orange-900",
-			descriptionColor: "text-orange-700",
-		},
-	];
-
-	// 3W Rule data
-	const threeWSections: WSection[] = [
-		{
-			description:
-				"Actions 是 React 19 中简化异步数据变更的新机制，配套提供 useActionState、useOptimistic、useFormStatus、useTransition 等 Hook，形成完整的异步操作生态系统。",
-			features: ["自动状态管理", "统一的 Hook 接口", "服务端集成", "渐进增强支持"],
-		},
-		{
-			description:
-				"解决传统表单处理复杂、状态管理繁琐、用户体验不佳的问题。通过提供标准化的异步操作模式和内置的 pending 状态管理，大幅简化了开发复杂度。",
-			features: ["减少样板代码", "统一处理模式", "改善用户体验", "提升开发效率"],
-		},
-		{
-			description:
-				"处理表单提交、数据变更、乐观更新、并发渲染场景。特别适合需要良好用户体验的交互式应用，如社交平台、电商系统、协作工具等。",
-			features: ["表单操作", "异步数据变更", "实时 UI 更新", "性能敏感场景"],
-		},
-	];
-
-	// 官方代码示例数据
-	const getOfficialExamples = (hookId: string) => {
-		const examples = {
-			useActionState: [
-				{
-					title: "🚀 渐进增强支持",
-					code: `// useActionState 支持 permalink
+const getOfficialExamples = (hookId: string): OfficialExample[] => {
+	const examples: Record<string, OfficialExample[]> = {
+		useActionState: [
+			{
+				title: "🚀 渐进增强支持",
+				code: `// useActionState 支持 permalink
 "use client";
 import {updateName} from './actions';
 
@@ -438,11 +439,11 @@ function UpdateName() {
     </form>
   );
 }`,
-					description: "即使 JavaScript 未加载，表单也能正常工作",
-				},
-				{
-					title: "⚠️ 错误处理最佳实践",
-					code: `// Server Function
+				description: "即使 JavaScript 未加载，表单也能正常工作",
+			},
+			{
+				title: "⚠️ 错误处理最佳实践",
+				code: `// Server Function
 "use server";
 export async function signup(prevState, formData) {
   const email = formData.get("email");
@@ -466,13 +467,13 @@ function SignupForm() {
     </form>
   );
 }`,
-					description: "统一的错误处理模式",
-				},
-			],
-			useOptimistic: [
-				{
-					title: "📝 乐观更新表单",
-					code: `function TodoList() {
+				description: "统一的错误处理模式",
+			},
+		],
+		useOptimistic: [
+			{
+				title: "📝 乐观更新表单",
+				code: `function TodoList() {
   const [todos, setTodos] = useState([]);
   const [optimisticTodos, addOptimisticTodo] = useOptimistic(
     todos,
@@ -498,13 +499,13 @@ function SignupForm() {
     </form>
   );
 }`,
-					description: "立即显示用户操作结果，提升响应性",
-				},
-			],
-			useFormStatus: [
-				{
-					title: "📊 访问表单数据",
-					code: `function SubmitButton() {
+				description: "立即显示用户操作结果，提升响应性",
+			},
+		],
+		useFormStatus: [
+			{
+				title: "📊 访问表单数据",
+				code: `function SubmitButton() {
   const { pending, data } = useFormStatus();
 
   return (
@@ -518,11 +519,11 @@ function SignupForm() {
     </button>
   );
 }`,
-					description: "useFormStatus 可以访问表单提交的数据",
-				},
-				{
-					title: "🎯 多按钮表单处理",
-					code: `function ArticleEditor() {
+				description: "useFormStatus 可以访问表单提交的数据",
+			},
+			{
+				title: "🎯 多按钮表单处理",
+				code: `function ArticleEditor() {
   function publish(formData) {
     const content = formData.get("content");
     const button = formData.get("button");
@@ -540,13 +541,13 @@ function SignupForm() {
     </form>
   );
 }`,
-					description: "使用 formAction 处理不同的提交类型",
-				},
-			],
-			serverFunctions: [
-				{
-					title: "🔗 服务端函数调用",
-					code: `// 服务端函数
+				description: "使用 formAction 处理不同的提交类型",
+			},
+		],
+		serverFunctions: [
+			{
+				title: "🔗 服务端函数调用",
+				code: `// 服务端函数
 "use server";
 export async function createUser(formData) {
   const name = formData.get("name");
@@ -573,18 +574,17 @@ function SignUpForm() {
     </form>
   );
 }`,
-					description: "客户端直接调用服务端函数，无需手动 API 调用",
-				},
-				{
-					title: "📦 传递额外参数",
-					code: `function AddToCart({productId}) {
+				description: "客户端直接调用服务端函数，无需手动 API 调用",
+			},
+			{
+				title: "📦 传递额外参数",
+				code: `function AddToCart({productId}) {
   async function addToCart(productId, formData) {
     "use server";
     const quantity = formData.get("quantity");
     await updateCart(productId, quantity);
   }
 
-  // 使用 bind 预设参数
   const addProductToCart = addToCart.bind(null, productId);
 
   return (
@@ -594,19 +594,18 @@ function SignUpForm() {
     </form>
   );
 }`,
-					description: "使用 bind 方法传递额外参数给 Server Function",
-				},
-			],
-			useTransition: [
-				{
-					title: "⚡ useTransition + Actions",
-					code: `function LikeButton() {
+				description: "使用 bind 方法传递额外参数给 Server Function",
+			},
+		],
+		useTransition: [
+			{
+				title: "⚡ useTransition + Actions",
+				code: `function LikeButton() {
   const [isPending, startTransition] = useTransition();
 
   const onClick = () => {
     startTransition(async () => {
-      await incrementLike(); // Server Function
-      // UI 会在后台更新，不阻塞用户交互
+      await incrementLike();
     });
   };
 
@@ -616,20 +615,18 @@ function SignUpForm() {
     </button>
   );
 }`,
-					description: "非表单操作的异步状态管理",
-				},
-				{
-					title: "🔍 搜索功能优化",
-					code: `function SearchComponent() {
+				description: "非表单操作的异步状态管理",
+			},
+			{
+				title: "🔍 搜索功能优化",
+				code: `function SearchComponent() {
   const [isPending, startTransition] = useTransition();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
   const handleSearch = (value) => {
-    setQuery(value); // 立即更新输入框
-
+    setQuery(value);
     startTransition(() => {
-      // 在后台执行搜索，不阻塞 UI
       performSearch(value).then(setResults);
     });
   };
@@ -651,98 +648,99 @@ function SignUpForm() {
     </div>
   );
 }`,
-					description: "搜索时保持输入框响应，结果在后台加载",
-				},
-			],
-		};
-
-		return examples[hookId as keyof typeof examples] || [];
+				description: "搜索时保持输入框响应，结果在后台加载",
+			},
+		],
 	};
 
-	// Get demo components based on selected example
-	const getDemoComponents = () => {
-		switch (selectedExample.id) {
-			case "useActionState":
-				return [
-					<UseActionStateDemo key="signup" />,
-					<UseActionStateLoginDemo key="login" />,
-					<UseActionStateCommentDemo key="comment" />,
-				];
-			case "useOptimistic":
-				return [
-					<UseOptimisticDemo key="todo" />,
-					<UseOptimisticLikeDemo key="like" />,
-					<UseOptimisticCartDemo key="cart" />,
-				];
-			case "useFormStatus":
-				return [
-					<UseFormStatusDemo key="basic" />,
-					<UseFormStatusMultiButtonDemo key="multi" />,
-					<UseFormStatusProgressDemo key="progress" />,
-				];
-			case "serverFunctions":
-				return [
-					<ServerFunctionsDemo key="chat" />,
-					<ServerFunctionsFileUploadDemo key="upload" />,
-					<ServerFunctionsSearchDemo key="search" />,
-				];
-			case "useTransition":
-				return [
-					<UseTransitionDemo key="search" />,
-					<UseTransitionFilterDemo key="filter" />,
-					<UseTransitionDataSyncDemo key="sync" />,
-				];
-			default:
-				return [];
-		}
+	return examples[hookId] || [];
+};
+
+const getDemoComponents = (exampleId: string): React.ReactNode[] => {
+	switch (exampleId) {
+		case "useActionState":
+			return [
+				<UseActionStateDemo key="signup" />,
+				<UseActionStateLoginDemo key="login" />,
+				<UseActionStateCommentDemo key="comment" />,
+			];
+		case "useOptimistic":
+			return [
+				<UseOptimisticDemo key="todo" />,
+				<UseOptimisticLikeDemo key="like" />,
+				<UseOptimisticCartDemo key="cart" />,
+			];
+		case "useFormStatus":
+			return [
+				<UseFormStatusDemo key="basic" />,
+				<UseFormStatusMultiButtonDemo key="multi" />,
+				<UseFormStatusProgressDemo key="progress" />,
+			];
+		case "serverFunctions":
+			return [
+				<ServerFunctionsDemo key="chat" />,
+				<ServerFunctionsFileUploadDemo key="upload" />,
+				<ServerFunctionsSearchDemo key="search" />,
+			];
+		case "useTransition":
+			return [
+				<UseTransitionDemo key="search" />,
+				<UseTransitionFilterDemo key="filter" />,
+				<UseTransitionDataSyncDemo key="sync" />,
+			];
+		default:
+			return [];
+	}
+};
+
+export default function ActionsPage() {
+	const [copiedCode, setCopiedCode] = useState(false);
+	const [selectedExampleId, setSelectedExampleId] = useState(actionExamples[0].id);
+
+	const selectedExample = exampleDetails[selectedExampleId];
+
+	const handleCopyCode = (code: string) => {
+		copyWithFeedback(code, setCopiedCode);
 	};
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
-				{/* Header */}
-				<Header
-					icon={<Zap className="h-8 w-8 text-blue-600" />}
+			<FeatureContainer>
+				<FeatureHeader
+					icon={<Zap className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
 					title="React 19 Actions"
 					subtitle="现代 React 应用的异步操作生态系统"
 				/>
 
-				{/* Actions 架构概览 */}
-				<ArchitectureOverview title="Actions 生态系统" features={architectureFeatures} />
+				<FeatureContent className="space-y-4">
+					<FeatureOverview title="Actions 生态系统" features={architectureFeatures} />
+					<FeatureThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
+				</FeatureContent>
 
-				{/* 3W 法则解析 */}
-				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
-
-				{/* Hook 选择器 - 吸顶区域 */}
-				<ExampleSelector
-					selectorLabel="选择 Hook:"
+				<FeatureExampleSelector
+					label="选择 Hook:"
 					examples={actionExamples}
-					selectedExampleId={selectedExample.id}
-					onExampleSelect={(exampleId) => {
-						const example = actionExamples.find((ex) => ex.id === exampleId);
-						if (example) setSelectedExample(example);
-					}}
+					selectedExampleId={selectedExampleId}
+					onSelectExample={setSelectedExampleId}
 				/>
 
-				{/* 详细展示区域 - 下方内容 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-					{selectedExample && (
-						<ExampleDetail
-							example={selectedExample}
-							demoComponents={getDemoComponents()}
-							onCopyCode={(code) => copyWithFeedback(code, setCopiedCode)}
-							copiedCode={copiedCode}
-						/>
-					)}
-				</div>
+				<FeatureContent>
+					<FeatureExampleDetail
+						example={selectedExample}
+						demoComponents={getDemoComponents(selectedExampleId)}
+						onCopyCode={handleCopyCode}
+						copiedCode={copiedCode}
+					/>
+				</FeatureContent>
 
-				{/* 官方代码示例 */}
-				<OfficialExamples
-					title={`📚 ${selectedExample?.title} 官方示例`}
-					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
-					examples={getOfficialExamples(selectedExample?.id || "")}
-				/>
-			</div>
+				<FeatureContent>
+					<FeatureOfficialExamples
+						title={`📚 ${selectedExample?.title} 官方示例`}
+						description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+						examples={getOfficialExamples(selectedExampleId)}
+					/>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

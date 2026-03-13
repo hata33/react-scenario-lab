@@ -1,5 +1,4 @@
 import {
-	ArrowLeft,
 	Award,
 	Brain,
 	CheckCircle2,
@@ -14,6 +13,8 @@ import {
 import type { Metadata } from "next";
 import Link from "next/link";
 import Layout from "@/components/Layout";
+import { FeatureContainer } from "@/components/showcase";
+import FeatureBackButton from "@/components/showcase/FeatureBackButton";
 
 // 1. 完整的元数据配置 - 针对SEO优化
 export const metadata: Metadata = {
@@ -660,33 +661,27 @@ export default function SEOGeoCompletePage() {
 				}}
 			/>
 
-			<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+			<FeatureContainer className="bg-gradient-to-br from-blue-50 via-white to-green-50">
 				{/* 头部导航 */}
 				<header className="border-gray-200 border-b bg-white shadow-sm">
-					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-						<div className="flex items-center space-x-4">
-							<Link
-								href="/nextjs-features"
-								className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
-							>
-								<ArrowLeft className="mr-2 h-5 w-5" />
-								返回特性列表
-							</Link>
-							<div className="flex items-center space-x-3">
-								<div className="flex items-center space-x-2">
-									<Search className="h-8 w-8 text-blue-600" />
-									<Brain className="h-8 w-8 text-purple-600" />
+					<div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
+						<div className="flex items-center space-x-2 md:space-x-4">
+							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
+							<div className="flex items-center space-x-2 md:space-x-3">
+								<div className="flex items-center space-x-1 md:space-x-2">
+									<Search className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
+									<Brain className="h-5 w-5 md:h-8 md:w-8 text-purple-600" />
 								</div>
 								<div>
-									<h1 className="font-bold text-3xl text-gray-900">SEO 与 GEO 优化完整实战</h1>
-									<p className="mt-1 text-gray-600">传统搜索引擎优化与生成式AI优化的完美结合</p>
+									<h1 className="font-bold text-responsive-2xl text-gray-900">SEO 与 GEO 优化完整实战</h1>
+									<p className="mt-1 text-gray-600 text-xs md:text-sm">传统搜索引擎优化与生成式AI优化的完美结合</p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</header>
 
-				<main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+				<main className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
 					{/* 核心概念介绍 */}
 					<section aria-labelledby="intro-heading" className="mb-12">
 						<header className="mb-8 text-center">
@@ -1005,7 +1000,7 @@ export default function SEOGeoCompletePage() {
 						</div>
 					</section>
 				</main>
-			</div>
+			</FeatureContainer>
 		</Layout>
 	);
 }

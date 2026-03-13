@@ -1,33 +1,57 @@
 "use client";
 
 import { AlertCircle, Clock, Target, Zap } from "lucide-react";
+import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-// Import utils
 import { copyWithFeedback } from "@/utils";
-// Import extracted components from index files
 import {
-	ArchitectureOverview,
-	ExampleDetail,
-	ExampleSelector,
-	Header,
-	OfficialExamples,
-	ThreeWRule,
-} from "../(components)";
-// Import types
-import type { ActionExample, WSection } from "../(types)";
-// Import demo components from index file
+	FeatureContainer,
+	FeatureContent,
+	FeatureHeader,
+	FeatureOverview,
+	FeatureThreeWRule,
+	FeatureExampleSelector,
+	FeatureExampleDetail,
+	FeatureOfficialExamples,
+	type Example,
+	type ExampleDetail,
+	type OfficialExample,
+} from "@/components/showcase";
 import { BasicSuspenseDemo, ConcurrentRenderingDemo, ErrorBoundaryDemo, StreamingDemo } from "./(components)";
 
-const suspenseExamples: ActionExample[] = [
+const suspenseExamples: Example[] = [
 	{
 		id: "basic-suspense",
 		title: "基础 Suspense",
-		description: "优雅处理异步组件加载，提供流畅的用户体验",
-		category: "Core Features",
-		difficulty: "初级",
-		status: "completed",
 		icon: <Clock className="h-5 w-5" />,
+		difficulty: "初级",
+	},
+	{
+		id: "streaming",
+		title: "流式渲染",
+		icon: <Zap className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+	{
+		id: "error-boundaries",
+		title: "错误边界",
+		icon: <AlertCircle className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+	{
+		id: "concurrent-rendering",
+		title: "并发渲染",
+		icon: <Target className="h-5 w-5" />,
+		difficulty: "高级",
+	},
+];
+
+const exampleDetails: Record<string, ExampleDetail> = {
+	"basic-suspense": {
+		title: "基础 Suspense",
+		icon: <Clock className="h-5 w-5" />,
+		description: "优雅处理异步组件加载，提供流畅的用户体验",
 		codeSnippet: `import { Suspense } from 'react';
 
 function UserProfile({ userId }) {
@@ -49,15 +73,12 @@ function UserProfile({ userId }) {
 				solution: "Suspense自动处理加载状态，提供流畅的过渡体验",
 			},
 		],
-	},
-	{
-		id: "streaming",
-		title: "流式渲染",
-		description: "逐步发送HTML到客户端，用户可以更快看到页面内容",
-		category: "Performance",
-		difficulty: "中级",
 		status: "completed",
+	},
+	streaming: {
+		title: "流式渲染",
 		icon: <Zap className="h-5 w-5" />,
+		description: "逐步发送HTML到客户端，用户可以更快看到页面内容",
 		codeSnippet: `import { Suspense } from 'react';
 
 function StreamingPage() {
@@ -82,15 +103,12 @@ function StreamingPage() {
 				solution: "流式渲染先显示已准备好的内容，其余内容逐步加载",
 			},
 		],
-	},
-	{
-		id: "error-boundaries",
-		title: "错误边界",
-		description: "优雅处理组件错误，提供错误恢复机制",
-		category: "Error Handling",
-		difficulty: "中级",
 		status: "completed",
+	},
+	"error-boundaries": {
+		title: "错误边界",
 		icon: <AlertCircle className="h-5 w-5" />,
+		description: "优雅处理组件错误，提供错误恢复机制",
 		codeSnippet: `import { Suspense } from 'react';
 
 class ErrorBoundary extends React.Component {
@@ -129,15 +147,12 @@ function App() {
 				solution: "错误边界捕获组件错误，提供优雅的降级体验",
 			},
 		],
-	},
-	{
-		id: "concurrent-rendering",
-		title: "并发渲染",
-		description: "非阻塞式渲染，保持界面响应性和流畅性",
-		category: "Performance",
-		difficulty: "高级",
 		status: "completed",
+	},
+	"concurrent-rendering": {
+		title: "并发渲染",
 		icon: <Target className="h-5 w-5" />,
+		description: "非阻塞式渲染，保持界面响应性和流畅性",
 		codeSnippet: `import { Suspense, useTransition } from 'react';
 
 function SearchComponent() {
@@ -173,76 +188,73 @@ function SearchComponent() {
 				solution: "并发渲染将更新标记为过渡，在后台执行，保持界面响应性",
 			},
 		],
+		status: "completed",
+	},
+};
+
+const architectureFeatures = [
+	{
+		icon: <Clock className="h-6 w-6 text-blue-600" />,
+		title: "优雅加载",
+		description: "流畅的异步状态处理",
+		bgColor: "bg-blue-50",
+		iconColor: "text-blue-600",
+		titleColor: "text-blue-900",
+		descriptionColor: "text-blue-700",
+	},
+	{
+		icon: <Zap className="h-6 w-6 text-green-600" />,
+		title: "流式渲染",
+		description: "渐进式内容展示",
+		bgColor: "bg-green-50",
+		iconColor: "text-green-600",
+		titleColor: "text-green-900",
+		descriptionColor: "text-green-700",
+	},
+	{
+		icon: <AlertCircle className="h-6 w-6 text-purple-600" />,
+		title: "错误处理",
+		description: "优雅的错误恢复",
+		bgColor: "bg-purple-50",
+		iconColor: "text-purple-600",
+		titleColor: "text-purple-900",
+		descriptionColor: "text-purple-700",
+	},
+	{
+		icon: <Target className="h-6 w-6 text-orange-600" />,
+		title: "并发渲染",
+		description: "非阻塞式更新",
+		bgColor: "bg-orange-50",
+		iconColor: "text-orange-600",
+		titleColor: "text-orange-900",
+		descriptionColor: "text-orange-700",
 	},
 ];
 
-export default function SuspenseEnhancedPage() {
-	const [copiedCode, setCopiedCode] = useState(false);
-	const [selectedExample, setSelectedExample] = useState(suspenseExamples[0]);
+const threeWSections = [
+	{
+		description:
+			"增强的 Suspense 是 React 19 中改进的异步渲染机制，提供更好的加载状态管理、错误边界处理和并发渲染支持。",
+		features: ["优雅加载状态", "流式渲染", "错误边界", "并发渲染"],
+	},
+	{
+		description:
+			"解决传统异步加载体验差、加载状态管理复杂、错误处理不完善、并发渲染支持不足等问题。通过统一的 Suspense 机制，大幅提升异步用户体验。",
+		features: ["统一异步处理", "改善用户体验", "简化开发复杂度", "提升应用性能"],
+	},
+	{
+		description:
+			"适用于数据获取、代码分割、图片加载、异步组件渲染等需要优雅处理加载状态的场景。特别适合复杂的单页应用和数据密集型应用。",
+		features: ["数据加载", "代码分割", "图片懒加载", "复杂组件渲染"],
+	},
+];
 
-	const architectureFeatures = [
-		{
-			icon: <Clock className="h-6 w-6 text-blue-600" />,
-			title: "优雅加载",
-			description: "流畅的异步状态处理",
-			bgColor: "bg-blue-50",
-			iconColor: "text-blue-600",
-			titleColor: "text-blue-900",
-			descriptionColor: "text-blue-700",
-		},
-		{
-			icon: <Zap className="h-6 w-6 text-green-600" />,
-			title: "流式渲染",
-			description: "渐进式内容展示",
-			bgColor: "bg-green-50",
-			iconColor: "text-green-600",
-			titleColor: "text-green-900",
-			descriptionColor: "text-green-700",
-		},
-		{
-			icon: <AlertCircle className="h-6 w-6 text-purple-600" />,
-			title: "错误处理",
-			description: "优雅的错误恢复",
-			bgColor: "bg-purple-50",
-			iconColor: "text-purple-600",
-			titleColor: "text-purple-900",
-			descriptionColor: "text-purple-700",
-		},
-		{
-			icon: <Target className="h-6 w-6 text-orange-600" />,
-			title: "并发渲染",
-			description: "非阻塞式更新",
-			bgColor: "bg-orange-50",
-			iconColor: "text-orange-600",
-			titleColor: "text-orange-900",
-			descriptionColor: "text-orange-700",
-		},
-	];
-
-	const threeWSections: WSection[] = [
-		{
-			description:
-				"增强的 Suspense 是 React 19 中改进的异步渲染机制，提供更好的加载状态管理、错误边界处理和并发渲染支持。",
-			features: ["优雅加载状态", "流式渲染", "错误边界", "并发渲染"],
-		},
-		{
-			description:
-				"解决传统异步加载体验差、加载状态管理复杂、错误处理不完善、并发渲染支持不足等问题。通过统一的 Suspense 机制，大幅提升异步用户体验。",
-			features: ["统一异步处理", "改善用户体验", "简化开发复杂度", "提升应用性能"],
-		},
-		{
-			description:
-				"适用于数据获取、代码分割、图片加载、异步组件渲染等需要优雅处理加载状态的场景。特别适合复杂的单页应用和数据密集型应用。",
-			features: ["数据加载", "代码分割", "图片懒加载", "复杂组件渲染"],
-		},
-	];
-
-	const getOfficialExamples = (exampleId: string) => {
-		const examples = {
-			"basic-suspense": [
-				{
-					title: "📄 用户资料加载",
-					code: `function UserProfile({ userId }) {
+const getOfficialExamples = (exampleId: string): OfficialExample[] => {
+	const examples: Record<string, OfficialExample[]> = {
+		"basic-suspense": [
+			{
+				title: "📄 用户资料加载",
+				code: `function UserProfile({ userId }) {
   return (
     <div>
       <h1>用户资料</h1>
@@ -255,13 +267,13 @@ export default function SuspenseEnhancedPage() {
     </div>
   );
 }`,
-					description: "使用多个 Suspense 边界处理不同部分的加载",
-				},
-			],
-			streaming: [
-				{
-					title: "🌊 流式页面渲染",
-					code: `function StreamingApp() {
+				description: "使用多个 Suspense 边界处理不同部分的加载",
+			},
+		],
+		streaming: [
+			{
+				title: "🌊 流式页面渲染",
+				code: `function StreamingApp() {
   return (
     <html>
       <body>
@@ -273,13 +285,13 @@ export default function SuspenseEnhancedPage() {
     </html>
   );
 }`,
-					description: "使用 React 18+ 的流式 SSR 渲染",
-				},
-			],
-			"error-boundaries": [
-				{
-					title: "🛡️ 错误边界处理",
-					code: `function App() {
+				description: "使用 React 18+ 的流式 SSR 渲染",
+			},
+		],
+		"error-boundaries": [
+			{
+				title: "🛡️ 错误边界处理",
+				code: `function App() {
   return (
     <ErrorBoundary fallback={<ErrorPage />}>
       <Suspense fallback={<Loading />}>
@@ -291,13 +303,13 @@ export default function SuspenseEnhancedPage() {
     </ErrorBoundary>
   );
 }`,
-					description: "错误边界与 Suspense 的组合使用",
-				},
-			],
-			"concurrent-rendering": [
-				{
-					title: "⚡ 并发搜索",
-					code: `function SearchApp() {
+				description: "错误边界与 Suspense 的组合使用",
+			},
+		],
+		"concurrent-rendering": [
+			{
+				title: "⚡ 并发搜索",
+				code: `function SearchApp() {
   const [isPending, startTransition] = useTransition();
 
   const handleSearch = (query) => {
@@ -316,75 +328,73 @@ export default function SuspenseEnhancedPage() {
     </div>
   );
 }`,
-					description: "使用 useTransition 实现并发搜索",
-				},
-			],
-		};
-
-		return examples[exampleId as keyof typeof examples] || [];
+				description: "使用 useTransition 实现并发搜索",
+			},
+		],
 	};
 
-	const getDemoComponents = () => {
-		switch (selectedExample.id) {
-			case "basic-suspense":
-				return [<BasicSuspenseDemo key="basic-suspense" />];
-			case "streaming":
-				return [<StreamingDemo key="streaming" />];
-			case "error-boundaries":
-				return [<ErrorBoundaryDemo key="error-boundaries" />];
-			case "concurrent-rendering":
-				return [<ConcurrentRenderingDemo key="concurrent-rendering" />];
-			default:
-				return [];
-		}
+	return examples[exampleId] || [];
+};
+
+const getDemoComponents = (exampleId: string): React.ReactNode[] => {
+	switch (exampleId) {
+		case "basic-suspense":
+			return [<BasicSuspenseDemo key="basic-suspense" />];
+		case "streaming":
+			return [<StreamingDemo key="streaming" />];
+		case "error-boundaries":
+			return [<ErrorBoundaryDemo key="error-boundaries" />];
+		case "concurrent-rendering":
+			return [<ConcurrentRenderingDemo key="concurrent-rendering" />];
+		default:
+			return [];
+	}
+};
+
+export default function SuspenseEnhancedPage() {
+	const [copiedCode, setCopiedCode] = useState(false);
+	const [selectedExampleId, setSelectedExampleId] = useState(suspenseExamples[0].id);
+
+	const selectedExample = exampleDetails[selectedExampleId];
+
+	const handleCopyCode = (code: string) => {
+		copyWithFeedback(code, setCopiedCode);
 	};
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
-				{/* Header */}
-				<Header
-					icon={<Clock className="h-8 w-8 text-blue-600" />}
+			<FeatureContainer>
+				<FeatureHeader
+					icon={<Clock className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
 					title="React 19 增强 Suspense"
 					subtitle="优雅的异步渲染新时代"
 				/>
-
-				{/* Suspense 架构概览 */}
-				<ArchitectureOverview title="增强 Suspense 生态系统" features={architectureFeatures} />
-
-				{/* 3W 法则解析 */}
-				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
-
-				{/* 功能选择器 - 吸顶区域 */}
-				<ExampleSelector
-					selectorLabel="选择功能:"
+				<FeatureContent className="space-y-4">
+					<FeatureOverview title="增强 Suspense 生态系统" features={architectureFeatures} />
+					<FeatureThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
+				</FeatureContent>
+				<FeatureExampleSelector
+					label="选择功能:"
 					examples={suspenseExamples}
-					selectedExampleId={selectedExample.id}
-					onExampleSelect={(exampleId) => {
-						const example = suspenseExamples.find((ex) => ex.id === exampleId);
-						if (example) setSelectedExample(example);
-					}}
+					selectedId={selectedExampleId}
+					onSelect={setSelectedExampleId}
 				/>
-
-				{/* 详细展示区域 - 下方内容 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-					{selectedExample && (
-						<ExampleDetail
-							example={selectedExample}
-							demoComponents={getDemoComponents()}
-							onCopyCode={(code) => copyWithFeedback(code, setCopiedCode)}
-							copiedCode={copiedCode}
-						/>
-					)}
-				</div>
-
-				{/* 官方代码示例 */}
-				<OfficialExamples
-					title={`📚 ${selectedExample?.title} 官方示例`}
-					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
-					examples={getOfficialExamples(selectedExample?.id || "")}
-				/>
-			</div>
+				<FeatureContent>
+					<FeatureExampleDetail
+						example={selectedExample}
+						demoComponents={getDemoComponents(selectedExampleId)}
+						onCopyCode={handleCopyCode}
+						copiedCode={copiedCode}
+					/>
+				</FeatureContent>
+				<FeatureContent>
+					<FeatureOfficialExamples
+						title={`📚 ${selectedExample?.title} 官方示例`}
+						description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+						examples={getOfficialExamples(selectedExampleId)}
+					/>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

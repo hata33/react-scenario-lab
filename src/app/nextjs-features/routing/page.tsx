@@ -171,20 +171,21 @@ export default function RoutingFeaturePage() {
 			<div className="min-h-screen bg-gray-50">
 				{/* 头部 */}
 				<div className="bg-white shadow-sm">
-					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-						<div className="flex items-center space-x-4">
+					<div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
+						<div className="flex items-center space-x-2 md:space-x-4">
 							<Link
 								href="/nextjs-features"
-								className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
+								className="flex min-h-[44px] items-center text-gray-600 transition-colors hover:text-gray-900"
 							>
-								<ArrowLeft className="mr-2 h-5 w-5" />
-								返回特性列表
+								<ArrowLeft className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+								<span className="hidden sm:inline">返回特性列表</span>
+								<span className="sm:hidden">返回</span>
 							</Link>
-							<div className="flex items-center space-x-3">
-								<Router className="h-8 w-8 text-blue-600" />
+							<div className="flex items-center space-x-2 md:space-x-3">
+								<Router className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
 								<div>
-									<h1 className="font-bold text-3xl text-gray-900">App Router 特性</h1>
-									<p className="text-gray-600">Next.js 15 的新一代路由系统完整指南</p>
+									<h1 className="font-bold text-responsive-2xl text-gray-900">App Router 特性</h1>
+									<p className="text-gray-600 text-xs md:text-sm">Next.js 15 的新一代路由系统完整指南</p>
 								</div>
 							</div>
 						</div>
@@ -192,7 +193,7 @@ export default function RoutingFeaturePage() {
 				</div>
 
 				{/* 概述 */}
-				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+				<div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
 					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
 						<h2 className="mb-4 font-semibold text-gray-900 text-xl">什么是 App Router？</h2>
 						<div className="prose prose-gray max-w-none">
@@ -222,7 +223,7 @@ export default function RoutingFeaturePage() {
 				</div>
 
 				{/* 特性示例 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+				<div className="mx-auto max-w-7xl px-3 pb-8 sm:px-4 md:pb-12 md:px-6 lg:px-8 lg:pb-16">
 					<h2 className="mb-6 font-bold text-2xl text-gray-900">功能示例</h2>
 					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 						{/* 左侧：示例列表 */}
@@ -316,7 +317,7 @@ export default function RoutingFeaturePage() {
 				</div>
 
 				{/* 学习资源 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+				<div className="mx-auto max-w-7xl px-3 pb-8 sm:px-4 md:pb-12 md:px-6 lg:px-8 lg:pb-16">
 					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
 						<h2 className="mb-4 font-semibold text-gray-900 text-xl">学习资源</h2>
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

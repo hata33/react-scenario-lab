@@ -1,40 +1,57 @@
 "use client";
 
-import { Activity, AlertCircle, CheckCircle, Clock, Code, Copy, Database, Shield } from "lucide-react";
+import { Activity, AlertCircle, CheckCircle, Clock, Code, Database, Shield } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-
-// Import utils
 import { copyWithFeedback } from "@/utils";
-
-// Import extracted components from index files
 import {
-	ArchitectureOverview,
-	ExampleDetail,
-	ExampleSelector,
-	Header,
-	OfficialExamples,
-	ThreeWRule,
-} from "../(components)";
-
-// Import types
-import type { ActionExample, WSection } from "../(types)";
-
-// Import demo components
+	FeatureContainer,
+	FeatureContent,
+	FeatureHeader,
+	FeatureOverview,
+	FeatureThreeWRule,
+	FeatureExampleSelector,
+	FeatureExampleDetail,
+	FeatureOfficialExamples,
+	type Example,
+	type ExampleDetail,
+	type OfficialExample,
+} from "@/components/showcase";
 import { ComplexStateDemo, FormManagementDemo, PageManagementDemo, StatePersistenceDemo } from "./(components)";
 
-type Example = Omit<ActionExample, "category" | "difficulty" | "id">;
-
-const activityExamples: ActionExample[] = [
+const activityExamples: Example[] = [
 	{
 		id: "statePersistence",
 		title: "状态持久化",
-		description: "自动保存和恢复组件状态，解决页面刷新或导航时的状态丢失问题",
-		category: "State Persistence",
-		difficulty: "初级",
-		status: "completed",
 		icon: <Database className="h-5 w-5" />,
+		difficulty: "初级",
+	},
+	{
+		id: "formManagement",
+		title: "表单管理",
+		icon: <Activity className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+	{
+		id: "pageManagement",
+		title: "页面管理",
+		icon: <Shield className="h-5 w-5" />,
+		difficulty: "高级",
+	},
+	{
+		id: "complexState",
+		title: "复杂状态",
+		icon: <Code className="h-5 w-5" />,
+		difficulty: "高级",
+	},
+];
+
+const exampleDetails: Record<string, ExampleDetail> = {
+	statePersistence: {
+		title: "状态持久化",
+		icon: <Database className="h-5 w-5" />,
+		description: "自动保存和恢复组件状态，解决页面刷新或导航时的状态丢失问题",
 		codeSnippet: `"use client";
 import { useActivity } from "react";
 
@@ -74,15 +91,12 @@ function Counter() {
 				solution: "完全的类型安全支持，编译时类型检查，运行时自动序列化和反序列化",
 			},
 		],
-	},
-	{
-		id: "formManagement",
-		title: "表单管理",
-		description: "智能表单状态管理，自动保存草稿，防止用户意外丢失输入内容",
-		category: "Form Management",
-		difficulty: "中级",
 		status: "completed",
+	},
+	formManagement: {
+		title: "表单管理",
 		icon: <Activity className="h-5 w-5" />,
+		description: "智能表单状态管理，自动保存草稿，防止用户意外丢失输入内容",
 		codeSnippet: `"use client";
 import { useActivity } from "react";
 
@@ -134,15 +148,12 @@ function ArticleEditor() {
 				solution: "提供保存状态反馈，自动恢复提示，增强用户信心和使用体验",
 			},
 		],
-	},
-	{
-		id: "pageManagement",
-		title: "页面管理",
-		description: "跨页面状态共享和导航状态保持，提供无缝的用户体验",
-		category: "Page Management",
-		difficulty: "高级",
 		status: "completed",
+	},
+	pageManagement: {
+		title: "页面管理",
 		icon: <Shield className="h-5 w-5" />,
+		description: "跨页面状态共享和导航状态保持，提供无缝的用户体验",
 		codeSnippet: `"use client";
 import { useActivity } from "react";
 
@@ -191,15 +202,12 @@ function ThemeToggle() {
 				solution: "集中的配置管理方案，自动同步所有相关组件的配置状态",
 			},
 		],
+		status: "completed",
 	},
-	{
-		id: "complexState",
+	complexState: {
 		title: "复杂状态",
-		description: "处理复杂的嵌套状态和大数据对象，提供高性能的状态管理",
-		category: "Complex State",
-		difficulty: "高级",
-		status: "in-progress",
 		icon: <Code className="h-5 w-5" />,
+		description: "处理复杂的嵌套状态和大数据对象，提供高性能的状态管理",
 		codeSnippet: `"use client";
 import { useActivity } from "react";
 
@@ -263,79 +271,73 @@ function ShoppingCartComponent() {
 				solution: "提供性能优化策略，包括防抖、增量更新、异步存储等优化机制",
 			},
 		],
+		status: "in-progress",
+	},
+};
+
+const architectureFeatures = [
+	{
+		icon: <Database className="h-6 w-6 text-blue-600" />,
+		title: "状态持久化",
+		description: "自动保存状态到本地存储",
+		bgColor: "bg-blue-50",
+		iconColor: "text-blue-600",
+		titleColor: "text-blue-900",
+		descriptionColor: "text-blue-700",
+	},
+	{
+		icon: <Activity className="h-6 w-6 text-green-600" />,
+		title: "智能管理",
+		description: "防抖和增量更新优化",
+		bgColor: "bg-green-50",
+		iconColor: "text-green-600",
+		titleColor: "text-green-900",
+		descriptionColor: "text-green-700",
+	},
+	{
+		icon: <Shield className="h-6 w-6 text-purple-600" />,
+		title: "类型安全",
+		description: "TypeScript 完全支持",
+		bgColor: "bg-purple-50",
+		iconColor: "text-purple-600",
+		titleColor: "text-purple-900",
+		descriptionColor: "text-purple-700",
+	},
+	{
+		icon: <Clock className="h-6 w-6 text-orange-600" />,
+		title: "性能优化",
+		description: "自动同步和异步处理",
+		bgColor: "bg-orange-50",
+		iconColor: "text-orange-600",
+		titleColor: "text-orange-900",
+		descriptionColor: "text-orange-700",
 	},
 ];
 
-export default function ActivityApiPage() {
-	const [copiedCode, setCopiedCode] = useState(false);
-	const [selectedExample, setSelectedExample] = useState(activityExamples[0]);
+const threeWSections = [
+	{
+		description:
+			"Activity API 是 React 19 中用于状态持久化的新机制，提供 useActivity Hook，可以自动保存和恢复组件状态，解决页面刷新、导航等场景下的状态丢失问题。",
+		features: ["自动状态持久化", "类型安全支持", "智能存储管理", "跨会话保持"],
+	},
+	{
+		description:
+			"传统的状态管理方案在页面刷新或应用重启时会丢失所有状态，需要复杂的手动存储逻辑。Activity API 提供了简单易用的 Hook 接口，自动处理所有持久化逻辑。",
+		features: ["简化开发复杂度", "提升用户体验", "减少样板代码", "自动错误恢复"],
+	},
+	{
+		description:
+			"适用于需要状态持久化的各种场景，如用户表单、应用配置、购物车、用户偏好设置等。特别适合需要跨会话保持状态的应用。",
+		features: ["表单草稿保存", "用户偏好设置", "购物车状态", "应用配置管理"],
+	},
+];
 
-	// Architecture overview data
-	const architectureFeatures = [
-		{
-			icon: <Database className="h-6 w-6 text-blue-600" />,
-			title: "状态持久化",
-			description: "自动保存状态到本地存储",
-			bgColor: "bg-blue-50",
-			iconColor: "text-blue-600",
-			titleColor: "text-blue-900",
-			descriptionColor: "text-blue-700",
-		},
-		{
-			icon: <Activity className="h-6 w-6 text-green-600" />,
-			title: "智能管理",
-			description: "防抖和增量更新优化",
-			bgColor: "bg-green-50",
-			iconColor: "text-green-600",
-			titleColor: "text-green-900",
-			descriptionColor: "text-green-700",
-		},
-		{
-			icon: <Shield className="h-6 w-6 text-purple-600" />,
-			title: "类型安全",
-			description: "TypeScript 完全支持",
-			bgColor: "bg-purple-50",
-			iconColor: "text-purple-600",
-			titleColor: "text-purple-900",
-			descriptionColor: "text-purple-700",
-		},
-		{
-			icon: <Clock className="h-6 w-6 text-orange-600" />,
-			title: "性能优化",
-			description: "自动同步和异步处理",
-			bgColor: "bg-orange-50",
-			iconColor: "text-orange-600",
-			titleColor: "text-orange-900",
-			descriptionColor: "text-orange-700",
-		},
-	];
-
-	// 3W Rule data
-	const threeWSections: WSection[] = [
-		{
-			description:
-				"Activity API 是 React 19 中用于状态持久化的新机制，提供 useActivity Hook，可以自动保存和恢复组件状态，解决页面刷新、导航等场景下的状态丢失问题。",
-			features: ["自动状态持久化", "类型安全支持", "智能存储管理", "跨会话保持"],
-		},
-		{
-			description:
-				"传统的状态管理方案在页面刷新或应用重启时会丢失所有状态，需要复杂的手动存储逻辑。Activity API 提供了简单易用的 Hook 接口，自动处理所有持久化逻辑。",
-			features: ["简化开发复杂度", "提升用户体验", "减少样板代码", "自动错误恢复"],
-		},
-		{
-			description:
-				"适用于需要状态持久化的各种场景，如用户表单、应用配置、购物车、用户偏好设置等。特别适合需要跨会话保持状态的应用。",
-			features: ["表单草稿保存", "用户偏好设置", "购物车状态", "应用配置管理"],
-		},
-	];
-
-	// 官方代码示例数据
-	const getOfficialExamples = (exampleId: string) => {
-		const examples = {
-			statePersistence: [
-				{
-					title: "🔄 自动状态恢复",
-					code: `function Counter() {
+const getOfficialExamples = (exampleId: string): OfficialExample[] => {
+	const examples: Record<string, OfficialExample[]> = {
+		statePersistence: [
+			{
+				title: "🔄 自动状态恢复",
+				code: `function Counter() {
   const [count, setCount] = useActivity(0, "counter");
 
   return (
@@ -348,13 +350,13 @@ export default function ActivityApiPage() {
     </div>
   );
 }`,
-					description: "页面刷新后状态自动恢复",
-				},
-			],
-			formManagement: [
-				{
-					title: "📝 自动保存表单草稿",
-					code: `function ArticleForm() {
+				description: "页面刷新后状态自动恢复",
+			},
+		],
+		formManagement: [
+			{
+				title: "📝 自动保存表单草稿",
+				code: `function ArticleForm() {
   const [draft, setDraft] = useActivity("", "article-draft");
 
   return (
@@ -366,13 +368,13 @@ export default function ActivityApiPage() {
   );
   // 输入内容会自动保存
 }`,
-					description: "表单内容自动保存为草稿",
-				},
-			],
-			pageManagement: [
-				{
-					title: "⚙️ 用户偏好设置",
-					code: `function Settings() {
+				description: "表单内容自动保存为草稿",
+			},
+		],
+		pageManagement: [
+			{
+				title: "⚙️ 用户偏好设置",
+				code: `function Settings() {
   const [theme, setTheme] = useActivity("light", "user-theme");
 
   return (
@@ -383,76 +385,78 @@ export default function ActivityApiPage() {
   );
   // 设置会自动保存并在所有页面生效
 }`,
-					description: "跨页面共享用户偏好设置",
-				},
-			],
-		};
-
-		return examples[exampleId as keyof typeof examples] || [];
+				description: "跨页面共享用户偏好设置",
+			},
+		],
+		complexState: [],
 	};
 
-	// Get demo components based on selected example
-	const getDemoComponents = () => {
-		switch (selectedExample.id) {
-			case "statePersistence":
-				return [<StatePersistenceDemo key="persistence" />];
-			case "formManagement":
-				return [<FormManagementDemo key="form" />];
-			case "pageManagement":
-				return [<PageManagementDemo key="page" />];
-			case "complexState":
-				return [<ComplexStateDemo key="complex" />];
-			default:
-				return [];
-		}
+	return examples[exampleId] || [];
+};
+
+const getDemoComponents = (exampleId: string): React.ReactNode[] => {
+	switch (exampleId) {
+		case "statePersistence":
+			return [<StatePersistenceDemo key="persistence" />];
+		case "formManagement":
+			return [<FormManagementDemo key="form" />];
+		case "pageManagement":
+			return [<PageManagementDemo key="page" />];
+		case "complexState":
+			return [<ComplexStateDemo key="complex" />];
+		default:
+			return [];
+	}
+};
+
+export default function ActivityApiPage() {
+	const [copiedCode, setCopiedCode] = useState(false);
+	const [selectedExampleId, setSelectedExampleId] = useState(activityExamples[0].id);
+
+	const selectedExample = exampleDetails[selectedExampleId];
+
+	const handleCopyCode = (code: string) => {
+		copyWithFeedback(code, setCopiedCode);
 	};
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
-				{/* Header */}
-				<Header
-					icon={<Activity className="h-8 w-8 text-blue-600" />}
+			<FeatureContainer>
+				<FeatureHeader
+					icon={<Activity className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
 					title="React 19 Activity API"
 					subtitle="智能状态持久化解决方案"
 				/>
 
-				{/* Activity API 架构概览 */}
-				<ArchitectureOverview title="Activity API 生态系统" features={architectureFeatures} />
+				<FeatureContent className="space-y-4">
+					<FeatureOverview title="Activity API 生态系统" features={architectureFeatures} />
+					<FeatureThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
+				</FeatureContent>
 
-				{/* 3W 法则解析 */}
-				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
-
-				{/* Hook 选择器 - 吸顶区域 */}
-				<ExampleSelector
-					selectorLabel="选择功能:"
+				<FeatureExampleSelector
+					label="选择功能:"
 					examples={activityExamples}
-					selectedExampleId={selectedExample.id}
-					onExampleSelect={(exampleId) => {
-						const example = activityExamples.find((ex) => ex.id === exampleId);
-						if (example) setSelectedExample(example);
-					}}
+					selectedExampleId={selectedExampleId}
+					onSelectExample={setSelectedExampleId}
 				/>
 
-				{/* 详细展示区域 - 下方内容 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-					{selectedExample && (
-						<ExampleDetail
-							example={selectedExample}
-							demoComponents={getDemoComponents()}
-							onCopyCode={(code) => copyWithFeedback(code, setCopiedCode)}
-							copiedCode={copiedCode}
-						/>
-					)}
-				</div>
+				<FeatureContent>
+					<FeatureExampleDetail
+						example={selectedExample}
+						demoComponents={getDemoComponents(selectedExampleId)}
+						onCopyCode={handleCopyCode}
+						copiedCode={copiedCode}
+					/>
+				</FeatureContent>
 
-				{/* 官方代码示例 */}
-				<OfficialExamples
-					title={`📚 ${selectedExample?.title} 官方示例`}
-					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
-					examples={getOfficialExamples(selectedExample?.id || "")}
-				/>
-			</div>
+				<FeatureContent>
+					<FeatureOfficialExamples
+						title={`📚 ${selectedExample?.title} 官方示例`}
+						description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+						examples={getOfficialExamples(selectedExampleId)}
+					/>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

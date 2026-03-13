@@ -1,21 +1,24 @@
 "use client";
 
 import { Database, Play, Target, Zap } from "lucide-react";
+import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-// Import utils
 import { copyWithFeedback } from "@/utils";
-// Import extracted components from index files
+// Import showcase components
 import {
-	ArchitectureOverview,
-	ExampleDetail,
-	ExampleSelector,
-	Header,
-	OfficialExamples,
-	ThreeWRule,
-} from "../(components)";
-// Import types
-import type { ActionExample, WSection } from "../(types)";
+	FeatureContainer,
+	FeatureContent,
+	FeatureHeader,
+	FeatureOverview,
+	FeatureThreeWRule,
+	FeatureExampleSelector,
+	FeatureExampleDetail,
+	FeatureOfficialExamples,
+	type Example,
+	type ExampleDetail,
+	type OfficialExample,
+} from "@/components/showcase";
 // Import demo components from index file
 import {
 	AsyncRenderingDemo,
@@ -24,15 +27,38 @@ import {
 	PromiseConsumptionDemo,
 } from "./(components)";
 
-const useHookExamples: ActionExample[] = [
+const useHookExamples: Example[] = [
 	{
 		id: "promise-consumption",
 		title: "Promise 消费",
-		description: "优雅地消费 Promise，支持竞态条件和自动取消",
-		category: "Core Features",
-		difficulty: "中级",
-		status: "completed",
 		icon: <Database className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+	{
+		id: "context-integration",
+		title: "Context 集成",
+		icon: <Play className="h-5 w-5" />,
+		difficulty: "初级",
+	},
+	{
+		id: "async-rendering",
+		title: "异步渲染",
+		icon: <Zap className="h-5 w-5" />,
+		difficulty: "高级",
+	},
+	{
+		id: "performance-optimization",
+		title: "性能优化",
+		icon: <Target className="h-5 w-5" />,
+		difficulty: "高级",
+	},
+];
+
+const exampleDetails: Record<string, ExampleDetail> = {
+	"promise-consumption": {
+		title: "Promise 消费",
+		icon: <Database className="h-5 w-5" />,
+		description: "优雅地消费 Promise，支持竞态条件和自动取消",
 		codeSnippet: `import { use } from 'react';
 
 function UserProfile({ userId }) {
@@ -60,15 +86,12 @@ function UserProfile({ userId }) {
 				solution: "use Hook 自动管理 Promise 状态，提供统一的消费接口",
 			},
 		],
-	},
-	{
-		id: "context-integration",
-		title: "Context 集成",
-		description: "简化 Context 的消费，提供默认值和类型安全",
-		category: "State Management",
-		difficulty: "初级",
 		status: "completed",
+	},
+	"context-integration": {
+		title: "Context 集成",
 		icon: <Play className="h-5 w-5" />,
+		description: "简化 Context 的消费，提供默认值和类型安全",
 		codeSnippet: `import { use } from 'react';
 import { ThemeContext } from './ThemeContext';
 
@@ -91,15 +114,12 @@ function ThemeButton() {
 				solution: "use Hook 提供默认值和优化，简化使用方式",
 			},
 		],
-	},
-	{
-		id: "async-rendering",
-		title: "异步渲染",
-		description: "支持异步组件渲染，提供优雅的加载状态",
-		category: "Performance",
-		difficulty: "高级",
 		status: "completed",
+	},
+	"async-rendering": {
+		title: "异步渲染",
 		icon: <Zap className="h-5 w-5" />,
+		description: "支持异步组件渲染，提供优雅的加载状态",
 		codeSnippet: `import { use } from 'react';
 
 function AsyncImage({ src, alt }) {
@@ -128,15 +148,12 @@ function Gallery({ images }) {
 				solution: "use Hook 自动处理异步渲染状态，提供优雅的 fallback 支持",
 			},
 		],
-	},
-	{
-		id: "performance-optimization",
-		title: "性能优化",
-		description: "内置缓存和依赖优化，避免不必要的重新计算",
-		category: "Performance",
-		difficulty: "高级",
 		status: "completed",
+	},
+	"performance-optimization": {
+		title: "性能优化",
 		icon: <Target className="h-5 w-5" />,
+		description: "内置缓存和依赖优化，避免不必要的重新计算",
 		codeSnippet: `import { use } from 'react';
 
 function ExpensiveComponent({ data, filter }) {
@@ -165,75 +182,70 @@ function ExpensiveComponent({ data, filter }) {
 				solution: "use Hook 自动追踪依赖，智能缓存计算结果",
 			},
 		],
+		status: "completed",
+	},
+};
+
+const architectureFeatures = [
+	{
+		icon: <Database className="h-6 w-6 text-blue-600" />,
+		title: "Promise 消费",
+		description: "优雅的异步状态管理",
+		bgColor: "bg-blue-50",
+		iconColor: "text-blue-600",
+		titleColor: "text-blue-900",
+		descriptionColor: "text-blue-700",
+	},
+	{
+		icon: <Play className="h-6 w-6 text-green-600" />,
+		title: "Context 集成",
+		description: "简化的状态消费",
+		bgColor: "bg-green-50",
+		iconColor: "text-green-600",
+		titleColor: "text-green-900",
+		descriptionColor: "text-green-700",
+	},
+	{
+		icon: <Zap className="h-6 w-6 text-purple-600" />,
+		title: "异步渲染",
+		description: "非阻塞式组件渲染",
+		bgColor: "bg-purple-50",
+		iconColor: "text-purple-600",
+		titleColor: "text-purple-900",
+		descriptionColor: "text-purple-700",
+	},
+	{
+		icon: <Target className="h-6 w-6 text-orange-600" />,
+		title: "性能优化",
+		description: "智能缓存和依赖优化",
+		bgColor: "bg-orange-50",
+		iconColor: "text-orange-600",
+		titleColor: "text-orange-900",
+		descriptionColor: "text-orange-700",
 	},
 ];
 
-export default function UseHookPage() {
-	const [copiedCode, setCopiedCode] = useState(false);
-	const [selectedExample, setSelectedExample] = useState(useHookExamples[0]);
+const threeWSections = [
+	{
+		description: "use Hook 是 React 19 中统一资源消费的新 Hook，提供了 Promise、Context、异步渲染等多种使用场景的统一接口。",
+		features: ["Promise 消费", "Context 集成", "异步渲染", "性能优化"],
+	},
+	{
+		description: "解决传统异步处理、Context 使用复杂、性能优化困难等问题。通过统一的 Hook 接口，简化开发复杂度，提升代码质量。",
+		features: ["统一接口", "类型安全", "性能优化", "开发效率"],
+	},
+	{
+		description: "适用于数据获取、状态管理、异步渲染、性能优化等需要资源消费的场景。特别适合复杂的现代 Web 应用。",
+		features: ["API 调用", "状态管理", "懒加载", "缓存策略"],
+	},
+];
 
-	const architectureFeatures = [
-		{
-			icon: <Database className="h-6 w-6 text-blue-600" />,
-			title: "Promise 消费",
-			description: "优雅的异步状态管理",
-			bgColor: "bg-blue-50",
-			iconColor: "text-blue-600",
-			titleColor: "text-blue-900",
-			descriptionColor: "text-blue-700",
-		},
-		{
-			icon: <Play className="h-6 w-6 text-green-600" />,
-			title: "Context 集成",
-			description: "简化的状态消费",
-			bgColor: "bg-green-50",
-			iconColor: "text-green-600",
-			titleColor: "text-green-900",
-			descriptionColor: "text-green-700",
-		},
-		{
-			icon: <Zap className="h-6 w-6 text-purple-600" />,
-			title: "异步渲染",
-			description: "非阻塞式组件渲染",
-			bgColor: "bg-purple-50",
-			iconColor: "text-purple-600",
-			titleColor: "text-purple-900",
-			descriptionColor: "text-purple-700",
-		},
-		{
-			icon: <Target className="h-6 w-6 text-orange-600" />,
-			title: "性能优化",
-			description: "智能缓存和依赖优化",
-			bgColor: "bg-orange-50",
-			iconColor: "text-orange-600",
-			titleColor: "text-orange-900",
-			descriptionColor: "text-orange-700",
-		},
-	];
-
-	const threeWSections: WSection[] = [
-		{
-			description:
-				"use Hook 是 React 19 中统一资源消费的新 Hook，提供了 Promise、Context、异步渲染等多种使用场景的统一接口。",
-			features: ["Promise 消费", "Context 集成", "异步渲染", "性能优化"],
-		},
-		{
-			description:
-				"解决传统异步处理、Context 使用复杂、性能优化困难等问题。通过统一的 Hook 接口，简化开发复杂度，提升代码质量。",
-			features: ["统一接口", "类型安全", "性能优化", "开发效率"],
-		},
-		{
-			description: "适用于数据获取、状态管理、异步渲染、性能优化等需要资源消费的场景。特别适合复杂的现代 Web 应用。",
-			features: ["API 调用", "状态管理", "懒加载", "缓存策略"],
-		},
-	];
-
-	const getOfficialExamples = (exampleId: string) => {
-		const examples = {
-			"promise-consumption": [
-				{
-					title: "🔄 数据获取",
-					code: `function UserProfile({ userId }) {
+const getOfficialExamples = (exampleId: string): OfficialExample[] => {
+	const examples: Record<string, OfficialExample[]> = {
+		"promise-consumption": [
+			{
+				title: "🔄 数据获取",
+				code: `function UserProfile({ userId }) {
   const user = use(fetchUser(userId));
 
   switch (user.status) {
@@ -254,13 +266,13 @@ function App() {
     </div>
   );
 }`,
-					description: "使用 use Hook 获取用户数据，自动处理加载状态",
-				},
-			],
-			"context-integration": [
-				{
-					title: "🎨 主题切换",
-					code: `function ThemeProvider({ children }) {
+				description: "使用 use Hook 获取用户数据，自动处理加载状态",
+			},
+		],
+		"context-integration": [
+			{
+				title: "🎨 主题切换",
+				code: `function ThemeProvider({ children }) {
   const [theme, setTheme] = useState('light');
 
   const useTheme = use(context(ThemeContext), 'light');
@@ -277,13 +289,13 @@ function ThemedButton() {
     Theme: {theme}
   </button>;
 }`,
-					description: "使用 use Hook 消费 Context，支持默认值",
-				},
-			],
-			"async-rendering": [
-				{
-					title: "🖼️ 图片懒加载",
-					code: `function LazyImage({ src, alt }) {
+				description: "使用 use Hook 消费 Context，支持默认值",
+			},
+		],
+		"async-rendering": [
+			{
+				title: "🖼️ 图片懒加载",
+				code: `function LazyImage({ src, alt }) {
   const blob = use(fetch(src).then(res => res.blob()));
 
   if (blob.status === 'pending') {
@@ -302,13 +314,13 @@ function Gallery({ images }) {
     </div>
   );
 }`,
-					description: "异步加载图片，提供优雅的加载状态",
-				},
-			],
-			"performance-optimization": [
-				{
-					title: "⚡ 数据过滤",
-					code: `function FilteredList({ items, filter }) {
+				description: "异步加载图片，提供优雅的加载状态",
+			},
+		],
+		"performance-optimization": [
+			{
+				title: "⚡ 数据过滤",
+				code: `function FilteredList({ items, filter }) {
   const filteredItems = use(() => {
     return items.filter(item =>
       item.name.toLowerCase().includes(filter.toLowerCase())
@@ -323,75 +335,77 @@ function Gallery({ images }) {
     </ul>
   );
 }`,
-					description: "使用 use Hook 自动缓存过滤结果",
-				},
-			],
-		};
-
-		return examples[exampleId as keyof typeof examples] || [];
+				description: "使用 use Hook 自动缓存过滤结果",
+			},
+		],
 	};
 
-	const getDemoComponents = () => {
-		switch (selectedExample.id) {
-			case "promise-consumption":
-				return [<PromiseConsumptionDemo key="promise-consumption" />];
-			case "context-integration":
-				return [<ContextIntegrationDemo key="context-integration" />];
-			case "async-rendering":
-				return [<AsyncRenderingDemo key="async-rendering" />];
-			case "performance-optimization":
-				return [<PerformanceOptimizationDemo key="performance-optimization" />];
-			default:
-				return [];
-		}
+	return examples[exampleId] || [];
+};
+
+const getDemoComponents = (exampleId: string): React.ReactNode[] => {
+	switch (exampleId) {
+		case "promise-consumption":
+			return [<PromiseConsumptionDemo key="promise-consumption" />];
+		case "context-integration":
+			return [<ContextIntegrationDemo key="context-integration" />];
+		case "async-rendering":
+			return [<AsyncRenderingDemo key="async-rendering" />];
+		case "performance-optimization":
+			return [<PerformanceOptimizationDemo key="performance-optimization" />];
+		default:
+			return [];
+	}
+};
+
+export default function UseHookPage() {
+	const [copiedCode, setCopiedCode] = useState(false);
+	const [selectedExampleId, setSelectedExampleId] = useState(useHookExamples[0].id);
+
+	const selectedExample = exampleDetails[selectedExampleId];
+
+	const handleCopyCode = (code: string) => {
+		copyWithFeedback(code, setCopiedCode);
 	};
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
-				{/* Header */}
-				<Header
-					icon={<Database className="h-8 w-8 text-blue-600" />}
+			<FeatureContainer>
+				<FeatureHeader
+					icon={<Database className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
 					title="React 19 use Hook"
 					subtitle="统一资源消费的优雅方案"
 				/>
 
-				{/* use Hook 架构概览 */}
-				<ArchitectureOverview title="use Hook 生态系统" features={architectureFeatures} />
+				<FeatureContent className="space-y-4">
+					<FeatureOverview title="use Hook 生态系统" features={architectureFeatures} />
+					<FeatureThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
+				</FeatureContent>
 
-				{/* 3W 法则解析 */}
-				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
-
-				{/* 功能选择器 - 吸顶区域 */}
-				<ExampleSelector
-					selectorLabel="选择功能:"
+				<FeatureExampleSelector
+					label="选择功能:"
 					examples={useHookExamples}
-					selectedExampleId={selectedExample.id}
-					onExampleSelect={(exampleId) => {
-						const example = useHookExamples.find((ex) => ex.id === exampleId);
-						if (example) setSelectedExample(example);
-					}}
+					selectedExampleId={selectedExampleId}
+					onSelectExample={setSelectedExampleId}
 				/>
 
-				{/* 详细展示区域 - 下方内容 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-					{selectedExample && (
-						<ExampleDetail
-							example={selectedExample}
-							demoComponents={getDemoComponents()}
-							onCopyCode={(code) => copyWithFeedback(code, setCopiedCode)}
-							copiedCode={copiedCode}
-						/>
-					)}
-				</div>
+				<FeatureContent>
+					<FeatureExampleDetail
+						example={selectedExample}
+						demoComponents={getDemoComponents(selectedExampleId)}
+						onCopyCode={handleCopyCode}
+						copiedCode={copiedCode}
+					/>
+				</FeatureContent>
 
-				{/* 官方代码示例 */}
-				<OfficialExamples
-					title={`📚 ${selectedExample?.title} 官方示例`}
-					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
-					examples={getOfficialExamples(selectedExample?.id || "")}
-				/>
-			</div>
+				<FeatureContent>
+					<FeatureOfficialExamples
+						title={`📚 ${selectedExample?.title} 官方示例`}
+						description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+						examples={getOfficialExamples(selectedExampleId)}
+					/>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

@@ -1,14 +1,28 @@
 "use client";
 
-import React from "react";
-import type { FeatureCard } from "../(types)";
+import type React from "react";
 
-interface ArchitectureOverviewProps {
+export interface FeatureCard {
+	icon: React.ReactNode;
+	title: string;
+	description: string;
+	bgColor: string;
+	iconColor: string;
+	titleColor: string;
+	descriptionColor: string;
+}
+
+interface FeatureOverviewProps {
 	title: string;
 	features: FeatureCard[];
 }
 
-export default function ArchitectureOverview({ title, features }: ArchitectureOverviewProps) {
+/**
+ * 特性概览内容块
+ * 展示一组特性卡片网格
+ * 无外层容器，直接使用 FeatureContent 包裹
+ */
+export default function FeatureOverview({ title, features }: FeatureOverviewProps) {
 	return (
 		<div className="rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
 			<h2 className="mb-4 md:mb-6 font-semibold text-gray-900 text-xl md:text-2xl">{title}</h2>

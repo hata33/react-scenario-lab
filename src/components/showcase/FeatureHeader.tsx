@@ -1,15 +1,19 @@
 "use client";
 
-import { LucideIcon } from "lucide-react";
 import type React from "react";
 
-interface HeaderProps {
+interface FeatureHeaderProps {
 	icon: React.ReactNode;
 	title: string;
 	subtitle: string;
 }
 
-export default function Header({ icon, title, subtitle }: HeaderProps) {
+/**
+ * 页面头部内容块
+ * 包含图标、标题和副标题
+ * 无外层容器，直接使用 FeatureContent 包裹
+ */
+export default function FeatureHeader({ icon, title, subtitle }: FeatureHeaderProps) {
 	return (
 		<div className="bg-white shadow-sm">
 			<div className="flex items-center space-x-4 px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">

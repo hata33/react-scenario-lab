@@ -1,7 +1,6 @@
 "use client";
 
 import {
-	ArrowLeft,
 	CheckCircle,
 	Code,
 	Copy,
@@ -12,9 +11,10 @@ import {
 	Search,
 	Share2,
 } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
 import Layout from "@/components/Layout";
+import { FeatureContainer, FeatureContent } from "@/components/showcase";
+import FeatureBackButton from "@/components/showcase/FeatureBackButton";
 
 interface MetadataExample {
 	id: string;
@@ -610,23 +610,17 @@ export default function MetadataFeaturePage() {
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
+			<FeatureContainer>
 				{/* 头部 */}
 				<div className="bg-white shadow-sm">
-					<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-						<div className="flex items-center space-x-4">
-							<Link
-								href="/nextjs-features"
-								className="flex items-center text-gray-600 transition-colors hover:text-gray-900"
-							>
-								<ArrowLeft className="mr-2 h-5 w-5" />
-								返回特性列表
-							</Link>
-							<div className="flex items-center space-x-3">
-								<FileText className="h-8 w-8 text-blue-600" />
+					<div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
+						<div className="flex items-center space-x-2 md:space-x-4">
+							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
+							<div className="flex items-center space-x-2 md:space-x-3">
+								<FileText className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
 								<div>
-									<h1 className="font-bold text-3xl text-gray-900">元数据和 SEO 特性</h1>
-									<p className="text-gray-600">Next.js 完整的 SEO 解决方案：动态元数据、结构化数据、社交媒体优化</p>
+									<h1 className="font-bold text-responsive-2xl text-gray-900">元数据和 SEO 特性</h1>
+									<p className="text-gray-600 text-xs md:text-sm">Next.js 完整的 SEO 解决方案：动态元数据、结构化数据、社交媒体优化</p>
 								</div>
 							</div>
 						</div>
@@ -634,7 +628,7 @@ export default function MetadataFeaturePage() {
 				</div>
 
 				{/* SEO 概览 */}
-				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+				<FeatureContent>
 					<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
 						<h2 className="mb-6 font-semibold text-gray-900 text-xl">SEO 特性概览</h2>
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-6">
@@ -670,10 +664,10 @@ export default function MetadataFeaturePage() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</FeatureContent>
 
 				{/* 元数据示例 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+				<FeatureContent className="pb-8 md:pb-12">
 					<h2 className="mb-6 font-bold text-2xl text-gray-900">实现示例</h2>
 					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 						{/* 左侧：示例列表 */}
@@ -808,7 +802,8 @@ export default function MetadataFeaturePage() {
 						</div>
 					</div>
 				</div>
-			</div>
+			</FeatureContent>
+		</FeatureContainer>
 		</Layout>
 	);
 }

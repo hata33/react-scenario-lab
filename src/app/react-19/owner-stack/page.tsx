@@ -4,32 +4,54 @@ import { Bug, Code, Layers, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-// Import utils
 import { copyWithFeedback } from "@/utils";
-
-// Import extracted components from index files
 import {
-	ArchitectureOverview,
-	ExampleDetail,
-	ExampleSelector,
-	Header,
-	OfficialExamples,
-	ThreeWRule,
-} from "../(components)";
-// Import types
-import type { FeatureCard, OwnerStackExample, WSection } from "../(types)";
-// Import demo components from index file
+	FeatureContainer,
+	FeatureContent,
+	FeatureHeader,
+	FeatureOverview,
+	FeatureThreeWRule,
+	FeatureExampleSelector,
+	FeatureExampleDetail,
+	FeatureOfficialExamples,
+	type Example,
+	type ExampleDetail,
+	type OfficialExample,
+} from "@/components/showcase";
 import { ComplexComponentTreeDemo, ErrorTrackingDemo, OwnerStackDemo, PerformanceAnalysisDemo } from "./(components)";
 
-const ownerStackExamples: OwnerStackExample[] = [
+const ownerStackExamples: Example[] = [
 	{
 		id: "basic-debug",
 		title: "基础调试演示",
-		description: "Owner Stack 基础功能演示，展示组件层级关系和状态追踪",
-		category: "调试工具",
-		difficulty: "初级",
-		status: "completed",
 		icon: <Bug className="h-5 w-5" />,
+		difficulty: "初级",
+	},
+	{
+		id: "complex-tree",
+		title: "复杂组件树调试",
+		icon: <Layers className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+	{
+		id: "performance-analysis",
+		title: "性能分析优化",
+		icon: <Zap className="h-5 w-5" />,
+		difficulty: "高级",
+	},
+	{
+		id: "error-tracking",
+		title: "错误追踪调试",
+		icon: <Code className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+];
+
+const exampleDetails: Record<string, ExampleDetail> = {
+	"basic-debug": {
+		title: "基础调试演示",
+		icon: <Bug className="h-5 w-5" />,
+		description: "Owner Stack 基础功能演示，展示组件层级关系和状态追踪",
 		codeSnippet: `// 基础 Owner Stack 调试
 const ownerStackInfo = [
 	{ component: "App", props: { debugMode }, state: "initialized" },
@@ -92,15 +114,12 @@ function OwnerStackDemo() {
 				solution: "通过可视化的组件层级关系，快速理解整个应用的架构结构",
 			},
 		],
-	},
-	{
-		id: "complex-tree",
-		title: "复杂组件树调试",
-		description: "处理复杂嵌套组件结构的调试场景，展示路径高亮和组件信息分析",
-		category: "高级调试",
-		difficulty: "中级",
 		status: "completed",
+	},
+	"complex-tree": {
+		title: "复杂组件树调试",
 		icon: <Layers className="h-5 w-5" />,
+		description: "处理复杂嵌套组件结构的调试场景，展示路径高亮和组件信息分析",
 		codeSnippet: `// 复杂组件树分析
 const componentTree = {
 	name: "App",
@@ -191,15 +210,12 @@ function ComplexComponentTreeDemo() {
 				solution: "在组件树中直接展示性能数据，帮助快速定位性能问题",
 			},
 		],
-	},
-	{
-		id: "performance-analysis",
-		title: "性能分析优化",
-		description: "基于 Owner Stack 的性能分析工具，监控组件渲染时间、重渲染次数和 Props 大小",
-		category: "性能优化",
-		difficulty: "高级",
 		status: "completed",
+	},
+	"performance-analysis": {
+		title: "性能分析优化",
 		icon: <Zap className="h-5 w-5" />,
+		description: "基于 Owner Stack 的性能分析工具，监控组件渲染时间、重渲染次数和 Props 大小",
 		codeSnippet: `// 性能指标分析
 const performanceData = {
 	renderTime: [
@@ -283,15 +299,12 @@ function PerformanceAnalysisDemo() {
 				solution: "Props 大小监控帮助发现数据传递的效率问题，指导优化工作",
 			},
 		],
-	},
-	{
-		id: "error-tracking",
-		title: "错误追踪调试",
-		description: "强大的错误追踪系统，通过 Owner Stack 快速定位错误源头和调试信息",
-		category: "错误处理",
-		difficulty: "中级",
 		status: "completed",
+	},
+	"error-tracking": {
+		title: "错误追踪调试",
 		icon: <Code className="h-5 w-5" />,
+		description: "强大的错误追踪系统，通过 Owner Stack 快速定位错误源头和调试信息",
 		codeSnippet: `// 错误追踪和定位
 const errorScenarios = [
 	{
@@ -384,78 +397,73 @@ function ErrorTrackingDemo() {
 				solution: "通过系统化的错误追踪，帮助开发者识别和分析常见的错误模式，改进代码质量",
 			},
 		],
+		status: "completed",
+	},
+};
+
+const architectureFeatures = [
+	{
+		icon: <Layers className="h-6 w-6 text-blue-600" />,
+		title: "组件所有权",
+		description: "清晰展示组件间的所有权关系",
+		bgColor: "bg-blue-50",
+		iconColor: "text-blue-600",
+		titleColor: "text-blue-900",
+		descriptionColor: "text-blue-700",
+	},
+	{
+		icon: <Bug className="h-6 w-6 text-green-600" />,
+		title: "智能调试",
+		description: "快速定位错误和性能问题",
+		bgColor: "bg-green-50",
+		iconColor: "text-green-600",
+		titleColor: "text-green-900",
+		descriptionColor: "text-green-700",
+	},
+	{
+		icon: <Zap className="h-6 w-6 text-purple-600" />,
+		title: "性能分析",
+		description: "多维度性能指标监控",
+		bgColor: "bg-purple-50",
+		iconColor: "text-purple-600",
+		titleColor: "text-purple-900",
+		descriptionColor: "text-purple-700",
+	},
+	{
+		icon: <Code className="h-6 w-6 text-orange-600" />,
+		title: "错误追踪",
+		description: "详细的错误上下文信息",
+		bgColor: "bg-orange-50",
+		iconColor: "text-orange-600",
+		titleColor: "text-orange-900",
+		descriptionColor: "text-orange-700",
 	},
 ];
 
-export default function OwnerStackPage() {
-	const [copiedCode, setCopiedCode] = useState(false);
-	const [selectedExample, setSelectedExample] = useState(ownerStackExamples[0]);
+const threeWSections = [
+	{
+		description:
+			"Owner Stack 是 React 19 中革命性的调试机制，能够清晰显示组件的所有权关系，帮助开发者快速理解组件层级、状态传递和调用链路，提供全新的调试体验。",
+		features: ["组件所有权关系可视化", "实时状态监控", "智能错误追踪", "多维度性能分析"],
+	},
+	{
+		description:
+			"解决传统调试中组件层级复杂、状态传递路径不清晰、错误追踪困难、性能瓶颈定位等问题，提供更直观、高效的调试体验，显著提升开发效率和代码质量。",
+		features: ["简化调试流程", "提升开发效率", "增强代码质量", "改善用户体验"],
+	},
+	{
+		description:
+			"适合组件调试、性能分析、错误排查、状态追踪、架构优化等需要理解组件关系和调用链的场景，特别在复杂应用开发和维护中发挥巨大作用。",
+		features: ["大型应用调试", "组件架构分析", "性能优化", "错误快速修复"],
+	},
+];
 
-	const architectureFeatures: FeatureCard[] = [
-		{
-			icon: <Layers className="h-6 w-6 text-blue-600" />,
-			title: "组件所有权",
-			description: "清晰展示组件间的所有权关系",
-			bgColor: "bg-blue-50",
-			iconColor: "text-blue-600",
-			titleColor: "text-blue-900",
-			descriptionColor: "text-blue-700",
-		},
-		{
-			icon: <Bug className="h-6 w-6 text-green-600" />,
-			title: "智能调试",
-			description: "快速定位错误和性能问题",
-			bgColor: "bg-green-50",
-			iconColor: "text-green-600",
-			titleColor: "text-green-900",
-			descriptionColor: "text-green-700",
-		},
-		{
-			icon: <Zap className="h-6 w-6 text-purple-600" />,
-			title: "性能分析",
-			description: "多维度性能指标监控",
-			bgColor: "bg-purple-50",
-			iconColor: "text-purple-600",
-			titleColor: "text-purple-900",
-			descriptionColor: "text-purple-700",
-		},
-		{
-			icon: <Code className="h-6 w-6 text-orange-600" />,
-			title: "错误追踪",
-			description: "详细的错误上下文信息",
-			bgColor: "bg-orange-50",
-			iconColor: "text-orange-600",
-			titleColor: "text-orange-900",
-			descriptionColor: "text-orange-700",
-		},
-	];
-
-	// 3W Rule data
-	const threeWSections: WSection[] = [
-		{
-			description:
-				"Owner Stack 是 React 19 中革命性的调试机制，能够清晰显示组件的所有权关系，帮助开发者快速理解组件层级、状态传递和调用链路，提供全新的调试体验。",
-			features: ["组件所有权关系可视化", "实时状态监控", "智能错误追踪", "多维度性能分析"],
-		},
-		{
-			description:
-				"解决传统调试中组件层级复杂、状态传递路径不清晰、错误追踪困难、性能瓶颈定位等问题，提供更直观、高效的调试体验，显著提升开发效率和代码质量。",
-			features: ["简化调试流程", "提升开发效率", "增强代码质量", "改善用户体验"],
-		},
-		{
-			description:
-				"适合组件调试、性能分析、错误排查、状态追踪、架构优化等需要理解组件关系和调用链的场景，特别在复杂应用开发和维护中发挥巨大作用。",
-			features: ["大型应用调试", "组件架构分析", "性能优化", "错误快速修复"],
-		},
-	];
-
-	// 官方代码示例数据
-	const getOfficialExamples = (exampleId: string) => {
-		const examples = {
-			"basic-debug": [
-				{
-					title: "🔍 基础 Owner Stack 使用",
-					code: `// React 19 - Owner Stack 基础调试
+const getOfficialExamples = (exampleId: string): OfficialExample[] => {
+	const examples: Record<string, OfficialExample[]> = {
+		"basic-debug": [
+			{
+				title: "🔍 基础 Owner Stack 使用",
+				code: `// React 19 - Owner Stack 基础调试
 import { useOwnerStack } from 'react';
 
 function MyComponent() {
@@ -472,11 +480,11 @@ function MyComponent() {
 
 // 自动追踪组件层级和状态
 // 无需额外配置，React 19 自动处理`,
-					description: "React 19 最基础的 Owner Stack 调试方式",
-				},
-				{
-					title: "📊 状态追踪演示",
-					code: `// 状态和 Props 追踪
+				description: "React 19 最基础的 Owner Stack 调试方式",
+			},
+			{
+				title: "📊 状态追踪演示",
+				code: `// 状态和 Props 追踪
 function ParentComponent() {
 	const [state, setState] = useState("initial");
 
@@ -493,13 +501,13 @@ function ParentComponent() {
 		</div>
 	);
 }`,
-					description: "实时追踪组件状态和 Props 传递",
-				},
-			],
-			"complex-tree": [
-				{
-					title: "🌳 组件树可视化",
-					code: `// 复杂组件树分析
+				description: "实时追踪组件状态和 Props 传递",
+			},
+		],
+		"complex-tree": [
+			{
+				title: "🌳 组件树可视化",
+				code: `// 复杂组件树分析
 function ComponentTreeDemo() {
 	// Owner Stack 可视化显示
 	const componentHierarchy = {
@@ -525,11 +533,11 @@ function ComponentTreeDemo() {
 		</div>
 	);
 }`,
-					description: "大型应用的组件树结构可视化",
-				},
-				{
-					title: "🔗 路径追踪功能",
-					code: `// Owner 路径追踪
+				description: "大型应用的组件树结构可视化",
+			},
+			{
+				title: "🔗 路径追踪功能",
+				code: `// Owner 路径追踪
 function TraceComponentPath() {
 	// 自动生成组件路径
 	// App → Header → Navigation → NavItem
@@ -544,13 +552,13 @@ function TraceComponentPath() {
 		</App>
 	);
 }`,
-					description: "组件间的所有权路径追踪",
-				},
-			],
-			"performance-analysis": [
-				{
-					title: "⚡ 性能监控面板",
-					code: `// 性能指标实时监控
+				description: "组件间的所有权路径追踪",
+			},
+		],
+		"performance-analysis": [
+			{
+				title: "⚡ 性能监控面板",
+				code: `// 性能指标实时监控
 import { usePerformanceTrace } from 'react';
 
 function PerformanceDemo() {
@@ -564,11 +572,11 @@ function PerformanceDemo() {
 
 	return <div>{children}</div>;
 }`,
-					description: "多维度的组件性能监控",
-				},
-				{
-					title: "📈 性能瓶颈识别",
-					code: `// 自动性能分析
+				description: "多维度的组件性能监控",
+			},
+			{
+				title: "📈 性能瓶颈识别",
+				code: `// 自动性能分析
 const performanceReport = {
 	renderTime: {
 		"ProductList": 15.3, // ms
@@ -585,13 +593,13 @@ const performanceReport = {
 		"ProductList 渲染时间过长"
 	]
 };`,
-					description: "自动识别性能瓶颈和优化建议",
-				},
-			],
-			"error-tracking": [
-				{
-					title: "🐛 错误追踪系统",
-					code: `// 错误自动追踪
+				description: "自动识别性能瓶颈和优化建议",
+			},
+		],
+		"error-tracking": [
+			{
+				title: "🐛 错误追踪系统",
+				code: `// 错误自动追踪
 function ErrorBoundary() {
 	// Owner Stack 自动捕获错误上下文
 	const [error, setError] = useState(null);
@@ -607,11 +615,11 @@ function ErrorBoundary() {
 
 	return <ErrorBoundary />;
 }`,
-					description: "完整的错误上下文信息捕获",
-				},
-				{
-					title: "🔧 智能调试建议",
-					code: `// 调试建议系统
+				description: "完整的错误上下文信息捕获",
+			},
+			{
+				title: "🔧 智能调试建议",
+				code: `// 调试建议系统
 const debugSuggestions = {
 	errorType: "TypeError",
 	component: "UserProfile",
@@ -623,76 +631,73 @@ const debugSuggestions = {
 		"错误边界处理"
 	]
 };`,
-					description: "基于错误模式的智能调试建议",
-				},
-			],
-		};
-
-		return examples[exampleId as keyof typeof examples] || [];
+				description: "基于错误模式的智能调试建议",
+			},
+		],
 	};
 
-	// Get demo components based on selected example
-	const getDemoComponents = () => {
-		switch (selectedExample.id) {
-			case "basic-debug":
-				return [<OwnerStackDemo key="basic" />];
-			case "complex-tree":
-				return [<ComplexComponentTreeDemo key="tree" />];
-			case "performance-analysis":
-				return [<PerformanceAnalysisDemo key="performance" />];
-			case "error-tracking":
-				return [<ErrorTrackingDemo key="error" />];
-			default:
-				return [];
-		}
+	return examples[exampleId] || [];
+};
+
+const getDemoComponents = (exampleId: string): React.ReactNode[] => {
+	switch (exampleId) {
+		case "basic-debug":
+			return [<OwnerStackDemo key="basic" />];
+		case "complex-tree":
+			return [<ComplexComponentTreeDemo key="tree" />];
+		case "performance-analysis":
+			return [<PerformanceAnalysisDemo key="performance" />];
+		case "error-tracking":
+			return [<ErrorTrackingDemo key="error" />];
+		default:
+			return [];
+	}
+};
+
+export default function OwnerStackPage() {
+	const [copiedCode, setCopiedCode] = useState(false);
+	const [selectedExampleId, setSelectedExampleId] = useState(ownerStackExamples[0].id);
+
+	const selectedExample = exampleDetails[selectedExampleId];
+
+	const handleCopyCode = (code: string) => {
+		copyWithFeedback(code, setCopiedCode);
 	};
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
-				{/* Header */}
-				<Header
-					icon={<Bug className="h-8 w-8 text-blue-600" />}
+			<FeatureContainer>
+				<FeatureHeader
+					icon={<Bug className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
 					title="React 19 Owner Stack"
 					subtitle="组件所有权调试"
 				/>
-
-				{/* Owner Stack 架构概览 */}
-				<ArchitectureOverview title="Owner Stack 调试生态系统" features={architectureFeatures} />
-
-				{/* 3W 法则解析 */}
-				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
-
-				{/* 示例选择器 - 吸顶区域 */}
-				<ExampleSelector
-					selectorLabel="选择调试功能:"
+				<FeatureContent className="space-y-4">
+					<FeatureOverview title="Owner Stack 调试生态系统" features={architectureFeatures} />
+					<FeatureThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
+				</FeatureContent>
+				<FeatureExampleSelector
+					label="选择调试功能:"
 					examples={ownerStackExamples}
-					selectedExampleId={selectedExample.id}
-					onExampleSelect={(exampleId) => {
-						const example = ownerStackExamples.find((ex) => ex.id === exampleId);
-						if (example) setSelectedExample(example);
-					}}
+					selectedId={selectedExampleId}
+					onSelect={setSelectedExampleId}
 				/>
-
-				{/* 详细展示区域 - 下方内容 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-					{selectedExample && (
-						<ExampleDetail
-							example={selectedExample}
-							demoComponents={getDemoComponents()}
-							onCopyCode={(code) => copyWithFeedback(code, setCopiedCode)}
-							copiedCode={copiedCode}
-						/>
-					)}
-				</div>
-
-				{/* 官方代码示例 */}
-				<OfficialExamples
-					title={`📚 ${selectedExample?.title} 官方示例`}
-					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
-					examples={getOfficialExamples(selectedExample?.id || "")}
-				/>
-			</div>
+				<FeatureContent>
+					<FeatureExampleDetail
+						example={selectedExample}
+						demoComponents={getDemoComponents(selectedExampleId)}
+						onCopyCode={handleCopyCode}
+						copiedCode={copiedCode}
+					/>
+				</FeatureContent>
+				<FeatureContent>
+					<FeatureOfficialExamples
+						title={`📚 ${selectedExample?.title} 官方示例`}
+						description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+						examples={getOfficialExamples(selectedExampleId)}
+					/>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

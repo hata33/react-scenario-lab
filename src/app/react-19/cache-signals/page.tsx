@@ -1,24 +1,23 @@
 "use client";
 
-import { CheckCircle, Clock, Code, Copy, Database, Target, Zap } from "lucide-react";
+import { CheckCircle, Clock, Code, Database, Target, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-// Import utils
 import { copyWithFeedback } from "@/utils";
-
-// Import extracted components from index files
 import {
-	ArchitectureOverview,
-	ExampleDetail,
-	ExampleSelector,
-	Header,
-	OfficialExamples,
-	ThreeWRule,
-} from "../(components)";
-// Import types
-import type { CacheSignalExample, FeatureCard, WSection } from "../(types)";
-// Import demo components from index file
+	FeatureContainer,
+	FeatureContent,
+	FeatureHeader,
+	FeatureOverview,
+	FeatureThreeWRule,
+	FeatureExampleSelector,
+	FeatureExampleDetail,
+	FeatureOfficialExamples,
+	type Example,
+	type ExampleDetail,
+	type OfficialExample,
+} from "@/components/showcase";
 import {
 	AdvancedApplicationsDemo,
 	BasicCachingDemo,
@@ -26,15 +25,38 @@ import {
 	DependencyTrackingDemo,
 } from "./(components)";
 
-const cacheSignalExamples: CacheSignalExample[] = [
+const cacheSignalExamples: Example[] = [
 	{
 		id: "basic-caching",
 		title: "基础缓存机制",
-		description: "展示 Cache Signals 的基本缓存功能，包括数据的存储、获取和失效机制",
-		category: "State Management",
-		difficulty: "初级",
-		status: "completed",
 		icon: <Database className="h-5 w-5" />,
+		difficulty: "初级",
+	},
+	{
+		id: "dependency-tracking",
+		title: "智能依赖追踪",
+		icon: <Target className="h-5 w-5" />,
+		difficulty: "中级",
+	},
+	{
+		id: "cache-strategies",
+		title: "缓存策略管理",
+		icon: <Zap className="h-5 w-5" />,
+		difficulty: "高级",
+	},
+	{
+		id: "advanced-applications",
+		title: "高级应用场景",
+		icon: <Clock className="h-5 w-5" />,
+		difficulty: "高级",
+	},
+];
+
+const exampleDetails: Record<string, ExampleDetail> = {
+	"basic-caching": {
+		title: "基础缓存机制",
+		icon: <Database className="h-5 w-5" />,
+		description: "展示 Cache Signals 的基本缓存功能，包括数据的存储、获取和失效机制",
 		codeSnippet: `"use client";
 import { cache } from "react";
 
@@ -76,15 +98,12 @@ function UserProfile({ userId }) {
 				solution: "缓存机制提供即时响应，大幅提升用户体验和感知性能",
 			},
 		],
-	},
-	{
-		id: "dependency-tracking",
-		title: "智能依赖追踪",
-		description: "演示 Cache Signals 如何自动追踪数据依赖关系，实现精确的缓存失效",
-		category: "Performance",
-		difficulty: "中级",
 		status: "completed",
+	},
+	"dependency-tracking": {
+		title: "智能依赖追踪",
 		icon: <Target className="h-5 w-5" />,
+		description: "演示 Cache Signals 如何自动追踪数据依赖关系，实现精确的缓存失效",
 		codeSnippet: `"use client";
 import { cache } from "react";
 
@@ -127,15 +146,12 @@ function UserDashboard({ userId }) {
 				solution: "细粒度的依赖管理，实现精确的更新控制，最大化性能优化效果",
 			},
 		],
-	},
-	{
-		id: "cache-strategies",
-		title: "缓存策略管理",
-		description: "展示不同的缓存策略，包括 TTL、LRU 和自定义失效策略",
-		category: "Performance",
-		difficulty: "高级",
 		status: "completed",
+	},
+	"cache-strategies": {
+		title: "缓存策略管理",
 		icon: <Zap className="h-5 w-5" />,
+		description: "展示不同的缓存策略，包括 TTL、LRU 和自定义失效策略",
 		codeSnippet: `"use client";
 import { cache } from "react";
 
@@ -185,15 +201,12 @@ function DataCache() {
 				solution: "统一的 API 接口，简化策略配置，降低使用门槛和学习成本",
 			},
 		],
-	},
-	{
-		id: "advanced-applications",
-		title: "高级应用场景",
-		description: "展示 Cache Signals 在复杂场景中的应用，包括实时数据、计算缓存等",
-		category: "Advanced",
-		difficulty: "高级",
 		status: "completed",
+	},
+	"advanced-applications": {
+		title: "高级应用场景",
 		icon: <Clock className="h-5 w-5" />,
+		description: "展示 Cache Signals 在复杂场景中的应用，包括实时数据、计算缓存等",
 		codeSnippet: `"use client";
 import { cache } from "react";
 
@@ -241,151 +254,73 @@ function useRealtimeData(channel) {
 				solution: "自动网络状态感知，动态调整缓存策略，优化用户体验",
 			},
 		],
+		status: "completed",
+	},
+};
+
+const architectureFeatures = [
+	{
+		icon: <Database className="h-6 w-6 text-blue-600" />,
+		title: "智能缓存",
+		description: "自动管理数据缓存",
+		bgColor: "bg-blue-50",
+		iconColor: "text-blue-600",
+		titleColor: "text-blue-900",
+		descriptionColor: "text-blue-700",
+	},
+	{
+		icon: <Target className="h-6 w-6 text-green-600" />,
+		title: "依赖追踪",
+		description: "精确追踪数据关系",
+		bgColor: "bg-green-50",
+		iconColor: "text-green-600",
+		titleColor: "text-green-900",
+		descriptionColor: "text-green-700",
+	},
+	{
+		icon: <Zap className="h-6 w-6 text-purple-600" />,
+		title: "智能失效",
+		description: "自动失效过期缓存",
+		bgColor: "bg-purple-50",
+		iconColor: "text-purple-600",
+		titleColor: "text-purple-900",
+		descriptionColor: "text-purple-700",
+	},
+	{
+		icon: <Clock className="h-6 w-6 text-orange-600" />,
+		title: "性能优化",
+		description: "减少重复渲染",
+		bgColor: "bg-orange-50",
+		iconColor: "text-orange-600",
+		titleColor: "text-orange-900",
+		descriptionColor: "text-orange-700",
 	},
 ];
 
-// 获取官方示例
-const getOfficialExamples = () => [
+const threeWSections = [
 	{
-		title: "🔍 智能依赖追踪",
-		code: `// 复杂的依赖关系自动追踪
-function UserDashboard({ userId }) {
-  // 自动追踪用户数据的依赖
-  const user = cache.use(\`user-\${userId}\`, () => fetchUser(userId));
-
-  // 自动追踪文章对用户的依赖
-  const posts = cache.use(\`posts-\${userId}\`, () => fetchUserPosts(userId));
-
-  // 当用户数据变化时，自动失效相关缓存
-  return (
-    <div>
-      <UserProfile user={user} />
-      <UserPosts posts={posts} />
-    </div>
-  );
-}`,
+		description:
+			"Cache Signals 是 React 19 引入的智能缓存系统，自动追踪组件间的数据依赖关系，并在数据发生变化时智能地更新相关缓存，提供高效且易用的状态管理解决方案。",
+		features: ["自动依赖追踪", "智能缓存失效", "精确更新机制", "性能优化"],
 	},
 	{
-		title: "⚡ 缓存策略管理",
-		code: `// 多种缓存策略
-function DataCache() {
-  const [strategy, setStrategy] = useState("ttl");
-
-  const cacheConfig = {
-    ttl: { ttl: 5000 }, // 5秒过期
-    lru: { maxSize: 100 }, // 最多100项
-    custom: { shouldInvalidate: (data) => data.isStale }
-  };
-
-  const data = cache.use("api-data", fetchData, {
-    ...cacheConfig[strategy],
-    strategy: strategy
-  });
-
-  return (
-    <CacheControls
-      strategy={strategy}
-      onChange={setStrategy}
-      data={data}
-    />
-  );
-}`,
+		description:
+			"解决传统缓存方案手动管理依赖关系的痛点，通过自动化依赖追踪和智能更新机制，减少过度渲染，确保缓存及时失效，让开发者专注于业务逻辑而不用担忧性能问题。",
+		features: ["减少不必要渲染", "避免缓存失效延迟", "简化状态管理逻辑", "提升应用响应速度"],
 	},
 	{
-		title: "🕐 实时数据缓存",
-		code: `// 实时数据缓存
-function useRealtimeData(channel) {
-  return cache.use(\`realtime-\${channel}\`, async () => {
-    // 建立实时连接
-    const subscription = createSubscription(channel, {
-      onData: (newData) => {
-        // 自动更新缓存
-        cache.update(\`realtime-\${channel}\`, newData);
-      },
-      onConnect: () => cache.update(\`status-\${channel}\`, 'connected'),
-      onDisconnect: () => cache.update(\`status-\${channel}\`, 'disconnected')
-    });
-
-    return { data: initialData, subscription };
-  }, {
-    // 实时数据特殊配置
-    realtime: true,
-    subscription: true,
-    autoReconnect: true
-  });
-}`,
+		description:
+			"适合处理复杂数据依赖关系、频繁数据更新或需要优化性能的场景，特别是数据密集型应用、实时数据同步、需要精确控制缓存失效策略的性能敏感型应用。",
+		features: ["复杂数据依赖关系", "实时数据同步", "大数据量缓存", "性能敏感型应用"],
 	},
 ];
 
-export default function CacheSignalsPage() {
-	const [copiedCode, setCopiedCode] = useState(false);
-	const [selectedExample, setSelectedExample] = useState(cacheSignalExamples[0]);
-
-	const architectureFeatures: FeatureCard[] = [
-		{
-			icon: <Database className="h-6 w-6 text-blue-600" />,
-			title: "智能缓存",
-			description: "自动管理数据缓存",
-			bgColor: "bg-blue-50",
-			iconColor: "text-blue-600",
-			titleColor: "text-blue-900",
-			descriptionColor: "text-blue-700",
-		},
-		{
-			icon: <Target className="h-6 w-6 text-green-600" />,
-			title: "依赖追踪",
-			description: "精确追踪数据关系",
-			bgColor: "bg-green-50",
-			iconColor: "text-green-600",
-			titleColor: "text-green-900",
-			descriptionColor: "text-green-700",
-		},
-		{
-			icon: <Zap className="h-6 w-6 text-purple-600" />,
-			title: "智能失效",
-			description: "自动失效过期缓存",
-			bgColor: "bg-purple-50",
-			iconColor: "text-purple-600",
-			titleColor: "text-purple-900",
-			descriptionColor: "text-purple-700",
-		},
-		{
-			icon: <Clock className="h-6 w-6 text-orange-600" />,
-			title: "性能优化",
-			description: "减少重复渲染",
-			bgColor: "bg-orange-50",
-			iconColor: "text-orange-600",
-			titleColor: "text-orange-900",
-			descriptionColor: "text-orange-700",
-		},
-	];
-
-	// 3W Rule data
-	const threeWSections: WSection[] = [
-		{
-			description:
-				"Cache Signals 是 React 19 引入的智能缓存系统，自动追踪组件间的数据依赖关系，并在数据发生变化时智能地更新相关缓存，提供高效且易用的状态管理解决方案。",
-			features: ["自动依赖追踪", "智能缓存失效", "精确更新机制", "性能优化"],
-		},
-		{
-			description:
-				"解决传统缓存方案手动管理依赖关系的痛点，通过自动化依赖追踪和智能更新机制，减少过度渲染，确保缓存及时失效，让开发者专注于业务逻辑而不用担忧性能问题。",
-			features: ["减少不必要渲染", "避免缓存失效延迟", "简化状态管理逻辑", "提升应用响应速度"],
-		},
-		{
-			description:
-				"适合处理复杂数据依赖关系、频繁数据更新或需要优化性能的场景，特别是数据密集型应用、实时数据同步、需要精确控制缓存失效策略的性能敏感型应用。",
-			features: ["复杂数据依赖关系", "实时数据同步", "大数据量缓存", "性能敏感型应用"],
-		},
-	];
-
-	// 官方代码示例数据
-	const getOfficialExamples = (exampleId: string) => {
-		const examples = {
-			"basic-caching": [
-				{
-					title: "🚀 基础缓存使用",
-					code: `"use client";
+const getOfficialExamples = (exampleId: string): OfficialExample[] => {
+	const examples: Record<string, OfficialExample[]> = {
+		"basic-caching": [
+			{
+				title: "🚀 基础缓存使用",
+				code: `"use client";
 import { cache } from "react";
 
 function UserProfile({ userId }) {
@@ -403,11 +338,11 @@ function UserProfile({ userId }) {
     </div>
   );
 }`,
-					description: "最基础的缓存使用方式",
-				},
-				{
-					title: "⚡ 缓存失效控制",
-					code: `// 手动控制缓存失效
+				description: "最基础的缓存使用方式",
+			},
+			{
+				title: "⚡ 缓存失效控制",
+				code: `// 手动控制缓存失效
 function updateUser(userId, userData) {
   // 更新数据
   const updatedUser = await updateUserApi(userId, userData);
@@ -418,13 +353,13 @@ function updateUser(userId, userData) {
 
   return updatedUser;
 }`,
-					description: "精确控制缓存失效时机",
-				},
-			],
-			"dependency-tracking": [
-				{
-					title: "🔗 自动依赖追踪",
-					code: `function UserDashboard({ userId }) {
+				description: "精确控制缓存失效时机",
+			},
+		],
+		"dependency-tracking": [
+			{
+				title: "🔗 自动依赖追踪",
+				code: `function UserDashboard({ userId }) {
   const user = cache.use(\`user-\${userId}\`, () => fetchUser(userId));
   const posts = cache.use(\`posts-\${userId}\`, () => fetchUserPosts(userId));
 
@@ -436,24 +371,24 @@ function updateUser(userId, userData) {
     </div>
   );
 }`,
-					description: "自动追踪数据依赖关系",
-				},
-			],
-			"cache-strategies": [
-				{
-					title: "⏰ TTL 缓存策略",
-					code: `function DataComponent() {
+				description: "自动追踪数据依赖关系",
+			},
+		],
+		"cache-strategies": [
+			{
+				title: "⏰ TTL 缓存策略",
+				code: `function DataComponent() {
   const data = cache.use("api-data", fetchData, {
     ttl: 5000, // 5秒后自动过期
   });
 
   return <div>{data?.content}</div>;
 }`,
-					description: "设置缓存生存时间",
-				},
-				{
-					title: "📚 LRU 缓存策略",
-					code: `function DataComponent() {
+				description: "设置缓存生存时间",
+			},
+			{
+				title: "📚 LRU 缓存策略",
+				code: `function DataComponent() {
   const data = cache.use("api-data", fetchData, {
     strategy: "lru",
     maxSize: 100, // 最多缓存100项
@@ -461,13 +396,13 @@ function updateUser(userId, userData) {
 
   return <div>{data?.content}</div>;
 }`,
-					description: "最近最少使用策略",
-				},
-			],
-			"advanced-applications": [
-				{
-					title: "🔄 实时数据缓存",
-					code: `function useRealtimeData(channel) {
+				description: "最近最少使用策略",
+			},
+		],
+		"advanced-applications": [
+			{
+				title: "🔄 实时数据缓存",
+				code: `function useRealtimeData(channel) {
   return cache.use(\`realtime-\${channel}\`, async () => {
     const subscription = createSubscription(channel, {
       onData: (newData) => {
@@ -480,11 +415,11 @@ function updateUser(userId, userData) {
     autoReconnect: true,
   });
 }`,
-					description: "实时数据的缓存管理",
-				},
-				{
-					title: "💾 计算结果缓存",
-					code: `function useExpensiveComputation(input) {
+				description: "实时数据的缓存管理",
+			},
+			{
+				title: "💾 计算结果缓存",
+				code: `function useExpensiveComputation(input) {
   return cache.use(\`compute-\${input}\`, () => {
     // 复杂计算逻辑
     let result = 0;
@@ -497,76 +432,77 @@ function updateUser(userId, userData) {
     maxSize: 50,
   });
 }`,
-					description: "缓存复杂计算结果",
-				},
-			],
-		};
-
-		return examples[exampleId as keyof typeof examples] || [];
+				description: "缓存复杂计算结果",
+			},
+		],
 	};
 
-	// Get demo components based on selected example
-	const getDemoComponents = () => {
-		switch (selectedExample.id) {
-			case "basic-caching":
-				return [<BasicCachingDemo key="basic" />];
-			case "dependency-tracking":
-				return [<DependencyTrackingDemo key="dependency" />];
-			case "cache-strategies":
-				return [<CacheStrategiesDemo key="strategies" />];
-			case "advanced-applications":
-				return [<AdvancedApplicationsDemo key="advanced" />];
-			default:
-				return [];
-		}
+	return examples[exampleId] || [];
+};
+
+const getDemoComponents = (exampleId: string): React.ReactNode[] => {
+	switch (exampleId) {
+		case "basic-caching":
+			return [<BasicCachingDemo key="basic" />];
+		case "dependency-tracking":
+			return [<DependencyTrackingDemo key="dependency" />];
+		case "cache-strategies":
+			return [<CacheStrategiesDemo key="strategies" />];
+		case "advanced-applications":
+			return [<AdvancedApplicationsDemo key="advanced" />];
+		default:
+			return [];
+	}
+};
+
+export default function CacheSignalsPage() {
+	const [copiedCode, setCopiedCode] = useState(false);
+	const [selectedExampleId, setSelectedExampleId] = useState(cacheSignalExamples[0].id);
+
+	const selectedExample = exampleDetails[selectedExampleId];
+
+	const handleCopyCode = (code: string) => {
+		copyWithFeedback(code, setCopiedCode);
 	};
 
 	return (
 		<Layout>
-			<div className="min-h-screen bg-gray-50">
-				{/* Header */}
-				<Header
-					icon={<Database className="h-8 w-8 text-blue-600" />}
+			<FeatureContainer>
+				<FeatureHeader
+					icon={<Database className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
 					title="React 19 Cache Signals"
 					subtitle="智能缓存与依赖追踪系统"
 				/>
 
-				{/* Cache Signals 架构概览 */}
-				<ArchitectureOverview title="Cache Signals 生态系统" features={architectureFeatures} />
+				<FeatureContent className="space-y-4">
+					<FeatureOverview title="Cache Signals 生态系统" features={architectureFeatures} />
+					<FeatureThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
+				</FeatureContent>
 
-				{/* 3W 法则解析 */}
-				<ThreeWRule title="🎯 3W 法则解析" sections={threeWSections} />
-
-				{/* 示例选择器 - 吸顶区域 */}
-				<ExampleSelector
-					selectorLabel="选择示例:"
+				<FeatureExampleSelector
+					label="选择示例:"
 					examples={cacheSignalExamples}
-					selectedExampleId={selectedExample.id}
-					onExampleSelect={(exampleId) => {
-						const example = cacheSignalExamples.find((ex) => ex.id === exampleId);
-						if (example) setSelectedExample(example);
-					}}
+					selectedExampleId={selectedExampleId}
+					onSelectExample={setSelectedExampleId}
 				/>
 
-				{/* 详细展示区域 - 下方内容 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-					{selectedExample && (
-						<ExampleDetail
-							example={selectedExample}
-							demoComponents={getDemoComponents()}
-							onCopyCode={(code) => copyWithFeedback(code, setCopiedCode)}
-							copiedCode={copiedCode}
-						/>
-					)}
-				</div>
+				<FeatureContent>
+					<FeatureExampleDetail
+						example={selectedExample}
+						demoComponents={getDemoComponents(selectedExampleId)}
+						onCopyCode={handleCopyCode}
+						copiedCode={copiedCode}
+					/>
+				</FeatureContent>
 
-				{/* 官方代码示例 */}
-				<OfficialExamples
-					title={`📚 ${selectedExample?.title} 官方示例`}
-					description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
-					examples={getOfficialExamples(selectedExample?.id || "")}
-				/>
-			</div>
+				<FeatureContent>
+					<FeatureOfficialExamples
+						title={`📚 ${selectedExample?.title} 官方示例`}
+						description={`以下示例来自 React 官方文档，展示了 ${selectedExample?.title} 的最佳实践`}
+						examples={getOfficialExamples(selectedExampleId)}
+					/>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }
