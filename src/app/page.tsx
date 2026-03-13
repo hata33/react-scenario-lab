@@ -193,6 +193,16 @@ export default function HomePage() {
 										</NeonGlow>
 									</HolographicEffect>
 								))}
+								{/* 前端发展史按钮 */}
+								<Link href="/thoughts">
+									<HolographicEffect className="rounded-full">
+										<NeonGlow color="#fbbf24" intensity={20}>
+											<span className="inline-block cursor-pointer rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 px-3 py-2 text-white/90 backdrop-blur-sm transition-all hover:scale-105 hover:from-amber-500/30 hover:to-yellow-500/30 md:px-6 md:py-3">
+												📚 前端发展史
+											</span>
+										</NeonGlow>
+									</HolographicEffect>
+								</Link>
 							</div>
 						</RevealOnScroll>
 

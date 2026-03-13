@@ -1,0 +1,354 @@
+{
+	"site": {
+		"title": "前端发展史",
+		"description": "探索 Web 前端技术的发展历程"
+	},
+	"eras": [
+		{
+			"id": "prehistoric",
+			"slug": "prehistoric",
+			"name": "史前时期",
+			"nameEn": "Prehistoric Era",
+			"period": [1940, 1990],
+			"description": "计算机与网络的诞生，Web 的黎明时代",
+			"template": "EraPrehistoricTemplate",
+			"theme": {
+				"primaryColor": "#8B4513",
+				"secondaryColor": "#D2691E",
+				"accentColor": "#DAA520",
+				"backgroundColor": "#F5F5DC",
+				"textColor": "#2F2F2F",
+				"fontFamily": "\"Courier New\", monospace",
+				"uiStyle": "retro",
+				"animationLevel": "minimal"
+			},
+			"content": {
+				"title": "前端发展史",
+				"blocks": [
+					{
+						"id": "hero-1",
+						"type": "hero",
+						"content": {
+							"title": "前端发展史",
+							"subtitle": "从史前时期到 AI 时代",
+							"description": "探索 Web 前端技术的演进历程，见证从静态页面到智能应用的伟大变革。"
+						}
+					},
+					{
+						"id": "text-1",
+						"type": "text",
+						"content": "1940年代到1990年代，计算机技术和网络技术的发展为Web的诞生奠定了基础。从ENIAC的诞生到ARPANET的建立，这些技术突破为后来的互联网革命做好了准备。"
+					},
+					{
+						"id": "timeline-1",
+						"type": "timeline",
+						"content": {
+							"events": [
+								{
+									"id": "event-eniac",
+									"date": "1945",
+									"title": "ENIAC诞生",
+									"description": "世界上第一台通用电子计算机"
+								},
+								{
+									"id": "event-arpanet",
+									"date": "1969",
+									"title": "ARPANET建立",
+									"description": "互联网的前身，连接了四所大学的计算机"
+								},
+								{
+									"id": "event-tcpip",
+									"date": "1983",
+									"title": "TCP/IP协议",
+									"description": "互联网通信标准的确立"
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "browser",
+			"slug": "browser",
+			"name": "浏览器战争时期",
+			"nameEn": "Browser Wars Era",
+			"period": [1990, 2000],
+			"description": "Netscape vs IE，第一次浏览器大战",
+			"template": "EraBrowserTemplate",
+			"theme": {
+				"primaryColor": "#000080",
+				"secondaryColor": "#008000",
+				"accentColor": "#FFA500",
+				"backgroundColor": "#C0C0C0",
+				"textColor": "#000000",
+				"fontFamily": "\"MS Sans Serif\", Arial, sans-serif",
+				"uiStyle": "retro",
+				"animationLevel": "moderate"
+			},
+			"content": {
+				"blocks": [
+					{
+						"id": "hero-2",
+						"type": "hero",
+						"content": {
+							"title": "浏览器战争时期",
+							"subtitle": "1990-2000",
+							"description": "Netscape Navigator 与 Internet Explorer 的激烈竞争推动了 Web 技术的快速发展。"
+						}
+					},
+					{
+						"id": "event-js-birth",
+						"type": "event",
+						"content": {
+							"id": "event-js-birth",
+							"title": "JavaScript 诞生",
+							"date": "1995-05-01",
+							"year": 1995,
+							"description": "Brendan Eich 在10天内创建了JavaScript，为网页带来了交互性。",
+							"tags": ["JavaScript", "Netscape", "Brendan Eich"],
+							"highlighted": true
+						}
+					},
+					{
+						"id": "event-css",
+						"type": "event",
+						"content": {
+							"id": "event-css",
+							"title": "CSS 发布",
+							"date": "1996-12-17",
+							"year": 1996,
+							"description": "CSS1.0 规范发布，为网页提供了样式表标准。"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "ajax",
+			"slug": "ajax",
+			"name": "Ajax 时期",
+			"nameEn": "Ajax Era",
+			"period": [2000, 2005],
+			"description": "动态网页时代，Web 2.0 革命",
+			"template": "EraAjaxTemplate",
+			"theme": {
+				"primaryColor": "#1E90FF",
+				"secondaryColor": "#4169E1",
+				"accentColor": "#32CD32",
+				"backgroundColor": "#F0F8FF",
+				"textColor": "#2C3E50",
+				"fontFamily": "\"Trebuchet MS\", Arial, sans-serif",
+				"uiStyle": "classic",
+				"animationLevel": "moderate"
+			},
+			"content": {
+				"blocks": [
+					{
+						"id": "hero-3",
+						"type": "hero",
+						"content": {
+							"title": "Ajax 时期",
+							"subtitle": "2000-2005",
+							"description": "异步通信让网页焕发新生，Web 2.0 时代到来。"
+						}
+					},
+					{
+						"id": "event-ajax",
+						"type": "event",
+						"content": {
+							"id": "event-ajax",
+							"title": "Ajax 一词 coined",
+							"date": "2005-02-18",
+							"year": 2005,
+							"description": "Jesse James Garrett 首次提出 Ajax 概念，改变了网页应用的开发方式。",
+							"tags": ["Ajax", "Web 2.0"],
+							"highlighted": true
+						}
+					},
+					{
+						"id": "event-gmail",
+						"type": "event",
+						"content": {
+							"id": "event-gmail",
+							"title": "Gmail 发布",
+							"date": "2004-04-01",
+							"year": 2004,
+							"description": "Google 发布 Gmail，展示了 Ajax 技术的强大能力。"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "framework",
+			"slug": "framework",
+			"name": "框架时期",
+			"nameEn": "Framework Era",
+			"period": [2010, 2015],
+			"description": "jQuery, Backbone, Angular, React, Vue",
+			"template": "EraFrameworkTemplate",
+			"theme": {
+				"primaryColor": "#61DAFB",
+				"secondaryColor": "#DD0031",
+				"accentColor": "#42B883",
+				"backgroundColor": "#282C34",
+				"textColor": "#FFFFFF",
+				"fontFamily": "\"Segoe UI\", system-ui, sans-serif",
+				"uiStyle": "modern",
+				"animationLevel": "moderate"
+			},
+			"content": {
+				"blocks": [
+					{
+						"id": "hero-5",
+						"type": "hero",
+						"content": {
+							"title": "框架时期",
+							"subtitle": "2010-2015",
+							"description": "前端框架兴起，MVVM 模式普及，组件化开发成为主流。"
+						}
+					},
+					{
+						"id": "event-react",
+						"type": "event",
+						"content": {
+							"id": "event-react",
+							"title": "React 开源",
+							"date": "2013-05-29",
+							"year": 2013,
+							"description": "Facebook 开源 React，引入了虚拟 DOM 和组件化开发模式。",
+							"tags": ["React", "Facebook", "Virtual DOM"],
+							"highlighted": true
+						}
+					},
+					{
+						"id": "event-vue",
+						"type": "event",
+						"content": {
+							"id": "event-vue",
+							"title": "Vue.js 发布",
+							"date": "2014-02-01",
+							"year": 2014,
+							"description": "Evan You 发布 Vue.js，提出了渐进式框架的理念。"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "engineering",
+			"slug": "engineering",
+			"name": "工程化时期",
+			"nameEn": "Engineering Era",
+			"period": [2015, 2020],
+			"description": "Webpack, npm, TypeScript, ESLint",
+			"template": "EraEngineeringTemplate",
+			"theme": {
+				"primaryColor": "#3178C6",
+				"secondaryColor": "#8BB9E0",
+				"accentColor": "#F7DF1E",
+				"backgroundColor": "#F5F5F5",
+				"textColor": "#333333",
+				"fontFamily": "\"Fira Code\", monospace",
+				"uiStyle": "modern",
+				"animationLevel": "moderate"
+			},
+			"content": {
+				"blocks": [
+					{
+						"id": "hero-6",
+						"type": "hero",
+						"content": {
+							"title": "工程化时期",
+							"subtitle": "2015-2020",
+							"description": "前端工程体系完善，构建工具、类型检查、代码规范成为标配。"
+						}
+					},
+					{
+						"id": "event-typescript",
+						"type": "event",
+						"content": {
+							"id": "event-typescript",
+							"title": "TypeScript 2.0 发布",
+							"date": "2015-07-01",
+							"year": 2015,
+							"description": "TypeScript 2.0 发布，为 JavaScript 项目带来了完整的类型系统。",
+							"tags": ["TypeScript", "Microsoft"],
+							"highlighted": true
+						}
+					},
+					{
+						"id": "event-webpack",
+						"type": "event",
+						"content": {
+							"id": "event-webpack",
+							"title": "Webpack 成为主流",
+							"date": "2016",
+							"year": 2016,
+							"description": "Webpack 成为前端构建工具的主流选择，模块化开发成为标准。"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "ai",
+			"slug": "ai",
+			"name": "AI 时期",
+			"nameEn": "AI Era",
+			"period": [2020, 2030],
+			"description": "AI 辅助开发与智能前端",
+			"template": "EraAITemplate",
+			"theme": {
+				"primaryColor": "#6366F1",
+				"secondaryColor": "#8B5CF6",
+				"accentColor": "#10B981",
+				"backgroundColor": "#0F172A",
+				"textColor": "#E2E8F0",
+				"fontFamily": "\"Inter\", system-ui, sans-serif",
+				"uiStyle": "futuristic",
+				"animationLevel": "rich"
+			},
+			"content": {
+				"blocks": [
+					{
+						"id": "hero-7",
+						"type": "hero",
+						"content": {
+							"title": "AI 时期",
+							"subtitle": "2020-至今",
+							"description": "AI 技术改变前端开发，智能辅助工具让开发更高效。"
+						}
+					},
+					{
+						"id": "event-copilot",
+						"type": "event",
+						"content": {
+							"id": "event-copilot",
+							"title": "GitHub Copilot 发布",
+							"date": "2021-06-29",
+							"year": 2021,
+							"description": "GitHub 发布 AI 编程助手 Copilot，AI 辅助编程成为现实。",
+							"tags": ["AI", "GitHub", "Copilot"],
+							"highlighted": true
+						}
+					},
+					{
+						"id": "event-chatgpt",
+						"type": "event",
+						"content": {
+							"id": "event-chatgpt",
+							"title": "ChatGPT 发布",
+							"date": "2022-11-30",
+							"year": 2022,
+							"description": "OpenAI 发布 ChatGPT，大语言模型展示了强大的理解和生成能力。",
+							"tags": ["AI", "OpenAI", "ChatGPT"],
+							"highlighted": true
+						}
+					}
+				]
+			}
+		}
+	]
+}
