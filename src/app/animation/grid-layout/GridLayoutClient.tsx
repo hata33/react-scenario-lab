@@ -22,7 +22,7 @@ export default function GridLayoutClient() {
 	};
 
 	const generateDOM = () => {
-		return layout.map((item, i) => (
+		return layout.map((item, _i) => (
 			<div
 				key={item.i}
 				className="flex items-center justify-center rounded-lg border border-gray-200 bg-white p-4 font-semibold text-gray-700 text-lg shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"

@@ -20,7 +20,7 @@ export default function FeatureHeader({ icon, title, subtitle }: FeatureHeaderPr
 				<div className="flex items-center space-x-3">
 					<div className="shrink-0">{icon}</div>
 					<div className="min-w-0 flex-1">
-						<h1 className="break-words font-bold text-responsive-2xl text-gray-900">{title}</h1>
+						<h1 className="break-words font-bold text-gray-900 text-responsive-2xl">{title}</h1>
 						<p className="break-words text-gray-600 text-sm md:text-base">{subtitle}</p>
 					</div>
 				</div>

@@ -28,9 +28,7 @@ export default function FilterBar({
 						key={category}
 						onClick={() => onCategoryChange(category)}
 						className={`flex min-h-[44px] items-center rounded-lg px-3 py-2 font-medium text-sm transition-all active:scale-95 md:px-4 ${
-							selectedCategory === category
-								? "bg-blue-600 text-white"
-								: "bg-white text-gray-700 hover:bg-gray-100"
+							selectedCategory === category ? "bg-blue-600 text-white" : "bg-white text-gray-700 hover:bg-gray-100"
 						}`}
 					>
 						{category}

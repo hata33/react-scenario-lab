@@ -350,7 +350,7 @@ export const generateImage = async (
 			const response = await generateImageWithOpenAI(request, onProgress);
 			const image = response.data[0];
 			result = {
-				url: image.url!,
+				url: image.url ?? "",
 				prompt: image.revised_prompt || request.prompt,
 				revisedPrompt: image.revised_prompt,
 			};
@@ -387,7 +387,7 @@ export const generateImage = async (
 			);
 
 			result = {
-				url: response.image_url!,
+				url: response.image_url ?? "",
 				prompt: response.prompt,
 			};
 		} else if (model === "Kwai-Kolors/Kolors") {

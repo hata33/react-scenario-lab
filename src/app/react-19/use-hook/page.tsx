@@ -4,21 +4,21 @@ import { Database, Play, Target, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import { copyWithFeedback } from "@/utils";
 // Import showcase components
 import {
-	FeatureContainer,
-	FeatureContent,
-	FeatureHeader,
-	FeatureOverview,
-	FeatureThreeWRule,
-	FeatureExampleSelector,
-	FeatureExampleDetail,
-	FeatureOfficialExamples,
 	type Example,
 	type ExampleDetail,
+	FeatureContainer,
+	FeatureContent,
+	FeatureExampleDetail,
+	FeatureExampleSelector,
+	FeatureHeader,
+	FeatureOfficialExamples,
+	FeatureOverview,
+	FeatureThreeWRule,
 	type OfficialExample,
 } from "@/components/showcase";
+import { copyWithFeedback } from "@/utils";
 // Import demo components from index file
 import {
 	AsyncRenderingDemo,
@@ -227,11 +227,13 @@ const architectureFeatures = [
 
 const threeWSections = [
 	{
-		description: "use Hook 是 React 19 中统一资源消费的新 Hook，提供了 Promise、Context、异步渲染等多种使用场景的统一接口。",
+		description:
+			"use Hook 是 React 19 中统一资源消费的新 Hook，提供了 Promise、Context、异步渲染等多种使用场景的统一接口。",
 		features: ["Promise 消费", "Context 集成", "异步渲染", "性能优化"],
 	},
 	{
-		description: "解决传统异步处理、Context 使用复杂、性能优化困难等问题。通过统一的 Hook 接口，简化开发复杂度，提升代码质量。",
+		description:
+			"解决传统异步处理、Context 使用复杂、性能优化困难等问题。通过统一的 Hook 接口，简化开发复杂度，提升代码质量。",
 		features: ["统一接口", "类型安全", "性能优化", "开发效率"],
 	},
 	{
@@ -372,7 +374,7 @@ export default function UseHookPage() {
 		<Layout>
 			<FeatureContainer>
 				<FeatureHeader
-					icon={<Database className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
+					icon={<Database className="h-6 w-6 text-blue-600 md:h-8 md:w-8" />}
 					title="React 19 use Hook"
 					subtitle="统一资源消费的优雅方案"
 				/>

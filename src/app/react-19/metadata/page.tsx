@@ -4,20 +4,20 @@ import { FileText, Globe, Share2, Tag } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import { copyWithFeedback } from "@/utils";
 import {
-	FeatureContainer,
-	FeatureContent,
-	FeatureHeader,
-	FeatureOverview,
-	FeatureThreeWRule,
-	FeatureExampleSelector,
-	FeatureExampleDetail,
-	FeatureOfficialExamples,
 	type Example,
 	type ExampleDetail,
+	FeatureContainer,
+	FeatureContent,
+	FeatureExampleDetail,
+	FeatureExampleSelector,
+	FeatureHeader,
+	FeatureOfficialExamples,
+	FeatureOverview,
+	FeatureThreeWRule,
 	type OfficialExample,
 } from "@/components/showcase";
+import { copyWithFeedback } from "@/utils";
 import { BlogSEODemo, DynamicSEODemo, ProductMetadataDemo, SocialSharingDemo } from "./(components)";
 
 const metadataExamples: Example[] = [
@@ -313,15 +313,18 @@ const architectureFeatures = [
 
 const threeWSections = [
 	{
-		description: "文档元数据标签是 React 19 中革命性的新功能，允许在组件中直接使用 HTML 头部标签如 title、meta、link 等，这些标签会自动提升到文档的 head 部分，实现真正的组件内元数据管理。",
+		description:
+			"文档元数据标签是 React 19 中革命性的新功能，允许在组件中直接使用 HTML 头部标签如 title、meta、link 等，这些标签会自动提升到文档的 head 部分，实现真正的组件内元数据管理。",
 		features: ["原生 HTML 标签支持", "自动提升机制", "动态内容管理", "完整 SEO 优化"],
 	},
 	{
-		description: "解决传统 SEO 管理复杂、社交媒体分享优化困难的问题。通过在组件中直接定义元数据，简化了 SEO 优化流程，提升了开发效率和内容质量。",
+		description:
+			"解决传统 SEO 管理复杂、社交媒体分享优化困难的问题。通过在组件中直接定义元数据，简化了 SEO 优化流程，提升了开发效率和内容质量。",
 		features: ["简化 SEO 管理流程", "提升内容质量", "增强社交媒体效果", "改善用户体验"],
 	},
 	{
-		description: "适合需要动态 SEO、社交媒体优化、页面元数据管理的所有场景。特别适合电商网站、博客平台、内容管理系统、新闻门户等需要大量内容管理的应用。",
+		description:
+			"适合需要动态 SEO、社交媒体优化、页面元数据管理的所有场景。特别适合电商网站、博客平台、内容管理系统、新闻门户等需要大量内容管理的应用。",
 		features: ["电商产品优化", "博客文章管理", "内容管理系统", "新闻门户网站"],
 	},
 ];
@@ -448,7 +451,7 @@ export default function MetadataPage() {
 		<Layout>
 			<FeatureContainer>
 				<FeatureHeader
-					icon={<FileText className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
+					icon={<FileText className="h-6 w-6 text-blue-600 md:h-8 md:w-8" />}
 					title="React 19 文档元数据"
 					subtitle="组件内元数据管理"
 				/>

@@ -813,10 +813,12 @@ export default function StateManagementFeaturePage() {
 						<div className="flex items-center space-x-2 md:space-x-4">
 							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
 							<div className="flex items-center space-x-2 md:space-x-3">
-								<Database className="h-5 w-5 md:h-8 md:w-8 text-purple-600" />
+								<Database className="h-5 w-5 text-purple-600 md:h-8 md:w-8" />
 								<div>
-									<h1 className="font-bold text-responsive-2xl text-gray-900">状态管理特性</h1>
-									<p className="text-gray-600 text-xs md:text-sm">Next.js 完整状态管理方案：React State、Context、Zustand、Redux</p>
+									<h1 className="font-bold text-gray-900 text-responsive-2xl">状态管理特性</h1>
+									<p className="text-gray-600 text-xs md:text-sm">
+										Next.js 完整状态管理方案：React State、Context、Zustand、Redux
+									</p>
 								</div>
 							</div>
 						</div>
@@ -1045,9 +1047,8 @@ export default function StateManagementFeaturePage() {
 							)}
 						</div>
 					</div>
-				</div>
-			</FeatureContent>
-		</FeatureContainer>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

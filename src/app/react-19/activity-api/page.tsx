@@ -4,20 +4,20 @@ import { Activity, AlertCircle, CheckCircle, Clock, Code, Database, Shield } fro
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import { copyWithFeedback } from "@/utils";
 import {
-	FeatureContainer,
-	FeatureContent,
-	FeatureHeader,
-	FeatureOverview,
-	FeatureThreeWRule,
-	FeatureExampleSelector,
-	FeatureExampleDetail,
-	FeatureOfficialExamples,
 	type Example,
 	type ExampleDetail,
+	FeatureContainer,
+	FeatureContent,
+	FeatureExampleDetail,
+	FeatureExampleSelector,
+	FeatureHeader,
+	FeatureOfficialExamples,
+	FeatureOverview,
+	FeatureThreeWRule,
 	type OfficialExample,
 } from "@/components/showcase";
+import { copyWithFeedback } from "@/utils";
 import { ComplexStateDemo, FormManagementDemo, PageManagementDemo, StatePersistenceDemo } from "./(components)";
 
 const activityExamples: Example[] = [
@@ -423,7 +423,7 @@ export default function ActivityApiPage() {
 		<Layout>
 			<FeatureContainer>
 				<FeatureHeader
-					icon={<Activity className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
+					icon={<Activity className="h-6 w-6 text-blue-600 md:h-8 md:w-8" />}
 					title="React 19 Activity API"
 					subtitle="智能状态持久化解决方案"
 				/>

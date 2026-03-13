@@ -4,20 +4,20 @@ import { AlertCircle, Code, Target, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import { copyWithFeedback } from "@/utils";
 import {
-	FeatureContainer,
-	FeatureContent,
-	FeatureHeader,
-	FeatureOverview,
-	FeatureThreeWRule,
-	FeatureExampleSelector,
-	FeatureExampleDetail,
-	FeatureOfficialExamples,
 	type Example,
 	type ExampleDetail,
+	FeatureContainer,
+	FeatureContent,
+	FeatureExampleDetail,
+	FeatureExampleSelector,
+	FeatureHeader,
+	FeatureOfficialExamples,
+	FeatureOverview,
+	FeatureThreeWRule,
 	type OfficialExample,
 } from "@/components/showcase";
+import { copyWithFeedback } from "@/utils";
 import { AsyncOperationsDemo, ClosureTrapDemo, EventHandlersDemo, TimersDemo } from "./(components)";
 
 const useEffectEventExamples: Example[] = [
@@ -381,7 +381,7 @@ export default function UseEffectEventPage() {
 		<Layout>
 			<FeatureContainer>
 				<FeatureHeader
-					icon={<Target className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
+					icon={<Target className="h-6 w-6 text-blue-600 md:h-8 md:w-8" />}
 					title="React 19 useEffectEvent"
 					subtitle="解决闭包陷阱的优雅方案"
 				/>
@@ -392,8 +392,8 @@ export default function UseEffectEventPage() {
 				<FeatureExampleSelector
 					label="选择功能:"
 					examples={useEffectEventExamples}
-					selectedId={selectedExampleId}
-					onSelect={setSelectedExampleId}
+					selectedExampleId={selectedExampleId}
+					onSelectExample={setSelectedExampleId}
 				/>
 				<FeatureContent>
 					<FeatureExampleDetail

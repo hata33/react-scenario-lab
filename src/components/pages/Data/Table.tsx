@@ -36,7 +36,7 @@ export default function Table() {
 				{rows.map((r) => (
 					<div
 						key={r.id}
-						className="flex items-center justify-between rounded-lg border bg-white p-4 shadow-sm active:scale-[0.99] transition-transform"
+						className="flex items-center justify-between rounded-lg border bg-white p-4 shadow-sm transition-transform active:scale-[0.99]"
 					>
 						<div>
 							<p className="text-gray-600 text-sm">ID: {r.id}</p>

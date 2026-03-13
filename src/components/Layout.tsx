@@ -112,7 +112,7 @@ export default function Layout({
 				// 记住用户的选择
 				try {
 					localStorage.setItem("sidebarSeen", newState ? "1" : "0");
-				} catch { }
+				} catch {}
 			}
 		};
 		window.addEventListener("keydown", onKeyDown);
@@ -134,10 +134,8 @@ export default function Layout({
 	// auto 模式：首页不显示，子页面显示
 	// always 模式：始终显示
 	// never 模式：不显示
-	const shouldShowMobileHeader = isMobile && (
-		mobileHeaderMode === "always" ||
-		(mobileHeaderMode === "auto" && activePath !== "/")
-	);
+	const shouldShowMobileHeader =
+		isMobile && (mobileHeaderMode === "always" || (mobileHeaderMode === "auto" && activePath !== "/"));
 
 	return (
 		<div className={`relative grid h-screen grid-cols-[auto_1fr] bg-gray-50`}>
@@ -156,14 +154,16 @@ export default function Layout({
 
 			{/* 侧栏列容器：响应式设计 */}
 			<div
-				className={`relative transition-[width] duration-300 ease-in-out ${isOpen ? "w-[280px] md:w-[320px]" : "w-0"
-					} z-sidebar overflow-hidden`}
+				className={`relative transition-[width] duration-300 ease-in-out ${
+					isOpen ? "w-[280px] md:w-[320px]" : "w-0"
+				} z-sidebar overflow-hidden`}
 				onMouseEnter={() => !isMobile && !pinnedOpen && setHoverOpen(true)}
 				onMouseLeave={() => !isMobile && !pinnedOpen && setHoverOpen(false)}
 			>
 				<div
-					className={`absolute inset-0 ${isOpen ? "translate-x-0 opacity-100" : "-translate-x-full pointer-events-none opacity-0"
-						} transition-transform duration-300 ease-in-out`}
+					className={`absolute inset-0 ${
+						isOpen ? "translate-x-0 opacity-100" : "-translate-x-full pointer-events-none opacity-0"
+					} transition-transform duration-300 ease-in-out`}
 				>
 					<Sidebar menuTree={menuTree} activePath={activePath} />
 				</div>
@@ -241,4 +241,4 @@ export default function Layout({
 			</main>
 		</div>
 	);
-} 
+}

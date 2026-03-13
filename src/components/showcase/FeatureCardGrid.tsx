@@ -25,12 +25,7 @@ interface FeatureCardGridProps {
  * 展示多个特性卡片，用于首页导航
  * 无外层容器，直接使用 FeatureContent 包裹
  */
-export default function FeatureCardGrid({
-	cards,
-	onCardClick,
-	getStatusColor,
-	getStatusText,
-}: FeatureCardGridProps) {
+export default function FeatureCardGrid({ cards, onCardClick, getStatusColor, getStatusText }: FeatureCardGridProps) {
 	const defaultStatusColor = (status: FeatureGridCard["status"] = "completed") => {
 		switch (status) {
 			case "completed":
@@ -65,15 +60,15 @@ export default function FeatureCardGrid({
 			{cards.map((card) => (
 				<div
 					key={card.id}
-					className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md active:scale-[0.99] cursor-pointer"
+					className="cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md active:scale-[0.99]"
 					onClick={() => onCardClick?.(card.id)}
 				>
 					<div className="p-6">
 						<div className="mb-4 flex items-start justify-between">
 							<div className="flex items-center space-x-3">
-								<div className="text-blue-600 shrink-0">{card.icon}</div>
+								<div className="shrink-0 text-blue-600">{card.icon}</div>
 								<div className="min-w-0 flex-1">
-									<h3 className="break-words font-semibold text-gray-900 text-base md:text-lg">{card.title}</h3>
+									<h3 className="break-words font-semibold text-base text-gray-900 md:text-lg">{card.title}</h3>
 									{card.status && (
 										<span
 											className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-medium text-xs ${statusColor(card.status)}`}
@@ -113,7 +108,7 @@ export default function FeatureCardGrid({
 							<div className="mt-6">
 								<a
 									href={card.href}
-									className="flex min-h-[44px] items-center justify-center rounded-lg bg-blue-600 px-4 py-2 font-medium text-sm text-white transition-all active:scale-95 hover:bg-blue-700"
+									className="flex min-h-[44px] items-center justify-center rounded-lg bg-blue-600 px-4 py-2 font-medium text-sm text-white transition-all hover:bg-blue-700 active:scale-95"
 								>
 									查看详情
 								</a>

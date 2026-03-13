@@ -75,7 +75,7 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 				<div className="space-y-6 p-4">
 					{menuTree.map((group) => (
 						<div key={group.title} className="space-y-3">
-											{/* 移动端可折叠的分组标题 */}
+							{/* 移动端可折叠的分组标题 */}
 							<button
 								type="button"
 								onClick={() => toggleGroup(group.title || "")}
@@ -154,12 +154,7 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 					{/* 移动端提示 */}
 					<div className="flex items-center gap-2 text-gray-600 text-sm md:hidden">
 						<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M9 5l7 7-7 7"
-							/>
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 						</svg>
 						<span>点击左上角按钮切换菜单</span>
 					</div>

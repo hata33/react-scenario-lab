@@ -21,7 +21,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({
 	onSubmit,
 	onReset,
 	errors,
-	validationResults,
+	validationResults: _validationResults,
 }) => {
 	const calculateProgress = () => {
 		const allFields = formConfig.sections.flatMap((section) => section.fields);

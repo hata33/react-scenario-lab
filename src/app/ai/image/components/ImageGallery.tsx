@@ -8,10 +8,10 @@ import type { GeneratedImage } from "./ImageGenerator";
 interface ImageGalleryProps {
 	images: GeneratedImage[];
 	onImageSelect: (image: GeneratedImage) => void;
-	onImageUpdate: () => void;
+	onImageUpdate?: () => void;
 }
 
-export default function ImageGallery({ images, onImageSelect, onImageUpdate }: ImageGalleryProps) {
+export default function ImageGallery({ images, onImageSelect, onImageUpdate: _onImageUpdate }: ImageGalleryProps) {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 	const [selectedModel, setSelectedModel] = useState("");
@@ -49,7 +49,7 @@ export default function ImageGallery({ images, onImageSelect, onImageUpdate }: I
 		e.stopPropagation();
 		if (confirm("确定要删除这张图片吗？")) {
 			deleteImage(id);
-			onImageUpdate();
+			_onImageUpdate?.();
 		}
 	};
 
@@ -68,7 +68,7 @@ export default function ImageGallery({ images, onImageSelect, onImageUpdate }: I
 	const handleToggleFavorite = (id: string, e: React.MouseEvent) => {
 		e.stopPropagation();
 		toggleFavorite(id);
-		onImageUpdate();
+		_onImageUpdate?.();
 	};
 
 	// 格式化日期

@@ -44,7 +44,7 @@ export default function FeatureExampleDetail({
 					<div className="flex items-center space-x-3 md:space-x-4">
 						<div className="shrink-0 rounded-lg bg-blue-100 p-2.5 text-blue-600 md:p-3">{example.icon}</div>
 						<div className="min-w-0 flex-1">
-							<h3 className="break-words font-semibold text-xl text-gray-900 md:text-2xl">{example.title}</h3>
+							<h3 className="break-words font-semibold text-gray-900 text-xl md:text-2xl">{example.title}</h3>
 							<p className="break-words text-gray-600 text-sm md:text-base">{example.description}</p>
 						</div>
 					</div>
@@ -82,7 +82,7 @@ export default function FeatureExampleDetail({
 								{example.benefits.map((benefit, index) => (
 									<span
 										key={index}
-										className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700 text-xs md:text-sm break-words"
+										className="inline-flex items-center break-words rounded-full bg-green-100 px-3 py-1 text-green-700 text-xs md:text-sm"
 									>
 										{benefit}
 									</span>
@@ -96,7 +96,7 @@ export default function FeatureExampleDetail({
 								{example.useCases.map((useCase, index) => (
 									<span
 										key={index}
-										className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-blue-700 text-xs md:text-sm break-words"
+										className="inline-flex items-center break-words rounded-full bg-blue-100 px-3 py-1 text-blue-700 text-xs md:text-sm"
 									>
 										{useCase}
 									</span>

@@ -250,9 +250,9 @@ export default function ServerComponentsFeaturePage() {
 						<div className="flex items-center space-x-2 md:space-x-4">
 							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
 							<div className="flex items-center space-x-2 md:space-x-3">
-								<Server className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
+								<Server className="h-5 w-5 text-blue-600 md:h-8 md:w-8" />
 								<div>
-									<h1 className="font-bold text-responsive-2xl text-gray-900">Server Components 特性</h1>
+									<h1 className="font-bold text-gray-900 text-responsive-2xl">Server Components 特性</h1>
 									<p className="text-gray-600 text-xs md:text-sm">Next.js 服务端组件完整指南和最佳实践</p>
 								</div>
 							</div>
@@ -431,9 +431,8 @@ export default function ServerComponentsFeaturePage() {
 							)}
 						</div>
 					</div>
-				</div>
-			</FeatureContent>
-		</FeatureContainer>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

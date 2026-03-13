@@ -10,7 +10,7 @@ self.addEventListener("install", (event) => {
 	event.waitUntil(
 		caches.open(CACHE_NAME).then((cache) => {
 			return cache.addAll(urlsToCache);
-		})
+		}),
 	);
 	self.skipWaiting();
 });
@@ -24,9 +24,10 @@ self.addEventListener("activate", (event) => {
 					if (cacheName !== CACHE_NAME) {
 						return caches.delete(cacheName);
 					}
-				})
+					return undefined;
+				}),
 			);
-		})
+		}),
 	);
 	self.clients.claim();
 });
@@ -56,6 +57,6 @@ self.addEventListener("fetch", (event) => {
 						return caches.match("/");
 					}
 				});
-			})
+			}),
 	);
 });

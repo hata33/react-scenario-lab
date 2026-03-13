@@ -4,7 +4,7 @@ import { ArrowLeft, CheckCircle, Code, GitBranch, Layers, Router, Zap } from "lu
 import Link from "next/link";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import { FeatureContainer, FeatureContent, FeatureBackButton } from "@/components/showcase";
+import { FeatureBackButton, FeatureContainer, FeatureContent } from "@/components/showcase";
 
 interface FeatureExample {
 	id: string;
@@ -176,9 +176,9 @@ export default function RoutingFeaturePage() {
 						<div className="flex items-center space-x-2 md:space-x-4">
 							<FeatureBackButton href="/nextjs-features" />
 							<div className="flex items-center space-x-2 md:space-x-3">
-								<Router className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
+								<Router className="h-5 w-5 text-blue-600 md:h-8 md:w-8" />
 								<div>
-									<h1 className="font-bold text-responsive-2xl text-gray-900">App Router 特性</h1>
+									<h1 className="font-bold text-gray-900 text-responsive-2xl">App Router 特性</h1>
 									<p className="text-gray-600 text-xs md:text-sm">Next.js 15 的新一代路由系统完整指南</p>
 								</div>
 							</div>

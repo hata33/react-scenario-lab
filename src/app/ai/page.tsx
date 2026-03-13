@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import { FeatureContainer, FeatureContent, FeatureCardGrid, type FeatureGridCard } from "@/components/showcase";
+import { FeatureCardGrid, FeatureContainer, FeatureContent, type FeatureGridCard } from "@/components/showcase";
 
 const aiFeatures: FeatureGridCard[] = [
 	{
@@ -59,7 +59,7 @@ export default function AIPage() {
 		<Layout>
 			<FeatureContainer>
 				<FeatureContent>
-					<h1 className="mb-4 md:mb-6 font-bold text-responsive-3xl">AI 能力测试</h1>
+					<h1 className="mb-4 font-bold text-responsive-3xl md:mb-6">AI 能力测试</h1>
 				</FeatureContent>
 
 				<FeatureContent>

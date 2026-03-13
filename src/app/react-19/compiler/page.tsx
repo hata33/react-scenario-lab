@@ -4,20 +4,20 @@ import { CheckCircle, Code, Cpu, Target, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import { copyWithFeedback } from "@/utils";
 import {
-	FeatureContainer,
-	FeatureContent,
-	FeatureHeader,
-	FeatureOverview,
-	FeatureThreeWRule,
-	FeatureExampleSelector,
-	FeatureExampleDetail,
-	FeatureOfficialExamples,
 	type Example,
 	type ExampleDetail,
+	FeatureContainer,
+	FeatureContent,
+	FeatureExampleDetail,
+	FeatureExampleSelector,
+	FeatureHeader,
+	FeatureOfficialExamples,
+	FeatureOverview,
+	FeatureThreeWRule,
 	type OfficialExample,
 } from "@/components/showcase";
+import { copyWithFeedback } from "@/utils";
 import { CompilerBasicDemo, PerformanceComparison, RealWorldApplications, SmartOptimizationDemo } from "./(components)";
 
 const compilerExamples: Example[] = [
@@ -68,7 +68,8 @@ function OptimizedComponent({ data, onUpdate }) {
 		problemsSolved: [
 			{
 				problem: "手动优化复杂性",
-				description: "开发者需要深入理解 React 性能优化原理，手动使用 React.memo、useCallback、useMemo，容易出现遗漏或过度优化",
+				description:
+					"开发者需要深入理解 React 性能优化原理，手动使用 React.memo、useCallback、useMemo，容易出现遗漏或过度优化",
 				solution: "React Compiler 自动分析代码模式，智能应用最佳优化策略，开发者只需专注于业务逻辑",
 			},
 			{
@@ -345,15 +346,18 @@ const architectureFeatures = [
 
 const threeWSections = [
 	{
-		description: "React Compiler 是 React 19 中革命性的自动优化编译器，能够智能分析组件代码并自动应用最佳性能优化策略，无需开发者手动干预即可获得接近理论最优的性能表现。",
+		description:
+			"React Compiler 是 React 19 中革命性的自动优化编译器，能够智能分析组件代码并自动应用最佳性能优化策略，无需开发者手动干预即可获得接近理论最优的性能表现。",
 		features: ["自动性能优化", "智能依赖分析", "零配置使用", "代码质量提升"],
 	},
 	{
-		description: "解决传统手动性能优化的复杂性、不一致性和高成本问题。通过自动化分析代码模式，智能选择优化策略，统一优化标准，大幅降低开发成本和维护复杂度。",
+		description:
+			"解决传统手动性能优化的复杂性、不一致性和高成本问题。通过自动化分析代码模式，智能选择优化策略，统一优化标准，大幅降低开发成本和维护复杂度。",
 		features: ["降低开发成本", "统一优化标准", "减少人为错误", "提升团队效率"],
 	},
 	{
-		description: "特别适合大型复杂应用、性能敏感场景、团队协作项目，以及需要快速迭代同时保证高性能的项目。所有追求开发效率和性能质量的 React 应用都能从中受益。",
+		description:
+			"特别适合大型复杂应用、性能敏感场景、团队协作项目，以及需要快速迭代同时保证高性能的项目。所有追求开发效率和性能质量的 React 应用都能从中受益。",
 		features: ["大型应用", "性能关键场景", "团队协作", "快速开发迭代"],
 	},
 ];
@@ -515,7 +519,7 @@ export default function CompilerPage() {
 		<Layout>
 			<FeatureContainer>
 				<FeatureHeader
-					icon={<Cpu className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
+					icon={<Cpu className="h-6 w-6 text-blue-600 md:h-8 md:w-8" />}
 					title="React 19 Compiler"
 					subtitle="革命性自动优化编译器"
 				/>

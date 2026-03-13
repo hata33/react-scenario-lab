@@ -1316,10 +1316,12 @@ export default function FormsFeaturePage() {
 						<div className="flex items-center space-x-2 md:space-x-4">
 							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
 							<div className="flex items-center space-x-2 md:space-x-3">
-								<FileText className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
+								<FileText className="h-5 w-5 text-blue-600 md:h-8 md:w-8" />
 								<div>
-									<h1 className="font-bold text-responsive-2xl text-gray-900">表单处理特性</h1>
-									<p className="text-gray-600 text-xs md:text-sm">Next.js 完整表单解决方案：受控组件、React Hook Form、Zod 验证</p>
+									<h1 className="font-bold text-gray-900 text-responsive-2xl">表单处理特性</h1>
+									<p className="text-gray-600 text-xs md:text-sm">
+										Next.js 完整表单解决方案：受控组件、React Hook Form、Zod 验证
+									</p>
 								</div>
 							</div>
 						</div>
@@ -1405,151 +1407,153 @@ export default function FormsFeaturePage() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</FeatureContent>
 
 				{/* 表单示例 */}
-				<div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-					<h2 className="mb-6 font-bold text-2xl text-gray-900">实现示例</h2>
-					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-						{/* 左侧：示例列表 */}
-						<div className="space-y-4">
-							{formExamples.map((example) => (
-								<div
-									key={example.id}
-									className={`cursor-pointer rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md ${
-										selectedExample?.id === example.id ? "ring-2 ring-blue-500" : ""
-									}`}
-									onClick={() => setSelectedExample(example)}
-								>
-									<div className="p-6">
-										<div className="mb-3 flex items-start justify-between">
-											<div>
-												<h3 className="mb-1 font-semibold text-gray-900 text-lg">{example.title}</h3>
-												<div className="mb-2 flex items-center space-x-2">
+				<FeatureContent className="pb-8 md:pb-12 lg:pb-16">
+					<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+						<h2 className="mb-6 font-bold text-2xl text-gray-900">实现示例</h2>
+						<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+							{/* 左侧：示例列表 */}
+							<div className="space-y-4">
+								{formExamples.map((example) => (
+									<div
+										key={example.id}
+										className={`cursor-pointer rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md ${
+											selectedExample?.id === example.id ? "ring-2 ring-blue-500" : ""
+										}`}
+										onClick={() => setSelectedExample(example)}
+									>
+										<div className="p-6">
+											<div className="mb-3 flex items-start justify-between">
+												<div>
+													<h3 className="mb-1 font-semibold text-gray-900 text-lg">{example.title}</h3>
+													<div className="mb-2 flex items-center space-x-2">
+														<span
+															className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getCategoryColor(example.category)}`}
+														>
+															{example.category}
+														</span>
+														<span
+															className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getDifficultyColor(
+																example.difficulty,
+															)}`}
+														>
+															{example.difficulty}
+														</span>
+														<span
+															className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getStatusColor(example.status)}`}
+														>
+															{getStatusText(example.status)}
+														</span>
+													</div>
+												</div>
+											</div>
+											<p className="mb-4 text-gray-600">{example.description}</p>
+											<div className="flex items-center justify-between text-gray-500 text-sm">
+												<div className="flex space-x-4">
+													<span>📦 {example.performance.bundleSize}</span>
+													<span>🔄 {example.performance.renderCount}</span>
+												</div>
+												<span>🎯 {example.performance.userExperience}</span>
+											</div>
+										</div>
+									</div>
+								))}
+							</div>
+
+							{/* 右侧：示例详情 */}
+							<div className="lg:sticky lg:top-6">
+								{selectedExample ? (
+									<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+										<div className="border-gray-200 border-b p-6">
+											<div className="mb-4 flex items-center justify-between">
+												<h3 className="font-semibold text-gray-900 text-xl">{selectedExample.title}</h3>
+												<div className="flex items-center space-x-2">
 													<span
-														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getCategoryColor(example.category)}`}
-													>
-														{example.category}
-													</span>
-													<span
-														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getDifficultyColor(
-															example.difficulty,
+														className={`inline-flex items-center rounded-full px-3 py-1 font-medium text-sm ${getCategoryColor(
+															selectedExample.category,
 														)}`}
 													>
-														{example.difficulty}
-													</span>
-													<span
-														className={`inline-flex items-center rounded-full px-2 py-1 font-medium text-xs ${getStatusColor(example.status)}`}
-													>
-														{getStatusText(example.status)}
+														{selectedExample.category}
 													</span>
 												</div>
 											</div>
-										</div>
-										<p className="mb-4 text-gray-600">{example.description}</p>
-										<div className="flex items-center justify-between text-gray-500 text-sm">
-											<div className="flex space-x-4">
-												<span>📦 {example.performance.bundleSize}</span>
-												<span>🔄 {example.performance.renderCount}</span>
+											<p className="mb-4 text-gray-600">{selectedExample.description}</p>
+											<div className="grid grid-cols-3 gap-4 text-sm">
+												<div className="rounded bg-gray-50 p-2 text-center">
+													<div className="font-medium text-gray-900">包体积</div>
+													<div className="text-gray-600">{selectedExample.performance.bundleSize}</div>
+												</div>
+												<div className="rounded bg-gray-50 p-2 text-center">
+													<div className="font-medium text-gray-900">重渲染</div>
+													<div className="text-gray-600">{selectedExample.performance.renderCount}</div>
+												</div>
+												<div className="rounded bg-gray-50 p-2 text-center">
+													<div className="font-medium text-gray-900">用户体验</div>
+													<div className="text-gray-600">{selectedExample.performance.userExperience}</div>
+												</div>
 											</div>
-											<span>🎯 {example.performance.userExperience}</span>
 										</div>
+
+										<div className="p-6">
+											<h4 className="mb-3 font-semibold text-gray-900">代码示例</h4>
+											<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
+												<pre className="text-sm">
+													<code>{selectedExample.codeSnippet}</code>
+												</pre>
+											</div>
+
+											<div className="mt-6">
+												<h5 className="mb-2 font-medium text-gray-900">主要优势</h5>
+												<div className="flex flex-wrap gap-2">
+													{selectedExample.benefits.map((benefit, index) => (
+														<span
+															key={index}
+															className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm"
+														>
+															{benefit}
+														</span>
+													))}
+												</div>
+											</div>
+
+											<div className="mt-4">
+												<h5 className="mb-2 font-medium text-gray-900">核心功能</h5>
+												<div className="flex flex-wrap gap-2">
+													{selectedExample.features.map((feature, index) => (
+														<span
+															key={index}
+															className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-blue-700 text-sm"
+														>
+															{feature}
+														</span>
+													))}
+												</div>
+											</div>
+										</div>
+
+										{selectedExample.status === "completed" && (
+											<div className="border-green-200 border-t bg-green-50 p-6">
+												<div className="flex items-center space-x-2 text-green-800">
+													<CheckCircle className="h-5 w-5" />
+													<span className="font-medium">该表单方案已完成并可用</span>
+												</div>
+											</div>
+										)}
 									</div>
-								</div>
-							))}
-						</div>
-
-						{/* 右侧：示例详情 */}
-						<div className="lg:sticky lg:top-6">
-							{selectedExample ? (
-								<div className="rounded-lg border border-gray-200 bg-white shadow-sm">
-									<div className="border-gray-200 border-b p-6">
-										<div className="mb-4 flex items-center justify-between">
-											<h3 className="font-semibold text-gray-900 text-xl">{selectedExample.title}</h3>
-											<div className="flex items-center space-x-2">
-												<span
-													className={`inline-flex items-center rounded-full px-3 py-1 font-medium text-sm ${getCategoryColor(
-														selectedExample.category,
-													)}`}
-												>
-													{selectedExample.category}
-												</span>
-											</div>
-										</div>
-										<p className="mb-4 text-gray-600">{selectedExample.description}</p>
-										<div className="grid grid-cols-3 gap-4 text-sm">
-											<div className="rounded bg-gray-50 p-2 text-center">
-												<div className="font-medium text-gray-900">包体积</div>
-												<div className="text-gray-600">{selectedExample.performance.bundleSize}</div>
-											</div>
-											<div className="rounded bg-gray-50 p-2 text-center">
-												<div className="font-medium text-gray-900">重渲染</div>
-												<div className="text-gray-600">{selectedExample.performance.renderCount}</div>
-											</div>
-											<div className="rounded bg-gray-50 p-2 text-center">
-												<div className="font-medium text-gray-900">用户体验</div>
-												<div className="text-gray-600">{selectedExample.performance.userExperience}</div>
-											</div>
-										</div>
+								) : (
+									<div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow-sm">
+										<FileText className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+										<h3 className="mb-2 font-semibold text-gray-900 text-lg">选择一个表单方案</h3>
+										<p className="text-gray-600">点击左侧的表单方案查看详细信息和代码示例</p>
 									</div>
-
-									<div className="p-6">
-										<h4 className="mb-3 font-semibold text-gray-900">代码示例</h4>
-										<div className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-gray-100">
-											<pre className="text-sm">
-												<code>{selectedExample.codeSnippet}</code>
-											</pre>
-										</div>
-
-										<div className="mt-6">
-											<h5 className="mb-2 font-medium text-gray-900">主要优势</h5>
-											<div className="flex flex-wrap gap-2">
-												{selectedExample.benefits.map((benefit, index) => (
-													<span
-														key={index}
-														className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-green-700 text-sm"
-													>
-														{benefit}
-													</span>
-												))}
-											</div>
-										</div>
-
-										<div className="mt-4">
-											<h5 className="mb-2 font-medium text-gray-900">核心功能</h5>
-											<div className="flex flex-wrap gap-2">
-												{selectedExample.features.map((feature, index) => (
-													<span
-														key={index}
-														className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-blue-700 text-sm"
-													>
-														{feature}
-													</span>
-												))}
-											</div>
-										</div>
-									</div>
-
-									{selectedExample.status === "completed" && (
-										<div className="border-green-200 border-t bg-green-50 p-6">
-											<div className="flex items-center space-x-2 text-green-800">
-												<CheckCircle className="h-5 w-5" />
-												<span className="font-medium">该表单方案已完成并可用</span>
-											</div>
-										</div>
-									)}
-								</div>
-							) : (
-								<div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow-sm">
-									<FileText className="mx-auto mb-4 h-16 w-16 text-gray-400" />
-									<h3 className="mb-2 font-semibold text-gray-900 text-lg">选择一个表单方案</h3>
-									<p className="text-gray-600">点击左侧的表单方案查看详细信息和代码示例</p>
-								</div>
-							)}
+								)}
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

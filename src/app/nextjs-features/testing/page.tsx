@@ -1,6 +1,7 @@
 "use client";
 
-import { Bug, CheckCircle, Code, FlaskConical, Shield, Zap } from "lucide-react";
+import { ArrowLeft, Bug, CheckCircle, Code, FlaskConical, Shield, Zap } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import { FeatureContainer, FeatureContent } from "@/components/showcase";

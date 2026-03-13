@@ -19,12 +19,12 @@ import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import {
+	FeatureCardGrid,
 	FeatureContainer,
 	FeatureContent,
-	FeatureCardGrid,
+	type FeatureGridCard,
 	FilterBar,
 	StatsSection,
-	type FeatureGridCard,
 } from "@/components/showcase";
 
 const features: FeatureGridCard[] = [
@@ -189,7 +189,7 @@ export default function NextJsFeaturesPage() {
 				<div className="bg-white shadow-sm">
 					<div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
 						<div className="text-center">
-							<h1 className="mb-4 font-bold text-responsive-3xl text-gray-900">Next.js 15 全特性测试</h1>
+							<h1 className="mb-4 font-bold text-gray-900 text-responsive-3xl">Next.js 15 全特性测试</h1>
 							<p className="mx-auto max-w-3xl text-gray-600 text-responsive-base">
 								探索 Next.js 15 的全部特性，包括 App Router、Server Components、
 								性能优化、数据获取等功能的完整实现和示例。
@@ -211,10 +211,7 @@ export default function NextJsFeaturesPage() {
 
 				{/* 特性卡片网格 */}
 				<FeatureContent>
-					<FeatureCardGrid
-						cards={filteredFeatures}
-						onCardClick={handleCardClick}
-					/>
+					<FeatureCardGrid cards={filteredFeatures} onCardClick={handleCardClick} />
 				</FeatureContent>
 
 				{/* 统计信息 */}
@@ -223,8 +220,16 @@ export default function NextJsFeaturesPage() {
 						title="统计信息"
 						stats={[
 							{ label: "总特性数", value: features.length, color: "text-blue-600" },
-							{ label: "已完成", value: features.filter((f) => f.status === "completed").length, color: "text-green-600" },
-							{ label: "进行中", value: features.filter((f) => f.status === "in-progress").length, color: "text-yellow-600" },
+							{
+								label: "已完成",
+								value: features.filter((f) => f.status === "completed").length,
+								color: "text-green-600",
+							},
+							{
+								label: "进行中",
+								value: features.filter((f) => f.status === "in-progress").length,
+								color: "text-yellow-600",
+							},
 							{ label: "计划中", value: features.filter((f) => f.status === "planned").length, color: "text-gray-600" },
 						]}
 					/>

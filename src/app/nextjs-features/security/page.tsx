@@ -1,6 +1,7 @@
 "use client";
 
-import { AlertTriangle, CheckCircle, Database, Eye, Key, Lock, Shield } from "lucide-react";
+import { AlertTriangle, ArrowLeft, CheckCircle, Database, Eye, Key, Lock, Shield } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import { FeatureContainer, FeatureContent } from "@/components/showcase";

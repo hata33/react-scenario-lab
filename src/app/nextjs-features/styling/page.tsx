@@ -446,10 +446,12 @@ export default function StylingFeaturePage() {
 						<div className="flex items-center space-x-2 md:space-x-4">
 							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
 							<div className="flex items-center space-x-2 md:space-x-3">
-								<Palette className="h-5 w-5 md:h-8 md:w-8 text-cyan-600" />
+								<Palette className="h-5 w-5 text-cyan-600 md:h-8 md:w-8" />
 								<div>
-									<h1 className="font-bold text-responsive-2xl text-gray-900">样式方案特性</h1>
-									<p className="text-gray-600 text-xs md:text-sm">Next.js 完整样式解决方案：Tailwind、CSS Modules、CSS-in-JS</p>
+									<h1 className="font-bold text-gray-900 text-responsive-2xl">样式方案特性</h1>
+									<p className="text-gray-600 text-xs md:text-sm">
+										Next.js 完整样式解决方案：Tailwind、CSS Modules、CSS-in-JS
+									</p>
 								</div>
 							</div>
 						</div>
@@ -666,9 +668,8 @@ export default function StylingFeaturePage() {
 							)}
 						</div>
 					</div>
-				</div>
-			</FeatureContent>
-		</FeatureContainer>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

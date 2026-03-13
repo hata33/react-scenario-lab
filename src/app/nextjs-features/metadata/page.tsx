@@ -1,16 +1,6 @@
 "use client";
 
-import {
-	CheckCircle,
-	Code,
-	Copy,
-	Eye,
-	FileText,
-	Globe,
-	Image as ImageIcon,
-	Search,
-	Share2,
-} from "lucide-react";
+import { CheckCircle, Code, Copy, Eye, FileText, Globe, Image as ImageIcon, Search, Share2 } from "lucide-react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import { FeatureContainer, FeatureContent } from "@/components/showcase";
@@ -617,10 +607,12 @@ export default function MetadataFeaturePage() {
 						<div className="flex items-center space-x-2 md:space-x-4">
 							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
 							<div className="flex items-center space-x-2 md:space-x-3">
-								<FileText className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
+								<FileText className="h-5 w-5 text-blue-600 md:h-8 md:w-8" />
 								<div>
-									<h1 className="font-bold text-responsive-2xl text-gray-900">元数据和 SEO 特性</h1>
-									<p className="text-gray-600 text-xs md:text-sm">Next.js 完整的 SEO 解决方案：动态元数据、结构化数据、社交媒体优化</p>
+									<h1 className="font-bold text-gray-900 text-responsive-2xl">元数据和 SEO 特性</h1>
+									<p className="text-gray-600 text-xs md:text-sm">
+										Next.js 完整的 SEO 解决方案：动态元数据、结构化数据、社交媒体优化
+									</p>
 								</div>
 							</div>
 						</div>
@@ -801,9 +793,8 @@ export default function MetadataFeaturePage() {
 							)}
 						</div>
 					</div>
-				</div>
-			</FeatureContent>
-		</FeatureContainer>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

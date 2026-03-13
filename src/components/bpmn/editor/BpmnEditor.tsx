@@ -80,7 +80,7 @@ export default function BpmnEditor({
 				// 如果是只读模式，禁用编辑功能
 				if (readonly) {
 					const canvas = viewer.get("canvas");
-					const eventBus = viewer.get("eventBus");
+					const eventBus = viewer.get("eventBus") as any;
 
 					// 禁用拖拽
 					eventBus.on("element.click", (event: any) => {
@@ -110,8 +110,8 @@ export default function BpmnEditor({
 		if (!viewerRef.current) return xml;
 
 		try {
-			const { xml } = await viewerRef.current.saveXML({ format: true });
-			return xml;
+			const { xml: savedXml } = await viewerRef.current.saveXML({ format: true });
+			return savedXml ?? xml;
 		} catch (error) {
 			console.error("Failed to save BPMN diagram:", error);
 			return xml;
@@ -125,12 +125,9 @@ export default function BpmnEditor({
 
 	return (
 		<div className={`bpmn-editor relative ${className}`} style={style}>
-			<div
-				ref={containerRef}
-				style={{ width: "100%", height: "100%", minHeight: "600px" }}
-			/>
+			<div ref={containerRef} style={{ width: "100%", height: "100%", minHeight: "600px" }} />
 			{!isLoaded && (
-				<div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 z-10">
+				<div className="absolute inset-0 z-10 flex items-center justify-center bg-white bg-opacity-90">
 					<div className="text-gray-500 text-lg">正在加载 BPMN 编辑器...</div>
 				</div>
 			)}

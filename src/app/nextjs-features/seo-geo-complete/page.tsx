@@ -1,15 +1,4 @@
-import {
-	Award,
-	Brain,
-	CheckCircle2,
-	Clock,
-	Code,
-	MapPin,
-	Search,
-	Target,
-	TrendingUp,
-	Zap,
-} from "lucide-react";
+import { Award, Brain, CheckCircle2, Clock, Code, MapPin, Search, Target, TrendingUp, Zap } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Layout from "@/components/Layout";
@@ -669,11 +658,11 @@ export default function SEOGeoCompletePage() {
 							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
 							<div className="flex items-center space-x-2 md:space-x-3">
 								<div className="flex items-center space-x-1 md:space-x-2">
-									<Search className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
-									<Brain className="h-5 w-5 md:h-8 md:w-8 text-purple-600" />
+									<Search className="h-5 w-5 text-blue-600 md:h-8 md:w-8" />
+									<Brain className="h-5 w-5 text-purple-600 md:h-8 md:w-8" />
 								</div>
 								<div>
-									<h1 className="font-bold text-responsive-2xl text-gray-900">SEO 与 GEO 优化完整实战</h1>
+									<h1 className="font-bold text-gray-900 text-responsive-2xl">SEO 与 GEO 优化完整实战</h1>
 									<p className="mt-1 text-gray-600 text-xs md:text-sm">传统搜索引擎优化与生成式AI优化的完美结合</p>
 								</div>
 							</div>

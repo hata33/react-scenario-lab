@@ -4,20 +4,20 @@ import { Clock, Download, Target, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import { copyWithFeedback } from "@/utils";
 import {
-	FeatureContainer,
-	FeatureContent,
-	FeatureHeader,
-	FeatureOverview,
-	FeatureThreeWRule,
-	FeatureExampleSelector,
-	FeatureExampleDetail,
-	FeatureOfficialExamples,
 	type Example,
 	type ExampleDetail,
+	FeatureContainer,
+	FeatureContent,
+	FeatureExampleDetail,
+	FeatureExampleSelector,
+	FeatureHeader,
+	FeatureOfficialExamples,
+	FeatureOverview,
+	FeatureThreeWRule,
 	type OfficialExample,
 } from "@/components/showcase";
+import { copyWithFeedback } from "@/utils";
 import { PrefetchDemo, PreinitDemo, PreloadDemo } from "./(components)";
 
 const resourceExamples: Example[] = [
@@ -277,7 +277,7 @@ export default function ResourcePreloadPage() {
 		<Layout>
 			<FeatureContainer>
 				<FeatureHeader
-					icon={<Download className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
+					icon={<Download className="h-6 w-6 text-blue-600 md:h-8 md:w-8" />}
 					title="React 19 资源预加载"
 					subtitle="现代 React 应用的资源管理生态系统"
 				/>

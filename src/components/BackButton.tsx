@@ -12,7 +12,13 @@ interface BackButtonProps {
 	compact?: boolean;
 }
 
-export default function BackButton({ show = true, className = "", text = "返回", onClick, compact = false }: BackButtonProps) {
+export default function BackButton({
+	show = true,
+	className = "",
+	text = "返回",
+	onClick,
+	compact = false,
+}: BackButtonProps) {
 	const router = useRouter();
 
 	// 如果show为false，不渲染组件
@@ -34,8 +40,7 @@ export default function BackButton({ show = true, className = "", text = "返回
 		return (
 			<button
 				onClick={handleClick}
-				className={`flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-gray-700 transition-transform hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95 ${className}
-				}`}
+				className={`flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-gray-700 transition-transform hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95 ${className}}`}
 				aria-label="返回"
 			>
 				<ArrowLeft className="h-5 w-5" />

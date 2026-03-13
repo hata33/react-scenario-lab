@@ -38,14 +38,14 @@ export default function ExampleSelector({
 	return (
 		<div className="sticky top-0 z-10 border-gray-200 border-b bg-white">
 			<div className="px-3 py-3 sm:px-4 md:px-6 lg:px-8">
-				<div className="flex flex-col items-center justify-between gap-2 sm:gap-3 sm:flex-row">
+				<div className="flex flex-col items-center justify-between gap-2 sm:flex-row sm:gap-3">
 					<h2 className="font-semibold text-gray-900 text-xs sm:text-sm">{selectorLabel}</h2>
 					<div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
 						{examples.map((example) => (
 							<button
 								key={example.id}
 								onClick={() => onExampleSelect(example.id)}
-								className={`rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 font-medium text-xs sm:text-sm transition-all ${
+								className={`rounded-lg px-2 py-1 font-medium text-xs transition-all sm:px-3 sm:py-1.5 sm:text-sm ${
 									selectedExampleId === example.id
 										? "bg-blue-500 text-white shadow-sm"
 										: "border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900"

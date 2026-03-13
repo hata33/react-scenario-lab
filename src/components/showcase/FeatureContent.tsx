@@ -14,8 +14,6 @@ interface FeatureContentProps {
  */
 export default function FeatureContent({ children, className = "" }: FeatureContentProps) {
 	return (
-		<div className={`mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8 ${className}`}>
-			{children}
-		</div>
+		<div className={`mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8 ${className}`}>{children}</div>
 	);
 }

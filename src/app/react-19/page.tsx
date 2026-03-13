@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import {
+	FeatureCardGrid,
 	FeatureContainer,
 	FeatureContent,
-	FeatureCardGrid,
+	type FeatureGridCard,
 	FilterBar,
 	StatsSection,
-	type FeatureGridCard,
 } from "@/components/showcase";
 
 interface ReactFeature {
@@ -159,7 +159,7 @@ export default function React19Overview() {
 				<div className="bg-white shadow-sm">
 					<div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8 lg:py-8">
 						<div className="text-center">
-							<h1 className="mb-4 font-bold text-responsive-3xl text-gray-900">React 19 新特性实验室</h1>
+							<h1 className="mb-4 font-bold text-gray-900 text-responsive-3xl">React 19 新特性实验室</h1>
 							<p className="mx-auto max-w-3xl text-gray-600 text-responsive-base">
 								深入探索 React 19 全版本新特性，包括 Actions、Hooks、Server Components 等功能的完整实现和示例。
 							</p>
@@ -185,6 +185,7 @@ export default function React19Overview() {
 							...f,
 							icon: null,
 							examples: f.examples || [],
+							status: f.status === "stable" ? "completed" : f.status === "experimental" ? "in-progress" : undefined,
 						}))}
 						onCardClick={handleCardClick}
 					/>
@@ -200,7 +201,9 @@ export default function React19Overview() {
 						<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 							<div className="rounded-lg border border-green-100 bg-green-50 p-4">
 								<h3 className="mb-2 font-semibold text-green-800">🚀 渐进增强</h3>
-								<p className="text-green-700 text-sm">表单在 JavaScript 加载前就能工作，useActionState 支持 permalink</p>
+								<p className="text-green-700 text-sm">
+									表单在 JavaScript 加载前就能工作，useActionState 支持 permalink
+								</p>
 							</div>
 							<div className="rounded-lg border border-blue-100 bg-blue-50 p-4">
 								<h3 className="mb-2 font-semibold text-blue-800">⚡ 简化异步处理</h3>
@@ -212,7 +215,7 @@ export default function React19Overview() {
 							</div>
 							<div className="rounded-lg border border-yellow-100 bg-yellow-50 p-4">
 								<h3 className="mb-2 font-semibold text-yellow-800">🖥️ 服务端组件</h3>
-								<p className="text-yellow-700 text-sm">零客户端 JavaScript，自动代码分割，更好的 SEO</p>
+								<p className="text-sm text-yellow-700">零客户端 JavaScript，自动代码分割，更好的 SEO</p>
 							</div>
 							<div className="rounded-lg border border-red-100 bg-red-50 p-4">
 								<h3 className="mb-2 font-semibold text-red-800">📊 状态管理简化</h3>
@@ -268,9 +271,21 @@ export default function React19Overview() {
 						title="统计信息"
 						stats={[
 							{ label: "总特性数", value: allFeatures.length, color: "text-blue-600" },
-							{ label: "稳定版", value: allFeatures.filter((f) => f.status === "stable").length, color: "text-green-600" },
-							{ label: "实验性", value: allFeatures.filter((f) => f.status === "experimental").length, color: "text-yellow-600" },
-							{ label: "高级特性", value: allFeatures.filter((f) => f.difficulty === "advanced").length, color: "text-purple-600" },
+							{
+								label: "稳定版",
+								value: allFeatures.filter((f) => f.status === "stable").length,
+								color: "text-green-600",
+							},
+							{
+								label: "实验性",
+								value: allFeatures.filter((f) => f.status === "experimental").length,
+								color: "text-yellow-600",
+							},
+							{
+								label: "高级特性",
+								value: allFeatures.filter((f) => f.difficulty === "advanced").length,
+								color: "text-purple-600",
+							},
 						]}
 					/>
 				</FeatureContent>

@@ -962,10 +962,12 @@ export default function I18nFeaturePage() {
 						<div className="flex items-center space-x-2 md:space-x-4">
 							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
 							<div className="flex items-center space-x-2 md:space-x-3">
-								<Globe className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
+								<Globe className="h-5 w-5 text-blue-600 md:h-8 md:w-8" />
 								<div>
-									<h1 className="font-bold text-responsive-2xl text-gray-900">国际化特性</h1>
-									<p className="text-gray-600 text-xs md:text-sm">Next.js 完整国际化方案：next-intl、react-i18next、自定义解决方案</p>
+									<h1 className="font-bold text-gray-900 text-responsive-2xl">国际化特性</h1>
+									<p className="text-gray-600 text-xs md:text-sm">
+										Next.js 完整国际化方案：next-intl、react-i18next、自定义解决方案
+									</p>
 								</div>
 							</div>
 						</div>
@@ -1182,9 +1184,8 @@ export default function I18nFeaturePage() {
 							)}
 						</div>
 					</div>
-				</div>
-			</FeatureContent>
-		</FeatureContainer>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

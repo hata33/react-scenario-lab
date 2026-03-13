@@ -29,8 +29,10 @@ export default function FeatureOfficialExamples({ title, description, examples }
 				<div className="grid gap-4 md:gap-6 lg:grid-cols-2">
 					{examples.map((example, index) => (
 						<div key={index} className="overflow-hidden rounded-lg border border-gray-200 bg-gray-50 p-3 md:p-4">
-							<h3 className="mb-2 break-words font-semibold text-gray-800 text-sm md:mb-3 md:text-base">{example.title}</h3>
-							<div className="mb-2 overflow-x-auto rounded bg-gray-900 p-2 text-xs text-gray-100 md:p-3">
+							<h3 className="mb-2 break-words font-semibold text-gray-800 text-sm md:mb-3 md:text-base">
+								{example.title}
+							</h3>
+							<div className="mb-2 overflow-x-auto rounded bg-gray-900 p-2 text-gray-100 text-xs md:p-3">
 								<pre className="min-w-max whitespace-pre-wrap break-all">
 									<code>{example.code}</code>
 								</pre>

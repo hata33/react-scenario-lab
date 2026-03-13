@@ -4,20 +4,20 @@ import { Bug, Code, Layers, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import { copyWithFeedback } from "@/utils";
 import {
-	FeatureContainer,
-	FeatureContent,
-	FeatureHeader,
-	FeatureOverview,
-	FeatureThreeWRule,
-	FeatureExampleSelector,
-	FeatureExampleDetail,
-	FeatureOfficialExamples,
 	type Example,
 	type ExampleDetail,
+	FeatureContainer,
+	FeatureContent,
+	FeatureExampleDetail,
+	FeatureExampleSelector,
+	FeatureHeader,
+	FeatureOfficialExamples,
+	FeatureOverview,
+	FeatureThreeWRule,
 	type OfficialExample,
 } from "@/components/showcase";
+import { copyWithFeedback } from "@/utils";
 import { ComplexComponentTreeDemo, ErrorTrackingDemo, OwnerStackDemo, PerformanceAnalysisDemo } from "./(components)";
 
 const ownerStackExamples: Example[] = [
@@ -668,7 +668,7 @@ export default function OwnerStackPage() {
 		<Layout>
 			<FeatureContainer>
 				<FeatureHeader
-					icon={<Bug className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
+					icon={<Bug className="h-6 w-6 text-blue-600 md:h-8 md:w-8" />}
 					title="React 19 Owner Stack"
 					subtitle="组件所有权调试"
 				/>
@@ -679,8 +679,8 @@ export default function OwnerStackPage() {
 				<FeatureExampleSelector
 					label="选择调试功能:"
 					examples={ownerStackExamples}
-					selectedId={selectedExampleId}
-					onSelect={setSelectedExampleId}
+					selectedExampleId={selectedExampleId}
+					onSelectExample={setSelectedExampleId}
 				/>
 				<FeatureContent>
 					<FeatureExampleDetail

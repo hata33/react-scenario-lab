@@ -4,21 +4,21 @@ import { AlertCircle, CheckCircle, Clock, Code, Copy, Target, Zap } from "lucide
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import { copyWithFeedback } from "@/utils";
 // Import showcase components
 import {
-	FeatureContainer,
-	FeatureContent,
-	FeatureHeader,
-	FeatureOverview,
-	FeatureThreeWRule,
-	FeatureExampleSelector,
-	FeatureExampleDetail,
-	FeatureOfficialExamples,
 	type Example,
 	type ExampleDetail,
+	FeatureContainer,
+	FeatureContent,
+	FeatureExampleDetail,
+	FeatureExampleSelector,
+	FeatureHeader,
+	FeatureOfficialExamples,
+	FeatureOverview,
+	FeatureThreeWRule,
 	type OfficialExample,
 } from "@/components/showcase";
+import { copyWithFeedback } from "@/utils";
 // Import demo components from index file
 import {
 	ServerFunctionsDemo,
@@ -107,7 +107,8 @@ function MyForm() {
 			{
 				problem: "状态管理复杂",
 				description: "需要手动管理 loading、error、success 状态，每个异步操作都要重复编写状态管理逻辑",
-				solution: "useActionState 自动管理所有异步状态，返回统一的 state、isPending 和 formAction，无需手动编写状态管理代码",
+				solution:
+					"useActionState 自动管理所有异步状态，返回统一的 state、isPending 和 formAction，无需手动编写状态管理代码",
 			},
 			{
 				problem: "代码冗余严重",
@@ -403,15 +404,18 @@ const architectureFeatures = [
 
 const threeWSections = [
 	{
-		description: "Actions 是 React 19 中简化异步数据变更的新机制，配套提供 useActionState、useOptimistic、useFormStatus、useTransition 等 Hook，形成完整的异步操作生态系统。",
+		description:
+			"Actions 是 React 19 中简化异步数据变更的新机制，配套提供 useActionState、useOptimistic、useFormStatus、useTransition 等 Hook，形成完整的异步操作生态系统。",
 		features: ["自动状态管理", "统一的 Hook 接口", "服务端集成", "渐进增强支持"],
 	},
 	{
-		description: "解决传统表单处理复杂、状态管理繁琐、用户体验不佳的问题。通过提供标准化的异步操作模式和内置的 pending 状态管理，大幅简化了开发复杂度。",
+		description:
+			"解决传统表单处理复杂、状态管理繁琐、用户体验不佳的问题。通过提供标准化的异步操作模式和内置的 pending 状态管理，大幅简化了开发复杂度。",
 		features: ["减少样板代码", "统一处理模式", "改善用户体验", "提升开发效率"],
 	},
 	{
-		description: "处理表单提交、数据变更、乐观更新、并发渲染场景。特别适合需要良好用户体验的交互式应用，如社交平台、电商系统、协作工具等。",
+		description:
+			"处理表单提交、数据变更、乐观更新、并发渲染场景。特别适合需要良好用户体验的交互式应用，如社交平台、电商系统、协作工具等。",
 		features: ["表单操作", "异步数据变更", "实时 UI 更新", "性能敏感场景"],
 	},
 ];
@@ -707,7 +711,7 @@ export default function ActionsPage() {
 		<Layout>
 			<FeatureContainer>
 				<FeatureHeader
-					icon={<Zap className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />}
+					icon={<Zap className="h-6 w-6 text-blue-600 md:h-8 md:w-8" />}
 					title="React 19 Actions"
 					subtitle="现代 React 应用的异步操作生态系统"
 				/>

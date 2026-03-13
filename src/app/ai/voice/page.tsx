@@ -13,7 +13,7 @@ export default function AIVoicePage() {
 						<BackButton />
 					</div>
 					<h1 className="mb-6 font-bold text-responsive-3xl">AI 语音处理</h1>
-					<div className="rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-md">
+					<div className="rounded-lg border border-gray-200 bg-white p-4 shadow-md md:p-6">
 						<p className="mb-4 text-gray-600 text-sm md:text-base">AI 语音处理功能正在开发中...</p>
 						<div className="rounded bg-gray-100 p-3 md:p-4">
 							<p className="text-gray-500 text-xs md:text-sm">即将支持：语音转文字、文字转语音等功能</p>

@@ -370,9 +370,9 @@ export default function PerformanceFeaturePage() {
 						<div className="flex items-center space-x-2 md:space-x-4">
 							<FeatureBackButton href="/nextjs-features" label="返回特性列表" />
 							<div className="flex items-center space-x-2 md:space-x-3">
-								<Zap className="h-5 w-5 md:h-8 md:w-8 text-blue-600" />
+								<Zap className="h-5 w-5 text-blue-600 md:h-8 md:w-8" />
 								<div>
-									<h1 className="font-bold text-responsive-2xl text-gray-900">性能优化特性</h1>
+									<h1 className="font-bold text-gray-900 text-responsive-2xl">性能优化特性</h1>
 									<p className="text-gray-600 text-xs md:text-sm">Next.js 内置性能优化工具和最佳实践</p>
 								</div>
 							</div>
@@ -565,9 +565,8 @@ export default function PerformanceFeaturePage() {
 							)}
 						</div>
 					</div>
-				</div>
-			</FeatureContent>
-		</FeatureContainer>
+				</FeatureContent>
+			</FeatureContainer>
 		</Layout>
 	);
 }

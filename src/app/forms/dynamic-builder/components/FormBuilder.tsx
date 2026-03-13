@@ -75,7 +75,7 @@ const FormBuilder: React.FC<FormBuilderProps> = ({
 							<h3 className="font-medium text-gray-900 text-lg">{section.title}</h3>
 							<button
 								onClick={() => toggleSectionCollapse(section.id)}
-								className="flex min-h-[44px] min-w-[44px] items-center justify-center text-gray-400 transition-transform active:scale-95 hover:text-gray-600"
+								className="flex min-h-[44px] min-w-[44px] items-center justify-center text-gray-400 transition-transform hover:text-gray-600 active:scale-95"
 							>
 								{section.collapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
 							</button>
@@ -84,14 +84,14 @@ const FormBuilder: React.FC<FormBuilderProps> = ({
 						{!section.collapsed && (
 							<div className="space-y-4">
 								{section.fields.length === 0 ? (
-									<div className="rounded-lg border-2 border-gray-300 border-dashed p-6 md:p-8 text-center">
+									<div className="rounded-lg border-2 border-gray-300 border-dashed p-6 text-center md:p-8">
 										<p className="text-gray-600 text-sm md:text-base">从左侧拖拽字段到这里开始构建表单</p>
 									</div>
 								) : (
 									section.fields.map((field) => (
 										<div
 											key={field.id}
-											className={`rounded-lg border p-3 md:p-4 transition-all active:scale-[0.99] hover:border-blue-300 ${
+											className={`rounded-lg border p-3 transition-all hover:border-blue-300 active:scale-[0.99] md:p-4 ${
 												selectedField?.id === field.id ? "border-blue-500 bg-blue-50" : "border-gray-200"
 											}`}
 											onClick={() => onFieldSelect(field)}
@@ -109,7 +109,7 @@ const FormBuilder: React.FC<FormBuilderProps> = ({
 														e.stopPropagation();
 														onFieldDelete(field.id);
 													}}
-													className="flex min-h-[44px] min-w-[44px] items-center justify-center text-red-500 transition-transform active:scale-90 hover:text-red-700"
+													className="flex min-h-[44px] min-w-[44px] items-center justify-center text-red-500 transition-transform hover:text-red-700 active:scale-90"
 												>
 													<Trash2 className="h-4 w-4" />
 												</button>

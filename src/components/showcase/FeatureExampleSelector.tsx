@@ -43,14 +43,14 @@ export default function FeatureExampleSelector({
 	return (
 		<div className="sticky top-0 z-10 border-gray-200 border-b bg-white">
 			<div className="px-3 py-3 sm:px-4 md:px-6 lg:px-8">
-				<div className="flex flex-col items-center justify-between gap-2 sm:gap-3 sm:flex-row">
+				<div className="flex flex-col items-center justify-between gap-2 sm:flex-row sm:gap-3">
 					<h2 className="whitespace-nowrap font-semibold text-gray-900 text-xs sm:text-sm">{label}</h2>
 					<div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
 						{examples.map((example) => (
 							<button
 								key={example.id}
 								onClick={() => onSelectExample(example.id)}
-								className={`flex min-h-[44px] items-center rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 font-medium text-xs sm:text-sm transition-all ${
+								className={`flex min-h-[44px] items-center rounded-lg px-2 py-1 font-medium text-xs transition-all sm:px-3 sm:py-1.5 sm:text-sm ${
 									selectedExampleId === example.id
 										? "bg-blue-500 text-white shadow-sm"
 										: "border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -58,7 +58,7 @@ export default function FeatureExampleSelector({
 							>
 								<span className="mr-0.5 shrink-0 sm:mr-1">{example.icon}</span>
 								<span className="hidden truncate sm:inline sm:max-w-none">{example.title}</span>
-								<span className="truncate max-w-[100px] sm:hidden">{example.title}</span>
+								<span className="max-w-[100px] truncate sm:hidden">{example.title}</span>
 								<span className={`ml-1 shrink-0 rounded px-1 py-0.5 text-xs ${getDifficultyColor(example.difficulty)}`}>
 									{example.difficulty}
 								</span>
