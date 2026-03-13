@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { useEffect, useRef, useState } from "react";
 
 interface BorderBeamProps {
 	children: React.ReactNode;
@@ -36,13 +36,13 @@ export function BorderBeam({ children, className = "", color = "white", size = 2
 							top: "0%",
 							left: `${position}%`,
 							width: `${size}%`,
-							height: `${size / 100 * 4}%`,
+							height: `${(size / 100) * 4}%`,
 						});
 					} else if (position < 200) {
 						gsap.set(beam, {
 							top: `${position - 100}%`,
 							right: "0%",
-							width: `${size / 100 * 4}%`,
+							width: `${(size / 100) * 4}%`,
 							height: `${size}%`,
 						});
 					} else if (position < 300) {
@@ -50,13 +50,13 @@ export function BorderBeam({ children, className = "", color = "white", size = 2
 							bottom: "0%",
 							right: `${position - 200}%`,
 							width: `${size}%`,
-							height: `${size / 100 * 4}%`,
+							height: `${(size / 100) * 4}%`,
 						});
 					} else {
 						gsap.set(beam, {
 							bottom: `${position - 300}%`,
 							left: "0%",
-							width: `${size / 100 * 4}%`,
+							width: `${(size / 100) * 4}%`,
 							height: `${size}%`,
 						});
 					}

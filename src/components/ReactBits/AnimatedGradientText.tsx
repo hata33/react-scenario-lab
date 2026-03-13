@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { useEffect, useRef } from "react";
 
 interface AnimatedGradientTextProps {
 	children: string;
@@ -20,15 +20,14 @@ export function AnimatedGradientText({
 		if (!textRef.current) return;
 
 		const text = textRef.current;
-		let currentColorIndex = 0;
 
 		const animateGradient = () => {
 			gsap.to(text, {
 				duration: 3,
-				backgroundSize: "200% 200%",
-				backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+				backgroundPosition: "100% 50%",
 				ease: "none",
 				repeat: -1,
+				yoyo: true,
 			});
 		};
 
@@ -42,6 +41,7 @@ export function AnimatedGradientText({
 			style={{
 				backgroundImage: `linear-gradient(to right, ${colors.join(", ")})`,
 				backgroundSize: "200% 200%",
+				backgroundPosition: "0% 50%",
 			}}
 		>
 			{children}

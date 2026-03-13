@@ -1,8 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Layout from "@/components/Layout";
 import MonacoEditor from "@/components/MonacoEditor";
-import { useState } from "react";
 
 export default function MonacoEditorPage() {
 	const [activeTab, setActiveTab] = useState("demo");
@@ -180,43 +180,43 @@ filtered = processor.filter_by_key('status', 'active')`,
 		{
 			title: "语法高亮",
 			description: "支持 100+ 编程语言的语法高亮",
-			icon: "🎨"
+			icon: "🎨",
 		},
 		{
 			title: "智能代码补全",
 			description: "基于语言服务的智能提示和自动补全",
-			icon: "✨"
+			icon: "✨",
 		},
 		{
 			title: "错误检查",
 			description: "实时的语法和类型错误检查",
-			icon: "🔍"
+			icon: "🔍",
 		},
 		{
 			title: "代码折叠",
 			description: "支持函数、类、条件块的折叠",
-			icon: "📁"
+			icon: "📁",
 		},
 		{
 			title: "多光标编辑",
 			description: "同时编辑多个位置，提高效率",
-			icon: "👆"
+			icon: "👆",
 		},
 		{
 			title: "搜索和替换",
 			description: "强大的正则表达式搜索替换功能",
-			icon: "🔎"
+			icon: "🔎",
 		},
 		{
 			title: "代码格式化",
 			description: "一键格式化代码，保持代码风格一致",
-			icon: "🧹"
+			icon: "🧹",
 		},
 		{
 			title: "主题切换",
 			description: "多种内置主题，支持自定义主题",
-			icon: "🎭"
-		}
+			icon: "🎭",
+		},
 	];
 
 	const configurations = [
@@ -228,7 +228,7 @@ filtered = processor.filter_by_key('status', 'active')`,
   minimap: { enabled: true },
   scrollBeyondLastLine: false,
   automaticLayout: true,
-}}`
+}}`,
 		},
 		{
 			title: "主题配置",
@@ -240,7 +240,7 @@ filtered = processor.filter_by_key('status', 'active')`,
   //   inherit: true,
   //   rules: [{ token: 'comment', foreground: 'ffa500' }]
   // }
-}}`
+}}`,
 		},
 		{
 			title: "语言配置",
@@ -256,7 +256,7 @@ monaco.languages.setLanguageConfiguration('typescript', {
     lineComment: '//',
     blockComment: ['/*', '*/']
   }
-});`
+});`,
 		},
 		{
 			title: "高级配置",
@@ -269,23 +269,21 @@ monaco.languages.setLanguageConfiguration('typescript', {
   parameterHints: { enabled: true },
   hover: { enabled: true },
   quickSuggestions: { other: true, comments: true, strings: true }
-}}`
-		}
+}}`,
+		},
 	];
 
 	return (
 		<Layout>
 			<div className="container mx-auto p-6">
-				<h1 className="mb-6 text-3xl font-bold">Monaco Editor 编辑器概览</h1>
+				<h1 className="mb-6 font-bold text-3xl">Monaco Editor 编辑器概览</h1>
 
 				<div className="mb-8">
-					<p className="text-gray-600 text-lg">
-						Monaco Editor 是 VS Code 使用的代码编辑器，提供强大的代码编辑功能。
-					</p>
+					<p className="text-gray-600 text-lg">Monaco Editor 是 VS Code 使用的代码编辑器，提供强大的代码编辑功能。</p>
 				</div>
 
 				{/* Tab Navigation */}
-				<div className="mb-6 border-b border-gray-200">
+				<div className="mb-6 border-gray-200 border-b">
 					<nav className="flex space-x-8">
 						{[
 							{ id: "demo", label: "编辑器演示", icon: "💻" },
@@ -295,10 +293,10 @@ monaco.languages.setLanguageConfiguration('typescript', {
 							<button
 								key={tab.id}
 								onClick={() => setActiveTab(tab.id)}
-								className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+								className={`flex items-center gap-2 border-b-2 px-1 py-4 font-medium text-sm transition-colors ${
 									activeTab === tab.id
 										? "border-blue-500 text-blue-600"
-										: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+										: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
 								}`}
 							>
 								<span>{tab.icon}</span>
@@ -313,7 +311,7 @@ monaco.languages.setLanguageConfiguration('typescript', {
 					<div className="space-y-6">
 						<div className="flex flex-wrap gap-4">
 							<div className="flex items-center gap-2">
-								<label className="text-sm font-medium">语言:</label>
+								<label className="font-medium text-sm">语言:</label>
 								<select
 									value={language}
 									onChange={(e) => {
@@ -332,7 +330,7 @@ monaco.languages.setLanguageConfiguration('typescript', {
 							</div>
 
 							<div className="flex items-center gap-2">
-								<label className="text-sm font-medium">主题:</label>
+								<label className="font-medium text-sm">主题:</label>
 								<button
 									onClick={() => setTheme(theme === "light" ? "dark" : "light")}
 									className="rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-100"
@@ -344,7 +342,7 @@ monaco.languages.setLanguageConfiguration('typescript', {
 
 						<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 							<div className="space-y-4">
-								<h2 className="text-xl font-semibold">编辑器</h2>
+								<h2 className="font-semibold text-xl">编辑器</h2>
 								<div className="rounded-lg border-2 border-gray-300">
 									<MonacoEditor
 										height="500px"
@@ -363,7 +361,7 @@ monaco.languages.setLanguageConfiguration('typescript', {
 							</div>
 
 							<div className="space-y-4">
-								<h2 className="text-xl font-semibold">预览</h2>
+								<h2 className="font-semibold text-xl">预览</h2>
 								<div className="h-[500px] rounded-lg border-2 border-gray-200 bg-gray-50 p-4">
 									<pre className="h-full overflow-auto whitespace-pre-wrap font-mono text-sm">
 										<code>{code}</code>
@@ -377,29 +375,29 @@ monaco.languages.setLanguageConfiguration('typescript', {
 				{/* Features Tab */}
 				{activeTab === "features" && (
 					<div className="space-y-6">
-						<h2 className="text-2xl font-semibold">功能特性</h2>
+						<h2 className="font-semibold text-2xl">功能特性</h2>
 
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 							{features.map((feature, index) => (
-								<div key={index} className="rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow">
+								<div key={index} className="rounded-lg border border-gray-200 p-6 transition-shadow hover:shadow-lg">
 									<div className="mb-4 text-3xl">{feature.icon}</div>
-									<h3 className="mb-2 text-lg font-semibold">{feature.title}</h3>
+									<h3 className="mb-2 font-semibold text-lg">{feature.title}</h3>
 									<p className="text-gray-600 text-sm">{feature.description}</p>
 								</div>
 							))}
 						</div>
 
 						<div className="rounded-lg bg-blue-50 p-6">
-							<h3 className="mb-4 text-xl font-semibold">快速开始</h3>
+							<h3 className="mb-4 font-semibold text-xl">快速开始</h3>
 							<div className="mb-4">
-								<p className="mb-2 text-sm text-gray-600">安装依赖：</p>
-								<code className="text-sm bg-white px-3 py-2 rounded block">
+								<p className="mb-2 text-gray-600 text-sm">安装依赖：</p>
+								<code className="block rounded bg-white px-3 py-2 text-sm">
 									npm install @monaco-editor/react monaco-editor
 								</code>
 							</div>
 							<div>
-								<p className="mb-2 text-sm text-gray-600">基础使用：</p>
-								<code className="text-sm bg-white px-3 py-2 rounded block">
+								<p className="mb-2 text-gray-600 text-sm">基础使用：</p>
+								<code className="block rounded bg-white px-3 py-2 text-sm">
 									{`import MonacoEditor from "@monaco-editor/react";
 
 <MonacoEditor
@@ -422,12 +420,12 @@ monaco.languages.setLanguageConfiguration('typescript', {
 				{/* Configuration Tab */}
 				{activeTab === "configuration" && (
 					<div className="space-y-6">
-						<h2 className="text-2xl font-semibold">配置选项</h2>
+						<h2 className="font-semibold text-2xl">配置选项</h2>
 
 						<div className="space-y-8">
 							{configurations.map((config, index) => (
 								<div key={index} className="rounded-lg border border-gray-200 p-6">
-									<h3 className="mb-4 text-lg font-semibold">{config.title}</h3>
+									<h3 className="mb-4 font-semibold text-lg">{config.title}</h3>
 									<div className="rounded-lg bg-gray-50 p-4">
 										<pre className="overflow-auto font-mono text-sm">
 											<code>{config.code}</code>
@@ -439,7 +437,7 @@ monaco.languages.setLanguageConfiguration('typescript', {
 
 						<div className="rounded-lg bg-orange-50 p-6">
 							<h3 className="mb-2 font-semibold">💡 配置建议</h3>
-							<ul className="ml-4 space-y-1 text-sm text-gray-600">
+							<ul className="ml-4 space-y-1 text-gray-600 text-sm">
 								<li>• 根据使用场景选择合适的配置选项</li>
 								<li>• 禁用不需要的功能以提高性能</li>
 								<li>• 使用 automaticLayout 自动调整编辑器大小</li>

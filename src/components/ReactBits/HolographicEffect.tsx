@@ -22,14 +22,10 @@ export function HolographicEffect({ children, className = "" }: HolographicEffec
 	};
 
 	return (
-		<div
-			ref={containerRef}
-			className={`relative overflow-hidden ${className}`}
-			onMouseMove={handleMouseMove}
-		>
+		<div ref={containerRef} className={`relative overflow-hidden ${className}`} onMouseMove={handleMouseMove}>
 			{children}
 			<div
-				className="absolute inset-0 pointer-events-none opacity-50 mix-blend-overlay"
+				className="pointer-events-none absolute inset-0 opacity-50 mix-blend-overlay"
 				style={{
 					background: `linear-gradient(135deg,
 						transparent 0%,
@@ -39,7 +35,7 @@ export function HolographicEffect({ children, className = "" }: HolographicEffec
 				}}
 			/>
 			<div
-				className="absolute inset-0 pointer-events-none opacity-30"
+				className="pointer-events-none absolute inset-0 opacity-30"
 				style={{
 					background: `linear-gradient(${mousePosition.x}deg,
 						rgba(59, 130, 246, 0.1) 0%,

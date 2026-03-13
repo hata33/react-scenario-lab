@@ -1,24 +1,24 @@
 // Original components
-export { TextShimmer } from "./TextShimmer";
-export { BorderBeam } from "./BorderBeam";
-export { SpotlightCard } from "./SpotlightCard";
-export { MorphingBlob } from "./MorphingBlob";
-export { AnimatedGradientText } from "./AnimatedGradientText";
-export { FloatingElement } from "./FloatingElement";
-export { InfiniteScroll } from "./InfiniteScroll";
-export { RevealOnScroll } from "./RevealOnScroll";
-export { MagneticButton } from "./MagneticButton";
-export { ParticlesBackground } from "./ParticlesBackground";
 
+export { AnimatedCounter } from "./AnimatedCounter";
+export { AnimatedGradientText } from "./AnimatedGradientText";
 // Advanced components
 export { AuroraBackground } from "./AuroraBackground";
+export { BorderBeam } from "./BorderBeam";
 export { Card3DTilt } from "./Card3DTilt";
-export { NeonGlow } from "./NeonGlow";
-export { AnimatedCounter } from "./AnimatedCounter";
-export { TypingEffect } from "./TypingEffect";
-export { ParallaxStars } from "./ParallaxStars";
+export { FloatingElement } from "./FloatingElement";
 export { GlowingOrb } from "./GlowingOrb";
-export { WaveText } from "./WaveText";
 export { GradientBorder } from "./GradientBorder";
 export { HolographicEffect } from "./HolographicEffect";
+export { InfiniteScroll } from "./InfiniteScroll";
+export { MagneticButton } from "./MagneticButton";
+export { MorphingBlob } from "./MorphingBlob";
+export { NeonGlow } from "./NeonGlow";
+export { ParallaxStars } from "./ParallaxStars";
+export { ParticlesBackground } from "./ParticlesBackground";
+export { RevealOnScroll } from "./RevealOnScroll";
+export { SpotlightCard } from "./SpotlightCard";
+export { TextShimmer } from "./TextShimmer";
 export { TrueFocus } from "./TrueFocus";
+export { TypingEffect } from "./TypingEffect";
+export { WaveText } from "./WaveText";

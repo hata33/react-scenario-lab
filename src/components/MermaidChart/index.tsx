@@ -1,7 +1,7 @@
 "use client";
 
 import mermaid from "mermaid";
-import React, { useEffect, useRef, memo } from "react";
+import React, { memo, useEffect, useRef } from "react";
 
 interface MermaidChartProps {
 	chart: string;
@@ -73,7 +73,7 @@ const MermaidChartComponent = ({ chart, config = {}, className = "", id, onError
 				await mermaid.parse(chart);
 
 				// 生成唯一 ID
-				const graphId = `mermaid-${id || 'graph'}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+				const graphId = `mermaid-${id || "graph"}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
 				// 渲染 SVG
 				const { svg } = await mermaid.render(graphId, chart);
@@ -106,16 +106,8 @@ const MermaidChartComponent = ({ chart, config = {}, className = "", id, onError
 	}, [chart, config, id, onError]);
 
 	return (
-		<div
-			ref={containerRef}
-			className={`mermaid-chart-container ${className}`}
-			style={{ minHeight: "200px" }}
-		>
-			{!chart && (
-				<div className="flex items-center justify-center text-gray-500">
-					请选择一个图表
-				</div>
-			)}
+		<div ref={containerRef} className={`mermaid-chart-container ${className}`} style={{ minHeight: "200px" }}>
+			{!chart && <div className="flex items-center justify-center text-gray-500">请选择一个图表</div>}
 		</div>
 	);
 };

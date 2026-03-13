@@ -21,7 +21,7 @@ export function TextShimmer({ children, className = "", speed = 2 }: TextShimmer
 	return (
 		<span className={`inline-block ${className}`}>
 			<span
-				className="bg-gradient-to-r from-transparent via-white to-transparent bg-clip-text text-transparent bg-[length:200%_100%]"
+				className="bg-[length:200%_100%] bg-gradient-to-r from-transparent via-white to-transparent bg-clip-text text-transparent"
 				style={{
 					backgroundPosition: `${offset}% 0`,
 					transition: "background-position 0.1s linear",

@@ -1,14 +1,17 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { useEffect, useRef } from "react";
 
 interface AuroraBackgroundProps {
 	className?: string;
 	colors?: string[];
 }
 
-export function AuroraBackground({ className = "", colors = ["#3b82f6", "#8b5cf6", "#ec4899", "#06b6d4"] }: AuroraBackgroundProps) {
+export function AuroraBackground({
+	className = "",
+	colors = ["#3b82f6", "#8b5cf6", "#ec4899", "#06b6d4"],
+}: AuroraBackgroundProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const blobsRef = useRef<HTMLDivElement[]>([]);
 

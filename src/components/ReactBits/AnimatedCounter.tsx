@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { useEffect, useRef, useState } from "react";
 
 interface AnimatedCounterProps {
 	end: number;
@@ -11,13 +11,7 @@ interface AnimatedCounterProps {
 	prefix?: string;
 }
 
-export function AnimatedCounter({
-	end,
-	duration = 2,
-	className = "",
-	suffix = "",
-	prefix = "",
-}: AnimatedCounterProps) {
+export function AnimatedCounter({ end, duration = 2, className = "", suffix = "", prefix = "" }: AnimatedCounterProps) {
 	const [count, setCount] = useState(0);
 	const countRef = useRef<HTMLSpanElement>(null);
 

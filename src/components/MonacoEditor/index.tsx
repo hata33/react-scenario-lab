@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
 import Editor from "@monaco-editor/react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface MonacoEditorProps {
 	height?: string;
@@ -79,7 +79,7 @@ export default function MonacoEditor({
 					<div className="flex items-center justify-center p-8">
 						<div className="text-center">
 							<div className="mb-2 text-lg">正在加载编辑器...</div>
-							<div className="text-sm text-gray-500">请稍候</div>
+							<div className="text-gray-500 text-sm">请稍候</div>
 						</div>
 					</div>
 				}

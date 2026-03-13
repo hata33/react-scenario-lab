@@ -83,7 +83,7 @@ export default function Layout({ children, showBackButton = true, showPadding = 
 				// 记住用户的选择
 				try {
 					localStorage.setItem("sidebarSeen", newState ? "1" : "0");
-				} catch { }
+				} catch {}
 			}
 		};
 		window.addEventListener("keydown", onKeyDown);
@@ -112,8 +112,9 @@ export default function Layout({ children, showBackButton = true, showPadding = 
 				onMouseLeave={() => !pinnedOpen && setHoverOpen(false)}
 			>
 				<div
-					className={`absolute inset-0 ${isOpen ? "translate-x-0 opacity-100" : "-translate-x-full pointer-events-none opacity-0"
-						} transition-transform duration-300 ease-in-out`}
+					className={`absolute inset-0 ${
+						isOpen ? "translate-x-0 opacity-100" : "-translate-x-full pointer-events-none opacity-0"
+					} transition-transform duration-300 ease-in-out`}
 				>
 					<Sidebar menuTree={menuTree} activePath={activePath} />
 				</div>

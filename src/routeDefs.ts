@@ -48,16 +48,12 @@ export const routeGroups: RouteGroup[] = [
 	{
 		path: "monaco-editor",
 		title: "Monaco Editor",
-		children: [
-			{ path: "demo", title: "实例演示" },
-		],
+		children: [{ path: "demo", title: "实例演示" }],
 	},
 	{
 		path: "mermaid",
 		title: "Mermaid 图表",
-		children: [
-			{ path: "", title: "图表概览" },
-		],
+		children: [{ path: "", title: "图表概览" }],
 	},
 	{
 		path: "ai",
@@ -245,8 +241,6 @@ export const routeGroups: RouteGroup[] = [
 	{
 		path: "bpmn",
 		title: "BPMN 流程图",
-		children: [
-			{ path: "editor", title: "BPMN 编辑器" },
-		],
+		children: [{ path: "editor", title: "BPMN 编辑器" }],
 	},
 ];

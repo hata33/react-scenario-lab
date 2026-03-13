@@ -226,8 +226,9 @@ export default function MermaidPage() {
 									const firstExample = Object.keys(chart.examples)[0];
 									setSelectedExample(firstExample);
 								}}
-								className={`flex items-center gap-2 rounded-lg px-4 py-3 font-medium transition-colors ${selectedChart === key ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-									}`}
+								className={`flex items-center gap-2 rounded-lg px-4 py-3 font-medium transition-colors ${
+									selectedChart === key ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+								}`}
 							>
 								<span className="text-xl">{chart.icon}</span>
 								{chart.title}
@@ -244,8 +245,9 @@ export default function MermaidPage() {
 							<button
 								key={key}
 								onClick={() => setSelectedExample(key)}
-								className={`rounded-lg px-4 py-2 font-medium transition-colors ${selectedExample === key ? "bg-green-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-									}`}
+								className={`rounded-lg px-4 py-2 font-medium transition-colors ${
+									selectedExample === key ? "bg-green-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+								}`}
 							>
 								{example.title}
 							</button>

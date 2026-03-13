@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { useEffect, useRef } from "react";
 
 interface InfiniteScrollProps {
 	children: React.ReactNode;
@@ -10,12 +10,7 @@ interface InfiniteScrollProps {
 	direction?: "left" | "right";
 }
 
-export function InfiniteScroll({
-	children,
-	className = "",
-	speed = 50,
-	direction = "left",
-}: InfiniteScrollProps) {
+export function InfiniteScroll({ children, className = "", speed = 50, direction = "left" }: InfiniteScrollProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const scrollRef = useRef<HTMLDivElement>(null);
 

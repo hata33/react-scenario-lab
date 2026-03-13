@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 
 if (typeof window !== "undefined") {
 	gsap.registerPlugin(ScrollTrigger);
@@ -15,12 +15,7 @@ interface RevealOnScrollProps {
 	delay?: number;
 }
 
-export function RevealOnScroll({
-	children,
-	className = "",
-	direction = "up",
-	delay = 0,
-}: RevealOnScrollProps) {
+export function RevealOnScroll({ children, className = "", direction = "up", delay = 0 }: RevealOnScrollProps) {
 	const elementRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -37,10 +32,7 @@ export function RevealOnScroll({
 				const overflow = styles.getPropertyValue("overflow-y");
 
 				// 检查是否有滚动条且内容溢出
-				if (
-					(overflow === "auto" || overflow === "scroll") &&
-					parent.scrollHeight > parent.clientHeight
-				) {
+				if ((overflow === "auto" || overflow === "scroll") && parent.scrollHeight > parent.clientHeight) {
 					return parent;
 				}
 

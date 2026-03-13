@@ -118,12 +118,6 @@ export default function HomePage() {
 
 	// GSAP 动画
 	useEffect(() => {
-		// 配置 ScrollTrigger 默认滚动容器
-		ScrollTrigger.config({
-			// 自动检测滚动容器
-			autoKillScroll: true,
-		});
-
 		const ctx = gsap.context(() => {
 			// Hero 区域动画
 			gsap.from(titleRef.current, {

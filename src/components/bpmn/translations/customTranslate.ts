@@ -1,4 +1,4 @@
-import chineseTranslations from 'bpmn-js-i18n/translations/zn';
+import chineseTranslations from "bpmn-js-i18n/translations/zn";
 
 /**
  * 自定义翻译函数
@@ -27,5 +27,5 @@ export function customTranslate(template: string, replacements?: any): string {
  * 创建自定义翻译模块
  */
 export const customTranslateModule = {
-	translate: [ 'value', customTranslate ]
+	translate: ["value", customTranslate],
 };

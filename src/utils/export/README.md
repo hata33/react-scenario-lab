@@ -198,7 +198,7 @@ const filters = [
   { field: 'name', operator: 'contains', value: '张' }
 ];
 
-const filteredData = ExportUtils.filterData(data, filters);
+const filteredData = filterData(data, filters);
 ```
 
 ### 自定义导出
@@ -240,26 +240,33 @@ interface ExportButtonProps {
 
 ## 工具函数
 
-### ExportUtils
-
 ```typescript
+import {
+	validateData,
+	sanitizeFilename,
+	estimateFileSize,
+	formatFileSize,
+	filterData,
+	checkBrowserSupport,
+} from '@/utils/export';
+
 // 数据验证
-const validation = ExportUtils.validateData(data);
+const validation = validateData(data);
 
 // 文件名安全化
-const safeName = ExportUtils.sanitizeFilename('file/name.txt');
+const safeName = sanitizeFilename('file/name.txt');
 
 // 估算文件大小
-const size = ExportUtils.estimateFileSize(data, 'xlsx');
+const size = estimateFileSize(data, 'xlsx');
 
 // 格式化文件大小
-const formattedSize = ExportUtils.formatFileSize(1024); // "1 KB"
+const formattedSize = formatFileSize(1024); // "1 KB"
 
 // 数据过滤
-const filtered = ExportUtils.filterData(data, filters);
+const filtered = filterData(data, filters);
 
 // 浏览器兼容性检查
-const support = ExportUtils.checkBrowserSupport();
+const support = checkBrowserSupport();
 ```
 
 ## 测试

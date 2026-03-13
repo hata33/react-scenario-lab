@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
 import { gsap } from "gsap";
+import { useRef, useState } from "react";
 
 interface MagneticButtonProps {
 	children: React.ReactNode;
@@ -10,12 +10,7 @@ interface MagneticButtonProps {
 	onClick?: () => void;
 }
 
-export function MagneticButton({
-	children,
-	className = "",
-	strength = 0.3,
-	onClick,
-}: MagneticButtonProps) {
+export function MagneticButton({ children, className = "", strength = 0.3, onClick }: MagneticButtonProps) {
 	const buttonRef = useRef<HTMLButtonElement>(null);
 	const [isHovered, setIsHovered] = useState(false);
 

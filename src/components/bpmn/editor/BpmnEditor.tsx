@@ -54,13 +54,7 @@ interface BpmnEditorProps {
 	style?: React.CSSProperties;
 }
 
-export default function BpmnEditor({
-	readonly = false,
-	onLoad,
-	onError,
-	className = "",
-	style,
-}: BpmnEditorProps) {
+export default function BpmnEditor({ readonly = false, onLoad, onError, className = "", style }: BpmnEditorProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const viewerRef = useRef<BpmnJS | null>(null);
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -71,9 +65,7 @@ export default function BpmnEditor({
 		// 创建 BPMN 实例
 		const viewer = new BpmnJS({
 			container: containerRef.current,
-			additionalModules: [
-				customTranslateModule
-			]
+			additionalModules: [customTranslateModule],
 		});
 
 		viewerRef.current = viewer;
@@ -137,8 +129,8 @@ export default function BpmnEditor({
 	}, []);
 
 	return (
-		<div className={`relative w-full h-full ${className}`} style={style}>
-			<div ref={containerRef} className="w-full h-full" />
+		<div className={`relative h-full w-full ${className}`} style={style}>
+			<div ref={containerRef} className="h-full w-full" />
 			{!isLoaded && (
 				<div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-gray-900">
 					<div className="text-gray-500 dark:text-gray-400">正在加载 BPMN 编辑器...</div>

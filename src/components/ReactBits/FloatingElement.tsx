@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { useEffect, useRef } from "react";
 
 interface FloatingElementProps {
 	children: React.ReactNode;
@@ -10,12 +10,7 @@ interface FloatingElementProps {
 	distance?: number;
 }
 
-export function FloatingElement({
-	children,
-	className = "",
-	duration = 3,
-	distance = 20,
-}: FloatingElementProps) {
+export function FloatingElement({ children, className = "", duration = 3, distance = 20 }: FloatingElementProps) {
 	const elementRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {

@@ -24,9 +24,7 @@ export function Card3DTilt({ children, className = "", maxTilt = 10 }: Card3DTil
 		const rotateX = ((y - centerY) / centerY) * -maxTilt;
 		const rotateY = ((x - centerX) / centerX) * maxTilt;
 
-		setTransform(
-			`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`,
-		);
+		setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`);
 	};
 
 	const handleMouseLeave = () => {

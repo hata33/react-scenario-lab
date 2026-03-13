@@ -1,8 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Layout from "@/components/Layout";
 import MonacoEditor from "@/components/MonacoEditor";
-import { useState } from "react";
 
 export default function MonacoEditorPage() {
 	const [code, setCode] = useState(`// Welcome to Monaco Editor!
@@ -178,17 +178,15 @@ filtered = processor.filter_by_key('status', 'active')`,
 	return (
 		<Layout>
 			<div className="container mx-auto p-6">
-				<h1 className="mb-6 text-3xl font-bold">Monaco Editor 示例</h1>
+				<h1 className="mb-6 font-bold text-3xl">Monaco Editor 示例</h1>
 
 				<div className="mb-6">
-					<p className="text-gray-600">
-						Monaco Editor 是 VS Code 使用的代码编辑器，提供智能代码补全、语法高亮等功能。
-					</p>
+					<p className="text-gray-600">Monaco Editor 是 VS Code 使用的代码编辑器，提供智能代码补全、语法高亮等功能。</p>
 				</div>
 
 				<div className="mb-6 flex flex-wrap gap-4">
 					<div className="flex items-center gap-2">
-						<label className="text-sm font-medium">语言:</label>
+						<label className="font-medium text-sm">语言:</label>
 						<select
 							value={language}
 							onChange={(e) => {
@@ -207,7 +205,7 @@ filtered = processor.filter_by_key('status', 'active')`,
 					</div>
 
 					<div className="flex items-center gap-2">
-						<label className="text-sm font-medium">主题:</label>
+						<label className="font-medium text-sm">主题:</label>
 						<button
 							onClick={() => setTheme(theme === "light" ? "dark" : "light")}
 							className="rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-100"
@@ -219,7 +217,7 @@ filtered = processor.filter_by_key('status', 'active')`,
 
 				<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 					<div className="space-y-4">
-						<h2 className="text-xl font-semibold">编辑器</h2>
+						<h2 className="font-semibold text-xl">编辑器</h2>
 						<div className="rounded-lg border-2 border-gray-300">
 							<MonacoEditor
 								height="500px"
@@ -238,7 +236,7 @@ filtered = processor.filter_by_key('status', 'active')`,
 					</div>
 
 					<div className="space-y-4">
-						<h2 className="text-xl font-semibold">预览</h2>
+						<h2 className="font-semibold text-xl">预览</h2>
 						<div className="h-[500px] rounded-lg border-2 border-gray-200 bg-gray-50 p-4">
 							<pre className="h-full overflow-auto whitespace-pre-wrap font-mono text-sm">
 								<code>{code}</code>
@@ -249,7 +247,7 @@ filtered = processor.filter_by_key('status', 'active')`,
 
 				<div className="mt-8 space-y-6">
 					<div>
-						<h3 className="mb-3 text-lg font-semibold">主要特性</h3>
+						<h3 className="mb-3 font-semibold text-lg">主要特性</h3>
 						<ul className="list-inside list-disc space-y-2 text-gray-600">
 							<li>语法高亮 - 支持100+编程语言</li>
 							<li>智能代码补全 - 基于语言服务的智能提示</li>
@@ -263,7 +261,7 @@ filtered = processor.filter_by_key('status', 'active')`,
 					</div>
 
 					<div>
-						<h3 className="mb-3 text-lg font-semibold">集成示例</h3>
+						<h3 className="mb-3 font-semibold text-lg">集成示例</h3>
 						<div className="rounded-lg bg-gray-50 p-4">
 							<code className="text-sm">
 								{`import MonacoEditor from "@/components/MonacoEditor";
