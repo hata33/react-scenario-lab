@@ -51,7 +51,7 @@ const FormBuilder: React.FC<FormBuilderProps> = ({
 
 	return (
 		<div className="rounded-lg border bg-white shadow-sm">
-			<div className="border-b p-6">
+			<div className="border-b p-4 md:p-6">
 				<input
 					type="text"
 					value={formConfig.title}
@@ -68,12 +68,15 @@ const FormBuilder: React.FC<FormBuilderProps> = ({
 				/>
 			</div>
 
-			<div className="p-6">
+			<div className="p-4 md:p-6">
 				{formConfig.sections.map((section, _sectionIndex) => (
 					<div key={section.id} className="mb-6">
 						<div className="mb-4 flex items-center justify-between">
 							<h3 className="font-medium text-gray-900 text-lg">{section.title}</h3>
-							<button onClick={() => toggleSectionCollapse(section.id)} className="text-gray-400 hover:text-gray-600">
+							<button
+								onClick={() => toggleSectionCollapse(section.id)}
+								className="flex min-h-[44px] min-w-[44px] items-center justify-center text-gray-400 transition-transform active:scale-95 hover:text-gray-600"
+							>
 								{section.collapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
 							</button>
 						</div>
@@ -81,14 +84,14 @@ const FormBuilder: React.FC<FormBuilderProps> = ({
 						{!section.collapsed && (
 							<div className="space-y-4">
 								{section.fields.length === 0 ? (
-									<div className="rounded-lg border-2 border-gray-300 border-dashed p-8 text-center">
-										<p className="text-gray-500">从左侧拖拽字段到这里开始构建表单</p>
+									<div className="rounded-lg border-2 border-gray-300 border-dashed p-6 md:p-8 text-center">
+										<p className="text-gray-600 text-sm md:text-base">从左侧拖拽字段到这里开始构建表单</p>
 									</div>
 								) : (
 									section.fields.map((field) => (
 										<div
 											key={field.id}
-											className={`rounded-lg border p-4 transition-colors hover:border-blue-300 ${
+											className={`rounded-lg border p-3 md:p-4 transition-all active:scale-[0.99] hover:border-blue-300 ${
 												selectedField?.id === field.id ? "border-blue-500 bg-blue-50" : "border-gray-200"
 											}`}
 											onClick={() => onFieldSelect(field)}
@@ -106,7 +109,7 @@ const FormBuilder: React.FC<FormBuilderProps> = ({
 														e.stopPropagation();
 														onFieldDelete(field.id);
 													}}
-													className="text-red-500 hover:text-red-700"
+													className="flex min-h-[44px] min-w-[44px] items-center justify-center text-red-500 transition-transform active:scale-90 hover:text-red-700"
 												>
 													<Trash2 className="h-4 w-4" />
 												</button>

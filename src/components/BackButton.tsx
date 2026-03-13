@@ -30,7 +30,7 @@ export default function BackButton({ show = true, className = "", text = "返回
 	return (
 		<button
 			onClick={handleClick}
-			className={`inline-flex items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 transition-colors duration-200 hover:bg-gray-200 hover:text-gray-900 hover:border-gray-400${className}
+			className={`inline-flex min-h-[44px] items-center gap-2 rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 transition-all duration-200 active:scale-95 hover:bg-gray-200 hover:text-gray-900 hover:border-gray-400${className}
 			`}
 		>
 			<ArrowLeft className="h-4 w-4" />

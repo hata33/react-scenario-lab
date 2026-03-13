@@ -1,0 +1,41 @@
+{
+	"name": "React Scenario Lab",
+	"short_name": "React Lab",
+	"description": "Next.js 15 + React 19 + Tailwind CSS 组件实验室",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#f9fafb",
+	"theme_color": "#3b82f6",
+	"orientation": "portrait-primary",
+	"icons": [
+		{
+			"src": "/icon-192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "/icon-512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any maskable"
+		}
+	],
+	"categories": ["developer", "education", "productivity"],
+	"shortcuts": [
+		{
+			"name": "基础组件",
+			"short_name": "基础",
+			"description": "查看基础 React 组件示例",
+			"url": "/basic/counter",
+			"icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+		},
+		{
+			"name": "表单示例",
+			"short_name": "表单",
+			"description": "查看各种表单组件",
+			"url": "/forms/basic",
+			"icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+		}
+	]
+}

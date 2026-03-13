@@ -15,6 +15,20 @@ interface MonacoEditorProps {
 	path?: string;
 }
 
+// 移动端检测 hook
+function useIsMobile() {
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		const checkMobile = () => setIsMobile(window.innerWidth < 768);
+		checkMobile();
+		window.addEventListener("resize", checkMobile);
+		return () => window.removeEventListener("resize", checkMobile);
+	}, []);
+
+	return isMobile;
+}
+
 export default function MonacoEditor({
 	height = "400px",
 	width = "100%",
@@ -28,17 +42,23 @@ export default function MonacoEditor({
 }: MonacoEditorProps) {
 	const [internalValue, setInternalValue] = useState(value || defaultValue);
 	const editorRef = useRef<any>(null);
+	const isMobile = useIsMobile();
+
+	// 移动端使用较小的高度和较大的字体（防止 iOS 自动缩放）
+	const responsiveHeight = isMobile ? "300px" : height;
+	const mobileFontSize = 16; // 16px 防止 iOS Safari 自动缩放
 
 	const defaultOptions = {
 		selectOnLineNumbers: true,
 		minimap: { enabled: false },
-		fontSize: 14,
+		fontSize: isMobile ? mobileFontSize : 14,
 		scrollBeyondLastLine: false,
 		automaticLayout: true,
 		tabSize: 2,
 		insertSpaces: true,
 		wordWrap: "on",
 		bracketPairColorization: { enabled: true },
+		lineNumbers: isMobile ? "off" : "on", // 移动端隐藏行号节省空间
 		...options,
 	};
 
@@ -65,7 +85,7 @@ export default function MonacoEditor({
 	return (
 		<div className="monaco-editor-container">
 			<Editor
-				height={height}
+				height={responsiveHeight}
 				width={width}
 				language={language}
 				theme={theme === "dark" ? "vs-dark" : "light"}

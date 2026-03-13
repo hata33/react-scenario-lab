@@ -43,7 +43,7 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 				{/* 首页按钮 - PC和移动端都显示 */}
 				<Link
 					href="/"
-					className={`flex w-full items-center justify-center gap-3 rounded-lg px-4 py-3 font-semibold text-sm transition-all duration-200 ${
+					className={`flex min-h-[44px] w-full items-center justify-center gap-3 rounded-lg px-4 py-3 font-semibold text-sm transition-all duration-200 active:scale-[0.98] ${
 						activePath === "/"
 							? "scale-105 transform bg-blue-600 text-white shadow-md"
 							: "border border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
@@ -75,11 +75,11 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 				<div className="space-y-6 p-4">
 					{menuTree.map((group) => (
 						<div key={group.title} className="space-y-3">
-							{/* 移动端可折叠的分组标题 */}
+											{/* 移动端可折叠的分组标题 */}
 							<button
 								type="button"
 								onClick={() => toggleGroup(group.title || "")}
-								className={`flex w-full items-center justify-between rounded-lg px-4 py-3 text-left font-medium transition-all duration-200 ${
+								className={`flex min-h-[44px] w-full items-center justify-between rounded-lg px-4 py-3 text-left font-medium transition-all duration-200 active:scale-[0.98] ${
 									expandedGroups.has(group.title || "")
 										? "border-blue-600 border-l-4 bg-blue-50 text-blue-700"
 										: "text-gray-700 hover:bg-gray-50"
@@ -112,7 +112,7 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 										<li key={child.path}>
 											<Link
 												href={child.path}
-												className={`group relative flex touch-manipulation items-center overflow-hidden rounded-lg px-4 py-3 font-medium text-sm transition-all duration-200 ${
+												className={`group relative flex min-h-[44px] touch-manipulation items-center overflow-hidden rounded-lg px-4 py-3 font-medium text-sm transition-all duration-200 active:scale-[0.98] ${
 													isActive
 														? "scale-105 transform bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg"
 														: "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
@@ -137,7 +137,8 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 			{/* 底部提示区域 */}
 			<div className="border-t bg-gradient-to-t from-gray-50 to-white px-6 py-4">
 				<div className="space-y-2">
-					<div className="flex items-center gap-2 text-gray-600 text-sm">
+					{/* 桌面端快捷键提示 */}
+					<div className="hidden items-center gap-2 text-gray-600 text-sm md:flex">
 						<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path
 								strokeLinecap="round"
@@ -149,6 +150,18 @@ export default function Sidebar({ menuTree, activePath }: SidebarProps) {
 						<span>
 							<span className="font-medium">快捷键:</span> Ctrl/Cmd + B
 						</span>
+					</div>
+					{/* 移动端提示 */}
+					<div className="flex items-center gap-2 text-gray-600 text-sm md:hidden">
+						<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M9 5l7 7-7 7"
+							/>
+						</svg>
+						<span>点击左上角按钮切换菜单</span>
 					</div>
 					<div className="flex items-center gap-2 text-blue-600 text-sm">
 						<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

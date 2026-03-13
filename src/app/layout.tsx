@@ -4,7 +4,20 @@ import "../index.css";
 
 export const metadata: Metadata = {
 	title: "React Scenario Lab",
-	description: "Next.js 15 + React 19 + Tailwind CSS",
+	description: "Next.js 15 + React 19 + Tailwind CSS 组件实验室",
+	manifest: "/manifest.json",
+	themeColor: "#3b82f6",
+	appleWebApp: {
+		capable: true,
+		statusBarStyle: "default",
+		title: "React Lab",
+	},
+	viewport: {
+		width: "device-width",
+		initialScale: 1,
+		maximumScale: 5,
+		userScalable: true,
+	},
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -13,6 +26,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="zh-CN">
 			<head>
+				{/* PWA 链接 */}
+				<link rel="icon" href="/favicon.ico" />
+				<link rel="apple-touch-icon" href="/icon-192.png" />
+
 				{/* 百度统计代码 - 仅在生产环境加载 */}
 				{!isDevelopment && (
 					<Script strategy="afterInteractive">
@@ -24,6 +41,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 								var s = document.getElementsByTagName("script")[0];
 								s.parentNode.insertBefore(hm, s);
 							})();
+						`}
+					</Script>
+				)}
+
+				{/* Service Worker 注册 - PWA 离线支持 */}
+				{!isDevelopment && (
+					<Script id="register-sw" strategy="afterInteractive">
+						{`
+							if ('serviceWorker' in navigator) {
+								window.addEventListener('load', () => {
+									navigator.serviceWorker.register('/sw.js')
+										.then((reg) => console.log('Service Worker registered', reg))
+										.catch((err) => console.log('Service Worker registration failed', err));
+								});
+							}
 						`}
 					</Script>
 				)}

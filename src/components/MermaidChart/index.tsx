@@ -106,8 +106,16 @@ const MermaidChartComponent = ({ chart, config = {}, className = "", id, onError
 	}, [chart, config, id, onError]);
 
 	return (
-		<div ref={containerRef} className={`mermaid-chart-container ${className}`} style={{ minHeight: "200px" }}>
-			{!chart && <div className="flex items-center justify-center text-gray-500">请选择一个图表</div>}
+		<div
+			ref={containerRef}
+			className={`mermaid-chart-container overflow-x-auto rounded border bg-white p-4 ${className}`}
+			style={{ minHeight: "200px" }}
+		>
+			{!chart && (
+				<div className="flex items-center justify-center text-gray-500">
+					请选择一个图表
+				</div>
+			)}
 		</div>
 	);
 };

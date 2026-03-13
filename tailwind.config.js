@@ -38,6 +38,27 @@ export default {
 					900: "#111827",
 				},
 			},
+			zIndex: {
+				base: 1,
+				dropdown: 10,
+				sticky: 20, // 顶部导航
+				sidebar: 30, // 侧边栏
+				overlay: 40, // 遮罩层
+				modal: 50,
+				popover: 60,
+				toast: 70,
+				tooltip: 80,
+			},
+			// 响应式字体大小
+			fontSize: {
+				"responsive-xs": ["0.75rem", { lineHeight: "1rem", "@screen md": { fontSize: "0.875rem" } }],
+				"responsive-sm": ["0.875rem", { lineHeight: "1.25rem", "@screen md": { fontSize: "1rem" } }],
+				"responsive-base": ["1rem", { lineHeight: "1.5rem", "@screen md": { fontSize: "1.125rem" } }],
+				"responsive-lg": ["1.125rem", { lineHeight: "1.75rem", "@screen md": { fontSize: "1.25rem" } }],
+				"responsive-xl": ["1.25rem", { lineHeight: "1.75rem", "@screen md": { fontSize: "1.5rem" } }],
+				"responsive-2xl": ["1.5rem", { lineHeight: "2rem", "@screen md": { fontSize: "1.875rem" } }],
+				"responsive-3xl": ["1.875rem", { lineHeight: "2.25rem", "@screen md": { fontSize: "2.25rem" } }],
+			},
 		},
 	},
 	plugins: [],

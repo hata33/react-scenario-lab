@@ -311,11 +311,19 @@ export default function HomePage() {
 										<WaveText text="开始探索" waveHeight={15} />
 									</h3>
 									<p className="mb-6 px-2 text-gray-400 text-sm md:mb-8 md:text-base lg:text-lg">
-										点击左侧菜单或上方功能卡片，开始探索 React 19 和 Next.js 15 的强大功能。 使用快捷键{" "}
-										<kbd className="rounded bg-white/10 px-2 py-1 font-mono text-xs md:px-3 md:py-1.5 md:text-sm">
+										点击<span className="hidden md:inline">左侧菜单或</span>上方功能卡片，开始探索 React 19 和 Next.js 15 的强大功能。
+									</p>
+									{/* 桌面端快捷键提示 */}
+									<p className="mb-4 hidden px-2 text-gray-500 text-sm md:mb-6 md:block">
+										使用快捷键{" "}
+										<kbd className="rounded bg-white/10 px-3 py-1.5 font-mono text-sm">
 											Ctrl/Cmd + B
 										</kbd>{" "}
-										切换侧边栏。
+										切换侧边栏
+									</p>
+									{/* 移动端提示 */}
+									<p className="mb-4 px-2 text-gray-500 text-sm md:mb-6 md:hidden">
+										点击左上角菜单按钮打开导航
 									</p>
 									<div className="flex flex-wrap justify-center gap-8 text-gray-500 text-sm">
 										<div className="flex items-center gap-3">

@@ -7,6 +7,20 @@ import BackButton from "./BackButton";
 import FirstVisitConfetti from "./FirstVisitConfetti";
 import Sidebar, { type MenuItem } from "./Sidebar";
 
+// 移动端断点检测 hook
+function useIsMobile() {
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		const checkMobile = () => setIsMobile(window.innerWidth < 768);
+		checkMobile();
+		window.addEventListener("resize", checkMobile);
+		return () => window.removeEventListener("resize", checkMobile);
+	}, []);
+
+	return isMobile;
+}
+
 function _flattenRoutesForMenu(routesInput: any[], basePath = ""): MenuItem[] {
 	return routesInput.filter(Boolean).map((route) => {
 		const currentPath = route.index
@@ -44,19 +58,25 @@ export default function Layout({ children, showBackButton = true, showPadding = 
 	const pathname = usePathname();
 	const activePath = pathname || "/";
 	const scrollContainerId = useId();
-	// 初始状态：根据 localStorage 决定是否显示侧边栏
+	const isMobile = useIsMobile();
+	// 初始状态：根据 localStorage 决定是否显示侧边栏，移动端默认关闭
 	const [pinnedOpen, setPinnedOpen] = useState<boolean>(false);
 	const [hoverOpen, setHoverOpen] = useState<boolean>(false);
-	const isOpen = pinnedOpen || hoverOpen;
+	const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+	const isOpen = isMobile ? mobileMenuOpen : pinnedOpen || hoverOpen;
 
 	// 客户端初始化：读取 localStorage 并设置正确的侧边栏状态
 	useEffect(() => {
 		const handleLoad = () => {
 			try {
 				const sidebarSeen = localStorage.getItem("sidebarSeen");
-				// 只在用户明确要求显示时才打开侧边栏
-				const shouldShowSidebar = sidebarSeen === "1";
-				setPinnedOpen(shouldShowSidebar);
+				// 移动端始终默认关闭，桌面端根据用户选择
+				if (isMobile) {
+					setPinnedOpen(false);
+				} else {
+					const shouldShowSidebar = sidebarSeen === "1";
+					setPinnedOpen(shouldShowSidebar);
+				}
 			} catch {
 				setPinnedOpen(false);
 			}
@@ -70,9 +90,9 @@ export default function Layout({ children, showBackButton = true, showPadding = 
 				return () => window.removeEventListener("load", handleLoad);
 			}
 		}
-	}, []);
+	}, [isMobile]);
 
-	// 快捷键切换侧边栏
+	// 快捷键切换侧边栏（仅桌面端）
 	useEffect(() => {
 		const onKeyDown = (e: KeyboardEvent) => {
 			if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "b") {
@@ -90,26 +110,39 @@ export default function Layout({ children, showBackButton = true, showPadding = 
 		return () => window.removeEventListener("keydown", onKeyDown);
 	}, [pinnedOpen]);
 
+	// 监听路由变化，移动端点击菜单后自动关闭侧边栏
+	// biome-ignore lint/correctness/useExhaustiveDependencies: pathname 用于检测路由变化，isMobile 使用 ref 避免 lint 错误
+	useEffect(() => {
+		setMobileMenuOpen((prev) => {
+			if (isMobile && prev) {
+				return false;
+			}
+			return prev;
+		});
+	}, [pathname, isMobile]);
+
 	return (
 		<div className={`relative grid h-screen grid-cols-[auto_1fr] bg-gray-50`}>
 			<FirstVisitConfetti />
 
 			{/* 移动端遮罩层 */}
-			{isOpen && (
-				<div className="fixed inset-0 z-20 bg-black bg-opacity-50 md:hidden" onClick={() => setHoverOpen(false)} />
+			{isOpen && isMobile && (
+				<div className="fixed inset-0 z-overlay bg-black bg-opacity-50" onClick={() => setMobileMenuOpen(false)} />
 			)}
 
-			{/* 左侧边缘悬停热区：非按钮交互，移到左侧边缘自动显示 */}
+			{/* 左侧边缘悬停热区：非按钮交互，移到左侧边缘自动显示（仅桌面端） */}
 			<div
-				className="absolute top-0 left-0 z-30 hidden h-full w-2 lg:block"
+				className="absolute top-0 left-0 z-sidebar hidden h-full w-2 lg:block"
 				onMouseEnter={() => !pinnedOpen && setHoverOpen(true)}
 			/>
 
 			{/* 侧栏列容器：响应式设计 */}
 			<div
-				className={`relative transition-[width] duration-300 ease-in-out ${isOpen ? "w-[280px] md:w-[320px]" : "w-0"} z-30 overflow-hidden`}
-				onMouseEnter={() => !pinnedOpen && setHoverOpen(true)}
-				onMouseLeave={() => !pinnedOpen && setHoverOpen(false)}
+				className={`relative transition-[width] duration-300 ease-in-out ${
+					isOpen ? "w-[280px] md:w-[320px]" : "w-0"
+				} z-sidebar overflow-hidden`}
+				onMouseEnter={() => !isMobile && !pinnedOpen && setHoverOpen(true)}
+				onMouseLeave={() => !isMobile && !pinnedOpen && setHoverOpen(false)}
 			>
 				<div
 					className={`absolute inset-0 ${
@@ -121,6 +154,56 @@ export default function Layout({ children, showBackButton = true, showPadding = 
 			</div>
 
 			<main id={scrollContainerId} className="h-full overflow-y-auto bg-gray-50">
+				{/* 移动端顶部栏 */}
+				<div className="sticky top-0 z-sticky flex items-center justify-between bg-white px-4 py-3 shadow-sm md:hidden">
+					<div className="flex items-center">
+						<button
+							type="button"
+							onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+							className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-gray-700 transition-transform active:scale-95 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+							aria-label="Toggle menu"
+						>
+							<svg
+								className={`h-6 w-6 transition-transform duration-200 ${mobileMenuOpen ? "rotate-90" : ""}`}
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								{mobileMenuOpen ? (
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+								) : (
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+								)}
+							</svg>
+						</button>
+						<div className="ml-3">
+							<h1 className="font-bold text-gray-900 text-lg">React Scenario Lab</h1>
+						</div>
+					</div>
+
+					{/* 右侧功能按钮预留位置 */}
+					<div className="flex items-center gap-2">
+						<button
+							type="button"
+							className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-gray-600 transition-transform active:scale-95 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+							aria-label="Search"
+						>
+							<svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+							</svg>
+						</button>
+						<button
+							type="button"
+							className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 p-1 text-white shadow-md transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500"
+							aria-label="User menu"
+						>
+							<svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+								<path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+							</svg>
+						</button>
+					</div>
+				</div>
+
 				<div className={`relative min-h-full ${showPadding ? "p-4 md:p-6 lg:p-8" : ""}`}>
 					{/* 返回按钮 */}
 					<BackButton show={showBackButton} className="mb-4" />
