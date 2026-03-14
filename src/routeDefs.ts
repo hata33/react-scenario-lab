@@ -255,8 +255,6 @@ export const routeGroups: RouteGroup[] = [
 		path: "thoughts",
 		title: "📚 前端发展史",
 		children: [
-			{ path: "pc", title: "PC完整版" },
-			{ path: "mobile", title: "移动端版" },
 			{ path: "dashboard", title: "数据大屏" },
 		],
 	},

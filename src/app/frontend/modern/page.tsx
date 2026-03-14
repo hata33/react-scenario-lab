@@ -117,6 +117,49 @@ export default function ModernFrontendPage() {
 			{/* 不同载体对比 - 置顶 */}
 			<PlatformComparisonBlock />
 
+			{/* 数据大屏入口 */}
+			<section className="border-b border-slate-200 bg-slate-50 py-16 dark:border-slate-800 dark:bg-slate-900">
+				<div className="container mx-auto px-4">
+					<div className="mx-auto max-w-4xl">
+						<Link
+							href="/thoughts/dashboard"
+							className="group block border border-slate-200 bg-white p-8 transition-colors hover:border-slate-300 dark:border-slate-800 dark:bg-slate-950 dark:hover:border-slate-700"
+						>
+							<div className="flex items-center gap-6">
+								<div className="flex h-16 w-16 items-center justify-center border border-slate-200 bg-slate-50 text-3xl dark:border-slate-700 dark:bg-slate-900">
+									📊
+								</div>
+								<div className="flex-1">
+									<h3 className="mb-1 font-semibold text-xl text-slate-900 dark:text-slate-100">前端发展史数据大屏</h3>
+									<p className="text-slate-600 dark:text-slate-400">
+										10个 ECharts 图表，展示浏览器市场份额、框架流行度、技能要求、薪资趋势等数据可视化内容
+									</p>
+									<div className="mt-3 flex items-center gap-4 text-sm">
+										<span className="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+											<span>•</span>
+											浏览器市场份额
+										</span>
+										<span className="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+											<span>•</span>
+											框架流行度
+										</span>
+										<span className="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+											<span>•</span>
+											技能雷达图
+										</span>
+										<span className="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+											<span>•</span>
+											薪资趋势
+										</span>
+									</div>
+								</div>
+								<span className="text-slate-400 transition-transform group-hover:translate-x-1">→</span>
+							</div>
+						</Link>
+					</div>
+				</div>
+			</section>
+
 			{/* 什么是现代前端 */}
 			<section className="bg-gradient-to-b from-slate-50 to-white py-20 dark:from-slate-900 dark:to-slate-800">
 				<div className="container mx-auto px-4">
