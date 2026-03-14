@@ -244,6 +244,14 @@ export const routeGroups: RouteGroup[] = [
 		children: [{ path: "editor", title: "BPMN 编辑器" }],
 	},
 	{
+		path: "frontend",
+		title: "⚡ 现代前端",
+		children: [
+			{ path: "modern", title: "现代前端实践" },
+			{ path: "tech-stack", title: "技术栈演进" },
+		],
+	},
+	{
 		path: "thoughts",
 		title: "📚 前端发展史",
 		children: [
