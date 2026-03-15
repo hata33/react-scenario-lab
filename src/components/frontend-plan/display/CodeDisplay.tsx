@@ -65,7 +65,9 @@ export function CodeDisplay({
 	const monacoLanguage = getMonacoLanguage(language);
 
 	return (
-		<div className={`code-display rounded-2xl border border-slate-200 overflow-hidden shadow-xl dark:border-slate-700 ${className}`}>
+		<div
+			className={`code-display overflow-hidden rounded-2xl border border-slate-200 shadow-xl dark:border-slate-700 ${className}`}
+		>
 			{/* 头部 */}
 			{(title || showCopyButton) && (
 				<div className="flex items-center justify-between border-slate-200 border-b bg-gradient-to-r from-slate-100 to-slate-50 px-4 py-3 dark:border-slate-700 dark:from-slate-800 dark:to-slate-800/50">
@@ -76,14 +78,12 @@ export function CodeDisplay({
 							<div className="h-3 w-3 rounded-full bg-yellow-500" />
 							<div className="h-3 w-3 rounded-full bg-green-500" />
 						</div>
-						{title && (
-							<span className="ml-2 font-medium text-slate-600 text-sm dark:text-slate-400">{title}</span>
-						)}
+						{title && <span className="ml-2 font-medium text-slate-600 text-sm dark:text-slate-400">{title}</span>}
 					</div>
 					{showCopyButton && (
 						<button
 							onClick={handleCopy}
-							className="group relative inline-flex items-center gap-2 rounded-lg bg-slate-200 px-3 py-1.5 font-semibold text-slate-600 text-sm transition-all hover:bg-slate-300 hover:scale-105 active:scale-95 dark:bg-slate-700 dark:text-slate-400 dark:hover:bg-slate-600"
+							className="group relative inline-flex items-center gap-2 rounded-lg bg-slate-200 px-3 py-1.5 font-semibold text-slate-600 text-sm transition-all hover:scale-105 hover:bg-slate-300 active:scale-95 dark:bg-slate-700 dark:text-slate-400 dark:hover:bg-slate-600"
 						>
 							{copied ? (
 								<>
@@ -120,7 +120,6 @@ export function CodeDisplay({
 					options={{
 						readOnly: true,
 						domReadOnly: true,
-						selection: { inEditableScope: false },
 						minimap: { enabled: false },
 						scrollBeyondLastLine: false,
 						fontSize: 14,

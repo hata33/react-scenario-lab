@@ -228,10 +228,11 @@ export function PlatformComparisonBlock() {
 								<button
 									key={platform.id}
 									onClick={() => setActivePlatform(platform)}
-									className={`group relative overflow-hidden rounded-2xl border-2 transition-all duration-500 ${isActive
+									className={`group relative overflow-hidden rounded-2xl border-2 transition-all duration-500 ${
+										isActive
 											? `${colors.border} bg-gradient-to-br ${colors.bg} border-current shadow-2xl shadow-${colors.shadow} scale-105`
 											: "border-slate-200 bg-white hover:border-slate-300 hover:shadow-lg dark:border-slate-700 dark:bg-slate-800 dark:hover:border-slate-600"
-										}`}
+									}`}
 								>
 									{/* 卡片光效 */}
 									{isActive && <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />}
@@ -270,28 +271,31 @@ export function PlatformComparisonBlock() {
 					<div className="inline-flex rounded-2xl border border-slate-200/50 bg-white/90 p-1.5 shadow-xl backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/90">
 						<button
 							onClick={() => setViewMode("ui")}
-							className={`rounded-xl px-6 py-3 font-semibold text-sm transition-all duration-300 ${viewMode === "ui"
+							className={`rounded-xl px-6 py-3 font-semibold text-sm transition-all duration-300 ${
+								viewMode === "ui"
 									? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
 									: "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"
-								}`}
+							}`}
 						>
 							📱 界面展示
 						</button>
 						<button
 							onClick={() => setViewMode("specs")}
-							className={`rounded-xl px-6 py-3 font-semibold text-sm transition-all duration-300 ${viewMode === "specs"
+							className={`rounded-xl px-6 py-3 font-semibold text-sm transition-all duration-300 ${
+								viewMode === "specs"
 									? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
 									: "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"
-								}`}
+							}`}
 						>
 							📐 设计规范
 						</button>
 						<button
 							onClick={() => setViewMode("code")}
-							className={`rounded-xl px-6 py-3 font-semibold text-sm transition-all duration-300 ${viewMode === "code"
+							className={`rounded-xl px-6 py-3 font-semibold text-sm transition-all duration-300 ${
+								viewMode === "code"
 									? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
 									: "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"
-								}`}
+							}`}
 						>
 							💻 代码示例
 						</button>
@@ -329,8 +333,9 @@ function UIPlatformShowcase({ platform }: { platform: (typeof platforms)[0] }) {
 
 					{/* 设备框架 */}
 					<div
-						className={`relative rounded-3xl bg-gradient-to-br from-slate-100 to-slate-200 p-4 shadow-2xl transition-transform duration-500 hover:scale-[1.02] md:p-8 dark:from-slate-700 dark:to-slate-800 ${isDesktop ? "aspect-video" : "mx-auto aspect-[9/16] max-w-[400px]"
-							}`}
+						className={`relative rounded-3xl bg-gradient-to-br from-slate-100 to-slate-200 p-4 shadow-2xl transition-transform duration-500 hover:scale-[1.02] md:p-8 dark:from-slate-700 dark:to-slate-800 ${
+							isDesktop ? "aspect-video" : "mx-auto aspect-[9/16] max-w-[400px]"
+						}`}
 					>
 						{/* 设备标题栏 */}
 						<div className="mb-6 flex items-center justify-between">

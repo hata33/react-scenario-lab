@@ -1,3 +1,5 @@
+import type { Era } from "./era";
+
 // 网站配置
 export interface SiteConfig {
 	title: string;

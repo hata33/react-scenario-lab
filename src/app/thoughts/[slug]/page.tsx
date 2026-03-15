@@ -4,10 +4,8 @@ import BackButton from "@/components/showcase/FeatureBackButton";
 import { getAllCategories, getAllTags, getArticle } from "@/data/thoughts";
 
 export async function generateStaticParams() {
-	const articles = await Promise.all([]); // TODO: 实现文章内容后更新
-	return articles.map((article) => ({
-		slug: article.slug,
-	}));
+	// TODO: 实现文章内容后更新
+	return [];
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {

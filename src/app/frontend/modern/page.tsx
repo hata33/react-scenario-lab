@@ -59,10 +59,7 @@ export default function ModernFrontendPage() {
 
 				<div className="container relative mx-auto px-4">
 					<div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
-						<Link
-							href="/thoughts"
-							className="group hover:-translate-y-1 block"
-						>
+						<Link href="/thoughts" className="group hover:-translate-y-1 block">
 							<div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white to-purple-50/30 p-8 shadow-xl ring-1 ring-purple-200/50 transition-all duration-300 hover:shadow-2xl dark:from-slate-800 dark:to-purple-950/20 dark:ring-purple-800/50">
 								<div className="relative">
 									<div className="mb-4 flex items-center gap-4">
@@ -85,10 +82,7 @@ export default function ModernFrontendPage() {
 							</div>
 						</Link>
 
-						<Link
-							href="/frontend/tech-stack"
-							className="group hover:-translate-y-1 block"
-						>
+						<Link href="/frontend/tech-stack" className="group hover:-translate-y-1 block">
 							<div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white to-blue-50/30 p-8 shadow-xl ring-1 ring-blue-200/50 transition-all duration-300 hover:shadow-2xl dark:from-slate-800 dark:to-blue-950/20 dark:ring-blue-800/50">
 								<div className="relative">
 									<div className="mb-4 flex items-center gap-4">
@@ -118,7 +112,7 @@ export default function ModernFrontendPage() {
 			<PlatformComparisonBlock />
 
 			{/* 数据大屏入口 */}
-			<section className="border-b border-slate-200 bg-slate-50 py-16 dark:border-slate-800 dark:bg-slate-900">
+			<section className="border-slate-200 border-b bg-slate-50 py-16 dark:border-slate-800 dark:bg-slate-900">
 				<div className="container mx-auto px-4">
 					<div className="mx-auto max-w-4xl">
 						<Link
@@ -130,7 +124,7 @@ export default function ModernFrontendPage() {
 									📊
 								</div>
 								<div className="flex-1">
-									<h3 className="mb-1 font-semibold text-xl text-slate-900 dark:text-slate-100">前端发展史数据大屏</h3>
+									<h3 className="mb-1 font-semibold text-slate-900 text-xl dark:text-slate-100">前端发展史数据大屏</h3>
 									<p className="text-slate-600 dark:text-slate-400">
 										10个 ECharts 图表，展示浏览器市场份额、框架流行度、技能要求、薪资趋势等数据可视化内容
 									</p>
@@ -283,12 +277,13 @@ export default function ModernFrontendPage() {
 										</div>
 									</div>
 									<span
-										className={`rounded-full px-3 py-1 font-semibold text-xs ${item.level === "必备"
-											? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
-											: item.level === "重要"
-												? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
-												: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-											}`}
+										className={`rounded-full px-3 py-1 font-semibold text-xs ${
+											item.level === "必备"
+												? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+												: item.level === "重要"
+													? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+													: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+										}`}
 									>
 										{item.level}
 									</span>

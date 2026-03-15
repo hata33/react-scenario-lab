@@ -226,9 +226,7 @@ export default function TechStackPage() {
 				<div className="container mx-auto px-4">
 					<div className="mx-auto max-w-4xl text-center">
 						<h2 className="mb-6 font-bold text-3xl text-slate-900 dark:text-slate-100">继续探索</h2>
-						<p className="mb-8 text-lg text-slate-600 dark:text-slate-400">
-							了解现代前端开发的实践和最佳应用
-						</p>
+						<p className="mb-8 text-lg text-slate-600 dark:text-slate-400">了解现代前端开发的实践和最佳应用</p>
 						<div className="flex justify-center gap-4">
 							<Link
 								href="/frontend/modern"

@@ -254,8 +254,6 @@ export const routeGroups: RouteGroup[] = [
 	{
 		path: "thoughts",
 		title: "📚 前端发展史",
-		children: [
-			{ path: "dashboard", title: "数据大屏" },
-		],
+		children: [{ path: "dashboard", title: "数据大屏" }],
 	},
 ];
