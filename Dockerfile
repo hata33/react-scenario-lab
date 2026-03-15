@@ -1,62 +1,60 @@
-# 使用 Node.js 作为基础镜像
-FROM node:22-alpine AS base
+# 优化的 Dockerfile - 更小的镜像和更快的构建
+# 主要优化：跳过 Cypress、清理开发依赖和缓存、多阶段构建
 
-# 设置工作目录
+FROM node:22-alpine AS base
 WORKDIR /app
 
-# 设置国内镜像源
-RUN npm config set registry https://registry.npmmirror.com/
+# 安装系统依赖和配置工具
+RUN apk add --no-cache libc6-compat && \
+    npm config set registry https://registry.npmmirror.com/ && \
+    npm install -g pnpm@9
 
 # 安装依赖阶段
 FROM base AS deps
-# 安装 pnpm
-RUN npm install -g pnpm
-
-# 检查 https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine 了解为什么需要 libc6-compat
-RUN apk add --no-cache libc6-compat
-
-# 复制 package.json 和 pnpm-lock.yaml
-COPY package.json pnpm-lock.yaml* ./
-
-# 安装依赖 (只安装生产环境需要的依赖)
+COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml* ./
+# 设置环境变量跳过 Cypress（大幅减少镜像大小和构建时间）
+ENV CYPRESS_INSTALL_BINARY=0 \
+    CYPRESS_DOWNLOAD_SKIP_TEMPLATE=1
 RUN --mount=type=cache,id=pnpm,target=/root/.pnpm-store \
     pnpm install --frozen-lockfile \
-    --registry https://registry.npmmirror.com
+    --registry https://registry.npmmirror.com || \
+    pnpm install --registry https://registry.npmmirror.com
 
 # 构建阶段
 FROM base AS builder
-WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# 安装 pnpm (如果需要)
-RUN npm install -g pnpm --registry https://registry.npmmirror.com/
+# 构建并清理
+RUN pnpm build && \
+    pnpm prune --prod && \
+    rm -rf .next/cache node_modules/.cache
 
-# 构建应用
-RUN pnpm build
-
-# 生产阶段
-FROM base AS runner
+# 生产运行时
+FROM node:22-alpine AS runner
 WORKDIR /app
 
-# 设置默认环境变量
-ENV NODE_ENV=production
-ENV CONTAINER_PORT=3000
-ENV HOSTNAME=0.0.0.0
-ENV UPLOAD_BASE_DIR=/app/uploads
-ENV TEMP_BASE_DIR=/app/temp
+ENV NODE_ENV=production \
+    NODE_OPTIONS="--max-old-space-size=512" \
+    PORT=3000
 
-# 创建上传目录
-RUN mkdir -p /app/uploads /app/temp \
-  && chmod -R 777 /app/uploads /app/temp
+# 创建非 root 用户
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs && \
+    mkdir -p /app/uploads /app/temp && \
+    chown -R nextjs:nodejs /app
 
-# 复制构建产物和必要文件
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+# 复制构建产物
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# 暴露端口（使用环境变量）
-EXPOSE ${CONTAINER_PORT}
+USER nextjs
 
-# 启动命令
+EXPOSE 3000
+
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
+
 CMD ["node", "server.js"]
