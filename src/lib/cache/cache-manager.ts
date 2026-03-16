@@ -21,7 +21,7 @@ export class UnifiedCacheManager {
 			maxSize: config.maxSize,
 		});
 
-		this.strategy = config.strategy || StrategyFactory.createTTL(config.defaultTTL);
+		this.strategy = config.strategy || StrategyFactory.createTTL();
 
 		// 启动定期清理
 		if (config.enableMetrics !== false) {

@@ -272,7 +272,7 @@ const data = await cacheManager.getHttp('/api/users');
 const freshData = await cacheManager.forceGetHttp('/api/users');
 
 // 缓存策略配置
-const strategy = StrategyFactory.createLRU(100);
+const strategy = StrategyFactory.createLRU();
 cacheManager.setStrategy(strategy);
 
 // 缓存预热

@@ -93,25 +93,25 @@ export default function StrategyExamples() {
 
 		switch (strategyName) {
 			case "TTL":
-				strategy = StrategyFactory.createTTL(10000); // 10秒
+				strategy = StrategyFactory.createTTL();
 				break;
 			case "LRU":
-				strategy = StrategyFactory.createLRU(5); // 最大5条
+				strategy = StrategyFactory.createLRU();
 				break;
 			case "LFU":
-				strategy = StrategyFactory.createLFU(2); // 最少访问2次
+				strategy = StrategyFactory.createLFU();
 				break;
 			case "SizeBased":
-				strategy = StrategyFactory.createSizeBased(100); // 最大100字节
+				strategy = StrategyFactory.createSizeBased();
 				break;
 			case "TypeBased":
-				strategy = StrategyFactory.createTypeBased(["object", "string"]);
+				strategy = StrategyFactory.createTypeBased();
 				break;
 			case "PatternBased":
-				strategy = StrategyFactory.createPatternBased([/^user:/], [/^temp:/]);
+				strategy = StrategyFactory.createPatternBased();
 				break;
 			case "Hybrid":
-				strategy = StrategyFactory.createHybrid([StrategyFactory.createTTL(5000), StrategyFactory.createLRU(3)]);
+				strategy = StrategyFactory.createHybrid([StrategyFactory.createTTL(), StrategyFactory.createLRU()]);
 				break;
 			case "Adaptive":
 				strategy = StrategyFactory.createAdaptive();

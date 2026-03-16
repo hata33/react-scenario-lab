@@ -29,26 +29,6 @@ export function useActivity<T>(key: string, initialValue: T, options?: ActivityO
 	const [isSyncing, setIsSyncing] = useState(false);
 	const [lastSync, setLastSync] = useState<Date | null>(null);
 
-	const updateState = useCallback(
-		(newValue: T | ((prev: T) => T)) => {
-			setState((prev) => {
-				const finalValue = typeof newValue === "function" ? (newValue as (prev: T) => T)(prev) : newValue;
-
-				// Handle debounce
-				if (options?.debounce) {
-					setTimeout(() => {
-						saveState(finalValue);
-					}, options.debounce);
-				} else {
-					saveState(finalValue);
-				}
-
-				return finalValue;
-			});
-		},
-		[options, saveState],
-	);
-
 	const saveState = useCallback(
 		(value: T) => {
 			setIsSyncing(true);
@@ -73,6 +53,26 @@ export function useActivity<T>(key: string, initialValue: T, options?: ActivityO
 			}
 		},
 		[key, options],
+	);
+
+	const updateState = useCallback(
+		(newValue: T | ((prev: T) => T)) => {
+			setState((prev) => {
+				const finalValue = typeof newValue === "function" ? (newValue as (prev: T) => T)(prev) : newValue;
+
+				// Handle debounce
+				if (options?.debounce) {
+					setTimeout(() => {
+						saveState(finalValue);
+					}, options.debounce);
+				} else {
+					saveState(finalValue);
+				}
+
+				return finalValue;
+			});
+		},
+		[options, saveState],
 	);
 
 	const clearState = useCallback(() => {

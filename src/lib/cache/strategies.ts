@@ -225,28 +225,28 @@ export class AdaptiveStrategy implements CacheStrategy {
 
 // 策略工厂
 export class StrategyFactory {
-	static createTTL(ttl?: number): TTLStrategy {
-		return new TTLStrategy(ttl);
+	static createTTL(): TTLStrategy {
+		return new TTLStrategy();
 	}
 
-	static createLRU(maxSize?: number): LRUStrategy {
-		return new LRUStrategy(maxSize);
+	static createLRU(): LRUStrategy {
+		return new LRUStrategy();
 	}
 
-	static createLFU(minFrequency?: number): LFUStrategy {
-		return new LFUStrategy(minFrequency);
+	static createLFU(): LFUStrategy {
+		return new LFUStrategy();
 	}
 
-	static createSizeBased(maxSize?: number): SizeBasedStrategy {
-		return new SizeBasedStrategy(maxSize);
+	static createSizeBased(): SizeBasedStrategy {
+		return new SizeBasedStrategy();
 	}
 
-	static createTypeBased(types?: string[]): TypeBasedStrategy {
-		return new TypeBasedStrategy(types);
+	static createTypeBased(): TypeBasedStrategy {
+		return new TypeBasedStrategy();
 	}
 
-	static createPatternBased(include?: RegExp[], exclude?: RegExp[]): PatternBasedStrategy {
-		return new PatternBasedStrategy(include, exclude);
+	static createPatternBased(): PatternBasedStrategy {
+		return new PatternBasedStrategy();
 	}
 
 	static createHybrid(strategies: CacheStrategy[]): HybridStrategy {

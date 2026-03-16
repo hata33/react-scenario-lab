@@ -5,77 +5,67 @@ param(
 )
 
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "Docker 镜像构建与保存" -ForegroundColor Cyan
+Write-Host "Docker Build with Pre-checks" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor DarkGray
 Write-Host ""
 
-Write-Host "📦 镜像名称: ${IMAGE_NAME}:${TAG}" -ForegroundColor Yellow
-Write-Host "💾 输出文件: $TAR_FILE" -ForegroundColor Yellow
+# Step 1: Type check (only this can break the build)
+Write-Host "[1/2] Running type check..." -ForegroundColor Yellow
+$checkResult = pnpm run type-check 2>&1
+if ($LASTEXITCODE -ne 0) {
+    Write-Host ""
+    Write-Host "========================================" -ForegroundColor Red
+    Write-Host "Type check FAILED!" -ForegroundColor Red
+    Write-Host "========================================" -ForegroundColor DarkGray
+    Write-Host ""
+    Write-Host "Please fix TypeScript errors before building." -ForegroundColor Yellow
+    Write-Host "Run 'pnpm run type-check' to see details." -ForegroundColor Gray
+    exit 1
+}
+Write-Host "Type check PASSED" -ForegroundColor Green
 Write-Host ""
 
-Write-Host "🚀 开始构建 Docker 镜像..." -ForegroundColor Cyan
-Write-Host "构建时间约: 10-14 分钟（首次），2-3 分钟（代码变更后）" -ForegroundColor Gray
+# Step 2: Build Docker image
+Write-Host "[2/2] Building Docker image: ${IMAGE_NAME}:${TAG}" -ForegroundColor Yellow
 Write-Host ""
 
-# 记录开始时间
 $startTime = Get-Date
-
-# Build the Docker image (从项目根目录构建)
-$buildOutput = docker build -t "${IMAGE_NAME}:${TAG}" .. 2>&1 | Tee-Object -Variable buildLog
-Write-Host $buildOutput
-
-# 计算构建时间
+docker build -t "${IMAGE_NAME}:${TAG}" ..
+$buildExitCode = $LASTEXITCODE
 $endTime = Get-Date
 $duration = $endTime - $startTime
-$minutes = [math]::Floor($duration.TotalMinutes)
-$seconds = $duration.Seconds
 
-# Check if build succeeded
-if ($LASTEXITCODE -ne 0) {
+if ($buildExitCode -ne 0) {
     Write-Host ""
     Write-Host "========================================" -ForegroundColor Red
-    Write-Host "❌ Docker 镜像构建失败" -ForegroundColor Red
+    Write-Host "Docker build FAILED!" -ForegroundColor Red
     Write-Host "========================================" -ForegroundColor DarkGray
-    Write-Host "请检查上方的错误信息" -ForegroundColor Gray
+    Write-Host "Time: $($duration.TotalMinutes.ToString('0.0')) minutes" -ForegroundColor Gray
     exit 1
 }
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Green
-Write-Host "✅ 镜像构建成功！" -ForegroundColor Green
+Write-Host "Docker build SUCCESS!" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor DarkGray
-Write-Host "⏱️  构建耗时: ${minutes}分${seconds}秒" -ForegroundColor Cyan
+Write-Host "Time: $($duration.TotalMinutes.ToString('0.0')) minutes" -ForegroundColor Cyan
 Write-Host ""
 
-# 获取镜像大小
-$imageSize = docker images "${IMAGE_NAME}:${TAG}" --format "{{.Size}}"
-Write-Host "📊 镜像大小: $imageSize" -ForegroundColor Cyan
-Write-Host ""
-
-Write-Host "💾 开始保存镜像为 tar 文件..." -ForegroundColor Cyan
+# Save image
+Write-Host "Saving as tar file: $TAR_FILE" -ForegroundColor Cyan
 docker save -o "$TAR_FILE" "${IMAGE_NAME}:${TAG}"
 
-# Check if save succeeded
-if ($LASTEXITCODE -ne 0) {
+if ($LASTEXITCODE -eq 0) {
+    $fileSize = (Get-Item "$TAR_FILE").Length / 1MB
     Write-Host ""
-    Write-Host "========================================" -ForegroundColor Red
-    Write-Host "❌ 保存镜像失败" -ForegroundColor Red
+    Write-Host "========================================" -ForegroundColor Green
+    Write-Host "Build completed!" -ForegroundColor Green
     Write-Host "========================================" -ForegroundColor DarkGray
-    exit 1
+    Write-Host "Image: ${IMAGE_NAME}:${TAG}" -ForegroundColor Yellow
+    Write-Host "File: $TAR_FILE" -ForegroundColor Yellow
+    Write-Host "Size: $([math]::Round($fileSize, 2)) MB" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "To run:" -ForegroundColor Cyan
+    Write-Host "  docker load -i $TAR_FILE" -ForegroundColor Gray
+    Write-Host "  docker run -p 3000:3000 ${IMAGE_NAME}:${TAG}" -ForegroundColor Gray
 }
-
-# 获取文件大小
-$fileSize = (Get-Item "$TAR_FILE").Length / 1MB
-
-Write-Host ""
-Write-Host "========================================" -ForegroundColor Green
-Write-Host "✅ 操作完成！" -ForegroundColor Green
-Write-Host "========================================" -ForegroundColor DarkGray
-Write-Host "📦 镜像名称: ${IMAGE_NAME}:${TAG}" -ForegroundColor Yellow
-Write-Host "💾 tar 文件: $TAR_FILE" -ForegroundColor Yellow
-Write-Host "📊 文件大小: $([math]::Round($fileSize, 2)) MB" -ForegroundColor Yellow
-Write-Host ""
-Write-Host "🚀 运行镜像:" -ForegroundColor Cyan
-Write-Host "   docker load -i $TAR_FILE" -ForegroundColor Gray
-Write-Host "   docker run -p 3000:3000 ${IMAGE_NAME}:${TAG}" -ForegroundColor Gray
-Write-Host ""
