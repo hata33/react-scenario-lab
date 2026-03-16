@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import type { FeatureCard } from "../(types)";
 
 interface ArchitectureOverviewProps {

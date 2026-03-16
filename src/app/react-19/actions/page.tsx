@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertCircle, CheckCircle, Clock, Code, Copy, Target, Zap } from "lucide-react";
+import { AlertCircle, Clock, Code, Target, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";

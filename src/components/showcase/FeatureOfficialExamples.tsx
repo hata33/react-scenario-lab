@@ -1,7 +1,5 @@
 "use client";
 
-import type React from "react";
-
 export interface OfficialExample {
 	title: string;
 	code: string;

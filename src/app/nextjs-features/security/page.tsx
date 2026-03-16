@@ -4,8 +4,6 @@ import { AlertTriangle, ArrowLeft, CheckCircle, Database, Eye, Key, Lock, Shield
 import Link from "next/link";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import { FeatureContainer, FeatureContent } from "@/components/showcase";
-import FeatureBackButton from "@/components/showcase/FeatureBackButton";
 
 interface SecurityExample {
 	id: string;

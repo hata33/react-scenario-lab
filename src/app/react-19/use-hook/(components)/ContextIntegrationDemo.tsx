@@ -132,11 +132,11 @@ function UserDisplay() {
 }
 
 export default function ContextIntegrationDemo() {
-	const [mounted, setMounted] = useState(false);
+	const [_mounted, setMounted] = useState(false);
 
 	// 模拟使用 use Hook 消费 Context
-	const theme = useTheme();
-	const user = useUser();
+	const _theme = useTheme();
+	const _user = useUser();
 
 	// 组件挂载后设置状态
 	useEffect(() => {

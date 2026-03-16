@@ -6,8 +6,8 @@ export default function DragDrop() {
 
 	return (
 		<div>
-			<h2 className="mb-4 font-semibold text-2xl">拖拽</h2>
-			<div className="flex gap-2">
+			<h2 className="mb-4 font-semibold text-2xl md:text-3xl">拖拽</h2>
+			<div className="flex flex-wrap gap-2">
 				{items.map((it, idx) => (
 					<div
 						key={it}
@@ -22,7 +22,7 @@ export default function DragDrop() {
 							setItems(next);
 							setDrag(null);
 						}}
-						className="cursor-move select-none rounded border bg-white px-4 py-2"
+						className="flex min-h-[44px] cursor-move select-none items-center justify-center rounded border bg-white px-4 py-3"
 					>
 						{it}
 					</div>

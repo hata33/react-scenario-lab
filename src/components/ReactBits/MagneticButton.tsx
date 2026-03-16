@@ -12,9 +12,13 @@ interface MagneticButtonProps {
 
 export function MagneticButton({ children, className = "", strength = 0.3, onClick }: MagneticButtonProps) {
 	const buttonRef = useRef<HTMLButtonElement>(null);
-	const [isHovered, setIsHovered] = useState(false);
+	const [_isHovered, setIsHovered] = useState(false);
+	const [isTouch, setIsTouch] = useState(false);
 
 	const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+		// 在触摸设备上禁用磁性效果
+		if (isTouch) return;
+
 		if (!buttonRef.current) return;
 
 		const button = buttonRef.current;
@@ -31,6 +35,8 @@ export function MagneticButton({ children, className = "", strength = 0.3, onCli
 	};
 
 	const handleMouseLeave = () => {
+		if (isTouch) return;
+
 		if (!buttonRef.current) return;
 
 		setIsHovered(false);
@@ -43,6 +49,10 @@ export function MagneticButton({ children, className = "", strength = 0.3, onCli
 		});
 	};
 
+	const handleTouchStart = () => {
+		setIsTouch(true);
+	};
+
 	return (
 		<button
 			ref={buttonRef}
@@ -50,6 +60,7 @@ export function MagneticButton({ children, className = "", strength = 0.3, onCli
 			onMouseMove={handleMouseMove}
 			onMouseLeave={handleMouseLeave}
 			onMouseEnter={() => setIsHovered(true)}
+			onTouchStart={handleTouchStart}
 			onClick={onClick}
 			type="button"
 		>

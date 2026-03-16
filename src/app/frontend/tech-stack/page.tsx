@@ -129,7 +129,7 @@ export default function TechStackPage() {
 									"AI 辅助开发成为常态",
 								],
 							},
-						].map((era, index) => (
+						].map((era, _index) => (
 							<div
 								key={era.name}
 								className="group hover:-translate-y-1 relative overflow-hidden rounded-2xl bg-white p-6 shadow-xl transition-all hover:shadow-2xl dark:bg-slate-800"

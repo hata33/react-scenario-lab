@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useActivity } from "./hooks";
 
 interface CartItem {
@@ -251,7 +251,7 @@ export default function ComplexStateDemo() {
 
 		setSyncStatus("synced");
 		setTimeout(() => setSyncStatus("idle"), 2000);
-	}, [setCart, calculateTotals, sampleProducts, initialCart]);
+	}, [setCart, calculateTotals, initialCart]);
 
 	const handleStorageChange = useCallback((e: StorageEvent) => {
 		if (e.key === "activity-shopping-cart-demo") {

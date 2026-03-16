@@ -4,8 +4,11 @@ export default function ElementAnimation() {
 	const [on, setOn] = useState(false);
 	return (
 		<div>
-			<h2 className="mb-4 font-semibold text-2xl">元素动画</h2>
-			<button className="rounded bg-gray-900 px-3 py-2 text-white" onClick={() => setOn((v) => !v)}>
+			<h2 className="mb-4 font-semibold text-2xl md:text-3xl">元素动画</h2>
+			<button
+				className="min-h-[44px] touch-manipulation rounded bg-gray-900 px-4 py-3 text-white transition-transform active:scale-95"
+				onClick={() => setOn((v) => !v)}
+			>
 				{on ? "隐藏" : "显示"}
 			</button>
 			<div

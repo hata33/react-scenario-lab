@@ -79,7 +79,7 @@ export default function BpmnEditor({
 				setIsLoaded(true);
 				// 如果是只读模式，禁用编辑功能
 				if (readonly) {
-					const canvas = viewer.get("canvas");
+					const _canvas = viewer.get("canvas");
 					const eventBus = viewer.get("eventBus") as any;
 
 					// 禁用拖拽
@@ -121,7 +121,7 @@ export default function BpmnEditor({
 	// 暴露获取 XML 的方法到 window 对象（用于调试）
 	useEffect(() => {
 		(window as any).getBpmnXml = getXml;
-	}, []);
+	}, [getXml]);
 
 	return (
 		<div className={`bpmn-editor relative ${className}`} style={style}>

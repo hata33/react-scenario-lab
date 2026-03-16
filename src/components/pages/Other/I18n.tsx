@@ -23,11 +23,11 @@ export default function I18n() {
 
 	return (
 		<div>
-			<h2 className="mb-4 font-semibold text-2xl">国际化 (I18n)</h2>
-			<div className="mb-3 flex gap-2">
+			<h2 className="mb-4 font-semibold text-2xl md:text-3xl">国际化 (I18n)</h2>
+			<div className="mb-3 flex flex-col gap-2 sm:flex-row">
 				<button
 					type="button"
-					className={`rounded px-3 py-2 ${lang === "zh" ? "bg-gray-900 text-white" : "bg-gray-100"}`}
+					className={`min-h-[44px] touch-manipulation rounded px-4 py-3 transition-transform active:scale-95 ${lang === "zh" ? "bg-gray-900 text-white" : "bg-gray-100"}`}
 					onClick={() => changeLanguage("zh")}
 					disabled={isLoading}
 				>
@@ -35,7 +35,7 @@ export default function I18n() {
 				</button>
 				<button
 					type="button"
-					className={`rounded px-3 py-2 ${lang === "en" ? "bg-gray-900 text-white" : "bg-gray-100"}`}
+					className={`min-h-[44px] touch-manipulation rounded px-4 py-3 transition-transform active:scale-95 ${lang === "en" ? "bg-gray-900 text-white" : "bg-gray-100"}`}
 					onClick={() => changeLanguage("en")}
 					disabled={isLoading}
 				>

@@ -1,7 +1,7 @@
 "use client";
 
 import ReactECharts from "echarts-for-react";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 export default function TechStackRadarChart() {
 	const chartRef = useRef<ReactECharts>(null);

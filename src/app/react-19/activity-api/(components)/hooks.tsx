@@ -46,7 +46,7 @@ export function useActivity<T>(key: string, initialValue: T, options?: ActivityO
 				return finalValue;
 			});
 		},
-		[key, options],
+		[options, saveState],
 	);
 
 	const saveState = useCallback(

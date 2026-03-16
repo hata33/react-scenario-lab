@@ -15,11 +15,11 @@ export default function VirtualList() {
 
 	return (
 		<div>
-			<h2 className="mb-4 font-semibold text-2xl">虚拟列表</h2>
+			<h2 className="mb-4 font-semibold text-2xl md:text-3xl">虚拟列表</h2>
 			<div
 				ref={containerRef}
 				onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
-				className="h-96 overflow-auto rounded border bg-white"
+				className="h-80 overflow-auto rounded border bg-white md:h-96"
 			>
 				<div style={{ height: DATA.length * rowHeight }}>
 					<div style={{ transform: `translateY(${offsetyoY}px)` }}>

@@ -7,7 +7,7 @@ const rows = Array.from({ length: 8 }).map((_, i) => ({
 export default function Table() {
 	return (
 		<div>
-			<h2 className="mb-4 font-semibold text-2xl">表格</h2>
+			<h2 className="mb-4 font-semibold text-responsive-base md:text-responsive-xl">表格</h2>
 
 			{/* 移动端卡片视图 / 桌面端表格视图 */}
 			<div className="overflow-x-auto rounded border">
@@ -32,7 +32,7 @@ export default function Table() {
 			</div>
 
 			{/* 移动端卡片视图 - 响应式显示 */}
-			<div className="mt-4 grid gap-3 md:hidden lg:hidden">
+			<div className="mt-4 grid gap-3 md:hidden">
 				{rows.map((r) => (
 					<div
 						key={r.id}

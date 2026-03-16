@@ -17,7 +17,7 @@ export function InfiniteScroll({ children, className = "", speed = 50, direction
 	useEffect(() => {
 		if (!containerRef.current || !scrollRef.current) return;
 
-		const container = containerRef.current;
+		const _container = containerRef.current;
 		const scroll = scrollRef.current;
 
 		// Duplicate content for seamless loop

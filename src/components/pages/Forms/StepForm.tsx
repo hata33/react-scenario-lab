@@ -7,18 +7,24 @@ export default function StepForm() {
 
 	return (
 		<div>
-			<h2 className="mb-4 font-semibold text-2xl">分步表单</h2>
-			<div className="mb-4 text-gray-600 text-sm">当前步骤：{step} / 3</div>
-			<div className="max-w-xl rounded border p-4">
+			<h2 className="mb-4 font-semibold text-2xl md:text-3xl">分步表单</h2>
+			<div className="mb-4 text-gray-600 text-sm md:text-base">当前步骤：{step} / 3</div>
+			<div className="max-w-xl rounded border p-4 md:p-6">
 				{step === 1 && <div>步骤一：填写基本信息</div>}
 				{step === 2 && <div>步骤二：填写详细信息</div>}
 				{step === 3 && <div>步骤三：确认提交</div>}
 			</div>
-			<div className="mt-3 flex gap-2">
-				<button className="rounded bg-gray-100 px-3 py-2" onClick={prev}>
+			<div className="mt-3 flex flex-col gap-2 sm:flex-row">
+				<button
+					className="min-h-[44px] touch-manipulation rounded bg-gray-100 px-4 py-3 transition-transform active:scale-95"
+					onClick={prev}
+				>
 					上一步
 				</button>
-				<button className="rounded bg-gray-900 px-3 py-2 text-white" onClick={next}>
+				<button
+					className="min-h-[44px] touch-manipulation rounded bg-gray-900 px-4 py-3 text-white transition-transform active:scale-95"
+					onClick={next}
+				>
 					下一步
 				</button>
 			</div>

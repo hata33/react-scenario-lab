@@ -81,7 +81,7 @@ export default function PageManagementDemo() {
 
 	const exportPreferences = useCallback(() => {
 		const dataStr = JSON.stringify(preferences, null, 2);
-		const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+		const dataUri = `data:application/json;charset=utf-8,${encodeURIComponent(dataStr)}`;
 		const exportFileDefaultName = "user-preferences.json";
 
 		const linkElement = document.createElement("a");
@@ -333,35 +333,33 @@ export default function PageManagementDemo() {
 					)}
 
 					{activeTab === "behavior" && (
-						<>
-							<div className="space-y-3">
-								<label className="flex items-center justify-between rounded-lg border border-gray-200 p-3">
-									<div>
-										<div className="font-medium text-gray-900">推送通知</div>
-										<div className="text-gray-500 text-sm">接收浏览器通知</div>
-									</div>
-									<input
-										type="checkbox"
-										checked={preferences.notifications}
-										onChange={(e) => updatePreference("notifications", e.target.checked)}
-										className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-									/>
-								</label>
+						<div className="space-y-3">
+							<label className="flex items-center justify-between rounded-lg border border-gray-200 p-3">
+								<div>
+									<div className="font-medium text-gray-900">推送通知</div>
+									<div className="text-gray-500 text-sm">接收浏览器通知</div>
+								</div>
+								<input
+									type="checkbox"
+									checked={preferences.notifications}
+									onChange={(e) => updatePreference("notifications", e.target.checked)}
+									className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+								/>
+							</label>
 
-								<label className="flex items-center justify-between rounded-lg border border-gray-200 p-3">
-									<div>
-										<div className="font-medium text-gray-900">Auto-play Videos</div>
-										<div className="text-gray-500 text-sm">Automatically play video content</div>
-									</div>
-									<input
-										type="checkbox"
-										checked={preferences.autoPlay}
-										onChange={(e) => updatePreference("autoPlay", e.target.checked)}
-										className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-									/>
-								</label>
-							</div>
-						</>
+							<label className="flex items-center justify-between rounded-lg border border-gray-200 p-3">
+								<div>
+									<div className="font-medium text-gray-900">Auto-play Videos</div>
+									<div className="text-gray-500 text-sm">Automatically play video content</div>
+								</div>
+								<input
+									type="checkbox"
+									checked={preferences.autoPlay}
+									onChange={(e) => updatePreference("autoPlay", e.target.checked)}
+									className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+								/>
+							</label>
+						</div>
 					)}
 
 					{activeTab === "content" && (
@@ -399,7 +397,7 @@ export default function PageManagementDemo() {
 									max="24"
 									step="6"
 									value={preferences.itemsPerPage}
-									onChange={(e) => updatePreference("itemsPerPage", parseInt(e.target.value))}
+									onChange={(e) => updatePreference("itemsPerPage", parseInt(e.target.value, 10))}
 									className="w-full"
 								/>
 								<div className="mt-1 flex justify-between text-gray-500 text-xs">

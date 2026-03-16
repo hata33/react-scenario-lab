@@ -1,7 +1,6 @@
 "use client";
 
-import { ArrowLeft, CheckCircle, Code, GitBranch, Layers, Router, Zap } from "lucide-react";
-import Link from "next/link";
+import { CheckCircle, Code, GitBranch, Layers, Router, Zap } from "lucide-react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import { FeatureBackButton, FeatureContainer, FeatureContent } from "@/components/showcase";

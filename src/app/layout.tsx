@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "../index.css";
 
@@ -6,18 +6,19 @@ export const metadata: Metadata = {
 	title: "React Scenario Lab",
 	description: "Next.js 15 + React 19 + Tailwind CSS 组件实验室",
 	manifest: "/manifest.json",
-	themeColor: "#3b82f6",
 	appleWebApp: {
 		capable: true,
 		statusBarStyle: "default",
 		title: "React Lab",
 	},
-	viewport: {
-		width: "device-width",
-		initialScale: 1,
-		maximumScale: 5,
-		userScalable: true,
-	},
+};
+
+export const viewport: Viewport = {
+	themeColor: "#3b82f6",
+	width: "device-width",
+	initialScale: 1,
+	maximumScale: 5,
+	userScalable: true,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

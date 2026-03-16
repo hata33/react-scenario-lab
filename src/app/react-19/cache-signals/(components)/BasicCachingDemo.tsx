@@ -1,6 +1,5 @@
 "use client";
 
-import { Database } from "lucide-react";
 import { useCallback, useState } from "react";
 
 export default function BasicCachingDemo() {

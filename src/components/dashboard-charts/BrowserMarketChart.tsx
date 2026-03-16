@@ -2,7 +2,7 @@
 
 import * as echarts from "echarts/core";
 import ReactECharts from "echarts-for-react";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 export default function BrowserMarketChart() {
 	const chartRef = useRef<ReactECharts>(null);

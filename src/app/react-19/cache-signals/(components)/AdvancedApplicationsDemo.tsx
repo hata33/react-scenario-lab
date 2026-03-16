@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 export default function AdvancedApplicationsDemo() {
 	const [scenario, setScenario] = useState("realtime");

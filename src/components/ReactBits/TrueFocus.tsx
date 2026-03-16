@@ -58,7 +58,7 @@ export function TrueFocus({
 		if (!wordRefs.current[currentIndex] || !containerRef.current) return;
 
 		const parentRect = containerRef.current.getBoundingClientRect();
-		const activeRect = wordRefs.current[currentIndex]!.getBoundingClientRect();
+		const activeRect = wordRefs.current[currentIndex]?.getBoundingClientRect();
 
 		setFocusRect({
 			x: activeRect.left - parentRect.left,

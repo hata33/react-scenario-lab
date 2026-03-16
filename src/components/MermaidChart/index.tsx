@@ -1,7 +1,7 @@
 "use client";
 
 import mermaid from "mermaid";
-import React, { memo, useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 
 interface MermaidChartProps {
 	chart: string;
@@ -58,7 +58,7 @@ const MermaidChartComponent = ({ chart, config = {}, className = "", id, onError
 		return () => {
 			mountedRef.current = false;
 		};
-	}, []);
+	}, [config]);
 
 	useEffect(() => {
 		if (!chart || !containerRef.current || !mountedRef.current) return;
@@ -103,7 +103,7 @@ const MermaidChartComponent = ({ chart, config = {}, className = "", id, onError
 				cancelAnimationFrame(animationId);
 			}
 		};
-	}, [chart, config, id, onError]);
+	}, [chart, id, onError]);
 
 	return (
 		<div

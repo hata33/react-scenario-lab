@@ -78,7 +78,10 @@ export default function DynamicSEODemo() {
 	useEffect(() => {
 		// 初始化时加载第一篇文章
 		handleArticleChange(articles[0]);
-	}, []);
+	}, [
+		// 初始化时加载第一篇文章
+		handleArticleChange,
+	]);
 
 	return (
 		<div>

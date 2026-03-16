@@ -36,7 +36,7 @@ export default function DataFetchingDemo() {
 					source: "客户端API调用",
 				});
 			}
-		} catch (err) {
+		} catch (_err) {
 			setError("获取数据失败");
 		} finally {
 			setLoading(false);

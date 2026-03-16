@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Layout from "@/components/Layout";
 import BackButton from "@/components/showcase/FeatureBackButton";
-import { getAllCategories, getAllTags, getArticle } from "@/data/thoughts";
+import { getArticle } from "@/data/thoughts";
 
 export async function generateStaticParams() {
 	// TODO: 实现文章内容后更新

@@ -4,8 +4,6 @@ import type { CacheEntry, CacheStrategy } from "./types";
 export class TTLStrategy implements CacheStrategy {
 	name = "TTL";
 
-	constructor(_defaultTTL: number = 5 * 60 * 1000) {} // 默认5分钟
-
 	shouldCache(_key: string, _data: any): boolean {
 		return true; // TTL 策略缓存所有数据
 	}
@@ -24,8 +22,6 @@ export class TTLStrategy implements CacheStrategy {
 export class LRUStrategy implements CacheStrategy {
 	name = "LRU";
 
-	constructor(_maxSize: number = 100) {}
-
 	shouldCache(_key: string, _data: any): boolean {
 		return true; // LRU 策略缓存所有数据
 	}
@@ -43,8 +39,6 @@ export class LRUStrategy implements CacheStrategy {
 // LFU (Least Frequently Used) 策略
 export class LFUStrategy implements CacheStrategy {
 	name = "LFU";
-
-	constructor(_minFrequency: number = 1) {}
 
 	shouldCache(_key: string, _data: any): boolean {
 		return true; // LFU 策略缓存所有数据

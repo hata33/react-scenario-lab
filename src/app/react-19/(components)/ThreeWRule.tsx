@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import type { WSection } from "../(types)";
 
 interface ThreeWRuleProps {

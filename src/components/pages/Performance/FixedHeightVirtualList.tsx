@@ -49,7 +49,7 @@ export function FixedHeightVirtualList() {
 
 	return (
 		<div className="space-y-4">
-			<div className="flex items-center justify-between">
+			<div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
 				<div>
 					<h3 className="font-semibold">固定高度虚拟列表</h3>
 					<p className="text-muted-foreground text-sm">
@@ -62,8 +62,8 @@ export function FixedHeightVirtualList() {
 			<div
 				ref={containerRef}
 				onScroll={handleScroll}
-				className="relative h-[400px] overflow-auto rounded border bg-background"
-				style={{ height: `${containerHeight}px` }}
+				className="relative h-[300px] overflow-auto rounded border bg-background md:h-[400px]"
+				style={{ height: containerHeight < 400 ? `${containerHeight}px` : undefined }}
 			>
 				<div style={{ height: totalHeight }}>
 					<div style={{ transform: `translateY(${offsetY}px)` }} className="relative">

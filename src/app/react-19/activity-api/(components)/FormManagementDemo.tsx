@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useActivity } from "./hooks";
 
 interface ArticleDraft {
@@ -34,7 +34,7 @@ export default function FormManagementDemo() {
 	const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
 	const [tagInput, setTagInput] = useState("");
 	const [autoSaveEnabled, setAutoSaveEnabled] = useState(true);
-	const [saveInterval, setSaveInterval] = useState(3000);
+	const [saveInterval, _setSaveInterval] = useState(3000);
 
 	const updateDraft = useCallback(
 		(updates: Partial<ArticleDraft>) => {

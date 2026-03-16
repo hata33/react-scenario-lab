@@ -54,7 +54,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
 		if (!wordRefs.current[currentIndex] || !containerRef.current) return;
 
 		const parentRect = containerRef.current.getBoundingClientRect();
-		const activeRect = wordRefs.current[currentIndex]!.getBoundingClientRect();
+		const activeRect = wordRefs.current[currentIndex]?.getBoundingClientRect();
 
 		setFocusRect({
 			x: activeRect.left - parentRect.left,
@@ -62,7 +62,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
 			width: activeRect.width,
 			height: activeRect.height,
 		});
-	}, [currentIndex, words.length]);
+	}, [currentIndex]);
 
 	const handleMouseEnter = (index: number) => {
 		if (manualMode) {

@@ -4,8 +4,6 @@ import { ArrowLeft, Bug, CheckCircle, Code, FlaskConical, Shield, Zap } from "lu
 import Link from "next/link";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import { FeatureContainer, FeatureContent } from "@/components/showcase";
-import FeatureBackButton from "@/components/showcase/FeatureBackButton";
 
 interface TestingExample {
 	id: string;

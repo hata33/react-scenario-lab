@@ -1,6 +1,5 @@
 import { Award, Brain, CheckCircle2, Clock, Code, MapPin, Search, Target, TrendingUp, Zap } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import Layout from "@/components/Layout";
 import { FeatureContainer } from "@/components/showcase";
 import FeatureBackButton from "@/components/showcase/FeatureBackButton";

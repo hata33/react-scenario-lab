@@ -57,7 +57,7 @@ export default function PromiseConsumptionDemo() {
 
 			setUser(result.data);
 			console.log(`Race winner: ${result.source} in ${endTime - startTime}ms`);
-		} catch (err) {
+		} catch (_err) {
 			setError("Race condition error");
 		} finally {
 			setLoading(false);
@@ -74,7 +74,7 @@ export default function PromiseConsumptionDemo() {
 						<input
 							type="number"
 							value={userId}
-							onChange={(e) => setUserId(parseInt(e.target.value) || 1)}
+							onChange={(e) => setUserId(parseInt(e.target.value, 10) || 1)}
 							className="w-24 rounded border border-gray-300 px-2 py-1"
 							min="1"
 						/>

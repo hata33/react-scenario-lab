@@ -11,14 +11,14 @@ export default function SearchFilter() {
 	const list = useMemo(() => all.filter((i) => i.name.toLowerCase().includes(q.toLowerCase())), [q]);
 	return (
 		<div>
-			<h2 className="mb-4 font-semibold text-2xl">搜索/筛选</h2>
+			<h2 className="mb-4 font-semibold text-responsive-base md:text-responsive-xl">搜索/筛选</h2>
 			<input
-				className="w-80 rounded border px-3 py-2"
+				className="min-h-[44px] w-full rounded border px-3 py-3 text-base"
 				placeholder="搜索..."
 				value={q}
 				onChange={(e) => setQ(e.target.value)}
 			/>
-			<ul className="mt-3 grid grid-cols-2 gap-2">
+			<ul className="mt-3 grid grid-cols-1 gap-2">
 				{list.map((i) => (
 					<li key={i.id} className="rounded border bg-white px-3 py-2">
 						{i.name}

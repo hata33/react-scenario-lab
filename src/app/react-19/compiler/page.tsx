@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle, Code, Cpu, Target, Zap } from "lucide-react";
+import { Code, Cpu, Target, Zap } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";

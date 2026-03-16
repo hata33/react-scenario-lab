@@ -1,8 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-
 export function FrontendWorkBlock() {
 	return (
 		<section className="frontend-work bg-gradient-to-b from-slate-50 to-white py-16 dark:from-slate-900 dark:to-slate-800">

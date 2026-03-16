@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function StreamingDemo() {
 	const [streamState, setStreamState] = useState<"idle" | "streaming" | "completed">("idle");

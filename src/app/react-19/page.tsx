@@ -1,16 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import {
-	FeatureCardGrid,
-	FeatureContainer,
-	FeatureContent,
-	type FeatureGridCard,
-	FilterBar,
-	StatsSection,
-} from "@/components/showcase";
+import { FeatureCardGrid, FeatureContainer, FeatureContent, FilterBar, StatsSection } from "@/components/showcase";
 
 interface ReactFeature {
 	id: string;

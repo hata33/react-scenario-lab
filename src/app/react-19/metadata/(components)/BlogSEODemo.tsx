@@ -97,7 +97,7 @@ export default function BlogSEODemo() {
 	useEffect(() => {
 		setBlogPost(defaultPost);
 		calculateSeoScore(defaultPost);
-	}, []);
+	}, [calculateSeoScore]);
 
 	const getScoreColor = (score: number) => {
 		if (score >= 80) return "text-green-600";

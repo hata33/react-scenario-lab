@@ -1,7 +1,7 @@
 "use client";
 
 import { gsap } from "gsap";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface BorderBeamProps {
 	children: React.ReactNode;
@@ -17,7 +17,7 @@ export function BorderBeam({ children, className = "", color = "white", size = 2
 	useEffect(() => {
 		if (!containerRef.current || !beamRef.current) return;
 
-		const container = containerRef.current;
+		const _container = containerRef.current;
 		const beam = beamRef.current;
 
 		const animate = () => {

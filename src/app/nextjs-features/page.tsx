@@ -15,7 +15,6 @@ import {
 	Zap,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import type React from "react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import {

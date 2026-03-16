@@ -1,23 +1,24 @@
 {
-	"permissions": {
-		"allow": [
-			"Bash(*)",
-			"Read(*)",
-			"Write(*)",
-			"Edit(*)",
-			"Glob(*)",
-			"Grep(*)",
-			"WebSearch",
-			"Skill(*)",
-			"mcp__*"
-		],
-		"deny": [],
-		"ask": []
-	},
-	"enableAllProjectMcpServers": true,
-	"enabledMcpjsonServers": [
-		"doc",
-		"ddoc2",
-		"z-server"
-	]
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)",
+      "Glob(*)",
+      "Grep(*)",
+      "WebSearch",
+      "Skill(*)",
+      "mcp__*",
+      "mcp__web-search-prime__web_search_prime"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "doc",
+    "ddoc2",
+    "z-server"
+  ]
 }

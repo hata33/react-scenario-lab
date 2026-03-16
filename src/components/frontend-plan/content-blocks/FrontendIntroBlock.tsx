@@ -1,5 +1,3 @@
-import { cn } from "@/lib/utils";
-
 export function FrontendIntroBlock() {
 	return (
 		<section className="frontend-intro relative bg-gradient-to-b from-blue-50 via-white to-purple-50 py-16 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">

@@ -2643,26 +2643,24 @@ function FrameworkHistoryBlock() {
 				{(() => {
 					const currentEra = frameworkEras.find((e) => e.id === activeEra)!;
 					return (
-						<>
-							<div className="mb-8 rounded-2xl bg-white p-8 shadow-xl dark:bg-slate-800">
-								<div className="mb-6 flex items-center gap-4">
-									<div
-										className={`flex h-16 w-16 items-center justify-center rounded-xl text-3xl bg-${currentEra.color === "blue" ? "blue" : currentEra.color === "green" ? "green" : currentEra.color === "red" ? "red" : currentEra.color === "orange" ? "orange" : "purple"}-100 dark:bg-${currentEra.color === "blue" ? "blue" : currentEra.color === "green" ? "green" : currentEra.color === "red" ? "red" : currentEra.color === "orange" ? "orange" : "purple"}-900`}
-									>
-										📚
-									</div>
-									<div className="flex-1">
-										<h3 className="mb-1 font-bold text-2xl text-slate-900 dark:text-slate-100">{currentEra.name}</h3>
-										<p
-											className={`font-semibold text-sm text-${currentEra.color === "blue" ? "blue" : currentEra.color === "green" ? "green" : currentEra.color === "red" ? "red" : currentEra.color === "orange" ? "orange" : "purple"}-600 dark:text-${currentEra.color === "blue" ? "blue" : currentEra.color === "green" ? "green" : currentEra.color === "red" ? "red" : currentEra.color === "orange" ? "orange" : "purple"}-400`}
-										>
-											{currentEra.period}
-										</p>
-									</div>
+						<div className="mb-8 rounded-2xl bg-white p-8 shadow-xl dark:bg-slate-800">
+							<div className="mb-6 flex items-center gap-4">
+								<div
+									className={`flex h-16 w-16 items-center justify-center rounded-xl text-3xl bg-${currentEra.color === "blue" ? "blue" : currentEra.color === "green" ? "green" : currentEra.color === "red" ? "red" : currentEra.color === "orange" ? "orange" : "purple"}-100 dark:bg-${currentEra.color === "blue" ? "blue" : currentEra.color === "green" ? "green" : currentEra.color === "red" ? "red" : currentEra.color === "orange" ? "orange" : "purple"}-900`}
+								>
+									📚
 								</div>
-								<p className="mb-4 text-slate-700 dark:text-slate-300">{currentEra.description}</p>
+								<div className="flex-1">
+									<h3 className="mb-1 font-bold text-2xl text-slate-900 dark:text-slate-100">{currentEra.name}</h3>
+									<p
+										className={`font-semibold text-sm text-${currentEra.color === "blue" ? "blue" : currentEra.color === "green" ? "green" : currentEra.color === "red" ? "red" : currentEra.color === "orange" ? "orange" : "purple"}-600 dark:text-${currentEra.color === "blue" ? "blue" : currentEra.color === "green" ? "green" : currentEra.color === "red" ? "red" : currentEra.color === "orange" ? "orange" : "purple"}-400`}
+									>
+										{currentEra.period}
+									</p>
+								</div>
 							</div>
-						</>
+							<p className="mb-4 text-slate-700 dark:text-slate-300">{currentEra.description}</p>
+						</div>
 					);
 				})()}
 			</div>

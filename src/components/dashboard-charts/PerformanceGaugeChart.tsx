@@ -218,7 +218,7 @@ export default function PerformanceGaugeChart() {
 
 				const series = option.series as any[];
 				series.forEach((item) => {
-					if (item.data && item.data[0]) {
+					if (item.data?.[0]) {
 						item.data[0].value = +(Math.random() * 30 + 70).toFixed(0);
 					}
 				});
